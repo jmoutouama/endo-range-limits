@@ -98,12 +98,6 @@ Donald, M.~L., Bohner, T.~F., Kolis, K.~M., Shadow, R.~A., Rudgers, J.~A., and
   individual fitness effects of plant--fungal symbiosis.
 \newblock {\em Journal of Ecology}, 109(2):847--859.
 
-\bibitem[Faeth, 2009]{faeth2009asexual}
-Faeth, S.~H. (2009).
-\newblock Asexual fungal symbionts alter reproductive allocation and herbivory
-  over time in their native perennial grass hosts.
-\newblock {\em The American Naturalist}, 173(5):554--565.
-
 \bibitem[Fine, 1975]{fine1975vectors}
 Fine, P.~E. (1975).
 \newblock Vectors and vertical transmission: an epidemiologic perspective.
@@ -135,6 +129,11 @@ Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   autumnalis.
 \newblock {\em Annals of Botany}, 125(6):981--991.
 
+\bibitem[Hampe and Petit, 2005]{hampe2005conserving}
+Hampe, A. and Petit, R.~J. (2005).
+\newblock Conserving biodiversity under climate change: the rear edge matters.
+\newblock {\em Ecology letters}, 8(5):461--467.
+
 \bibitem[Hoeksema and Bruna, 2015]{hoeksema2015context}
 Hoeksema, J.~D. and Bruna, E.~M. (2015).
 \newblock Context-dependent outcomes of mutualistic interactions.
@@ -147,12 +146,6 @@ Kazenel, M.~R., Debban, C.~L., Ranelli, L., Hendricks, W.~Q., Chung, Y.~A.,
 \newblock A mutualistic endophyte alters the niche dimensions of its host
   plant.
 \newblock {\em AoB plants}, 7:plv005.
-
-\bibitem[Laughton et~al., 2014]{laughton2014combined}
-Laughton, A.~M., Fan, M.~H., and Gerardo, N.~M. (2014).
-\newblock The combined effects of bacterial symbionts and aging on life history
-  traits in the pea aphid, acyrthosiphon pisum.
-\newblock {\em Applied and environmental microbiology}, 80(2):470--477.
 
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).

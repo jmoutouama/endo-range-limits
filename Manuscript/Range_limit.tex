@@ -88,8 +88,8 @@
 \DeclareGraphicsExtensions{.eps}
 \fi
 
-%\graphicspath{{/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Figure/}}
-\graphicspath{{C:/Users/tm9/Dropbox/github/ELVI-endophyte-density/Figure}}
+\graphicspath{{/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure}}
+%\graphicspath{{C:/Users/tm9/Dropbox/github/ELVI-endophyte-density/Figure}}
 \newcommand{\tom}[2]{{\color{red}{#1}}\footnote{\textit{\color{red}{#2}}}}
 \newcommand{\jacob}[2]{{\color{blue}{#1}}\footnote{\textit{\color{blue}{#2}}}}
 %\doublespacing
@@ -166,38 +166,46 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 %150 words limit for Ecology letter. The number now is 
 Interactions between plants and fungi are ubiquitous in nature and have significant effects on plant fitness.
 However, the extent to which variation in fungal symbiosis affects plant demography across environmental gradients remains understudied. 
-Using three cool-season grass species that host seed-transmitted fungal endophytes, we combined geographically-distributed field experiments across an aridity gradient and Bayesian analysis of demographic performance to test whether plant-fungi interactions \tom{constrain host demography}{Not really sure what you mean by this.} and, consequently, geographic range limits. 
+Using three cool-season grass species that host seed-transmitted fungal endophytes, we combined geographically-distributed field experiments across an aridity gradient and Bayesian analysis of demographic performance to test whether plant-fungi interactions affect host demography and, consequently, determine geographic range limits. 
 We found that all vital rates decreased toward the species' range edges, indicating reduced demographic performance in these regions. 
 This decline was more pronounced in individuals hosting endophytic symbionts, suggesting that plant-fungi interactions that are beneficial under benign conditions may become parasitic under stressful conditions.
-Our results highlight that \tom{range expansion}{Let's think about this a bit more. I am not sure range expansion is the right framing here, but it may be more relevant to think about resilience at range limits, since this is likely a trailing edge not a leading edge.} may be hindered by the presence of a mutualist.
+Our results highlight that \jacob{ host resistance  at range limits}{Tom wants us to think about this a bit more.} may be hindered by the presence of a mutualist.
 
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
 Plant-microbe symbioses are widespread and ecologically important. 
-These interactions are famously context-dependent, where the direction and strength of the interaction outcome depends on the environment in which it occurs \citep{fowler2023geographic,hoeksema2015context, bronstein1994conditional}.
+These interactions are famously context-dependent, where the direction and strength of the interaction outcome depends on the environment in which it occurs \citep{hoeksema2015context, bronstein1994conditional}.
 Plant-microbe  interactions that are beneficial under stressful conditions  may become neutral or parasitic under benign conditions \citep{giauque2019endophyte}.
 Under biotic stress (e.g., herbivory), endophyte symbiosis can benefit host plants by facilitating the production of secondary compounds that deter feeding or exert direct toxicity, thereby reducing insect growth, survival, and oviposition \citep{atala2022fungal,bastias2017epichloe,vega2008insect}.
-\tom{Similarly under abiotic stress (e.g., drought), symbionts can increase their host tolerance}{Perhaps you do this below, but I think it is worth expanding this idea and explaining more about how symbionts `increase host tolerance', since this concept is so central to our experiment.} \citep{clay2002evolutionary}.
-\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
-Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
+Similarly under abiotic stress (e.g., drought), symbionts can increase their host tolerance \citep{clay2002evolutionary}.
+ For example, mycorrhizal fungi form extensive networks that increase root surface area, helping plants absorb more water and nutrients such as phosphorus and nitrogen. 
+ Symbiotic microbes also stimulate plants to produce antioxidant enzymes like superoxide dismutase and catalase that reduce oxidative damage caused by stresses such as drought, salinity, and heat.
+  All of these mechanisms help the host species better buffer against environmental stochasticity \citep{fowler2023geographic}.
+
+%\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
+%Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
 %This cost is often manifested by a reduction in host biomass or reproductive success \citep{faeth2009asexual}, particularly under harsh abiotic conditions \citep{cui2024review}. 
 %Ultimately, these context-dependent costs and benefits may underlie the observed distribution of host species.
 
 Context dependence raises the hypothesis that plant-microbe interactions are likely to vary across environmental gradients, from range core to range edge, with significant implications for host range expansion\tom{ at leading edges or resilience at trailing edges}{This is the idea I was suggesting in the abstract. You can see how well it fits here.}. 
-If microbial symbiosis provides greater benefits under environmental stress, then symbionts could enhance the suitability of \tom{range-edge environments}{It is implied here that range edge environments are stressful, and I think it is worth making this more explicit.}, potentially extending host range limits \citep{allsup2023shifting,rudgers2020climate}.
+Because range-edge environments are often more stressful due to factors such as extreme temperatures and limited soil nutrients \citep{hampe2005conserving}, the role of microbial symbionts may be especially important in these zones.
+If microbial symbiosis provides greater benefits under environmental stress, then symbionts could enhance the suitability of range-edge environments, potentially extending host range limits \citep{allsup2023shifting,rudgers2020climate}.
 For instance, fungal endophytes improve the survival of \emph{Bromus laevipes}  populations in dry conditions, increasing their drought resistance at the range edge and thereby extending the species' geographic range \citep{david2019soil,afkhami2014mutualist}.
 Even if the symbiont does not directly improve host survival, it may still enhance host population growth over time by increasing relative growth and reproduction, potentially offsetting the negative effects of lower survival rates \citep{yule2013costs}.
-\tom{Conversely, if microbial symbiosis is costly for the host at range edge, symbionts could constrain host range}{This alternative hypothesis is important to the study but the rationale for this is not very clear. The preceding paragraph emphasizes the idea that benefits are stronger under stress. That would be a place to develop the alternative hypothesis that benefits might be strongest under favorable conditions.} \citep{benning2021microbes,benning2021plant,bennett2022costs}.
+Conversely, if microbial symbiosis is costly for the host at range edge, symbionts could constrain host range \citep{benning2021microbes,benning2021plant,bennett2022costs}.
+For instance, symbiotic microbes, especially mycorrhizal fungi, require carbon subsidies from the plant (up to 20\% of photosynthetically fixed carbon). 
+At range edges (e.g., cold or dry environments), photosynthesis may be limited, making the carbon cost harder to bear. 
+ Under such conditions, plants may reduce symbiosis, leading to  host poor performance.
 %Mutualist limitation reduces population fitness and therefore limits range expansion in \emph{Medicago polymorpha} populations \citep{lopez2021microbial}. 
 %Although context dependence, along with spatiotemporal variations in abiotic environmental conditions may reduce the effectiveness of the benefits provided by the symbiont to the host species, our understanding of the mechanisms that alter host-symbiont interactions across species geographic range remains limited.
 
-\tom{Despite growing interest in the ecological and evolutionary roles of symbiosis, most studies focus on the host plant’s perspective and rarely manipulate symbiont prevalence to evaluate how environmental variation shapes the symbiont’s effects on host demography across geographic ranges. 
-Yet, symbionts promote their own fitness by influencing host life history traits and enhancing resistance to stress \citep{kazenel2015mutualistic, giauque2019endophyte, saikkonen1998fungal}. 
-Theory predicts that exclusive vertical transmission fosters mutualism and leads to high symbiont prevalence in host populations \citep{fine1975vectors}. 
-Field studies suggest that, under stressful conditions, beneficial symbionts may increase in prevalence and even reach fixation if their fitness advantages outweigh reproductive costs \citep{donald2021context}. 
-However, populations with lower prevalence may experience higher symbiont loss among offspring \citep{afkhami2008symbiosis}. 
-Thus, overlooking symbiont dynamics could result in inaccurate predictions of host population responses to global change.}{Again, I really like this paragraph, but we need to think about whether and how the symbiont density data will be used here. Is that what you are pointing towards here? Otherwise I am not sure why you are bringing up symbiont prevalence, since I did not think the prevalence data were going into this paper.}
+%\tom{Despite growing interest in the ecological and evolutionary roles of symbiosis, most studies focus on the host plant’s perspective and rarely manipulate symbiont prevalence to evaluate how environmental variation shapes the symbiont’s effects on host demography across geographic ranges. 
+%Yet, symbionts promote their own fitness by influencing host life history traits and enhancing resistance to stress \citep{kazenel2015mutualistic, giauque2019endophyte, saikkonen1998fungal}. 
+%Theory predicts that exclusive vertical transmission fosters mutualism and leads to high symbiont prevalence in host populations \citep{fine1975vectors}. 
+%Field studies suggest that, under stressful conditions, beneficial symbionts may increase in prevalence and even reach fixation if their fitness advantages outweigh reproductive costs \citep{donald2021context}. 
+%However, populations with lower prevalence may experience higher symbiont loss among offspring \citep{afkhami2008symbiosis}. 
+%Thus, overlooking symbiont dynamics could result in inaccurate predictions of host population responses to global change.}{Again, I really like this paragraph, but we need to think about whether and how the symbiont density data will be used here. Is that what you are pointing towards here? Otherwise I am not sure why you are bringing up symbiont prevalence, since I did not think the prevalence data were going into this paper.}
 
 Additionally, few studies address the synergistic effects of abiotic and biotic stressors on host-symbiont dynamics across species’ ranges.
 For example, \tom{herbivory not only affects the fitness benefits of symbiosis but can also increase endophyte prevalence through enhanced vertical transmission}{It is not clear how this illustrates synergy of abiotic and biotic stressors.} \citep{gundel2020simulated, agrawal1999transgenerational}.

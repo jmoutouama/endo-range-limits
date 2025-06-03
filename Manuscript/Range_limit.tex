@@ -121,6 +121,7 @@
 
 %-------------------------------------------------------------------------
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\frenchspacing
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
 \renewcommand{\baselinestretch}{1.2}
@@ -130,7 +131,7 @@
 \noindent\textbf{Running header:} Grass-endophyte-herbivory effects across gradients
 \bigskip 
 
-\noindent\textbf{Keywords:} demography, range limits
+\noindent\textbf{Keywords:} demography, mutualism, parasitism, range limits
 
 \bigskip 
 \noindent\textbf{Submitted to:} \textit{Ecology letters} (Letter)
@@ -166,7 +167,7 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 %150 words limit for Ecology letter. The number now is 
 Interactions between plants and fungi are ubiquitous in nature and have significant effects on plant fitness.
 However, the extent to which variation in fungal symbiosis affects plant demography across environmental gradients remains understudied. 
-Using three cool-season grass species that host seed-transmitted fungal endophytes, we combined geographically-distributed field experiments across an aridity gradient and Bayesian analysis of demographic performance to test whether plant-fungi interactions affect host demography and, consequently, determine geographic range limits. 
+Using three cool-season grass species that host seed-transmitted fungal endophytes, we combined geographically-distributed field experiments across an aridity gradient and Bayesian modeling of demographic performance to test whether plant-fungi interactions affect host demography and, consequently, determine geographic range limits. 
 We found that all vital rates decreased toward the species' range edges, indicating reduced demographic performance in these regions. 
 This decline was more pronounced in individuals hosting endophytic symbionts, suggesting that plant-fungi interactions that are beneficial under benign conditions may become parasitic under stressful conditions.
 Our results highlight that \jacob{ host resistance  at range limits}{Tom wants us to think about this a bit more.} may be hindered by the presence of a mutualist.
@@ -179,24 +180,24 @@ These interactions are famously context-dependent, where the direction and stren
 Plant-microbe  interactions that are beneficial under stressful conditions  may become neutral or parasitic under benign conditions \citep{giauque2019endophyte}.
 Under biotic stress (e.g., herbivory), endophyte symbiosis can benefit host plants by facilitating the production of secondary compounds that deter feeding or exert direct toxicity, thereby reducing insect growth, survival, and oviposition \citep{atala2022fungal,bastias2017epichloe,vega2008insect}.
 Similarly under abiotic stress (e.g., drought), symbionts can increase their host tolerance \citep{clay2002evolutionary}.
- For example, mycorrhizal fungi form extensive networks that increase root surface area, helping plants absorb more water and nutrients such as phosphorus and nitrogen. 
- Symbiotic microbes also stimulate plants to produce antioxidant enzymes like superoxide dismutase and catalase that reduce oxidative damage caused by stresses such as drought, salinity, and heat.
-  All of these mechanisms help the host species better buffer against environmental stochasticity \citep{fowler2023geographic}.
+ For example, mycorrhizal fungi form extensive networks that increase root surface area, helping plants absorb more water and nutrients such as phosphorus and nitrogen \citep{amijee1989development}. 
+ Symbiotic microbes also stimulate plants to produce antioxidant enzymes like superoxide dismutase and catalase that reduce oxidative damage caused by stresses such as drought, salinity, and heat \citep{ruiz1996superoxide}.
+ All these mechanisms help the host species better buffer against environmental stochasticity \citep{fowler2023geographic}.
 
 %\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
 %Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
 %This cost is often manifested by a reduction in host biomass or reproductive success \citep{faeth2009asexual}, particularly under harsh abiotic conditions \citep{cui2024review}. 
 %Ultimately, these context-dependent costs and benefits may underlie the observed distribution of host species.
 
-Context dependence raises the hypothesis that plant-microbe interactions are likely to vary across environmental gradients, from range core to range edge, with significant implications for host range expansion\tom{ at leading edges or resilience at trailing edges}{This is the idea I was suggesting in the abstract. You can see how well it fits here.}. 
+Context dependence raises the hypothesis that plant-microbe interactions are likely to vary across environmental gradients, from range core to range edge, with significant implications for host range expansion at leading edges or resilience at trailing edges. 
 Because range-edge environments are often more stressful due to factors such as extreme temperatures and limited soil nutrients \citep{hampe2005conserving}, the role of microbial symbionts may be especially important in these zones.
 If microbial symbiosis provides greater benefits under environmental stress, then symbionts could enhance the suitability of range-edge environments, potentially extending host range limits \citep{allsup2023shifting,rudgers2020climate}.
 For instance, fungal endophytes improve the survival of \emph{Bromus laevipes}  populations in dry conditions, increasing their drought resistance at the range edge and thereby extending the species' geographic range \citep{david2019soil,afkhami2014mutualist}.
 Even if the symbiont does not directly improve host survival, it may still enhance host population growth over time by increasing relative growth and reproduction, potentially offsetting the negative effects of lower survival rates \citep{yule2013costs}.
 Conversely, if microbial symbiosis is costly for the host at range edge, symbionts could constrain host range \citep{benning2021microbes,benning2021plant,bennett2022costs}.
-For instance, symbiotic microbes, especially mycorrhizal fungi, require carbon subsidies from the plant (up to 20\% of photosynthetically fixed carbon). 
-At range edges (e.g., cold or dry environments), photosynthesis may be limited, making the carbon cost harder to bear. 
- Under such conditions, plants may reduce symbiosis, leading to  host poor performance.
+For instance, symbiotic microbes, especially mycorrhizal fungi, require carbon subsidies from the plant (up to 20\% of photosynthetically fixed carbon) \citep{thirkell2020carbon,soudzilovskaia2015quantitative}. 
+At range edges, photosynthesis may be limited, making the carbon cost harder to bear. 
+Under such conditions, plants may reduce symbiosis, leading to  host poor performance.
 %Mutualist limitation reduces population fitness and therefore limits range expansion in \emph{Medicago polymorpha} populations \citep{lopez2021microbial}. 
 %Although context dependence, along with spatiotemporal variations in abiotic environmental conditions may reduce the effectiveness of the benefits provided by the symbiont to the host species, our understanding of the mechanisms that alter host-symbiont interactions across species geographic range remains limited.
 
@@ -207,26 +208,37 @@ At range edges (e.g., cold or dry environments), photosynthesis may be limited, 
 %However, populations with lower prevalence may experience higher symbiont loss among offspring \citep{afkhami2008symbiosis}. 
 %Thus, overlooking symbiont dynamics could result in inaccurate predictions of host population responses to global change.}{Again, I really like this paragraph, but we need to think about whether and how the symbiont density data will be used here. Is that what you are pointing towards here? Otherwise I am not sure why you are bringing up symbiont prevalence, since I did not think the prevalence data were going into this paper.}
 
-Additionally, few studies address the synergistic effects of abiotic and biotic stressors on host-symbiont dynamics across species’ ranges.
-For example, \tom{herbivory not only affects the fitness benefits of symbiosis but can also increase endophyte prevalence through enhanced vertical transmission}{It is not clear how this illustrates synergy of abiotic and biotic stressors.} \citep{gundel2020simulated, agrawal1999transgenerational}.
-However, these findings are primarily based on greenhouse studies, which limits our understanding of how herbivory shapes natural population dynamics, especially under variable field conditions.
-If the ecological context in which herbivory occurs alters plant fitness, then interactions between herbivory and abiotic stress (e.g., drought) may substantially influence population dynamics and species range  limitation.\tom{}{I think the herbivory dimension of the study should be better developed. This paragraph is pretty light. I think fundamentally what we are asking is: which stressor is more important for eliciting benefits of endophyte symbiosis? And to what extent do these stressors interact?}
+Despite growing interest in the role of symbiosis in host performance, few studies examined in natural  conditions  how abiotic and biotic stressors shape the effects of symbionts on host demography across geographic ranges \citep{louthan2015and}. 
+Moreover, it remains unclear which stressor is  most critical in eliciting the benefits of endophyte symbiosis, or how multiple stressors may interact to influence host  demography. 
+%In addition to abiotic stressors, 
+Herbivory is a pervasive biotic factor that can significantly affect host performance \citep{benning2019biotic} and mediate the outcomes of symbiotic interactions across species’ ranges. 
+Herbivores reduce host fitness through tissue damage, defoliation, and altered resource allocation \citep{maron2006herbivory}, but they may also shape the selective landscape in ways that favor symbiont persistence or transmission. 
+For example, herbivory can enhance the fitness benefits of endophyte infection by triggering host defense pathways or promoting vertical transmission of the symbiont \citep{gundel2020simulated, agrawal1999transgenerational}. 
+These effects may be especially pronounced at range margins, where plant populations often encounter  intensified biotic pressures.  
+If the ecological context of herbivory alters the net fitness effects of symbiosis, then interactions between herbivory and abiotic stress (e.g., drought) may play a critical role in determining population persistence and thereby  species’ range limits.
 
-Working across a precipitation gradient in the south-central US, we investigated  how the demographic effects of endophyte symbiosis vary from core to edge of the host range.
-To answer that question, we studied the symbiotic association between three native cool-season grass species (\emph{Agrostis hyemalis}, \emph{Elymus virginicus} and \emph{Poa autumnalis}) and their  vertically transmitted fungal symbionts (\emph{Epichloë} spp.). 
-Our experiment was design to test the following \tom{hypotheses}{Technically, these are predictions, not hypotheses. As a narrative strategy, I generally prefer stating these as questions rather than either hypotheses or predictions. I find it a little boring if we know what to expect, but it is more exciting if we have questions and we are trying to find the answers.}:
+Working across a precipitation gradient in the south-central US, we investigated  how endophyte symbiosis affects their host demography from core to edge.
+To do so, we studied the symbiotic association between three native cool-season grass species (\emph{Agrostis hyemalis}, \emph{Elymus virginicus} and \emph{Poa autumnalis}) and their  vertically transmitted fungal symbionts (\emph{Epichloë} spp.). 
+Our experiment was design to  address  the following:
 \begin{enumerate}
-    \item Because endophytes often produce defensive compounds (e.g., alkaloids), plants with endophytes will experience less herbivore damage and maintain higher vital rate compared to plants without endophytes  \tom{when grazed}{We do not have much direct information about `grazing'. I would keep the focus on herbivore access or exclusion, since that is what we directly measured.}.
-    \item Because endophytes can improve \tom{drought tolerance}{I would lead with the abiotic stressors, since that is more central to the experimental design.} (e.g., by enhancing water use efficiency or root growth), plants with endophytes will outperform plants without endophytes more in dry conditions than in wet conditions.
-     \item The combined stresses of herbivory and low precipitation will create conditions where the mutualistic benefits of endophytes are most pronounced, giving plants with endophytes a strong performance advantage over plants without endophytes.
-     \item The combined stresses of herbivory and low precipitation will amplify the physiological demands on the host plant, \tom{such that the additional resource costs of maintaining endophyte associations will  reduce overall plant performance resulting in endophyte-infected plants performing worse than uninfected plants under extreme stress conditions}{I am confused here because this prediction seems to contradict the preceding prediction. But either way, I still think it would be more compelling to phrase these as questions.}.
+    \item Do plants with endophytes experience less damage from biotic stressors and maintain higher vital rates compared to plants without endophytes, when biotic stressors are present?
+    \item Under combined biotic and abiotic stress, do the mutualistic benefits of endophytes give host plants a performance advantage compared to those without endophytes?
+    \item Under combined biotic and abiotic stress, do the added physiological demands and resource costs of maintaining endophyte associations reduce overall plant performance, resulting in endophyte-infected plants performing worse than uninfected plants?
 \end{enumerate}
+
+
+%\begin{enumerate}
+%    \item Because endophytes often produce defensive compounds (e.g., alkaloids), plants with endophytes will experience less herbivore damage and maintain higher vital rate compared to plants without endophytes  \tom{when grazed}{We do not have much direct information about `grazing'. I would keep the focus on herbivore access or exclusion, since that is what we directly measured.}.
+%    \item Because endophytes can improve \tom{drought tolerance}{I would lead with the abiotic stressors, since that is more central to the experimental design.} (e.g., by enhancing water use efficiency or root growth), plants with endophytes will outperform plants without endophytes more in dry conditions than in wet conditions.
+%     \item The combined stresses of herbivory and low precipitation will create conditions where the mutualistic benefits of endophytes are most pronounced, giving plants with endophytes a strong performance advantage over plants without endophytes.
+%     \item The combined stresses of herbivory and low precipitation will amplify the physiological demands on the host plant, \tom{such that the additional resource costs of maintaining endophyte associations will  reduce overall plant performance resulting in endophyte-infected plants performing worse than uninfected plants under extreme stress conditions}{I am confused here because this prediction seems to contradict the preceding prediction. But either way, I still think it would be more compelling to phrase these as questions.}.
+%\end{enumerate}
 %--------------------------------------------------------------------
 \section*{Materials and methods}
 \subsection*{Study system}
 Our study was conducted across seven sites along a geographic and climatic gradient spanning Louisiana and Texas in the United States (Fig.~\ref{fig:site}; Fig.\ref{sup:md}).  
 At each site, we established eight plots (1.5 m $\times$ 1.5 m), with each plot containing 18 individuals of a single species. We used three cool-season perennial grasses native to woodland and prairie habitats of eastern North America \citep{shaw2011guide}: \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} (subfamily Pooideae).  
-These species are capable of both self-pollination and outcrossing \citep{church1958artificial}.  
+%These species are capable of both self-pollination and outcrossing \citep{church1958artificial}.  
 They typically host seed-transmitted fungal endophytes.
 %however, \emph{Poa autumnalis} may also acquire endophytes via horizontal transmission \citep{gundel2020simulated}.
 In \textcolor{red}{ summer–fall 2021}, seeds were collected from naturally symbiotic populations (source populations) of the three focal host species (Fig.~\ref{fig:site}). 

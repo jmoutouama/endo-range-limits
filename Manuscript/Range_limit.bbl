@@ -6,12 +6,6 @@ Afkhami, M.~E., McIntyre, P.~J., and Strauss, S.~Y. (2014).
   geographic scales.
 \newblock {\em Ecology letters}, 17(10):1265--1273.
 
-\bibitem[Afkhami and Rudgers, 2008]{afkhami2008symbiosis}
-Afkhami, M.~E. and Rudgers, J.~A. (2008).
-\newblock Symbiosis lost: imperfect vertical transmission of fungal endophytes
-  in grasses.
-\newblock {\em The American Naturalist}, 172(3):405--416.
-
 \bibitem[Agrawal et~al., 1999]{agrawal1999transgenerational}
 Agrawal, A.~A., Laforsch, C., and Tollrian, R. (1999).
 \newblock Transgenerational induction of defences in animals and plants.
@@ -22,6 +16,12 @@ Allsup, C.~M., George, I., and Lankau, R.~A. (2023).
 \newblock Shifting microbial communities can enhance tree tolerance to changing
   climates.
 \newblock {\em Science}, 380(6647):835--840.
+
+\bibitem[Amijee et~al., 1989]{amijee1989development}
+Amijee, F., Tinker, P., and Stribley, D. (1989).
+\newblock The development of endomycorrhizal root systems: Vii. a detailed
+  study of effects of soil phosphorus on colonization.
+\newblock {\em New Phytologist}, 111(3):435--446.
 
 \bibitem[Atala et~al., 2022]{atala2022fungal}
 Atala, C., Acu{\~n}a-Rodr{\'\i}guez, I.~S., Torres-D{\'\i}az, C., and
@@ -48,6 +48,12 @@ Bennett, A.~E. and Groten, K. (2022).
 \newblock The costs and benefits of plant--arbuscular mycorrhizal fungal
   interactions.
 \newblock {\em Annual Review of Plant Biology}, 73(1):649--672.
+
+\bibitem[Benning et~al., 2019]{benning2019biotic}
+Benning, J.~W., Eckhart, V.~M., Geber, M.~A., and Moeller, D.~A. (2019).
+\newblock Biotic interactions contribute to the geographic range limit of an
+  annual plant: herbivory and phenology mediate fitness beyond a range margin.
+\newblock {\em The American Naturalist}, 193(6):786--797.
 
 \bibitem[Benning and Moeller, 2021a]{benning2021microbes}
 Benning, J.~W. and Moeller, D.~A. (2021a).
@@ -98,10 +104,6 @@ Donald, M.~L., Bohner, T.~F., Kolis, K.~M., Shadow, R.~A., Rudgers, J.~A., and
   individual fitness effects of plant--fungal symbiosis.
 \newblock {\em Journal of Ecology}, 109(2):847--859.
 
-\bibitem[Fine, 1975]{fine1975vectors}
-Fine, P.~E. (1975).
-\newblock Vectors and vertical transmission: an epidemiologic perspective.
-
 \bibitem[Fowler et~al., 2023]{fowler2023geographic}
 Fowler, J.~C., Donald, M.~L., Bronstein, J.~L., and Miller, T.~E. (2023).
 \newblock The geographic footprint of mutualism: How mutualists influence
@@ -139,13 +141,17 @@ Hoeksema, J.~D. and Bruna, E.~M. (2015).
 \newblock Context-dependent outcomes of mutualistic interactions.
 \newblock {\em Mutualism}, 10:181--202.
 
-\bibitem[Kazenel et~al., 2015]{kazenel2015mutualistic}
-Kazenel, M.~R., Debban, C.~L., Ranelli, L., Hendricks, W.~Q., Chung, Y.~A.,
-  Pendergast~IV, T.~H., Charlton, N.~D., Young, C.~A., and Rudgers, J.~A.
-  (2015).
-\newblock A mutualistic endophyte alters the niche dimensions of its host
-  plant.
-\newblock {\em AoB plants}, 7:plv005.
+\bibitem[Louthan et~al., 2015]{louthan2015and}
+Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
+\newblock Where and when do species interactions set range limits?
+\newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
+
+\bibitem[Maron and Crone, 2006]{maron2006herbivory}
+Maron, J.~L. and Crone, E. (2006).
+\newblock Herbivory: effects on plant abundance, distribution and population
+  growth.
+\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
+  273(1601):2575--2584.
 
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
@@ -166,10 +172,11 @@ Rudgers, J.~A., Afkhami, M.~E., R{\'u}a, M.~A., Davitt, A.~J., Hammer, S., and
   grasses.
 \newblock {\em Ecology}, 90(6):1531--1539.
 
-\bibitem[Saikkonen et~al., 1998]{saikkonen1998fungal}
-Saikkonen, K., Faeth, S.~H., Helander, M., and Sullivan, T. (1998).
-\newblock Fungal endophytes: a continuum of interactions with host plants.
-\newblock {\em Annual review of Ecology and Systematics}, 29(1):319--343.
+\bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
+Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).
+\newblock Superoxide dismutase activity in arbuscular mycorrhizal lactuca
+  sativa plants subjected to drought stress.
+\newblock {\em New Phytologist}, 134(2):327--333.
 
 \bibitem[Shaw, 2011]{shaw2011guide}
 Shaw, R.~B. (2011).
@@ -189,10 +196,25 @@ Sneck, M.~E., Rudgers, J.~A., Young, C.~A., and Miller, T.~E. (2017).
   across host populations in heterogeneous environments.
 \newblock {\em Microbial Ecology}, 74:640--653.
 
+\bibitem[Soudzilovskaia et~al., 2015]{soudzilovskaia2015quantitative}
+Soudzilovskaia, N.~A., van~der Heijden, M.~G., Cornelissen, J.~H., Makarov,
+  M.~I., Onipchenko, V.~G., Maslov, M.~N., Akhmetzhanova, A.~A., and van
+  Bodegom, P.~M. (2015).
+\newblock Quantitative assessment of the differential impacts of arbuscular and
+  ectomycorrhiza on soil carbon cycling.
+\newblock {\em New Phytologist}, 208(1):280--293.
+
 \bibitem[{Stan Development Team}, 2024]{Rstan}
 {Stan Development Team} (2024).
 \newblock {RStan}: the {R} interface to {Stan}.
 \newblock R package version 2.32.6.
+
+\bibitem[Thirkell et~al., 2020]{thirkell2020carbon}
+Thirkell, T.~J., Pastok, D., and Field, K.~J. (2020).
+\newblock Carbon for nutrient exchange between arbuscular mycorrhizal fungi and
+  wheat varies according to cultivar and changes in atmospheric carbon dioxide
+  concentration.
+\newblock {\em Global change biology}, 26(3):1725--1738.
 
 \bibitem[Vega, 2008]{vega2008insect}
 Vega, F.~E. (2008).

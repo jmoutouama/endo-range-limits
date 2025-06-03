@@ -3,58 +3,57 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 61 of file References.bib
+Repeated entry---line 139 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 83 of file References.bib
+Repeated entry---line 161 of file References.bib
  : @article{donald2021context
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 562 of file References.bib
+Repeated entry---line 640 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-Warning--empty journal in fine1975vectors
-You've used 35 entries,
+You've used 38 entries,
             1935 wiz_defined-function locations,
-            710 strings with 10810 characters,
-and the built_in function-call counts, 14790 in all, are:
-= -- 1455
-> -- 647
-< -- 17
-+ -- 229
-- -- 220
-* -- 1353
-:= -- 2578
-add.period$ -- 104
-call.type$ -- 35
-change.case$ -- 283
-chr.to.int$ -- 34
-cite$ -- 36
-duplicate$ -- 492
-empty$ -- 1004
-format.name$ -- 271
-if$ -- 2826
+            730 strings with 11588 characters,
+and the built_in function-call counts, 16274 in all, are:
+= -- 1610
+> -- 707
+< -- 16
++ -- 249
+- -- 240
+* -- 1504
+:= -- 2824
+add.period$ -- 114
+call.type$ -- 38
+change.case$ -- 308
+chr.to.int$ -- 37
+cite$ -- 38
+duplicate$ -- 535
+empty$ -- 1110
+format.name$ -- 294
+if$ -- 3113
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 34
-newline$ -- 177
-num.names$ -- 105
-pop$ -- 212
+missing$ -- 37
+newline$ -- 193
+num.names$ -- 114
+pop$ -- 228
 preamble$ -- 1
-purify$ -- 285
+purify$ -- 310
 quote$ -- 0
-skip$ -- 374
+skip$ -- 403
 stack$ -- 0
-substring$ -- 1184
-swap$ -- 43
+substring$ -- 1339
+swap$ -- 47
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 208
-warning$ -- 1
-while$ -- 127
+type$ -- 226
+warning$ -- 0
+while$ -- 142
 width$ -- 0
-write$ -- 452
+write$ -- 494
 (There were 3 error messages)

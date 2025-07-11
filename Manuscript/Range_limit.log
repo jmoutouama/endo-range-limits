@@ -788,7 +788,7 @@ LaTeX Info: Redefining \textls on input line 1368.
 LaTeX Info: Redefining \textmicrotypecontext on input line 1988.
 \MT@listname@count=\count332
 
-(/usr/local/texlive/2023/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+(//usr/local/texlive/2023/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2023/03/13 v3.1a Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 902.
@@ -835,35 +835,36 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 )
 (./Range_limit.aux
 
-LaTeX Warning: Label `fig:climate' multiply defined.
+./Range_limit.aux:37: LaTeX Error: Missing \begin{document}.
 
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.37 s
+      paces Distribution of common garden sites along the longitudinal aridi...
 
-LaTeX Warning: Label `fig:climate' multiply defined.
+? 
+./Range_limit.aux:37: Emergency stop.
+ ...                                              
+                                                  
+l.37 s
+      paces Distribution of common garden sites along the longitudinal aridi...
 
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-LaTeX Warning: Label `Sup:temp_variation' multiply defined.
-
-
-LaTeX Warning: Label `Sup:temp_variation' multiply defined.
-
-)
-\openout1 = `Range_limit.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 125.
+ 
+Here is how much of TeX's memory you used:
+ 26249 strings out of 476025
+ 489359 string characters out of 5790018
+ 1849388 words of memory out of 5000000
+ 46287 multiletter control sequences out of 15000+600000
+ 513132 words of font info for 34 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 99i,0n,94p,635b,171s stack positions out of 10000i,1000n,20000p,200000b,200000s
+./Range_limit.aux:37:  ==> Fatal error occurred, no output PDF file produced!
+/n on input line 125.
 LaTeX Font Info:    ... okay on input line 125.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 125.
 LaTeX Font Info:    ... okay on input line 125.

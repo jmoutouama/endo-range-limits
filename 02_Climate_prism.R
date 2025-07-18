@@ -21,13 +21,14 @@ library(Evapotranspiration)
 # PRISM data ----
 # First, set a file path where prism data will be stored
 options(prism.path = "/Users/jm200/Documents/Prism Range limit/")
-# get_prism_monthlys(type="ppt",years=1994:2024,mon=1:12,keepZip = TRUE)
+#get_prism_monthlys(type="ppt",years=1994:2024,mon=1:12,keepZip = TRUE)
+#get_prism_monthlys(type = "tmean", years = 1994:2024, mon = 1:12, keepZip = TRUE)
 # Grab the prism data and compile the files
 climate_data <- prism_archive_ls() %>%
   pd_stack(.)
 climate_crs <- climate_data@crs@projargs
 # Convert these locations to format that can be matched to Prism climate data
-read.csv("https://www.dropbox.com/scl/fi/1eu5lhkg5mx7roj3zd7g0/Study_site.csv?rlkey=tonb6sswc7zqf123ct06t64yp&dl=1", stringsAsFactors = F) %>%
+read.csv("https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1", stringsAsFactors = F) %>%
   arrange(latitude) -> garden ## common garden populations
 garden_sites <- as.data.frame(garden)
 coordinates(garden_sites) <- c("longitude", "latitude")
@@ -158,13 +159,13 @@ climate_garden_SPEI_2023_2024 %>%
   ) -> prism_means
 
 prism_means <- as.data.frame(prism_means)
-saveRDS(prism_means,"/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Data/prism_means.rds")
+saveRDS(prism_means,"/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_means.rds")
 #  Time scale provide insight into long-term drought trends.
 # SPEI > 0: Wet conditions.
 # SPEI < 0: Dry conditions (drought).
 # SPEI ≤ -1.5: Moderate to severe drought.
 
-pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Figure/Climate_prism.pdf", width = 14, height = 10, useDingbats = F)
+pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Climate_prism.pdf", width = 14, height = 10, useDingbats = F)
 par(mar = c(5, 5, 2, 3), mfrow = c(2, 2))
 barplot(prism_means[order(prism_means[, 2], decreasing = FALSE), ][, 2], names.arg = prism_means[order(prism_means[, 2], decreasing = FALSE), ][, 1], col = "#E69F00", xlab = "Sites", ylab = "Mean", main = "", ylim = c(0, 2000))
 mtext("Precipitation", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
@@ -179,7 +180,6 @@ barplot(prism_means[order(prism_means[, 5], decreasing = FALSE), ][, 5], names.a
 mtext("Standardized Precipitation Evapotranspiration Index", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
 mtext("D", side = 3, adj = 0, cex = 1.2)
 dev.off()
-
 
 site_names <- c(
   "LAF" = "Lafayette",

@@ -26,12 +26,12 @@ prism_set_dl_dir("/Users/jm200/Documents/PRISM")
 prism_archive_ls()
 
 # Common garden, natural  and source populations locations ---- 
-read.csv("https://www.dropbox.com/scl/fi/1eu5lhkg5mx7roj3zd7g0/Study_site.csv?rlkey=tonb6sswc7zqf123ct06t64yp&dl=1", stringsAsFactors = F) %>% 
+read.csv("https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1", stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>%
   unique() %>% 
   arrange(latitude)->garden ## common garden populations
 
-read.csv("https://www.dropbox.com/scl/fi/go448bqe9z6meisgkd6g9/source_pop.csv?rlkey=oeutzzf4lgo616zeam06tul8t&dl=1", stringsAsFactors = F) %>% 
+read.csv("https://www.dropbox.com/scl/fi/tkrzdc9af5xn8dhmo15i7/source_pop.csv?rlkey=tfuoc41xc8arhlps2rem1q25a&dl=1", stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>% 
   unique() %>% 
   arrange(latitude)->source ## source populations
@@ -120,7 +120,7 @@ poa_occ_raw %>%
   unique() %>% 
   arrange(latitude)->poa3
 
-poa<-rbind(poa1,poa2,poa3)
+poau<-rbind(poa1,poa2,poa3)
 
 # Georeferencing the occurences -----
 garden %>% 
@@ -137,6 +137,10 @@ source %>%
 source %>% 
   filter(Species=="POAU")->source_poau
 
+sp::coordinates(aghy) <- ~ longitude + latitude
+sp::coordinates(elvi) <- ~ longitude + latitude
+sp::coordinates(poau) <- ~ longitude + latitude
+
 sp::coordinates(garden_aghy) <- ~ longitude + latitude
 sp::coordinates(garden_elvi) <- ~ longitude + latitude
 sp::coordinates(garden_poau) <- ~ longitude + latitude
@@ -146,6 +150,11 @@ sp::coordinates(source_elvi) <- ~ longitude + latitude
 sp::coordinates(source_poau) <- ~ longitude + latitude
 
 CRS1 <- CRS("+init=epsg:4326") # WGS 84
+
+crs(aghy) <- CRS1
+crs(elvi) <- CRS1
+crs(poau) <- CRS1
+
 crs(garden_aghy) <- CRS1
 crs(garden_elvi) <- CRS1
 crs(garden_poau) <- CRS1
@@ -156,7 +165,7 @@ crs(source_poau) <- CRS1
 
 # Climatic and distance data----
 #climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/z7a57xv1ago4erqrnp0tx/prism_means.rds?rlkey=z0ddxpr7ls4k0x527k5pp2wsx&dl=1"))
-distance_summary <- readRDS(url("https://www.dropbox.com/scl/fi/kv9j0n2pbiqgrfnm5a4wn/distance_species.rds?rlkey=vni9e8tjw9enwki0mwgnllzjc&dl=1"))
+distance_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x9lb4outzenaugw6e00w7/distance_species.rds?rlkey=yrz9djcncfz0omw5dxwsx81ds&dl=1"))
 distance_summary$geo_distance<-distance_summary$geo_distance/1000
 distance_summary_ordered <- distance_summary[order(distance_summary$longitude), ]
 # Study area shapefile ----
@@ -181,7 +190,7 @@ col_precip_rev <- rev(col_precip)
 
 
 # Maps (Figure 1) ----
-pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Figure/clim_map1.pdf",width=9,height=8)
+pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",width=9,height=8)
 op <- par(mfrow = c(2,2), mar=c(0,1,3.75,1), oma = c(0, 2, 1, 0)) 
 
 # First plot (A)
@@ -224,7 +233,7 @@ legend(-106, 28,
 par(mar=c(0,3,3.75,1))
 plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
 plot(study_area, add=T)
-plot(poa, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
+plot(poau, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
 plot(garden_poau, add=T, pch = 3, col="black", cex=2)
 plot(source_poau, add=T, pch = 21, col="black", bg="red", cex=1)
 mtext( ~ italic("Poa autumnalis"), side = 3, adj = 0.5, cex=1.25, line=0.2)

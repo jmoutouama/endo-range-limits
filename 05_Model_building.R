@@ -45,25 +45,67 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 # Merge the demographic census
-datini <- read.csv("https://www.dropbox.com/scl/fi/exwmw8z8vp1qkf8inyeoq/Initialdata.csv?rlkey=kez08s92dgh9v0i08269kx1iq&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/9ob0vpu2xdq8x7u48866s/census2023.csv?rlkey=i2loj3fezymq1p41bo5lsj3uj&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/s8pnf1j7c85g6jwc944vw/census2024.csv?rlkey=kwt2x8k16q4w7gndm42komj6o&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/suy4twdhy36el0k7ytqsi/herbivory.csv?rlkey=hs4xbjn1zrpnpitry30ng538d&dl=1", stringsAsFactors = F)
+datini <- read.csv("https://www.dropbox.com/scl/fi/9lemc8zv5fdi07r7j1jqq/Initialdata.csv?rlkey=gmryfg74motuf7h49s1aul0tm&dl=1", stringsAsFactors = F)
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/o18136j5t9sd94irtd46i/census2023.csv?rlkey=7byyglfehzqo5e197fp1jsasw&dl=1", stringsAsFactors = F)
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/w6qdatnkosrjsvvub1vsf/census2024.csv?rlkey=tt1qbdaratj2zvt4igkxz89n9&dl=1", stringsAsFactors = F)
+dat25<-read.csv("https://www.dropbox.com/scl/fi/x6gttyivrogzug0w3iveo/census_2025.csv?rlkey=jidxofw54907a73gdnn7t9n3i&dl=1", stringsAsFactors = F)
+datherbivory <- read.csv("https://www.dropbox.com/scl/fi/mcf4v8voqi8xpmum6l9qv/herbivory.csv?rlkey=my3araheil7cc7iajp2k7hcbt&dl=1", stringsAsFactors = F)
 # unique(datini$Site)
 # unique(datini$dat23)
 # unique(datini$dat24)
+# unique(dat25$Site)
 # names(dat23)
+
 # calculate the average spikelet and inflorescence number for each census
 dat23 %>%
   mutate(spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T)), digit = 0) -> dat23_spike
+
+
+
 dat24 %>%
   mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowMeans(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
+dat25 %>%
+  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowMeans(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
 
-## Merge the initial data with the 23 data and the 23 data with the 24 -----
-datini23 <- left_join(x = datini, y = dat23_spike, by = c("Tag_ID"))
-names(datini23)
-dat2324 <- left_join(x = datini23, y = dat24_spike, by = c("Tag_ID"))
-names(dat2324)
+# Check for duplicate Tag_IDs
+datini$Tag_ID <- as.integer(datini$Tag_ID)
+dat23_spike$Tag_ID <- as.integer(dat23_spike$Tag_ID)
+dat24_spike$Tag_ID <- as.integer(dat24_spike$Tag_ID)
+dat25_spike$Tag_ID <- as.integer(dat25_spike$Tag_ID)
+
+dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
+# Here 731 was two row to I change one with 7311
+dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
+dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
+
+## Merge the initial data to the 23, the 23 data with the 24 data and the 24 data with the 25 -----
+datini23 <- right_join(x = datini, y = dat23_spike, by = c("Tag_ID"))
+#anti_join(dat23_spike, datini, by = "Tag_ID")
+
+# Remove rows with NA in Tag_ID
+datini23_spike <- datini23 %>% filter(!is.na(Tag_ID))
+dat2324 <- left_join(x = datini23_spike, y = dat24_spike, by = c("Tag_ID"))
+#names(dat2324)
+
+dat2425 <- left_join(dat2324, dat25_spike, by = "Tag_ID")
+
+# Check mismatches
+mismatch_sites <- dat2425 %>%
+  filter(Site.x != Site.y)
+
+if(nrow(mismatch_sites) == 0) {
+  # Safe to keep one Site column only
+  dat2425 <- dat2425 %>%
+    dplyr::select(-Site.y) %>%
+    rename(Site = Site.x)
+} else {
+  warning("Sites do not match for all Tag_IDs!")
+  # Decide how to handle mismatches
+}
+
+#names(dat2425)
+
+# Change variable names
 dat2324 %>%
   mutate(
     tiller_t = Tiller_23,
@@ -72,8 +114,10 @@ dat2324 %>%
     inf_t1 = Inf_24,
     spikelet_t = spikelet_23,
     spikelet_t1 = spikelet_24,
-    tiller_Herb_t = tiller_Herb,
-    tiller_Herb_t1 = tiller_herb_24
+    tiller_Herb_t = tiller_Herb_23,
+    tiller_Herb_t1 = tiller_herb_24,
+    date_t=date_23,
+    date_t1=date_24
   ) %>%
   dplyr::select(
     Site,
@@ -93,21 +137,61 @@ dat2324 %>%
     spikelet_t1,
     tiller_Herb_t,
     tiller_Herb_t1,
-    date_23,
-    date_24
+    date_t,
+    date_t1
   ) -> dat2324_t_t1
 
+
+dat2425 %>%
+  mutate(
+    tiller_t = Tiller_24,
+    tiller_t1 = Tiller_25,
+    inf_t = Inf_24,
+    inf_t1 = Inf_25,
+    spikelet_t = spikelet_24,
+    spikelet_t1 = spikelet_25,
+    tiller_Herb_t = tiller_herb_24,
+    tiller_Herb_t1 = tiller_herb_25,
+    Species = Species.x,  # fixed here
+    date_t = date_24,
+    date_t1 = date_25
+  ) %>%
+  dplyr::select(-Species.y) %>%
+  dplyr::select(
+    Site,
+    Species,
+    Plot,
+    Position,
+    Tag_ID,
+    Population,
+    Clone,
+    GreenhouseID,
+    Endo,
+    tiller_t,
+    tiller_t1,
+    inf_t,
+    inf_t1,
+    spikelet_t,
+    spikelet_t1,
+    tiller_Herb_t,
+    tiller_Herb_t1,
+    date_t,
+    date_t1
+  ) -> dat2425_t_t1
+
+dat_t_t1<-rbind(dat2324_t_t1,dat2425_t_t1)
+
 ## Merge the demographic data with the herbivory data -----
-dat2324_t_t1_herb <- left_join(x = dat2324_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-head(dat2324_t_t1_herb)
-unique(dat2324_t_t1_herb$Species)
+dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+head(dat_t_t1_herb)
+unique(dat_t_t1_herb$Species)
 # view(dat2324_t_t1_herb)
 
-dat2324_t_t1_herb %>%
+dat_t_t1_herb %>%
   filter(tiller_t1 > 0) %>%
-  dplyr::select(Species, spikelet_t1) %>%
+  dplyr::select(Species, tiller_t1) %>%
   group_by(Species) %>%
-  summarise(n = sum(spikelet_t1, na.rm = T))
+  summarise(n = sum(tiller_t1, na.rm = T))
 
 # Climatic data ----
 climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/z7a57xv1ago4erqrnp0tx/prism_means.rds?rlkey=z0ddxpr7ls4k0x527k5pp2wsx&dl=1"))

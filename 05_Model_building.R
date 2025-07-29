@@ -899,7 +899,7 @@ bayesplot::mcmc_trace(posterior_spik_distance,
                       )
 ) + theme_bw()
 
-### Distance from niche centroid
+### Distance from geographic center
 demography_spik_geo_distance <- list(
   nSpp = demography_climate_distance_spik$Species %>% n_distinct(),
   nSite = demography_climate_distance_spik$Site %>% n_distinct(),

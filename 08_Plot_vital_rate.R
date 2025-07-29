@@ -44,25 +44,65 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 # Merge the demographic census
-datini <- read.csv("https://www.dropbox.com/scl/fi/exwmw8z8vp1qkf8inyeoq/Initialdata.csv?rlkey=kez08s92dgh9v0i08269kx1iq&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/9ob0vpu2xdq8x7u48866s/census2023.csv?rlkey=i2loj3fezymq1p41bo5lsj3uj&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/s8pnf1j7c85g6jwc944vw/census2024.csv?rlkey=kwt2x8k16q4w7gndm42komj6o&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/suy4twdhy36el0k7ytqsi/herbivory.csv?rlkey=hs4xbjn1zrpnpitry30ng538d&dl=1", stringsAsFactors = F)
+datini <- read.csv("https://www.dropbox.com/scl/fi/9lemc8zv5fdi07r7j1jqq/Initialdata.csv?rlkey=gmryfg74motuf7h49s1aul0tm&dl=1", stringsAsFactors = F)
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/o18136j5t9sd94irtd46i/census2023.csv?rlkey=7byyglfehzqo5e197fp1jsasw&dl=1", stringsAsFactors = F)
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/w6qdatnkosrjsvvub1vsf/census2024.csv?rlkey=tt1qbdaratj2zvt4igkxz89n9&dl=1", stringsAsFactors = F)
+dat25<-read.csv("https://www.dropbox.com/scl/fi/x6gttyivrogzug0w3iveo/census_2025.csv?rlkey=jidxofw54907a73gdnn7t9n3i&dl=1", stringsAsFactors = F)
+datherbivory <- read.csv("https://www.dropbox.com/scl/fi/mcf4v8voqi8xpmum6l9qv/herbivory.csv?rlkey=my3araheil7cc7iajp2k7hcbt&dl=1", stringsAsFactors = F)
 # unique(datini$Site)
 # unique(datini$dat23)
 # unique(datini$dat24)
+# unique(dat25$Site)
 # names(dat23)
+
 # calculate the average spikelet and inflorescence number for each census
 dat23 %>%
   mutate(spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T)), digit = 0) -> dat23_spike
+
 dat24 %>%
   mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowMeans(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
+dat25 %>%
+  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowMeans(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
 
-## Merge the initial data with the 23 data and the 23 data with the 24 -----
-datini23 <- left_join(x = datini, y = dat23_spike, by = c("Tag_ID"))
-names(datini23)
-dat2324 <- left_join(x = datini23, y = dat24_spike, by = c("Tag_ID"))
-names(dat2324)
+# Check for duplicate Tag_IDs
+datini$Tag_ID <- as.integer(datini$Tag_ID)
+dat23_spike$Tag_ID <- as.integer(dat23_spike$Tag_ID)
+dat24_spike$Tag_ID <- as.integer(dat24_spike$Tag_ID)
+dat25_spike$Tag_ID <- as.integer(dat25_spike$Tag_ID)
+
+dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
+# Here 731 was two row to I change one with 7311
+dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
+dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
+
+## Merge the initial data to the 23, the 23 data with the 24 data and the 24 data with the 25 -----
+datini23 <- right_join(x = datini, y = dat23_spike, by = c("Tag_ID"))
+#anti_join(dat23_spike, datini, by = "Tag_ID")
+
+# Remove rows with NA in Tag_ID
+datini23_spike <- datini23 %>% filter(!is.na(Tag_ID))
+dat2324 <- left_join(x = datini23_spike, y = dat24_spike, by = c("Tag_ID"))
+#names(dat2324)
+
+dat2425 <- left_join(dat2324, dat25_spike, by = "Tag_ID")
+
+# Check mismatches
+mismatch_sites <- dat2425 %>%
+  filter(Site.x != Site.y)
+
+if(nrow(mismatch_sites) == 0) {
+  # Safe to keep one Site column only
+  dat2425 <- dat2425 %>%
+    dplyr::select(-Site.y) %>%
+    rename(Site = Site.x)
+} else {
+  warning("Sites do not match for all Tag_IDs!")
+  # Decide how to handle mismatches
+}
+
+#names(dat2425)
+
+# Change variable names
 dat2324 %>%
   mutate(
     tiller_t = Tiller_23,
@@ -71,8 +111,10 @@ dat2324 %>%
     inf_t1 = Inf_24,
     spikelet_t = spikelet_23,
     spikelet_t1 = spikelet_24,
-    tiller_Herb_t = tiller_Herb,
-    tiller_Herb_t1 = tiller_herb_24
+    tiller_Herb_t = tiller_Herb_23,
+    tiller_Herb_t1 = tiller_herb_24,
+    date_t=date_23,
+    date_t1=date_24
   ) %>%
   dplyr::select(
     Site,
@@ -92,32 +134,72 @@ dat2324 %>%
     spikelet_t1,
     tiller_Herb_t,
     tiller_Herb_t1,
-    date_23,
-    date_24
+    date_t,
+    date_t1
   ) -> dat2324_t_t1
 
+
+dat2425 %>%
+  mutate(
+    tiller_t = Tiller_24,
+    tiller_t1 = Tiller_25,
+    inf_t = Inf_24,
+    inf_t1 = Inf_25,
+    spikelet_t = spikelet_24,
+    spikelet_t1 = spikelet_25,
+    tiller_Herb_t = tiller_herb_24,
+    tiller_Herb_t1 = tiller_herb_25,
+    Species = Species.x,  # fixed here
+    date_t = date_24,
+    date_t1 = date_25
+  ) %>%
+  dplyr::select(-Species.y) %>%
+  dplyr::select(
+    Site,
+    Species,
+    Plot,
+    Position,
+    Tag_ID,
+    Population,
+    Clone,
+    GreenhouseID,
+    Endo,
+    tiller_t,
+    tiller_t1,
+    inf_t,
+    inf_t1,
+    spikelet_t,
+    spikelet_t1,
+    tiller_Herb_t,
+    tiller_Herb_t1,
+    date_t,
+    date_t1
+  ) -> dat2425_t_t1
+
+dat_t_t1<-rbind(dat2324_t_t1,dat2425_t_t1)
+
 ## Merge the demographic data with the herbivory data -----
-dat2324_t_t1_herb <- left_join(x = dat2324_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-head(dat2324_t_t1_herb)
-unique(dat2324_t_t1_herb$Species)
+dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+head(dat_t_t1_herb)
+unique(dat_t_t1_herb$Species)
 # view(dat2324_t_t1_herb)
 
-dat2324_t_t1_herb %>%
+dat_t_t1_herb %>%
   filter(tiller_t1 > 0) %>%
-  dplyr::select(Species, spikelet_t1) %>%
+  dplyr::select(Species, tiller_t1) %>%
   group_by(Species) %>%
-  summarise(n = sum(spikelet_t1, na.rm = T))
+  summarise(n = sum(tiller_t1, na.rm = T))
 
 # Climatic data ----
-climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/z7a57xv1ago4erqrnp0tx/prism_means.rds?rlkey=z0ddxpr7ls4k0x527k5pp2wsx&dl=1"))
+climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/kfh1pnchc9jt8cw77co27/prism_means.rds?rlkey=s514h0gr61knu9mdmfhjo37nu&dl=1"))
 climate_summary %>%
   rename(Site = site) -> climate_site
-distance_species <- readRDS(url("https://www.dropbox.com/scl/fi/kv9j0n2pbiqgrfnm5a4wn/distance_species.rds?rlkey=vni9e8tjw9enwki0mwgnllzjc&dl=1"))
+distance_species <- readRDS(url("https://www.dropbox.com/scl/fi/x9lb4outzenaugw6e00w7/distance_species.rds?rlkey=yrz9djcncfz0omw5dxwsx81ds&dl=1"))
 distance_species %>%
   rename(Site = site_code) -> distance_species_clean
 
 ## Merge the demographic data with the climatic data -----
-demography_climate <- left_join(x = dat2324_t_t1_herb, y = climate_site, by = c("Site"))
+demography_climate <- left_join(x = dat_t_t1_herb, y = climate_site, by = c("Site"))
 demography_climate_distance <- left_join(x = demography_climate, y = distance_species_clean, by = c("Site", "Species"))
 
 ## Create new variables
@@ -128,13 +210,110 @@ demography_climate_distance %>%
     grow = (log(demography_climate_distance$tiller_t1 + 1) - log(demography_climate_distance$tiller_t + 1))
   ) -> demography_climate_distance
 
+# names(demography_climate)
+# view(demography_climate)
+# summary(demography_climate)
+# Diagnostic of the response variable
+ggplot(demography_climate_distance, aes(x = spikelet_t1, fill = Species, color = Species)) +
+  geom_density(alpha = 0.4) + # Density plot with transparency
+  labs(
+    x = "Spikelet average", y = "Density",
+    title = ""
+  ) +
+  theme_bw() +
+  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
+  # scale_fill_manual(values = c("red", "#00AFBB")) +
+  theme(
+    legend.position = c(0.8, 0.8), # Legend at the top
+    legend.background = element_rect(fill = "white", color = "white"), # Optional: outline the legend
+    legend.title = element_text(size = 10), # Optional: adjust legend title size
+    legend.text = element_text(size = 8) # Optional: adjust legend text size
+  )
+
+ggplot(demography_climate_distance, aes(x = grow, fill = Species, color = Species)) +
+  geom_density(alpha = 0.4) + # Density plot with transparency
+  labs(
+    x = "Relative growth", y = "Density",
+    title = ""
+  ) +
+  theme_bw() +
+  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
+  # scale_fill_manual(values = c("red", "#00AFBB")) +
+  theme(
+    legend.position = c(0.8, 0.8), # Legend at the top
+    legend.background = element_rect(fill = "white", color = "white"), # Optional: outline the legend
+    legend.title = element_text(size = 10), # Optional: adjust legend title size
+    legend.text = element_text(size = 8) # Optional: adjust legend text size
+  )
+# Plot the data with regression lines
+filtered_data <- demography_climate_distance %>% filter(Species %in% c("ELVI", "POAU"))
+ggplot(filtered_data, aes(x = spikelet_t1, y = inf_t1, color = Species)) +
+  geom_point() + # Plot points
+  geom_smooth(method = "lm", se = TRUE, aes(color = Species)) + # Add regression line
+  labs(x = "Spikelet average", y = "Inflorescence average", title = "") +
+  theme_bw() +
+  theme(legend.position = c(0.8, 0.8))
+
+# Probability density plot for Inflorescence grouped by species
+ggplot(filtered_data, aes(x = inf_t1, fill = Species, color = Species)) +
+  geom_density(alpha = 0.4) + # Density plot with transparency
+  labs(
+    x = "Inflorescence average", y = "Density",
+    title = ""
+  ) +
+  theme_bw() +
+  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
+  # scale_fill_manual(values = c("red", "#00AFBB")) +
+  theme(
+    legend.position = c(0.8, 0.8), # Legend at the top
+    legend.background = element_rect(fill = "white", color = "black"), # Optional: outline the legend
+    legend.title = element_text(size = 10), # Optional: adjust legend title size
+    legend.text = element_text(size = 8) # Optional: adjust legend text size
+  )
+
+# I am not sure what prior to use.So I am going to simulate some data and found that the difference
+# Define the range of tau values
+x <- seq(0.001, 5, length.out = 1000)
+# Compute densities for different priors
+df <- data.frame(
+  x = rep(x, 4),
+  density = c(
+    dinvgamma(x, 0.1, 0.1),
+    dinvgamma(x, 2, 1),
+    dhalfcauchy(x, scale = 1),
+    dnorm(x, mean = 0, sd = 1) * 2
+  ), # Half-Normal (mirrored normal)
+  Prior = rep(c(
+    "Inv-Gamma(0.1, 0.1)",
+    "Inv-Gamma(2, 1)",
+    "Half-Cauchy(1)",
+    "Half-Normal(1)"
+  ), each = length(x))
+)
+
+# Plot the priors
+ggplot(df, aes(x, density, color = Prior)) +
+  geom_line(size = 1) +
+  theme_bw() +
+  labs(
+    title = "",
+    x = "tau",
+    y = "Density",
+    color = "Prior"
+  ) +
+  theme(legend.position = c(0.8, 0.8))
+# The inverse gamma(0.1, 0.1) prior has a very heavy tail, meaning it gives high probability to very large values, which can cause instability.
+# The inverse gamma(2, 1) is more reasonable, providing some regularization while still allowing moderate values.
+# The half-Cauchy(1) prior has a fat tail but is more controlled compared to inv_gamma(0.1, 0.1).
+# The half-Normal(1) prior is much more concentrated near small values, leading to stronger regularization.
+
 # Survival----
-## Read and format survival data
+## Read and format survival data to build the model
 demography_climate_distance %>%
   subset(tiller_t > 0) %>%
   dplyr::select(
     Species, Population, Site, Plot, site_species_plot, Endo, Herbivory,
-    tiller_t, surv1, sum_ppt, mean_pet, mean_spei, distance,geo_distance
+    tiller_t, surv1, sum_ppt, mean_temp, mean_vpd, distance,geo_distance
   ) %>%
   na.omit() %>%
   mutate(
@@ -142,20 +321,20 @@ demography_climate_distance %>%
     Species = as.integer(factor(Species)),
     Population = as.integer(factor(Population)),
     site_species_plot = as.integer(factor(site_species_plot)),
-    Endo = as.integer(factor(Endo)) - 1,
-    Herbivory = as.integer(factor(Herbivory)) - 1
+    Endo = as.integer(factor(Endo)),
+    Herbivory = as.integer(factor(Herbivory))
   ) %>%
   mutate(
     log_size_t0 = log(tiller_t),
     surv_t1 = surv1,
     ppt = log(sum_ppt),
-    pet = log(mean_pet),
-    spei = mean_spei,
+    temp = log(mean_temp),
+    vpd = mean_vpd,
     distance = log(distance),
     geo_distance=log(geo_distance)
   ) -> demography_climate_distance_surv
 
-### Separate each variable to use the same model stan
+## Separate each variable to use the same model stan
 ### Cumulative precipitation
 demography_surv_ppt <- list(
   nSpp = demography_climate_distance_surv$Species %>% n_distinct(),
@@ -164,11 +343,11 @@ demography_surv_ppt <- list(
   nPlot = demography_climate_distance_surv$site_species_plot %>% n_distinct(),
   Spp = demography_climate_distance_surv$Species,
   site = demography_climate_distance_surv$Site,
-  pop = demography_climate_distance_surv$Population,
+  pop= demography_climate_distance_surv$Population,
   plot = demography_climate_distance_surv$site_species_plot,
   clim = as.vector(demography_climate_distance_surv$ppt),
-  endo = demography_climate_distance_surv$Endo,
-  herb = demography_climate_distance_surv$Herbivory,
+  endo = demography_climate_distance_surv$Endo -1 ,
+  herb = demography_climate_distance_surv$Herbivory -1,
   size = demography_climate_distance_surv$log_size_t0,
   y = demography_climate_distance_surv$surv_t1,
   N = nrow(demography_climate_distance_surv)
@@ -291,105 +470,6 @@ ggplot(cred_intervals, aes(x = exp(clim), y = mean, color = factor(endo))) +
   )
 dev.off()
 
-### SPEI (Standardised precipitation-evapotranspiration index)
-demography_surv_spei <- list(
-  nSpp = demography_climate_distance_surv$Species %>% n_distinct(),
-  nSite = demography_climate_distance_surv$Site %>% n_distinct(),
-  nPop = demography_climate_distance_surv$Population %>% n_distinct(),
-  nPlot = demography_climate_distance_surv$site_species_plot %>% n_distinct(),
-  Spp = demography_climate_distance_surv$Species,
-  site = demography_climate_distance_surv$Site,
-  pop = demography_climate_distance_surv$Population,
-  plot = demography_climate_distance_surv$site_species_plot,
-  clim = as.vector(demography_climate_distance_surv$spei),
-  endo = demography_climate_distance_surv$Endo,
-  herb = demography_climate_distance_surv$Herbivory,
-  size = demography_climate_distance_surv$log_size_t0,
-  y = demography_climate_distance_surv$surv_t1,
-  N = nrow(demography_climate_distance_surv)
-)
-
-fit_surv_spei <- readRDS(url("https://www.dropbox.com/scl/fi/0js0md2myjvl2scu69bnm/fit_surv_spei.rds?rlkey=scn11z3a3epfgis8y8jrxke91&dl=1"))
-
-# Create a data frame with all combinations
-predictions_spei <- expand.grid(clim = seq(min(demography_surv_spei$clim), max(demography_surv_spei$clim), length.out = 30), endo = c(0, 1), herb = c(0, 1), species = 1:3)
-# Extract posterior samples
-posterior_samples_spei <- rstan::extract(fit_surv_spei)
-
-# Apply the function to generate predictions for all combinations
-n_posterior_samples_spei <- length(posterior_samples_spei$b0) # Number of posterior samples
-# Initialize a matrix to hold predictions for each posterior sample
-pred_probs_matrix_spei <- matrix(NA, nrow = nrow(predictions_spei), ncol = n_posterior_samples_spei)
-# Generate predictions for each combination of climate, endophyte, herbivory, and species
-for (i in 1:nrow(predictions_spei)) {
-  pred_probs_matrix_spei[i, ] <- get_predictions(
-    predictions_spei$clim[i],
-    predictions_spei$endo[i],
-    predictions_spei$herb[i],
-    predictions_spei$species[i],
-    posterior_samples_spei
-  )
-}
-
-# Convert the matrix into a data frame with the correct structure
-pred_probs_spei <- as.data.frame(pred_probs_matrix_spei)
-colnames(pred_probs_spei) <- paste("Posterior_Sample", 1:n_posterior_samples_spei)
-
-# Add the `predictions` columns (clim_s, endo_s, herb_s, species)
-pred_probs_spei <- cbind(predictions_spei, pred_probs_spei)
-
-# Reshape the data frame so we have long format for ggplot
-pred_probs_long_spei <- gather(pred_probs_spei, key = "Posterior_Sample", value = "Pred_Survival", -clim, -endo, -herb, -species)
-
-# Calculate credible intervals (90% and 95%) and mean survival probability
-cred_intervals_spei <- pred_probs_long_spei %>%
-  group_by(species, endo, herb, clim) %>%
-  summarise(
-    lower_90 = quantile(Pred_Survival, 0.05),
-    upper_90 = quantile(Pred_Survival, 0.95),
-    lower_95 = quantile(Pred_Survival, 0.025),
-    upper_95 = quantile(Pred_Survival, 0.975),
-    median = quantile(Pred_Survival, 0.5),
-    mean = mean(Pred_Survival) # Calculate the mean survival probability
-  ) %>%
-  ungroup()
-
-# observed_data should have columns: clim_s, endo_s, herb_s, species, y_s (observed survival)
-observed_spei <- data.frame(
-  clim = demography_surv_spei$clim, #  climate data
-  endo = demography_surv_spei$endo, #  endophyte status data
-  herb = demography_surv_spei$herb, #  herbivory status data
-  species = demography_surv_spei$Spp, #  species data
-  y = demography_surv_spei$y # Observed survival
-)
-
-# Plot the results with credible intervals, mean survival, and observed points using ggplot2
-pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Figure/PrSurival_spei.pdf", useDingbats = F, height = 9, width = 7)
-ggplot(cred_intervals_spei, aes(x = clim, y = mean, color = factor(endo))) +
-  # geom_line(aes(y = median), linetype = "solid", size = 1) +  # Plot the median survival probability
-  geom_line(aes(y = mean), linetype = "solid", size = 1) + # Plot the mean survival probability (dashed line)
-  geom_ribbon(aes(ymin = lower_90, ymax = upper_90, fill = factor(endo)), alpha = 0.3, color = NA) + # Credible interval
-  geom_point(data = observed_spei, aes(x = clim, y = y, color = factor(endo)), size = 3) + # Observed data points
-  facet_grid(species ~ herb, scales = "free_y", labeller = labeller(species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"), herb = c("0" = "Unfenced", "1" = "Fenced"))) +
-  labs(
-    x = "SPEI",
-    y = "Predicted survival probability",
-    color = "Endophyte",
-    fill = "Endophyte",
-    title = ""
-  ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"), labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"), labels = c("E-", "E+")) + # Change fill labels
-  theme_bw() +
-  theme(
-    legend.position = c(0.9, 0.8),
-    legend.title = element_text(size = 10), # Reduce legend title size
-    legend.text = element_text(size = 12), # Adjust legend text size
-    axis.title = element_text(size = 13), # Increase axis title size
-    axis.text = element_text(size = 10), # Increase axis label size
-    strip.text = element_text(size = 13)
-  )
-dev.off()
 
 ### Distance from niche centroid
 demography_surv_distance <- list(

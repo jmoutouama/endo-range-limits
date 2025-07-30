@@ -1,4 +1,4 @@
-# Project:
+# Project:Effects of grass–endophyte symbiosis and herbivory on population demography across climatic and geographic gradients
 # Purpose: Create variables that most accurately reflect the climate across study area.
 # Note: Raster files are too large to provide in public repository. They are stored on a local machine
 # Authors: Jacob Moutouama
@@ -21,7 +21,7 @@ library(Evapotranspiration)
 library(lubridate)
 # PRISM data ----
 # First, set a file path where prism data will be stored
-options(prism.path = "/Users/jm200/Documents/Prism Range limit/")
+options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
 # get_prism_monthlys(type="ppt",years=1990:2025,mon=1:12,keepZip = TRUE)
 # get_prism_monthlys(type = "tmean", years = 1990:2025, mon = 1:12, keepZip = TRUE)
 # get_prism_monthlys(type = "vpdmin", years = 1990:2025, mon = 1:12, keepZip = TRUE)
@@ -31,7 +31,7 @@ climate_data <- prism_archive_ls() %>%
   pd_stack(.)
 climate_crs <- climate_data@crs@projargs
 # Convert these locations to format that can be matched to Prism climate data
-read.csv("https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1", stringsAsFactors = F) %>%
+read.csv("https://www.dropbox.com/scl/fi/si346imz380lpdgo9yekr/Study_site.csv?rlkey=yiue42npkzzu9w8dggjr4fent&dl=1", stringsAsFactors = F) %>%
   arrange(latitude) -> garden ## common garden populations
 garden_sites <- as.data.frame(garden)
 coordinates(garden_sites) <- c("longitude", "latitude")
@@ -64,7 +64,6 @@ climate_garden <- separate(climate_garden, "YearMonth",
 )
 # Reshape data-- make a separate column for temperature and precipitation and vpd
 climate_garden <- unique(climate_garden)
-
 climate_garden_1995_2025 <- climate_garden %>%
   spread(clim, value) %>%
   rename(lon = longitude, lat = latitude, site = garden_sites.site_code) %>%
@@ -90,13 +89,9 @@ climate_garden_2023_2025 %>%
 
 # Export prism data for the data collection period
 prism_means <- as.data.frame(prism_means)
-saveRDS(prism_means, "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_means.rds")
-#  Time scale provide insight into long-term drought trends.
-# SPEI > 0: Wet conditions.
-# SPEI < 0: Dry conditions (drought).
-# SPEI ≤ -1.5: Moderate to severe drought.
+#saveRDS(prism_means, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_means.rds")
 
-pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Climate_prism.pdf", width = 14, height = 10, useDingbats = F)
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Climate_prism_2023_2025.pdf", width = 9, height = 7, useDingbats = F)
 par(mar = c(5, 5, 2, 3), mfrow = c(2, 2))
 barplot(prism_means[order(prism_means[, 2], decreasing = FALSE), ][, 2], names.arg = prism_means[order(prism_means[, 2], decreasing = FALSE), ][, 1], col = "#E69F00", xlab = "Sites", ylab = "Mean", main = "", ylim = c(0, 3500))
 mtext("Precipitation", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
@@ -107,45 +102,16 @@ mtext("B", side = 3, adj = 0, cex = 1.2)
 barplot(prism_means[order(prism_means[, 4], decreasing = FALSE), ][, 4], names.arg = prism_means[order(prism_means[, 4], decreasing = FALSE), ][, 1], col = "#E69F00", xlab = "Sites", ylab = "Mean", main = "")
 mtext("Vapor Pressure Deficit", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
 mtext("C", side = 3, adj = 0, cex = 1.2)
-
 dev.off()
 
-# site_names <- c(
-#   "LAF" = "Lafayette",
-#   "HUN" = "Huntville",
-#   "KER" = "Kerville",
-#   "BAS" = "Bastrop",
-#   "COL" = "College Station",
-#   "BFL" = "Brackenridge",
-#   "SON" = "Sonora"
-# )
-# climate_garden_2023_2025 %>%
-#   ggplot(aes(x = as.Date(date), y = ppt)) +
-#   geom_line(aes(colour = site)) +
-#   # ggtitle("d")+
-#   # scale_color_manual(values = cbp1)+
-#   # scale_fill_manual(values = cbp1)+
-#   theme_bw() +
-#   theme(
-#     legend.position = "none",
-#     axis.text.x = element_text(size = 4.5, color = "black", angle = 0),
-#     plot.title = element_text(size = 14, color = "black", angle = 0)
-#   ) +
-#   labs(y = "Daily precipitation  (°C)", x = "Month") +
-#   # ylim=c(0,100)+
-#   # facet_grid(~site,labeller = labeller(site=site_names))+
-#   facet_grid(~ factor(site, levels = c("HUN", "LAF", "COL", "BAS", "BFL", "KER", "SON"))) +
-#   geom_hline(data = prism_means, aes(yintercept = sum_ppt, colour = site)) -> figpptsite_prism
-#
-
 # Extract all the value for the each yera prior data collection
-datini <- read.csv("https://www.dropbox.com/scl/fi/9lemc8zv5fdi07r7j1jqq/Initialdata.csv?rlkey=gmryfg74motuf7h49s1aul0tm&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/o18136j5t9sd94irtd46i/census2023.csv?rlkey=7byyglfehzqo5e197fp1jsasw&dl=1", stringsAsFactors = F)
+datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
 datini23 <- right_join(x = datini, y = dat23, by = c("Tag_ID"))
 datini23 %>%
   dplyr::select(Site, Species, date_23) %>%
   distinct() -> date_sp_site23
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/w6qdatnkosrjsvvub1vsf/census2024.csv?rlkey=tt1qbdaratj2zvt4igkxz89n9&dl=1", stringsAsFactors = F)
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
 
 datini24 <- right_join(x = datini23, y = dat24, by = c("Tag_ID"))
 datini23_spike <- datini23 %>% filter(!is.na(Tag_ID))
@@ -154,7 +120,7 @@ datini24 %>%
   distinct() %>%
   na.omit() -> date_sp_site24
 
-dat25 <- read.csv("https://www.dropbox.com/scl/fi/x6gttyivrogzug0w3iveo/census_2025.csv?rlkey=jidxofw54907a73gdnn7t9n3i&dl=1", stringsAsFactors = F)
+dat25 <- read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
 dat25 %>%
   dplyr::select(Site, Species, date_25) %>%
   distinct() %>%
@@ -165,7 +131,7 @@ climate_garden_2022_2025 <- climate_garden_1995_2025 %>%
   filter(date > as.Date("2022-05-01") & date < as.Date("2025-06-01"))
 
 # For 2023
-#  Convert date_23 column to Date format if needed
+#  Convert date_23 column to Date format 
 obs_table_23 <- date_sp_site23 %>%
   mutate(date_23 = mdy(date_23)) # If it's character like "5/10/25"
 # Ensure climate date column is in Date format
@@ -209,10 +175,10 @@ climate_23 <- obs_table_23 %>%
   ) %>%
   ungroup()
 
-view(climate_23)
+#view(climate_23)
 
 # For 2024
-#  Convert date_24 column to Date format if needed
+#  Convert date_24 column to Date format 
 obs_table_24 <- date_sp_site24 %>%
   mutate(date_24 = mdy(date_24)) # If it's character like "5/10/25"
 # For each observation, calculate cumulative and average tmean
@@ -252,7 +218,7 @@ climate_24 <- obs_table_24 %>%
   ) %>%
   ungroup()
 
-view(climate_24)
+#view(climate_24)
 
 # For 2025
 #  Convert date_25 column to Date format if needed
@@ -296,6 +262,3 @@ climate_25 <- obs_table_25 %>%
   ungroup()
 
 view(climate_25)
-
-
-

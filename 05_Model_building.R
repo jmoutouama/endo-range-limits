@@ -45,11 +45,11 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 # Merge the demographic census
-datini <- read.csv("https://www.dropbox.com/scl/fi/9lemc8zv5fdi07r7j1jqq/Initialdata.csv?rlkey=gmryfg74motuf7h49s1aul0tm&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/o18136j5t9sd94irtd46i/census2023.csv?rlkey=7byyglfehzqo5e197fp1jsasw&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/w6qdatnkosrjsvvub1vsf/census2024.csv?rlkey=tt1qbdaratj2zvt4igkxz89n9&dl=1", stringsAsFactors = F)
-dat25<-read.csv("https://www.dropbox.com/scl/fi/x6gttyivrogzug0w3iveo/census_2025.csv?rlkey=jidxofw54907a73gdnn7t9n3i&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/mcf4v8voqi8xpmum6l9qv/herbivory.csv?rlkey=my3araheil7cc7iajp2k7hcbt&dl=1", stringsAsFactors = F)
+datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
+dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
+datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
 # unique(datini$Site)
 # unique(datini$dat23)
 # unique(datini$dat24)
@@ -192,10 +192,10 @@ dat_t_t1_herb %>%
   summarise(n = sum(tiller_t1, na.rm = T))
 
 # Climatic data ----
-climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/kfh1pnchc9jt8cw77co27/prism_means.rds?rlkey=s514h0gr61knu9mdmfhjo37nu&dl=1"))
+climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/rjwgk98idmdatk025g6st/prism_means.rds?rlkey=dfooohwn3j2d5pew0ryjpultl&dl=1"))
 climate_summary %>%
   rename(Site = site) -> climate_site
-distance_species <- readRDS(url("https://www.dropbox.com/scl/fi/x9lb4outzenaugw6e00w7/distance_species.rds?rlkey=yrz9djcncfz0omw5dxwsx81ds&dl=1"))
+distance_species <- readRDS(url("https://www.dropbox.com/scl/fi/6rnf3ahwave2p7gaf9cqd/distance_species.rds?rlkey=cs4rtiee8h611brv9z1jv4prn&dl=1"))
 distance_species %>%
   rename(Site = site_code) -> distance_species_clean
 
@@ -214,99 +214,6 @@ demography_climate_distance %>%
 # names(demography_climate)
 # view(demography_climate)
 # summary(demography_climate)
-# Diagnostic of the response variable
-ggplot(demography_climate_distance, aes(x = spikelet_t1, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(
-    x = "Spikelet average", y = "Density",
-    title = ""
-  ) +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8), # Legend at the top
-    legend.background = element_rect(fill = "white", color = "white"), # Optional: outline the legend
-    legend.title = element_text(size = 10), # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-
-ggplot(demography_climate_distance, aes(x = grow, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(
-    x = "Relative growth", y = "Density",
-    title = ""
-  ) +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8), # Legend at the top
-    legend.background = element_rect(fill = "white", color = "white"), # Optional: outline the legend
-    legend.title = element_text(size = 10), # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-# Plot the data with regression lines
-filtered_data <- demography_climate_distance %>% filter(Species %in% c("ELVI", "POAU"))
-ggplot(filtered_data, aes(x = spikelet_t1, y = inf_t1, color = Species)) +
-  geom_point() + # Plot points
-  geom_smooth(method = "lm", se = TRUE, aes(color = Species)) + # Add regression line
-  labs(x = "Spikelet average", y = "Inflorescence average", title = "") +
-  theme_bw() +
-  theme(legend.position = c(0.8, 0.8))
-
-# Probability density plot for Inflorescence grouped by species
-ggplot(filtered_data, aes(x = inf_t1, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(
-    x = "Inflorescence average", y = "Density",
-    title = ""
-  ) +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8), # Legend at the top
-    legend.background = element_rect(fill = "white", color = "black"), # Optional: outline the legend
-    legend.title = element_text(size = 10), # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-
-# I am not sure what prior to use.So I am going to simulate some data and found that the difference
-# Define the range of tau values
-x <- seq(0.001, 5, length.out = 1000)
-# Compute densities for different priors
-df <- data.frame(
-  x = rep(x, 4),
-  density = c(
-    dinvgamma(x, 0.1, 0.1),
-    dinvgamma(x, 2, 1),
-    dhalfcauchy(x, scale = 1),
-    dnorm(x, mean = 0, sd = 1) * 2
-  ), # Half-Normal (mirrored normal)
-  Prior = rep(c(
-    "Inv-Gamma(0.1, 0.1)",
-    "Inv-Gamma(2, 1)",
-    "Half-Cauchy(1)",
-    "Half-Normal(1)"
-  ), each = length(x))
-)
-
-# Plot the priors
-ggplot(df, aes(x, density, color = Prior)) +
-  geom_line(size = 1) +
-  theme_bw() +
-  labs(
-    title = "",
-    x = "tau",
-    y = "Density",
-    color = "Prior"
-  ) +
-  theme(legend.position = c(0.8, 0.8))
-# The inverse gamma(0.1, 0.1) prior has a very heavy tail, meaning it gives high probability to very large values, which can cause instability.
-# The inverse gamma(2, 1) is more reasonable, providing some regularization while still allowing moderate values.
-# The half-Cauchy(1) prior has a fat tail but is more controlled compared to inv_gamma(0.1, 0.1).
-# The half-Normal(1) prior is much more concentrated near small values, leading to stronger regularization.
 
 ## Running the stan model
 sim_pars <- list(
@@ -364,7 +271,7 @@ demography_surv_ppt <- list(
 )
 
 fit_surv_ppt <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
   data = demography_surv_ppt,
   warmup = sim_pars$warmup,
   seed = 13,
@@ -409,7 +316,7 @@ demography_surv_distance <- list(
 )
 
 fit_surv_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_distance.stan",
   data = demography_surv_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -417,7 +324,7 @@ fit_surv_distance <- stan(
   chains = sim_pars$chains
 )
 
-summary(fit_surv_distance)$summary[, c("Rhat", "n_eff")]
+#summary(fit_surv_distance)$summary[, c("Rhat", "n_eff")]
 posterior_surv_distance <- as.array(fit_surv_distance) # Converts to an array
 bayesplot::mcmc_trace(posterior_surv_distance,
                       pars = quote_bare(
@@ -450,7 +357,7 @@ demography_surv_geo_distance <- list(
 )
 
 fit_surv_geo_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_distance.stan",
   data = demography_surv_geo_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -473,9 +380,9 @@ bayesplot::mcmc_trace(posterior_surv_geo_distance,
 ) + theme_bw()
 
 ## Save RDS file for further use
-saveRDS(fit_surv_ppt, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_surv_ppt.rds')
-saveRDS(fit_surv_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_surv_distance.rds')
-saveRDS(fit_surv_geo_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_surv_geo_distance.rds')
+saveRDS(fit_surv_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt.rds')
+saveRDS(fit_surv_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_distance.rds')
+saveRDS(fit_surv_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_geo_distance.rds')
 
 
 # Growth----
@@ -525,7 +432,7 @@ demography_grow_ppt <- list(
 )
 
 fit_grow_ppt <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
   data = demography_grow_ppt,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -568,7 +475,7 @@ demography_grow_distance <- list(
 )
 
 fit_grow_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
   data = demography_grow_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -609,14 +516,13 @@ demography_grow_geo_distance <- list(
 )
 
 fit_grow_geo_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
   data = demography_grow_geo_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
   thin = sim_pars$thin,
   chains = sim_pars$chains,
   control = sim_pars$control)
-
 
 summary(fit_grow_geo_distance)$summary[, c("Rhat", "n_eff")]
 posterior_grow_geo_distance <- as.array(fit_grow_geo_distance) # Converts to an array
@@ -632,9 +538,9 @@ bayesplot::mcmc_trace(posterior_grow_geo_distance,
 ) + theme_bw()
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_ppt, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
-# saveRDS(fit_grow_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_grow_distance.rds')
-# saveRDS(fit_grow_geo_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_grow_geo_distance.rds')
+# saveRDS(fit_grow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
+# saveRDS(fit_grow_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_distance.rds')
+# saveRDS(fit_grow_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model outputt/fit_grow_geo_distance.rds')
 
 # Flowering----
 demography_climate_distance %>%
@@ -682,7 +588,7 @@ demography_flow_ppt <- list(
 )
 
 fit_flow_ppt <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
   data = demography_flow_ppt,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -724,7 +630,7 @@ demography_flow_distance <- list(
 )
 
 fit_flow_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
   data = demography_flow_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -763,7 +669,7 @@ demography_flow_geo_distance <- list(
 )
 
 fit_flow_geo_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
   data = demography_flow_geo_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -785,9 +691,9 @@ bayesplot::mcmc_trace(fit_flow_geo_distance,
 ) + theme_bw()
 
 ## Save RDS file for further use
-# saveRDS(fit_flow_ppt, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_flow_ppt.rds')
-# saveRDS(fit_flow_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_flow_distance.rds')
-# saveRDS(fit_flow_geo_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_flow_geo_distance.rds')
+# saveRDS(fit_flow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_ppt.rds')
+# saveRDS(fit_flow_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_distance.rds')
+# saveRDS(fit_flow_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_geo_distance.rds')
 
 # Spikelet----
 demography_climate_distance %>%
@@ -835,7 +741,7 @@ demography_spik_ppt <- list(
 )
 
 fit_spik_ppt <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
   data = demography_spik_ppt,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -877,7 +783,7 @@ demography_spik_distance <- list(
 )
 
 fit_spik_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
   data = demography_spik_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -918,7 +824,7 @@ demography_spik_geo_distance <- list(
 )
 
 fit_spik_geo_distance <- stan(
-  file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
   data = demography_spik_geo_distance,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
@@ -942,6 +848,6 @@ bayesplot::mcmc_trace(posterior_spik_geo_distance,
 
 
 ## Save RDS file for further use
-saveRDS(fit_spik_ppt, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_spik_ppt.rds')
-saveRDS(fit_spik_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_spik_distance.rds')
-saveRDS(fit_spik_geo_distance, '/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/range limits model output/fit_spik_geo_distance.rds')
+# saveRDS(fit_spik_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_ppt.rds')
+# saveRDS(fit_spik_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_distance.rds')
+# saveRDS(fit_spik_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_geo_distance.rds')

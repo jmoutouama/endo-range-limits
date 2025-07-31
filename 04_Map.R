@@ -17,21 +17,21 @@ library(mgcv)
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
-options(prism.path = "/Users/jm200/Documents/PRISM")
+options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
 # getting monthly data for mean temp and precipitation
 # takes a long time the first time, but can skip when you have raster files saved on your computer.
 # get_prism_monthlys(type = "tmean", years = 1994:2024, mon = 1:12, keepZip = FALSE)
 # get_prism_monthlys(type = "ppt", years = 1994:2024, mon = 1:12, keepZip = FALSE)
-prism_set_dl_dir("/Users/jm200/Documents/PRISM")
+prism_set_dl_dir("/Users/jacobmoutouama/Documents/prism")
 prism_archive_ls()
 
 # Common garden, natural  and source populations locations ---- 
-read.csv("https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1", stringsAsFactors = F) %>% 
+read.csv("https://www.dropbox.com/scl/fi/si346imz380lpdgo9yekr/Study_site.csv?rlkey=yiue42npkzzu9w8dggjr4fent&dl=1", stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>%
   unique() %>% 
   arrange(latitude)->garden ## common garden populations
 
-read.csv("https://www.dropbox.com/scl/fi/tkrzdc9af5xn8dhmo15i7/source_pop.csv?rlkey=tfuoc41xc8arhlps2rem1q25a&dl=1", stringsAsFactors = F) %>% 
+read.csv("https://www.dropbox.com/scl/fi/a6cycehor6k6jp7xvbw3c/source_pop.csv?rlkey=chftk4ym5rsc7edjug90ie6o7&dl=1", stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>% 
   unique() %>% 
   arrange(latitude)->source ## source populations
@@ -164,12 +164,11 @@ crs(source_elvi) <- CRS1
 crs(source_poau) <- CRS1
 
 # Climatic and distance data----
-#climate_summary <- readRDS(url("https://www.dropbox.com/scl/fi/z7a57xv1ago4erqrnp0tx/prism_means.rds?rlkey=z0ddxpr7ls4k0x527k5pp2wsx&dl=1"))
-distance_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x9lb4outzenaugw6e00w7/distance_species.rds?rlkey=yrz9djcncfz0omw5dxwsx81ds&dl=1"))
+distance_summary <- readRDS(url("https://www.dropbox.com/scl/fi/6rnf3ahwave2p7gaf9cqd/distance_species.rds?rlkey=cs4rtiee8h611brv9z1jv4prn&dl=1"))
 distance_summary$geo_distance<-distance_summary$geo_distance/1000
 distance_summary_ordered <- distance_summary[order(distance_summary$longitude), ]
 # Study area shapefile ----
-study_area<-terra::vect("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
+study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
 study_area <- study_area[(study_area$State_Name %in% c("TEXAS","LOUISIANA")), ]
 #plot(study_area)
 # Clip the climatic rasters
@@ -178,7 +177,7 @@ crs(tmean_annual)<-CRS1
 crop_tmean_annual <- terra::crop(tmean_annual, study_area,mask=TRUE)
 # calculating the cumulative precipitation for each year and for each season within the year
 ppt_annual <- list()
-for(y in 1994:2024){
+for(y in 1993:2023){
   ppt_annual[[y]] <- sum(terra::rast(pd_stack(prism_archive_subset(type = "ppt", temp_period = "monthly", year = y))))
 }
 # Taking the mean of the cumulative precipitation values
@@ -190,7 +189,7 @@ col_precip_rev <- rev(col_precip)
 
 
 # Maps (Figure 1) ----
-pdf("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",width=9,height=8)
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",width=9,height=8)
 op <- par(mfrow = c(2,2), mar=c(0,1,3.75,1), oma = c(0, 2, 1, 0)) 
 
 # First plot (A)
@@ -199,7 +198,7 @@ plot(study_area, add=T)
 plot(aghy, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
 plot(garden_aghy, add=T, pch = 3, col="black", cex=2)
 plot(source_aghy, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext(~ italic("Agrostis hyemalis"), side = 3, adj = 0.5, cex=1.25, line=0.2)
+mtext(~ italic("Agrostis hyemalis"), side = 3, adj = 0.5, cex=1.2, line=0.2)
 mtext("A", side = 3, adj = 0, cex=1.25, line=0.2)
 legend(-106, 28, 
        legend = c("GBIF occurences", "Common garden sites", "Source populations"),
@@ -217,7 +216,7 @@ plot(study_area, add=T)
 plot(elvi, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
 plot(garden_elvi, add=T, pch = 3, col="black", cex=2)
 plot(source_elvi, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext(~ italic ("Elymus virginicus"), side = 3, adj = 0.5, cex=1.25, line=0.2)
+mtext(~ italic ("Elymus virginicus"), side = 3, adj = 0.5, cex=1.2, line=0.2)
 mtext("B", side = 3, adj = 0, cex=1.25, line=0.2)
 legend(-106, 28, 
        legend = c("GBIF occurences", "Common garden sites", "Source populations"),
@@ -236,7 +235,7 @@ plot(study_area, add=T)
 plot(poau, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
 plot(garden_poau, add=T, pch = 3, col="black", cex=2)
 plot(source_poau, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext( ~ italic("Poa autumnalis"), side = 3, adj = 0.5, cex=1.25, line=0.2)
+mtext( ~ italic("Poa autumnalis"), side = 3, adj = 0.5, cex=1.2, line=0.2)
 mtext("C", side = 3, adj = 0, cex=1.25, line=0.2)
 legend(-106, 28, 
        legend = c("GBIF occurences", "Common garden sites", "Source populations"),
@@ -253,10 +252,10 @@ par(mar=c(5,4,3.75,1))
 plot(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
      distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="AGHY"], 
      type = "l", lty = 1, xlab="Longitude", ylab="Distance from geographic center (Km)", 
-     cex.lab=1.2, col="#000000", cex.axis=0.8, ylim=c(600,1500))
+     cex.lab=1.2, col="#009E73", cex.axis=0.8, ylim=c(500,1500))
 points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
        distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="AGHY"], 
-       pch = 16, cex = 2, col="#000000")
+       pch = 16, cex = 2, col="#009E73")
 lines(distance_summary_ordered$longitude[distance_summary_ordered$Species=="ELVI"], 
       distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="ELVI"], 
       col="#D55E00")
@@ -272,7 +271,7 @@ points(jitter(distance_summary_ordered$longitude[distance_summary_ordered$Specie
 
 legend("topright",
        legend = c("AGHY", "ELVI", "POAU"),
-       col = c("#000000", "#D55E00", "#0072B2"),
+       col = c("#009E73", "#D55E00", "#0072B2"),
        lwd = 2,            # Line width for the curves
        lty = 1,            # Line type for the curves (solid)
        pch = 16,           # Point symbol (circle)

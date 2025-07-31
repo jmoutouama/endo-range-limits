@@ -3,13 +3,9 @@
 # Note: Raster files are stored locally due to size constraints
 # Author: Jacob Moutouama
 # Last modified: 2024-08-03
-
 # Clean environment
-
 rm(list = ls(all = TRUE)) # Remove all objects from the environment
-
 # Load required packages
-
 library(tidyverse) # Data manipulation and visualization
 library(terra) # Raster data handling
 library(geojsonio) # Reading GeoJSON files
@@ -17,21 +13,20 @@ library(sp) # Spatial data classes and functions
 library(ggspatial) # Spatial plotting with ggplot2
 library(ntbox) # Niche modeling tools including ellipsoid modeling
 library(raster) # Raster data (older package used in ntbox)
-library(rgl) # 3D plotting
 library(stringr) # String manipulation
 library(prism) # PRISM climate data access
 library(RColorBrewer) # Color palettes for maps
 library(dplyr)
+library(geosphere)
 library(mgcv)
+options(rgl.useNULL = TRUE)
+library(rgl)
 
 # Set random seed for reproducibility
-
 set.seed(13)
-
 # Load PRISM climate data----
 # making a folder to store prism data
-options(prism.path = "/Users/jm200/Documents/Prism Range limit/")
-
+options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
 # getting monthly data for mean temp and precipitation
 # takes a long time the first time, but can skip when you have raster files saved on your computer.
 # get_prism_monthlys(type = "tmean", years = 1990:2024, mon = 1:12, keepZip = FALSE)
@@ -45,14 +40,14 @@ tmean_annual_norm <- terra::mean(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024
+    year = 1993:2023
   )
 )))
 tmean_spring_norm <- terra::mean(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 1:4
   )
 )))
@@ -60,7 +55,7 @@ tmean_summer_norm <- terra::mean(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 5:8
   )
 )))
@@ -68,7 +63,7 @@ tmean_autumn_norm <- terra::mean(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 9:12
   )
 )))
@@ -78,14 +73,14 @@ tmean_annual_sd <- terra::stdev(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024
+    year = 1993:2023
   )
 )))
 tmean_spring_sd <- terra::stdev(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 1:4
   )
 )))
@@ -93,7 +88,7 @@ tmean_summer_sd <- terra::stdev(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 5:8
   )
 )))
@@ -101,107 +96,15 @@ tmean_autumn_sd <- terra::stdev(terra::rast(pd_stack(
   prism_archive_subset(
     type = "tmean",
     temp_period = "monthly",
-    year = 1994:2024,
+    year = 1993:2023,
     mon = 9:12
   )
 )))
 
-# Vpd
-
-# Annual mean VPD
-vpdmin_annual <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmin",
-    temp_period = "monthly",
-    year = 1994:2024
-  )
-))
-
-vpdmax_annual <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmax",
-    temp_period = "monthly",
-    year = 1994:2024
-  )
-))
-
-vpdmean_annual <- (vpdmin_annual + vpdmax_annual) / 2
-vpd_annual_norm <- terra::mean(vpdmean_annual)
-
-# Spring (Jan–Apr)
-vpdmin_spring <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmin",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 1:4
-  )
-))
-
-vpdmax_spring <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmax",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 1:4
-  )
-))
-
-vpdmean_spring <- (vpdmin_spring + vpdmax_spring) / 2
-vpd_spring_norm <- terra::mean(vpdmean_spring)
-
-# Summer (May–Aug)
-vpdmin_summer <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmin",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 5:8
-  )
-))
-
-vpdmax_summer <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmax",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 5:8
-  )
-))
-
-vpdmean_summer <- (vpdmin_summer + vpdmax_summer) / 2
-vpd_summer_norm <- terra::mean(vpdmean_summer)
-
-# Autumn (Sep–Dec)
-vpdmin_autumn <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmin",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 9:12
-  )
-))
-
-vpdmax_autumn <- terra::rast(pd_stack(
-  prism_archive_subset(
-    type = "vpdmax",
-    temp_period = "monthly",
-    year = 1994:2024,
-    mon = 9:12
-  )
-))
-
-vpdmean_autumn <- (vpdmin_autumn + vpdmax_autumn) / 2
-vpd_autumn_norm <- terra::mean(vpdmean_autumn)
-
-vpd_spring_sd <- terra::stdev(vpdmean_spring)
-vpd_autumn_sd <- terra::stdev(vpdmean_autumn)
-vpd_summer_sd <- terra::stdev(vpdmean_summer)
-
 
 # calculating the cumulative precipitation for each year and for each season within the year
 ppt_annual <- ppt_spring <- ppt_summer <- ppt_autumn <- ppt_winter <- list()
-for (y in 1994:2024) {
+for (y in 1993:2023) {
   ppt_annual[[y]] <- sum(terra::rast(pd_stack(
     prism_archive_subset(
       type = "ppt",
@@ -249,7 +152,7 @@ ppt_autumn_sd <- terra::stdev(terra::rast(unlist(ppt_autumn)))
 
 # Study area shapefile
 US <- terra::vect(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp"
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp"
 )
 US_land <- US[(
   !US$State_Name %in% c(
@@ -271,30 +174,22 @@ US_land <- US[(
 US_land_reprojected <- terra::project(US_land, crs(tmean_annual_norm))
 plot(US_land_reprojected)
 
-# Crop the study area-----
+# Crop the study area -----
 tmean_spring_norm <- terra::crop(tmean_spring_norm, US_land_reprojected, mask = TRUE)
 tmean_summer_norm <- terra::crop(tmean_summer_norm, US_land_reprojected, mask = TRUE)
 tmean_autumn_norm <- terra::crop(tmean_autumn_norm, US_land_reprojected, mask = TRUE)
 tmean_spring_sd <- terra::crop(tmean_spring_sd, US_land_reprojected, mask = TRUE)
 tmean_summer_sd <- terra::crop(tmean_summer_sd, US_land_reprojected, mask = TRUE)
 tmean_autumn_sd <- terra::crop(tmean_autumn_sd, US_land_reprojected, mask = TRUE)
+
 ppt_spring_norm <- terra::crop(ppt_spring_norm, US_land_reprojected, mask = TRUE)
 ppt_summer_norm <- terra::crop(ppt_summer_norm, US_land_reprojected, mask = TRUE)
 ppt_autumn_norm <- terra::crop(ppt_autumn_norm, US_land_reprojected, mask = TRUE)
 ppt_spring_sd <- terra::crop(ppt_spring_sd, US_land_reprojected, mask = TRUE)
 ppt_summer_sd <- terra::crop(ppt_summer_sd, US_land_reprojected, mask = TRUE)
 ppt_autumn_sd <- terra::crop(ppt_autumn_sd, US_land_reprojected, mask = TRUE)
-vpd_spring_norm <- terra::crop(vpd_spring_norm, US_land_reprojected, mask = TRUE)
-vpd_summer_norm <- terra::crop(vpd_summer_norm, US_land_reprojected, mask = TRUE)
-vpd_autumn_norm <- terra::crop(vpd_autumn_norm, US_land_reprojected, mask = TRUE)
-vpd_spring_sd <- terra::crop(vpd_spring_sd, US_land_reprojected, mask = TRUE)
-vpd_summer_sd <- terra::crop(vpd_summer_sd, US_land_reprojected, mask = TRUE)
-vpd_autumn_sd <- terra::crop(vpd_autumn_sd, US_land_reprojected, mask = TRUE)
 
-terra::ext(vpd_summer_norm)
-terra::ext(ppt_spring_norm)
-
-## Stacking all the climatic variables
+# Now stacking all climatic variables including updated VPD min and max -----
 US_land_clim <- terra::rast(
   list(
     tmean_spring_norm,
@@ -308,16 +203,11 @@ US_land_clim <- terra::rast(
     ppt_autumn_norm,
     ppt_spring_sd,
     ppt_summer_sd,
-    ppt_autumn_sd,
-    vpd_spring_norm,
-    vpd_summer_norm,
-    vpd_autumn_norm,
-    vpd_spring_sd,
-    vpd_summer_sd,
-    vpd_autumn_sd
+    ppt_autumn_sd
   )
 )
 
+# Naming the layers -----
 names(US_land_clim) <- c(
   "tmean_spring_norm",
   "tmean_summer_norm",
@@ -330,18 +220,12 @@ names(US_land_clim) <- c(
   "ppt_autumn_norm",
   "ppt_spring_sd",
   "ppt_summer_sd",
-  "ppt_autumn_sd",
-  "vpd_spring_norm",
-  "vpd_summer_norm",
-  "vpd_autumn_norm",
-  "vpd_spring_sd",
-  "vpd_summer_sd",
-  "vpd_autumn_sd"
+  "ppt_autumn_sd"
 )
 
 # Read rasters as a stack
 # Visualize climate data (optional)
-# plot(clim_stack)  # Uncomment to view all layers
+# plot(clim_stack)
 US_land_clim_stack <- stack(US_land_clim)
 plot(US_land_clim_stack)
 
@@ -372,7 +256,6 @@ aghy_occ_raw <- readRDS(
   )
 )
 # names(aghy_occ_raw)
-
 aghy_occ_raw %>%
   filter(
     !is.na(lat),
@@ -408,13 +291,13 @@ aghy_test <- aghy_occ_thinned[test_index_aghy, ]
 
 # Extract environmental information for both train and test data
 aghy_etrain <- raster::extract(US_land_clim_stack, aghy_train[, c("lon", "lat")], df = TRUE)
-sum(na.omit(aghy_etrain))
+#sum(na.omit(aghy_etrain))
 aghy_etrain <- na.omit(aghy_etrain)[, -1]
-summary(aghy_etrain)
+#summary(aghy_etrain)
 
 aghy_etest <- raster::extract(US_land_clim_stack, aghy_test[, c("lon", "lat")], df = TRUE)
 aghy_etest <- na.omit(aghy_etest)[, -1]
-summary(aghy_etest)
+#summary(aghy_etest)
 
 # Find correlated environmental variables
 env_varsL_aghy <- ntbox::correlation_finder(cor(aghy_etrain, method = "spearman"),
@@ -424,7 +307,7 @@ env_vars_aghy <- env_varsL_aghy$descriptors
 print(env_vars_aghy)
 
 # Fit ellipsoid models
-nvarstest <- 3
+nvarstest <- c(3,4)
 level <- 0.99
 env_bg <- ntbox::sample_envbg(US_land_clim_stack, 10000)
 omr_criteria <- 0.06
@@ -468,15 +351,17 @@ if (length(bestvarcomb_aghy) == 3) {
 }
 
 # Mahalanobis distance for common garden populations
-Aghy_clim <- terra::rast(list(tmean_spring_norm, vpd_summer_norm, vpd_spring_sd))
+aghy_clim <- terra::rast(list(tmean_spring_norm,ppt_spring_norm,
+                              ppt_summer_norm,ppt_autumn_norm,ppt_summer_sd))
 
-names(Aghy_clim) <- c("tmean_spring_norm", "vpd_summer_norm", "vpd_spring_sd")
+names(aghy_clim) <- c("tmean_spring_norm","ppt_spring_norm",
+                      "ppt_summer_norm","ppt_autumn_norm","ppt_summer_sd")
 
-Aghy_clim_stack <- stack(Aghy_clim)
-plot(Aghy_clim_stack)
+aghy_clim_stack <- stack(aghy_clim)
+plot(aghy_clim_stack)
 
 garden <- read.csv(
-  "https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1",
+  "https://www.dropbox.com/scl/fi/si346imz380lpdgo9yekr/Study_site.csv?rlkey=yiue42npkzzu9w8dggjr4fent&dl=1",
   stringsAsFactors = FALSE
 ) %>%
   unique() %>%
@@ -485,7 +370,7 @@ garden <- read.csv(
 garden %>%
   filter(Species == "AGHY") -> garden_AGHY
 
-garden_aghy_clim <- raster::extract(Aghy_clim_stack, garden_AGHY[, c("longitude", "latitude")], df = TRUE)[, -1]
+garden_aghy_clim <- raster::extract(aghy_clim_stack, garden_AGHY[, c("longitude", "latitude")], df = TRUE)[, -1]
 mhd_aghy <- stats::mahalanobis(garden_aghy_clim[, bestvarcomb_aghy],
                                center = best_mod_aghy$centroid,
                                cov = best_mod_aghy$covariance)
@@ -537,8 +422,6 @@ elvi_occ_raw %>%
   dplyr::select(country, lon, lat, year) %>%
   arrange(lat) -> elvi
 
-# dim(elvi)
-
 # Thin occurrences
 elvi_occ_thinned <- thin_occurrences(elvi, US_land_clim)
 
@@ -574,7 +457,7 @@ env_vars_elvi <- env_varsL_elvi$descriptors
 print(env_vars_elvi)
 
 # Now we specify the number of variables to fit the ellipsoid models; in the example, we will fit for 3 dimensions
-nvarstest <- 3
+nvarstest <- c(3,4)
 
 # Now we use the function ellipsoid_selection to run the model calibration and selection protocol
 e_select_elvi <- ntbox::ellipsoid_selection(
@@ -614,9 +497,11 @@ if (length(bestvarcomb_elvi) == 3) {
   rgl::rglwidget(reuse = TRUE)
 }
 
-elvi_clim <- terra::rast(list(ppt_summer_norm, ppt_spring_norm, vpd_spring_sd))
+elvi_clim <- terra::rast(list(tmean_spring_norm,ppt_spring_norm,
+                              ppt_summer_norm,ppt_spring_sd,ppt_summer_sd))
 
-names(elvi_clim) <- c("ppt_summer_norm", "ppt_spring_norm", "vpd_spring_sd")
+names(elvi_clim) <- c("tmean_spring_norm","ppt_spring_norm",
+                      "ppt_summer_norm","ppt_spring_sd","ppt_summer_sd")
 
 elvi_clim_stack <- stack(elvi_clim)
 plot(elvi_clim_stack)
@@ -637,7 +522,6 @@ cor.test(distance_elvi$longitude, distance_elvi$distance)
 # Poa autumnalis---
 # poa_occ_raw <- gbif(genus="Poa", species="autumnalis", download=TRUE)
 # saveRDS(poa_occ_raw, file = "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/ELVI Model output/occurence/poa_occ_raw.rds")
-
 poa_occ_raw <- readRDS(
   url(
     "https://www.dropbox.com/scl/fi/oip7ndyf0d99rqxcqxb0q/poa_occ_raw.rds?rlkey=920uql1gd4gahnh8utw9fz96l&dl=1"
@@ -659,8 +543,6 @@ poa_occ_raw %>%
   distinct() %>%
   dplyr::select(country, lon, lat, year) %>%
   arrange(lat) -> poa
-
-
 
 # Thin occurrences
 poa_occ_thinned <- thin_occurrences(poa, US_land_clim)
@@ -697,7 +579,7 @@ env_vars_poa <- env_varsL_poa$descriptors
 print(env_vars_poa)
 
 # Now we specify the number of variables to fit the ellipsoid models; in the example, we will fit for 3 dimensions
-nvarstest <- 3
+nvarstest <- c(3,4)
 
 # Now we use the function ellipsoid_selection to run the model calibration and selection protocol
 e_select_poa <- ntbox::ellipsoid_selection(
@@ -737,13 +619,15 @@ if (length(bestvarcomb_poa) == 3) {
   rgl::rglwidget(reuse = TRUE)
 }
 
-poa_clim <- terra::rast(list(ppt_autumn_sd, vpd_summer_norm, tmean_spring_norm))
-
-names(poa_clim) <- c("ppt_autumn_sd", "vpd_summer_norm", "tmean_spring_norm")
+poa_clim <- terra::rast(list(tmean_spring_norm,ppt_spring_norm,
+                             ppt_summer_norm,ppt_autumn_norm,  
+                             ppt_spring_sd,ppt_summer_sd,ppt_autumn_sd))
+names(poa_clim) <- c("tmean_spring_norm","ppt_spring_norm",
+                     "ppt_summer_norm","ppt_autumn_norm",  
+                     "ppt_spring_sd","ppt_summer_sd","ppt_autumn_sd")
 
 poa_clim_stack <- stack(poa_clim)
 plot(poa_clim_stack)
-
 
 garden %>%
   filter(Species == "POAU") -> garden_POAU
@@ -761,9 +645,6 @@ cor.test(distance_poa$longitude, distance_poa$distance)
 distance_species <- bind_rows(distance_aghy, distance_elvi, distance_poa)
 Species.label <- c("AGHY", "ELVI", "POAU")
 names(Species.label) <- c("A. hyemalis", "E. virginicus", "P. autumnalis")
-
-# Load necessary package
-library(geosphere)
 
 # Function to calculate the distance to the centroid using Earth's curvature
 calculate_distance_to_centroid <- function(occurrence_data, garden_data) {
@@ -802,16 +683,13 @@ distance_species <- bind_rows(distance_aghy, distance_elvi, distance_poa)
 Species.label <- c("AGHY", "ELVI", "POAU")
 names(Species.label) <- c("A. hyemalis", "E. virginicus", "P. autumnalis")
 distance_species <- cbind(distance_species, geo_distance = geo_distance[, 4])
-saveRDS(
-  distance_species,
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Data/distance_species.rds"
-)
-
-
-# Load required packages
+# saveRDS(
+#   distance_species,
+#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/distance_species.rds"
+# )
 
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/distance_plot.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/distance_plot.pdf",
   width = 9,
   height = 8
 )
@@ -820,9 +698,9 @@ par(mfrow = c(2, 2), mar = c(4.5, 4.5, 2, 1))
 
 # Custom colors and labels
 cols <- c(
-  "AGHY" = "#00AFBB",
-  "ELVI" = "#E7B800",
-  "POAU" = "#FC4E07"
+  "AGHY" = "#009E73",
+  "ELVI" = "#D55E00",
+  "POAU" = "#0072B2"
 )
 labels <- c(
   "AGHY" = expression(italic("A. hyemalis")),
@@ -883,8 +761,8 @@ for (i in 1:length(cols)) {
 # Filter to valid values
 valid <- distance_species$geo_distance > 0 &
   distance_species$distance > 0
-log_geo <- log10(distance_species$geo_distance[valid])
-log_dist <- log10(distance_species$distance[valid])
+log_geo <- log(distance_species$geo_distance[valid])
+log_dist <- log(distance_species$distance[valid])
 species_colors <- cols[distance_species$Species[valid]]
 
 # Fit GAM to log-log
@@ -903,8 +781,8 @@ plot(
   log_dist,
   col = species_colors,
   pch = 16,
-  xlab = expression(log[10] * " Distance from geographic center"),
-  ylab = expression(log[10] * " Mahalanobis distance"),
+  xlab = expression(log * " (Distance from geographic center)"),
+  ylab = expression(log * " (Mahalanobis distance)"),
   main = "",
   cex.lab = 1.3,
   cex.axis = 1.1
@@ -947,55 +825,9 @@ mtext(
 dev.off()
 
 # Plot the SDM map
-read.csv(
-  "https://www.dropbox.com/scl/fi/zm29qvqkc1bab8bpbc8wz/Study_site.csv?rlkey=ma4efsaa95tvvuca20pyc4d1f&dl=1",
-  stringsAsFactors = F
-) %>%
-  unique() %>%
-  arrange(latitude) -> garden_map ## common garden population
-read.csv(
-  "https://www.dropbox.com/scl/fi/tkrzdc9af5xn8dhmo15i7/source_pop.csv?rlkey=tfuoc41xc8arhlps2rem1q25a&dl=1",
-  stringsAsFactors = F
-) %>%
-  unique() %>%
-  arrange(latitude) -> source_map ## source populations
-
-garden_map %>%
-  filter(Species == "AGHY") -> garden_map_aghy
-garden_map %>%
-  filter(Species == "ELVI") -> garden_map_elvi
-garden_map %>%
-  filter(Species == "POAU") -> garden_map_poau
-
-source_map %>%
-  filter(Species == "AGHY") -> source_map_aghy
-source_map %>%
-  filter(Species == "ELVI") -> source_map_elvi
-source_map %>%
-  filter(Species == "POAU") -> source_map_poau
-
-sp::coordinates(garden_map_aghy) <- ~ longitude + latitude
-sp::coordinates(garden_map_elvi) <- ~ longitude + latitude
-sp::coordinates(garden_map_poau) <- ~ longitude + latitude
-
-sp::coordinates(source_map_aghy) <- ~ longitude + latitude
-sp::coordinates(source_map_elvi) <- ~ longitude + latitude
-sp::coordinates(source_map_poau) <- ~ longitude + latitude
-
-CRS1 <- CRS("+init=epsg:4326") # WGS 84
-crs(garden_map_aghy) <- CRS1
-crs(garden_map_elvi) <- CRS1
-crs(garden_map_poau) <- CRS1
-
-crs(source_map_aghy) <- CRS1
-crs(source_map_elvi) <- CRS1
-crs(source_map_poau) <- CRS1
-
-cuts <- round(seq(0, 1, length.out = 10), 2)
-
 
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/SDM.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/SDM.pdf",
   width = 12,
   height = 10,
   useDingbats = F

@@ -216,13 +216,13 @@ demography_climate_distance %>%
 # summary(demography_climate)
 
 ## Running the stan model
-sim_pars <- list(
-  warmup = 1000,
-  iter = 4000,
-  thin = 2,
-  chains = 4,
-  control = list(adapt_delta = 0.99, max_treedepth = 15)
-)
+# sim_pars <- list(
+#   warmup = 1000,
+#   iter = 4000,
+#   thin = 2,
+#   chains = 4,
+#   control = list(adapt_delta = 0.99, max_treedepth = 15)
+# )
 
 # Survival----
 ## Read and format survival data to build the model
@@ -270,15 +270,15 @@ demography_surv_ppt <- list(
   N = nrow(demography_climate_distance_surv)
 )
 
-fit_surv_ppt <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  seed = 13,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains
-)
+# fit_surv_ppt <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   seed = 13,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains
+# )
 
 
 summary(fit_surv_ppt)$summary[, c("Rhat", "n_eff")]
@@ -380,9 +380,9 @@ bayesplot::mcmc_trace(posterior_surv_geo_distance,
 ) + theme_bw()
 
 ## Save RDS file for further use
-saveRDS(fit_surv_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt.rds')
-saveRDS(fit_surv_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_distance.rds')
-saveRDS(fit_surv_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_geo_distance.rds')
+# saveRDS(fit_surv_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt.rds')
+# saveRDS(fit_surv_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_distance.rds')
+# saveRDS(fit_surv_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_geo_distance.rds')
 
 
 # Growth----
@@ -431,14 +431,14 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_distance_grow)
 )
 
-fit_grow_ppt <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control)
+# fit_grow_ppt <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control)
 
 summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_grow_ppt <- as.array(fit_grow_ppt) # Converts to an array
@@ -474,14 +474,14 @@ demography_grow_distance <- list(
   N = nrow(demography_climate_distance_grow)
 )
 
-fit_grow_distance <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
-  data = demography_grow_distance,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control)
+# fit_grow_distance <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_distance.stan",
+#   data = demography_grow_distance,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control)
 
 
 summary(fit_grow_distance)$summary[, c("Rhat", "n_eff")]
@@ -540,7 +540,7 @@ bayesplot::mcmc_trace(posterior_grow_geo_distance,
 ## Save RDS file for further use
 # saveRDS(fit_grow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
 # saveRDS(fit_grow_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_distance.rds')
-# saveRDS(fit_grow_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model outputt/fit_grow_geo_distance.rds')
+# saveRDS(fit_grow_geo_distance, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_geo_distance.rds')
 
 # Flowering----
 demography_climate_distance %>%
@@ -587,14 +587,14 @@ demography_flow_ppt <- list(
   N = nrow(demography_climate_distance_flow)
 )
 
-fit_flow_ppt <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
-  data = demography_flow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control)
+# fit_flow_ppt <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
+#   data = demography_flow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control)
 
 summary(fit_flow_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_flow_ppt <- as.array(fit_flow_ppt) # Converts to an array
@@ -629,14 +629,14 @@ demography_flow_distance <- list(
   N = nrow(demography_climate_distance_flow)
 )
 
-fit_flow_distance <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
-  data = demography_flow_distance,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control)
+# fit_flow_distance <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
+#   data = demography_flow_distance,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control)
 
 summary(fit_flow_distance)$summary[, c("Rhat", "n_eff")]
 posterior_flow_distance <- as.array(fit_flow_distance) # Converts to an array
@@ -668,14 +668,14 @@ demography_flow_geo_distance <- list(
   N = nrow(demography_climate_distance_flow)
 )
 
-fit_flow_geo_distance <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
-  data = demography_flow_geo_distance,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control)
+# fit_flow_geo_distance <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_distance.stan",
+#   data = demography_flow_geo_distance,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control)
 
 summary(fit_flow_geo_distance)$summary[, c("Rhat", "n_eff")]
 posterior_flow_geo_distance <- as.array(fit_flow_geo_distance) # Converts to an array
@@ -740,14 +740,14 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_distance_spik)
 )
 
-fit_spik_ppt <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control =sim_pars$control)
+# fit_spik_ppt <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control)
 
 summary(fit_spik_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_spik_ppt <- as.array(fit_spik_ppt) # Converts to an array
@@ -782,15 +782,15 @@ demography_spik_distance <- list(
   N = nrow(demography_climate_distance_spik)
 )
 
-fit_spik_distance <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
-  data = demography_spik_distance,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control
-)
+# fit_spik_distance <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
+#   data = demography_spik_distance,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control
+# )
 
 summary(fit_spik_distance)$summary[, c("Rhat", "n_eff")]
 posterior_spik_distance <- as.array(fit_spik_distance) # Converts to an array
@@ -823,15 +823,15 @@ demography_spik_geo_distance <- list(
   N = nrow(demography_climate_distance_spik)
 )
 
-fit_spik_geo_distance <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
-  data = demography_spik_geo_distance,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  thin = sim_pars$thin,
-  chains = sim_pars$chains,
-  control = sim_pars$control
-)
+# fit_spik_geo_distance <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/Spikelet_distance.stan",
+#   data = demography_spik_geo_distance,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   thin = sim_pars$thin,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control
+# )
 
 summary(fit_spik_geo_distance)$summary[, c("Rhat", "n_eff")]
 posterior_spik_geo_distance <- as.array(fit_spik_geo_distance) # Converts to an array

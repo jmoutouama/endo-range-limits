@@ -45,23 +45,23 @@ set.seed(13)
 # Demographic data -----
 # Merge the demographic census
 datini <- read.csv(
-  "https://www.dropbox.com/scl/fi/9lemc8zv5fdi07r7j1jqq/Initialdata.csv?rlkey=gmryfg74motuf7h49s1aul0tm&dl=1",
+  "https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1",
   stringsAsFactors = F
 )
 dat23 <- read.csv(
-  "https://www.dropbox.com/scl/fi/o18136j5t9sd94irtd46i/census2023.csv?rlkey=7byyglfehzqo5e197fp1jsasw&dl=1",
+  "https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1",
   stringsAsFactors = F
 )
 dat24 <- read.csv(
-  "https://www.dropbox.com/scl/fi/w6qdatnkosrjsvvub1vsf/census2024.csv?rlkey=tt1qbdaratj2zvt4igkxz89n9&dl=1",
+  "https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1",
   stringsAsFactors = F
 )
 dat25 <- read.csv(
-  "https://www.dropbox.com/scl/fi/x6gttyivrogzug0w3iveo/census_2025.csv?rlkey=jidxofw54907a73gdnn7t9n3i&dl=1",
+  "https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1",
   stringsAsFactors = F
 )
 datherbivory <- read.csv(
-  "https://www.dropbox.com/scl/fi/mcf4v8voqi8xpmum6l9qv/herbivory.csv?rlkey=my3araheil7cc7iajp2k7hcbt&dl=1",
+  "https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1",
   stringsAsFactors = F
 )
 # unique(datini$Site)
@@ -233,14 +233,14 @@ dat_t_t1_herb %>%
 # Climatic data ----
 climate_summary <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/kfh1pnchc9jt8cw77co27/prism_means.rds?rlkey=s514h0gr61knu9mdmfhjo37nu&dl=1"
+    "https://www.dropbox.com/scl/fi/rjwgk98idmdatk025g6st/prism_means.rds?rlkey=dfooohwn3j2d5pew0ryjpultl&dl=1"
   )
 )
 climate_summary %>%
   rename(Site = site) -> climate_site
 distance_species <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/x9lb4outzenaugw6e00w7/distance_species.rds?rlkey=yrz9djcncfz0omw5dxwsx81ds&dl=1"
+    "https://www.dropbox.com/scl/fi/6rnf3ahwave2p7gaf9cqd/distance_species.rds?rlkey=cs4rtiee8h611brv9z1jv4prn&dl=1"
   )
 )
 distance_species %>%
@@ -269,108 +269,6 @@ demography_climate_distance %>%
     )
   ) -> demography_climate_distance
 
-# names(demography_climate)
-# view(demography_climate)
-# summary(demography_climate)
-# Diagnostic of the response variable
-ggplot(demography_climate_distance,
-       aes(x = spikelet_t1, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(x = "Spikelet average", y = "Density", title = "") +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8),
-    # Legend at the top
-    legend.background = element_rect(fill = "white", color = "white"),
-    # Optional: outline the legend
-    legend.title = element_text(size = 10),
-    # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-
-ggplot(demography_climate_distance,
-       aes(x = grow, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(x = "Relative growth", y = "Density", title = "") +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8),
-    # Legend at the top
-    legend.background = element_rect(fill = "white", color = "white"),
-    # Optional: outline the legend
-    legend.title = element_text(size = 10),
-    # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-# Plot the data with regression lines
-filtered_data <- demography_climate_distance %>% filter(Species %in% c("ELVI", "POAU"))
-ggplot(filtered_data, aes(x = spikelet_t1, y = inf_t1, color = Species)) +
-  geom_point() + # Plot points
-  geom_smooth(method = "lm", se = TRUE, aes(color = Species)) + # Add regression line
-  labs(x = "Spikelet average", y = "Inflorescence average", title = "") +
-  theme_bw() +
-  theme(legend.position = c(0.8, 0.8))
-
-# Probability density plot for Inflorescence grouped by species
-ggplot(filtered_data, aes(x = inf_t1, fill = Species, color = Species)) +
-  geom_density(alpha = 0.4) + # Density plot with transparency
-  labs(x = "Inflorescence average", y = "Density", title = "") +
-  theme_bw() +
-  # scale_color_manual(values = c("red", "#00AFBB")) +  # Custom colors for the species
-  # scale_fill_manual(values = c("red", "#00AFBB")) +
-  theme(
-    legend.position = c(0.8, 0.8),
-    # Legend at the top
-    legend.background = element_rect(fill = "white", color = "black"),
-    # Optional: outline the legend
-    legend.title = element_text(size = 10),
-    # Optional: adjust legend title size
-    legend.text = element_text(size = 8) # Optional: adjust legend text size
-  )
-
-# I am not sure what prior to use.So I am going to simulate some data and found that the difference
-# Define the range of tau values
-x <- seq(0.001, 5, length.out = 1000)
-# Compute densities for different priors
-df <- data.frame(
-  x = rep(x, 4),
-  density = c(
-    dinvgamma(x, 0.1, 0.1),
-    dinvgamma(x, 2, 1),
-    dhalfcauchy(x, scale = 1),
-    dnorm(x, mean = 0, sd = 1) * 2
-  ),
-  # Half-Normal (mirrored normal)
-  Prior = rep(
-    c(
-      "Inv-Gamma(0.1, 0.1)",
-      "Inv-Gamma(2, 1)",
-      "Half-Cauchy(1)",
-      "Half-Normal(1)"
-    ),
-    each = length(x)
-  )
-)
-
-# Plot the priors
-ggplot(df, aes(x, density, color = Prior)) +
-  geom_line(size = 1) +
-  theme_bw() +
-  labs(
-    title = "",
-    x = "tau",
-    y = "Density",
-    color = "Prior"
-  ) +
-  theme(legend.position = c(0.8, 0.8))
-# The inverse gamma(0.1, 0.1) prior has a very heavy tail, meaning it gives high probability to very large values, which can cause instability.
-# The inverse gamma(2, 1) is more reasonable, providing some regularization while still allowing moderate values.
-# The half-Cauchy(1) prior has a fat tail but is more controlled compared to inv_gamma(0.1, 0.1).
-# The half-Normal(1) prior is much more concentrated near small values, leading to stronger regularization.
 
 # Survival----
 ## Read and format survival data to build the model
@@ -432,7 +330,7 @@ demography_surv_ppt <- list(
 
 fit_surv_ppt <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/hi11gxhpqlrdfg389ir0w/fit_surv_ppt.rds?rlkey=22ujyjnm74c6pw9biw50uasvu&dl=1"
+    "https://www.dropbox.com/scl/fi/9xa46n5v7u1lddxaj69cs/fit_surv_ppt.rds?rlkey=1mbkby4394s04j7qej4kvzeo2&dl=1"
   )
 )
 
@@ -546,7 +444,7 @@ observed_data <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -587,13 +485,13 @@ ggplot(cred_intervals, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.9, 0.8),
+    legend.position = c(0.88, 0.085),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -606,7 +504,6 @@ ggplot(cred_intervals, aes(
     strip.text = element_text(size = 13)
   )
 dev.off()
-
 
 ### Distance from niche centroid
 demography_surv_distance <- list(
@@ -628,7 +525,7 @@ demography_surv_distance <- list(
 
 fit_surv_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/gxc8edjzdjvsrtlb8zm5o/fit_surv_distance.rds?rlkey=bmtq9q0bxf6ooafq8pz3tyavp&dl=1"
+    "https://www.dropbox.com/scl/fi/jn2a8wzcezmceplrwd356/fit_surv_distance.rds?rlkey=ow5bw2g31ce7af0quxjjrzlfv&dl=1"
   )
 )
 
@@ -727,7 +624,7 @@ observed_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -764,9 +661,9 @@ ggplot(cred_intervals_distance, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
@@ -804,11 +701,11 @@ demography_surv_geo_distance <- list(
 
 fit_surv_geo_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/ah7h4cn9l9p6gwl3cl0aw/fit_surv_geo_distance.rds?rlkey=dypxz2231pwle7p8mb534uqwr&dl=1"
+    "https://www.dropbox.com/scl/fi/bt0087bzg6664s8gjnv8p/fit_surv_geo_distance.rds?rlkey=luyktp37f34tkzlz4ut38ueaw&dl=1"
   )
 )
 
-predictions_distance <- expand.grid(
+predictions_geo_distance <- expand.grid(
   clim = seq(
     min(demography_surv_geo_distance$clim),
     max(demography_surv_geo_distance$clim),
@@ -819,23 +716,23 @@ predictions_distance <- expand.grid(
   species = 1:3
 )
 # Extract posterior samples
-posterior_samples_distance <- rstan::extract(fit_surv_geo_distance)
+posterior_samples_geo_distance <- rstan::extract(fit_surv_geo_distance)
 # Apply the function to generate predictions for all combinations
-n_posterior_samples_distance <- length(posterior_samples_distance$b0) # Number of posterior samples
+n_posterior_samples_geo_distance <- length(posterior_samples_geo_distance$b0) # Number of posterior samples
 # Initialize a matrix to hold predictions for each posterior sample
-pred_probs_matrix_distance <- matrix(NA, nrow = nrow(predictions_distance), ncol = n_posterior_samples_distance)
+pred_probs_matrix_geo_distance <- matrix(NA, nrow = nrow(predictions_geo_distance), ncol = n_posterior_samples_geo_distance)
 # Function to calculate predictions based on the posterior samples
-get_predictions_distance <- function(clim,
+get_predictions_geo_distance <- function(clim,
                                      endo,
                                      herb,
                                      species_index,
-                                     posterior_samples_distance) {
-  b0 <- posterior_samples_distance$b0[, species_index]
-  bendo <- posterior_samples_distance$bendo[, species_index]
-  bherb <- posterior_samples_distance$bherb[, species_index]
-  bclim <- posterior_samples_distance$bclim[, species_index]
-  bendoclim <- posterior_samples_distance$bendoclim[, species_index]
-  bendoherb <- posterior_samples_distance$bendoherb[, species_index]
+                                     posterior_samples_geo_distance) {
+  b0 <- posterior_samples_geo_distance$b0[, species_index]
+  bendo <- posterior_samples_geo_distance$bendo[, species_index]
+  bherb <- posterior_samples_geo_distance$bherb[, species_index]
+  bclim <- posterior_samples_geo_distance$bclim[, species_index]
+  bendoclim <- posterior_samples_geo_distance$bendoclim[, species_index]
+  bendoherb <- posterior_samples_geo_distance$bendoherb[, species_index]
   # Predicted survival (logit scale)
   logit_preds <- b0 +
     bendo * endo +
@@ -849,25 +746,25 @@ get_predictions_distance <- function(clim,
 }
 
 # Generate predictions for each combination of climate, endophyte, herbivory, and species
-for (i in 1:nrow(predictions_distance)) {
-  pred_probs_matrix_distance[i, ] <- get_predictions_distance(
-    predictions_distance$clim[i],
-    predictions_distance$endo[i],
-    predictions_distance$herb[i],
-    predictions_distance$species[i],
-    posterior_samples_distance
+for (i in 1:nrow(predictions_geo_distance)) {
+  pred_probs_matrix_geo_distance[i, ] <- get_predictions_geo_distance(
+    predictions_geo_distance$clim[i],
+    predictions_geo_distance$endo[i],
+    predictions_geo_distance$herb[i],
+    predictions_geo_distance$species[i],
+    posterior_samples_geo_distance
   )
 }
 
 # Convert the matrix into a data frame with the correct structure
-pred_probs_distance <- as.data.frame(pred_probs_matrix_distance)
-colnames(pred_probs_distance) <- paste("Posterior_Sample", 1:n_posterior_samples_distance)
+pred_probs_geo_distance <- as.data.frame(pred_probs_matrix_geo_distance)
+colnames(pred_probs_geo_distance) <- paste("Posterior_Sample", 1:n_posterior_samples_geo_distance)
 
 # Add the `predictions` columns (clim_s, endo_s, herb_s, species)
-pred_probs_distance <- cbind(predictions_distance, pred_probs_distance)
+pred_probs_geo_distance <- cbind(predictions_geo_distance, pred_probs_geo_distance)
 
 # Reshape the data frame so we have long format for ggplot
-pred_probs_long_distance <- gather(pred_probs_distance,
+pred_probs_long_geo_distance <- gather(pred_probs_geo_distance,
                                    key = "Posterior_Sample",
                                    value = "Pred_Survival",
                                    -clim,
@@ -876,7 +773,7 @@ pred_probs_long_distance <- gather(pred_probs_distance,
                                    -species)
 
 # Calculate credible intervals (90% and 95%) and mean survival probability
-cred_intervals_distance <- pred_probs_long_distance %>%
+cred_intervals_geo_distance <- pred_probs_long_geo_distance %>%
   group_by(species, endo, herb, clim) %>%
   summarise(
     lower_90 = quantile(Pred_Survival, 0.05),
@@ -901,14 +798,15 @@ observed_geo_distance <- data.frame(
   y = demography_surv_geo_distance$y # Observed survival
 )
 
+
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_geo_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
 )
-ggplot(cred_intervals_distance, aes(
+ggplot(cred_intervals_geo_distance, aes(
   x = exp(clim),
   y = mean,
   color = factor(endo)
@@ -944,9 +842,9 @@ ggplot(cred_intervals_distance, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
@@ -1025,7 +923,7 @@ demography_grow_ppt <- list(
 )
 fit_grow_ppt <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/85pzzrgvkxwogoybr004t/fit_grow_ppt.rds?rlkey=rz2xlg00u1aqhkxeaix7wiu9e&dl=1"
+    "https://www.dropbox.com/scl/fi/d0x30lqqcxnatupsm2hej/fit_grow_ppt.rds?rlkey=er2is1le25trin73an23ztfgm&dl=1"
   )
 )
 
@@ -1131,7 +1029,7 @@ observed_grow <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_ppt.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_ppt.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -1172,13 +1070,13 @@ ggplot(cred_intervalg, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.92, 0.085),
+    legend.position = c(0.88, 0.085),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -1212,7 +1110,7 @@ demography_grow_distance <- list(
 
 fit_grow_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/fhwjeizspvvd2dbz11195/fit_grow_distance.rds?rlkey=yt863sjawv1zliwem6a9ved1h&dl=1"
+    "https://www.dropbox.com/scl/fi/3ayyysw9k68lessw5hv56/fit_grow_distance.rds?rlkey=3cu65tyq7gal3be38nsk3ve6b&dl=1"
   )
 )
 
@@ -1311,7 +1209,7 @@ observed_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -1352,13 +1250,13 @@ ggplot(cred_intervals_distance, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.35, 0.23),
+    legend.position = c(0.92, 0.27),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -1393,11 +1291,11 @@ demography_grow_geo_distance <- list(
 
 fit_grow_geo_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/m3r1hjc7sv3xvuvue79tz/fit_grow_geo_distance.rds?rlkey=5rj6htaf8fovv2ve8qz0f6hvg&dl=1"
+    "https://www.dropbox.com/scl/fi/5mbsdo6c591noq8os7hks/fit_grow_geo_distance.rds?rlkey=qupj9g4jz8ui5weo0i97fwfow&dl=1"
   )
 )
 
-predictions_distance <- expand.grid(
+predictions_geo_distance <- expand.grid(
   clim = seq(
     min(demography_grow_geo_distance$clim),
     max(demography_grow_geo_distance$clim),
@@ -1408,23 +1306,23 @@ predictions_distance <- expand.grid(
   species = 1:3
 )
 # Extract posterior samples
-posterior_samples_distance <- rstan::extract(fit_grow_geo_distance)
+posterior_samples_geo_distance <- rstan::extract(fit_grow_geo_distance)
 # Apply the function to generate predictions for all combinations
-n_posterior_samples_distance <- length(posterior_samples_distance$b0) # Number of posterior samples
+n_posterior_samples_geo_distance <- length(posterior_samples_geo_distance$b0) # Number of posterior samples
 # Initialize a matrix to hold predictions for each posterior sample
-pred_probg_matrix_distance <- matrix(NA, nrow = nrow(predictions_distance), ncol = n_posterior_samples_distance)
+pred_probg_matrix_geo_distance <- matrix(NA, nrow = nrow(predictions_geo_distance), ncol = n_posterior_samples_geo_distance)
 # Function to calculate predictions based on the posterior samples
-get_predictions_distance <- function(clim,
+get_predictions_geo_distance <- function(clim,
                                      endo,
                                      herb,
                                      species_index,
-                                     posterior_samples_distance) {
-  b0 <- posterior_samples_distance$b0[, species_index]
-  bendo <- posterior_samples_distance$bendo[, species_index]
-  bherb <- posterior_samples_distance$bherb[, species_index]
-  bclim <- posterior_samples_distance$bclim[, species_index]
-  bendoclim <- posterior_samples_distance$bendoclim[, species_index]
-  bendoherb <- posterior_samples_distance$bendoherb[, species_index]
+                                     posterior_samples_geo_distance) {
+  b0 <- posterior_samples_geo_distance$b0[, species_index]
+  bendo <- posterior_samples_geo_distance$bendo[, species_index]
+  bherb <- posterior_samples_geo_distance$bherb[, species_index]
+  bclim <- posterior_samples_geo_distance$bclim[, species_index]
+  bendoclim <- posterior_samples_geo_distance$bendoclim[, species_index]
+  bendoherb <- posterior_samples_geo_distance$bendoherb[, species_index]
   # Predicted survival
   predg <- b0 +
     bendo * endo +
@@ -1438,25 +1336,25 @@ get_predictions_distance <- function(clim,
 }
 
 # Generate predictions for each combination of climate, endophyte, herbivory, and species
-for (i in 1:nrow(predictions_distance)) {
-  pred_probg_matrix_distance[i, ] <- get_predictions_distance(
-    predictions_distance$clim[i],
-    predictions_distance$endo[i],
-    predictions_distance$herb[i],
-    predictions_distance$species[i],
-    posterior_samples_distance
+for (i in 1:nrow(predictions_geo_distance)) {
+  pred_probg_matrix_geo_distance[i, ] <- get_predictions_geo_distance(
+    predictions_geo_distance$clim[i],
+    predictions_geo_distance$endo[i],
+    predictions_geo_distance$herb[i],
+    predictions_geo_distance$species[i],
+    posterior_samples_geo_distance
   )
 }
 
 # Convert the matrix into a data frame with the correct structure
-pred_probg_distance <- as.data.frame(pred_probg_matrix_distance)
-colnames(pred_probg_distance) <- paste("Posterior_Sample", 1:n_posterior_samples_distance)
+pred_probg_geo_distance <- as.data.frame(pred_probg_matrix_geo_distance)
+colnames(pred_probg_geo_distance) <- paste("Posterior_Sample", 1:n_posterior_samples_geo_distance)
 
 # Add the `predictions` columns (clim_s, endo_s, herb_s, species)
-pred_probg_distance <- cbind(predictions_distance, pred_probg_distance)
+pred_probg_geo_distance <- cbind(predictions_geo_distance, pred_probg_geo_distance)
 
 # Reshape the data frame so we have long format for ggplot
-pred_probg_long_distance <- gather(pred_probg_distance,
+pred_probg_long_geo_distance <- gather(pred_probg_geo_distance,
                                    key = "Posterior_Sample",
                                    value = "Pred_Growth",
                                    -clim,
@@ -1465,7 +1363,7 @@ pred_probg_long_distance <- gather(pred_probg_distance,
                                    -species)
 
 # Calculate credible intervals (90% and 95%) and mean growth
-cred_intervals_distance <- pred_probg_long_distance %>%
+cred_intervals_geo_distance <- pred_probg_long_geo_distance %>%
   group_by(species, endo, herb, clim) %>%
   summarise(
     lower_90 = quantile(Pred_Growth, 0.05),
@@ -1478,7 +1376,7 @@ cred_intervals_distance <- pred_probg_long_distance %>%
   ungroup()
 
 # observed_data should have columns: clim, endo, herb, species, y (observed survival)
-observed_distance <- data.frame(
+observed_geo_distance <- data.frame(
   clim = demography_grow_geo_distance$clim,
   #  climate data
   endo = demography_grow_geo_distance$endo,
@@ -1490,14 +1388,15 @@ observed_distance <- data.frame(
   y = demography_grow_geo_distance$y # Observed survival
 )
 
+
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_geo_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_geo_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
 )
-ggplot(cred_intervals_distance, aes(x = clim, y = mean, color = factor(endo))) +
+ggplot(cred_intervals_geo_distance, aes(x = clim, y = mean, color = factor(endo))) +
   # geom_line(aes(y = median), linetype = "solid", size = 1) +  # Plot the median survival probability
   geom_line(aes(y = mean), linetype = "solid", size = 1) + # Plot the mean survival probability (dashed line)
   geom_ribbon(
@@ -1509,7 +1408,7 @@ ggplot(cred_intervals_distance, aes(x = clim, y = mean, color = factor(endo))) +
     alpha = 0.3,
     color = NA
   ) + # Credible interval
-  geom_point(data = observed_distance,
+  geom_point(data = observed_geo_distance,
              aes(x = clim, y = y, color = factor(endo)),
              size = 3) + # Observed data points
   facet_grid(species ~ herb,
@@ -1525,13 +1424,13 @@ ggplot(cred_intervals_distance, aes(x = clim, y = mean, color = factor(endo))) +
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.35, 0.23),
+    legend.position = c(0.25, 0.27),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -1605,7 +1504,7 @@ demography_flow_ppt <- list(
 
 fit_flow_ppt <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/ajo9euxdtxfmle2g006l3/fit_flow_ppt.rds?rlkey=78cknj1yaqs2m5cyicdzg8up4&dl=1"
+    "https://www.dropbox.com/scl/fi/zra9rhooij33qgpznbse6/fit_flow_ppt.rds?rlkey=4pse2luz1aj08fqn95rt8m72y&dl=1"
   )
 )
 posterior_samples <- rstan::extract(fit_flow_ppt)
@@ -1711,7 +1610,7 @@ observed_flow <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_ppt.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_ppt.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -1752,13 +1651,13 @@ ggplot(cred_intervalf, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.88, 0.2),
+    legend.position = c(0.1, 0.2),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -1793,7 +1692,7 @@ demography_flow_distance <- list(
 
 fit_flow_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/y7qvz4pmy2t2j00gqvwqd/fit_flow_distance.rds?rlkey=qe47fg37dpi4z2lu1ur1lsbkh&dl=1"
+    "https://www.dropbox.com/scl/fi/bccl31vszjauwpod6kyrr/fit_flow_distance.rds?rlkey=0dx711bk0jjdx3yjk409kfodq&dl=1"
   )
 )
 
@@ -1892,7 +1791,7 @@ observed_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -1933,9 +1832,9 @@ ggplot(cred_intervals_distance, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
@@ -1974,7 +1873,7 @@ demography_flow_geo_distance <- list(
 
 fit_flow_geo_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/b2dez0gz22p3m2ke1zs7f/fit_flow_geo_distance.rds?rlkey=9fuwynap20617l1rqffjz62wd&dl=1"
+    "https://www.dropbox.com/scl/fi/klp5vh3c2q2og2ej05rzt/fit_flow_geo_distance.rds?rlkey=kc5s9bddrvcmo2swla3dzbr98&dl=1"
   )
 )
 
@@ -2073,7 +1972,7 @@ observed_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_geo_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_geo_distance.pdf",
   useDingbats = F,
   height = 9,
   width = 7
@@ -2106,13 +2005,13 @@ ggplot(cred_intervals_distance, aes(x = clim, y = mean, color = factor(endo))) +
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.35, 0.23),
+    legend.position = c(0.1, 0.23),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -2125,8 +2024,6 @@ ggplot(cred_intervals_distance, aes(x = clim, y = mean, color = factor(endo))) +
     strip.text = element_text(size = 13)
   )
 dev.off()
-
-
 
 # Spikelet----
 demography_climate_distance %>%
@@ -2187,7 +2084,7 @@ demography_spik_ppt <- list(
 
 fit_spik_ppt <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/9klrwl866stup2x3m2p9x/fit_spik_ppt.rds?rlkey=okno4gvn9dj5q8uhpnu36f59i&dl=1"
+    "https://www.dropbox.com/scl/fi/g61i9urje1i0e2234522e/fit_spik_ppt.rds?rlkey=5sqw0l4a23ozzg17zodklgyjp&dl=1"
   )
 )
 posterior_samples <- rstan::extract(fit_spik_ppt)
@@ -2292,7 +2189,7 @@ observed_spk <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spik_ppt.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spik_ppt.pdf",
   useDingbats = F,
   height = 7,
   width = 7
@@ -2333,13 +2230,13 @@ ggplot(cred_intervalspk, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.15, 0.33),
+    legend.position = c(0.1, 0.35),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -2373,7 +2270,7 @@ demography_spik_distance <- list(
 
 fit_spik_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/1m01hqgokktxz77trnuu3/fit_spik_distance.rds?rlkey=jxx4nt8qgwgiospq870anu9mn&dl=1"
+    "https://www.dropbox.com/scl/fi/ibgrtngs6k0sz5bzin3kv/fit_spik_distance.rds?rlkey=ty1utrssm9tffmv3kxr4wqm8v&dl=1"
   )
 )
 
@@ -2474,7 +2371,7 @@ observed_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_distance.pdf",
   useDingbats = F,
   height = 7,
   width = 7
@@ -2515,9 +2412,9 @@ ggplot(cred_intervals_distance, aes(
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
@@ -2554,7 +2451,7 @@ demography_spik_geo_distance <- list(
 )
 fit_spik_geo_distance <- readRDS(
   url(
-    "https://www.dropbox.com/scl/fi/q7fvaf40gwkww9kbxgdj8/fit_spik_geo_distance.rds?rlkey=jw5f1k57l3uimleyutuek63q5&dl=1"
+    "https://www.dropbox.com/scl/fi/lpj0sbo7mur0d2zc1hf0y/fit_spik_geo_distance.rds?rlkey=wyxw0g1pfxgk1ugqki1rwbb84&dl=1"
   )
 )
 
@@ -2657,14 +2554,14 @@ observed_geo_distance <- data.frame(
 
 # Plot the results with credible intervals, mean survival, and observed points using ggplot2
 pdf(
-  "/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_geo_distance.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_geo_distance.pdf",
   useDingbats = F,
   height = 7,
   width = 7
 )
 ggplot(cred_intervals_geo_distance,
        aes(
-         x = exp(clim),
+         x =clim,
          y = mean,
          color = factor(endo)
        )) +
@@ -2681,7 +2578,7 @@ ggplot(cred_intervals_geo_distance,
   ) + # Credible interval
   geom_point(data = observed_geo_distance,
              aes(
-               x = exp(clim),
+               x = clim,
                y = y,
                color = factor(endo)
              ),
@@ -2693,19 +2590,19 @@ ggplot(cred_intervals_geo_distance,
                herb = c("0" = "Unfenced", "1" = "Fenced")
              )) +
   labs(
-    x = "Mahalanobis distance",
+    x = "Distance from geographic center(log scale)",
     y = "Spikelets",
     color = "Endophyte",
     fill = "Endophyte",
     title = ""
   ) +
-  scale_color_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "#00AFBB", "1" = "#FC4E07"),
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
   theme_classic() +
   theme(
-    legend.position = c(0.35, 0.23),
+    legend.position = c(0.92, 0.35),
     panel.border = element_rect(fill = NA, color = "black"),
     legend.title = element_text(size = 10),
     # Reduce legend title size
@@ -2716,3 +2613,15 @@ ggplot(cred_intervals_geo_distance,
     strip.text = element_text(size = 13)
   )
 dev.off()
+
+
+# Trying to do a PCA with the posteriors distribution
+posterior_samples_surv <- rstan::extract(fit_surv_ppt)
+posterior_df <- tibble(
+  bendoclim.1 = posterior_samples_surv$bendoclim[, 1],
+  bendoclim.2 = posterior_samples_surv$bendoclim[, 2],
+  bendoclim.3 = posterior_samples_surv$bendoclim[, 3]
+)
+
+posterior_samples_surv<-as.data.frame(posterior_samples_surv)
+head(posterior_samples_surv)

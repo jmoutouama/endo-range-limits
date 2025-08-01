@@ -35,11 +35,11 @@ library(BiocManager)
 library(swfscMisc)
 library(bayesplot)
 library(extraDistr)
-options(timeout = 120)
+#options(timeout = 120)
 # Survival----
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/hi11gxhpqlrdfg389ir0w/fit_surv_ppt.rds?rlkey=22ujyjnm74c6pw9biw50uasvu&dl=1"))
-fit_surv_distance <- readRDS(url("https://www.dropbox.com/scl/fi/gxc8edjzdjvsrtlb8zm5o/fit_surv_distance.rds?rlkey=bmtq9q0bxf6ooafq8pz3tyavp&dl=1"))
-fit_surv_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/ah7h4cn9l9p6gwl3cl0aw/fit_surv_geo_distance.rds?rlkey=dypxz2231pwle7p8mb534uqwr&dl=1"))
+fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/9xa46n5v7u1lddxaj69cs/fit_surv_ppt.rds?rlkey=1mbkby4394s04j7qej4kvzeo2&dl=1"))
+fit_surv_distance <- readRDS(url("https://www.dropbox.com/scl/fi/jn2a8wzcezmceplrwd356/fit_surv_distance.rds?rlkey=ow5bw2g31ce7af0quxjjrzlfv&dl=1"))
+fit_surv_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/bt0087bzg6664s8gjnv8p/fit_surv_geo_distance.rds?rlkey=luyktp37f34tkzlz4ut38ueaw&dl=1"))
 
 log_lik_surv_ppt <- loo::extract_log_lik(fit_surv_ppt, merge_chains = FALSE)
 r_eff_surv_ppt <- loo::relative_eff(exp(log_lik_surv_ppt))
@@ -59,9 +59,9 @@ plot(loo_surv_geo_distance)
 (comp_surv <- loo::loo_compare(loo_surv_ppt, loo_surv_distance,loo_surv_geo_distance))
 
 # Growth----
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/85pzzrgvkxwogoybr004t/fit_grow_ppt.rds?rlkey=rz2xlg00u1aqhkxeaix7wiu9e&dl=1"))
-fit_grow_distance <- readRDS(url("https://www.dropbox.com/scl/fi/fhwjeizspvvd2dbz11195/fit_grow_distance.rds?rlkey=yt863sjawv1zliwem6a9ved1h&dl=1"))
-fit_grow_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/m3r1hjc7sv3xvuvue79tz/fit_grow_geo_distance.rds?rlkey=5rj6htaf8fovv2ve8qz0f6hvg&dl=1"))
+fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/d0x30lqqcxnatupsm2hej/fit_grow_ppt.rds?rlkey=er2is1le25trin73an23ztfgm&dl=1"))
+fit_grow_distance <- readRDS(url("https://www.dropbox.com/scl/fi/3ayyysw9k68lessw5hv56/fit_grow_distance.rds?rlkey=3cu65tyq7gal3be38nsk3ve6b&dl=1"))
+fit_grow_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/5mbsdo6c591noq8os7hks/fit_grow_geo_distance.rds?rlkey=qupj9g4jz8ui5weo0i97fwfow&dl=1"))
 
 log_lik_grow_ppt <- loo::extract_log_lik(fit_grow_ppt, merge_chains = FALSE)
 r_eff_grow_ppt <- loo::relative_eff(exp(log_lik_grow_ppt))
@@ -81,9 +81,9 @@ plot(loo_grow_geo_distance)
 (comp_grow <- loo::loo_compare(loo_grow_ppt, loo_grow_distance,loo_grow_geo_distance))
 
 # Flowering----
-fit_flow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/ajo9euxdtxfmle2g006l3/fit_flow_ppt.rds?rlkey=78cknj1yaqs2m5cyicdzg8up4&dl=1"))
-fit_flow_distance <- readRDS(url("https://www.dropbox.com/scl/fi/y7qvz4pmy2t2j00gqvwqd/fit_flow_distance.rds?rlkey=qe47fg37dpi4z2lu1ur1lsbkh&dl=1"))
-fit_flow_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/b2dez0gz22p3m2ke1zs7f/fit_flow_geo_distance.rds?rlkey=9fuwynap20617l1rqffjz62wd&dl=1"))
+fit_flow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/zra9rhooij33qgpznbse6/fit_flow_ppt.rds?rlkey=4pse2luz1aj08fqn95rt8m72y&dl=1"))
+fit_flow_distance <- readRDS(url("https://www.dropbox.com/scl/fi/bccl31vszjauwpod6kyrr/fit_flow_distance.rds?rlkey=0dx711bk0jjdx3yjk409kfodq&dl=1"))
+fit_flow_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/klp5vh3c2q2og2ej05rzt/fit_flow_geo_distance.rds?rlkey=kc5s9bddrvcmo2swla3dzbr98&dl=1"))
 
 log_lik_flow_ppt <- loo::extract_log_lik(fit_flow_ppt, merge_chains = FALSE)
 r_eff_flow_ppt <- loo::relative_eff(exp(log_lik_flow_ppt))
@@ -103,9 +103,9 @@ loo_flow_geo_distance <- loo(log_lik_flow_geo_distance, r_eff = r_eff_flow_geo_d
 (comp_flow <- loo::loo_compare(loo_flow_ppt, loo_flow_distance,loo_flow_geo_distance))
 
 # Spikelet----
-fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/9klrwl866stup2x3m2p9x/fit_spik_ppt.rds?rlkey=okno4gvn9dj5q8uhpnu36f59i&dl=1"))
-fit_spik_distance <- readRDS(url("https://www.dropbox.com/scl/fi/1m01hqgokktxz77trnuu3/fit_spik_distance.rds?rlkey=jxx4nt8qgwgiospq870anu9mn&dl=1"))
-fit_spik_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/q7fvaf40gwkww9kbxgdj8/fit_spik_geo_distance.rds?rlkey=jw5f1k57l3uimleyutuek63q5&dl=1"))
+fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/g61i9urje1i0e2234522e/fit_spik_ppt.rds?rlkey=5sqw0l4a23ozzg17zodklgyjp&dl=1"))
+fit_spik_distance <- readRDS(url("https://www.dropbox.com/scl/fi/ibgrtngs6k0sz5bzin3kv/fit_spik_distance.rds?rlkey=ty1utrssm9tffmv3kxr4wqm8v&dl=1"))
+fit_spik_geo_distance <- readRDS(url("https://www.dropbox.com/scl/fi/lpj0sbo7mur0d2zc1hf0y/fit_spik_geo_distance.rds?rlkey=wyxw0g1pfxgk1ugqki1rwbb84&dl=1"))
 
 log_lik_spi_ppt <- loo::extract_log_lik(fit_spik_ppt, merge_chains = FALSE)
 r_eff_spi_ppt <- loo::relative_eff(exp(log_lik_spi_ppt))
@@ -115,11 +115,11 @@ loo_spi_ppt <- loo(log_lik_spi_ppt, r_eff = r_eff_spi_ppt, cores = 4)
 log_lik_spi_distance <- loo::extract_log_lik(fit_spik_distance, merge_chains = FALSE)
 r_eff_spi_distance <- loo::relative_eff(exp(log_lik_spi_distance))
 loo_spi_distance <- loo(log_lik_spi_distance, r_eff = r_eff_spi_distance, cores = 4)
-plot(loo_spi_distance)
+#plot(loo_spi_distance)
 
 log_lik_spi_geo_distance <- loo::extract_log_lik(fit_spik_geo_distance, merge_chains = FALSE)
 r_eff_spi_geo_distance <- loo::relative_eff(exp(log_lik_spi_geo_distance))
 loo_spi_geo_distance <- loo(log_lik_spi_geo_distance, r_eff = r_eff_spi_geo_distance, cores = 4)
-plot(loo_spi_geo_distance)
+#plot(loo_spi_geo_distance)
 
 (comp_spi <- loo::loo_compare(loo_spi_ppt, loo_spi_distance,loo_spi_geo_distance))

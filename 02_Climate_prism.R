@@ -133,7 +133,7 @@ climate_garden_2022_2025 <- climate_garden_1995_2025 %>%
 # For 2023
 #  Convert date_23 column to Date format 
 obs_table_23 <- date_sp_site23 %>%
-  mutate(date_23 = mdy(date_23)) # If it's character like "5/10/25"
+  mutate(date_23 = mdy(date_23)) 
 # Ensure climate date column is in Date format
 climate <- climate_garden_2022_2025 %>%
   mutate(date = ymd(date),
@@ -262,3 +262,25 @@ climate_25 <- obs_table_25 %>%
   ungroup()
 
 view(climate_25)
+
+names(climate_23)
+names(climate_24)
+names(climate_25)
+
+# Rename all the variables to create a new table for all climatic conditions 
+
+climate_23 %>% 
+  rename(date=date_23) %>% 
+  mutate(year=2023)->climate_23_final
+climate_24 %>% 
+  rename(date=date_24) %>% 
+  mutate(year=2024)->climate_24_final
+climate_25 %>% 
+  rename(date=date_25) %>% 
+  mutate(year=2025)->climate_25_final
+
+
+site_climate_summary<-rbind(climate_23_final,climate_24_final,climate_25_final)
+site_climate_summary<-as.data.frame(site_climate_summary)
+view(site_climate_summary)
+#saveRDS(site_climate_summary, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/site_climate_summary.rds")

@@ -164,9 +164,8 @@ crs(source_elvi) <- CRS1
 crs(source_poau) <- CRS1
 
 # Climatic and distance data----
-distance_summary <- readRDS(url("https://www.dropbox.com/scl/fi/6rnf3ahwave2p7gaf9cqd/distance_species.rds?rlkey=cs4rtiee8h611brv9z1jv4prn&dl=1"))
-distance_summary$geo_distance<-distance_summary$geo_distance/1000
-distance_summary_ordered <- distance_summary[order(distance_summary$longitude), ]
+prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/rjwgk98idmdatk025g6st/prism_means.rds?rlkey=dfooohwn3j2d5pew0ryjpultl&dl=1"))
+
 # Study area shapefile ----
 study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
 study_area <- study_area[(study_area$State_Name %in% c("TEXAS","LOUISIANA")), ]
@@ -237,7 +236,7 @@ plot(garden_poau, add=T, pch = 3, col="black", cex=2)
 plot(source_poau, add=T, pch = 21, col="black", bg="red", cex=1)
 mtext( ~ italic("Poa autumnalis"), side = 3, adj = 0.5, cex=1.2, line=0.2)
 mtext("C", side = 3, adj = 0, cex=1.25, line=0.2)
-legend(-106, 28, 
+legend(-105.9, 28, 
        legend = c("GBIF occurences", "Common garden sites", "Source populations"),
        pch = c(23, 3, 21),
        pt.cex = c(0.55, 1, 1),
@@ -248,69 +247,26 @@ legend(-106, 28,
        horiz = F)
 
 # Fourth plot (D)
-par(mar=c(5,4,3.75,1))  
-plot(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
-     distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="AGHY"], 
-     type = "l", lty = 1, xlab="Longitude", ylab="Distance from geographic center (Km)", 
-     cex.lab=1.2, col="#009E73", cex.axis=0.8, ylim=c(500,1500))
-points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
-       distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="AGHY"], 
-       pch = 16, cex = 2, col="#009E73")
-lines(distance_summary_ordered$longitude[distance_summary_ordered$Species=="ELVI"], 
-      distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="ELVI"], 
-      col="#D55E00")
-points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="ELVI"], 
-       distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="ELVI"], 
-       pch = 16, cex = 2, col="#D55E00")
-lines(distance_summary_ordered$longitude[distance_summary_ordered$Species=="POAU"], 
-      distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="POAU"], 
-      col="#0072B2")
-points(jitter(distance_summary_ordered$longitude[distance_summary_ordered$Species=="POAU"],amount = 0.1), 
-       distance_summary_ordered$geo_distance[distance_summary_ordered$Species=="POAU"], 
-       pch = 16, cex = 2, col="#0072B2")
+# Fourth plot (D) - fix margins and improve layout
+par(mar = c(6, 4, 4, 1))  # bottom, left, top, right
 
-legend("topright",
-       legend = c("AGHY", "ELVI", "POAU"),
-       col = c("#009E73", "#D55E00", "#0072B2"),
-       lwd = 2,            # Line width for the curves
-       lty = 1,            # Line type for the curves (solid)
-       pch = 16,           # Point symbol (circle)
-       pt.cex = 2,         # Size of the points in the legend
-       cex = 1)
+# Reorder for plotting
+ordered_data <- prism_summary[order(prism_summary[, 2], decreasing = FALSE), ]
+barplot(
+  ordered_data[, 2], 
+  names.arg = ordered_data[, 1], 
+  col = "#E69F00", 
+  xlab = "Sites", 
+  ylab = "Cumulative Precipitation (mm)", 
+  main = "", 
+  ylim = c(0, 3500), 
+  las = 2,  # rotate x-axis labels for better readability
+  cex.lab=1.2,
+  cex.names = 0.75  # adjust text size if needed
+)
 
-mtext("D", side = 3, adj = 0, cex = 1.25)
-
-# Inset plot inside Panel D (move to bottom left)
-# usr <- par("usr")
-# x_inset_min <- usr[1] + 0.05 * (usr[2] - usr[1])
-# x_inset_max <- usr[1] + 0.45 * (usr[2] - usr[1])
-# y_inset_min <- usr[3] + 0.05 * (usr[4] - usr[3])
-# y_inset_max <- usr[3] + 0.57 * (usr[4] - usr[3])
-# 
-# par(xpd = NA)
-# par(fig = c(grconvertX(c(x_inset_min, x_inset_max), from="user", to="ndc"),
-#             grconvertY(c(y_inset_min, y_inset_max), from="user", to="ndc")),
-#     new = TRUE, mar = c(1, 1, 0.5, 0.5))
-# 
-# par(mgp = c(1.3, 0.5, 0))
-# plot(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
-#      distance_summary_ordered$distance[distance_summary_ordered$Species=="AGHY"], 
-#      type = "l", col = "#000000", axes = TRUE, xlab = "", ylab = "DNC", ylim=c(0,40), cex.axis=0.5)
-# points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="AGHY"], 
-#        distance_summary_ordered$distance[distance_summary_ordered$Species=="AGHY"], 
-#        pch=16, col = "#000000")
-# lines(distance_summary_ordered$longitude[distance_summary_ordered$Species=="ELVI"], 
-#       distance_summary_ordered$distance[distance_summary_ordered$Species=="ELVI"], 
-#       col = "#E69F00")
-# points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="ELVI"], 
-#        distance_summary_ordered$distance[distance_summary_ordered$Species=="ELVI"], 
-#        col = "#E69F00", pch=16)
-# lines(distance_summary_ordered$longitude[distance_summary_ordered$Species=="POAU"], 
-#       distance_summary_ordered$distance[distance_summary_ordered$Species=="POAU"], 
-#       col = "#56B4E9")
-# points(distance_summary_ordered$longitude[distance_summary_ordered$Species=="POAU"], 
-#        distance_summary_ordered$distance[distance_summary_ordered$Species=="POAU"], 
-#        col = "#56B4E9", pch=16)
+#mtext("Cumulative Precipitation (mm)", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
+mtext("D", side = 3, adj = 0, cex = 1.25, line = 0.3)
 
 par(op)
 dev.off()

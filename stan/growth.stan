@@ -1,14 +1,14 @@
 data {
   // Data for survival sub-model (s)
   int<lower=1> nSpp;         // Number of species
-  int<lower=1> nSite;        // Number of sites
+  int<lower=1> nsite_year;        // Number of site_years
   int<lower=1> nPop;         // Number of source populations
   int<lower=1> N;            // Number of data points for the survival model
   int<lower=1> nPlot;        // Number of plots
   
   // Indices for categorical variables
   int<lower=1> Spp[N];       // Species index
-  int<lower=1> site[N];      // Site index
+  int<lower=1> site_year[N];      // site_year index
   int<lower=1> plot[N];      // Plot index
   int<lower=1> pop[N];       // Population index
   
@@ -41,8 +41,8 @@ parameters {
   real<lower=0> pop_tau;    // Variance for population-level random effects
   vector[nPop] pop_rfx;   // Random effects for populations
 
-  real<lower=0> site_tau;   // Variance for site-level random effects
-  matrix[nSpp, nSite] site_rfx;  // Random effects for species within sites
+  real<lower=0> site_year_tau;   // Variance for site_year-level random effects
+  matrix[nSpp, nsite_year] site_year_rfx;  // Random effects for species within site_years
 
   real<lower=0> sigma;  // Residual standard deviation
 }
@@ -66,7 +66,7 @@ transformed parameters {
                    // Random effects
                    plot_rfx[plot[igrow]] +
                    pop_rfx[pop[igrow]] +
-                   site_rfx[Spp[igrow], site[igrow]];
+                   site_year_rfx[Spp[igrow], site_year[igrow]];
   }
 }
 
@@ -83,20 +83,20 @@ model {
   sigma ~ normal(0, 5);  // Prior for residual standard deviation
 
   // Priors for random effect variances
-  plot_tau ~ inv_gamma(2, 1);
+  plot_tau ~ normal(0, 1);
   for (i in 1:nPlot){
     plot_rfx[i] ~ normal(0, plot_tau);  // Plot-level random effects
   }
 
-  pop_tau ~ inv_gamma(2, 1);
+  pop_tau ~ normal(0, 1);
   for (i in 1:nPop){
     pop_rfx[i] ~ normal(0, pop_tau);  // Population-level random effects
   }
 
-  site_tau ~ inv_gamma(2, 1);  // Site-level variance (species-specific)
+  site_year_tau ~ normal(0, 1);  // site_year-level variance (species-specific)
   for (i in 1:nSpp) {
-    for (j in 1:nSite) {
-      site_rfx[i, j] ~ normal(0, site_tau);  // Site-level random effects
+    for (j in 1:nsite_year) {
+      site_year_rfx[i, j] ~ normal(0, site_year_tau);  // site_year-level random effects
     }
   }
   

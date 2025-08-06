@@ -1,13 +1,13 @@
 data {
   // indices
   int<lower=1> nSpp;  // Number of species        
-  int<lower=1> nSite; // Number of sites    
+  int<lower=1> nsite_year; // Number of site_years    
   int<lower=1> nPop;  // Number of source populations       
   int<lower=1> N;    // Number of data points for the inflorescence model
   int<lower=1> nPlot; // Number of plots   
   // Survival data
   int<lower=1> Spp[N];   // Species index
-  int<lower=1> site[N];  // Site index
+  int<lower=1> site_year[N];  // site_year index
   int<lower=1> plot[N];  // Plot index 
   int<lower=1> pop[N];   // Population index
   int<lower=0> y[N];  // Response variable: flowering at time t+1
@@ -32,8 +32,8 @@ parameters {
   vector[nPlot] plot_rfx;  // Random effect for each plot
   real<lower=0> pop_tau;  // Standard deviation of population-level random effect
   vector[nPop] pop_rfx;  // Random effect for each population
-  vector<lower=0>[nSpp] site_tau;  // Standard deviation for site-level random effects
-  matrix[nSpp, nSite] site_rfx;  // Site-level random effects for each species
+  vector<lower=0>[nSpp] site_year_tau;  // Standard deviation for site_year-level random effects
+  matrix[nSpp, nsite_year] site_year_rfx;  // site_year-level random effects for each species
   real<lower=0> phi; // Dispersion parameter for negative binomial model
 }
 
@@ -56,7 +56,7 @@ transformed parameters {
                 // Random effects
                 plot_rfx[plot[iflow]] +
                 pop_rfx[pop[iflow]] +
-                site_rfx[Spp[iflow], site[iflow]]; // Site-level random effect for each species at each site
+                site_year_rfx[Spp[iflow], site_year[iflow]]; // site_year-level random effect for each species at each site_year
   }
 }
 
@@ -73,18 +73,18 @@ model {
   phi ~ normal(0,5);
   
   // Priors for random effects
-  plot_tau ~ inv_gamma(2, 1);
+  plot_tau ~ normal(0,1);
   for (i in 1:nPlot){
     plot_rfx[i] ~ normal(0, plot_tau);
   }
-  pop_tau ~ inv_gamma(2, 1);
+  pop_tau ~ normal(0,1);
   for (i in 1:nPop){
     pop_rfx[i] ~ normal(0, pop_tau);
   }
-  site_tau ~ inv_gamma(2, 1);  // Separate variance for each species
+  site_year_tau ~ normal(0,1);  // Separate variance for each species
   for (i in 1:nSpp) {
-    for (j in 1:nSite) {
-      site_rfx[i, j] ~ normal(0, site_tau[i]);  // Random effects for each site and species
+    for (j in 1:nsite_year) {
+      site_year_rfx[i, j] ~ normal(0, site_year_tau[i]);  // Random effects for each site_year and species
     }
   }
 

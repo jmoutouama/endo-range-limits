@@ -1,13 +1,13 @@
 data {
   // indices
   int<lower=1> nSpp;         // Number of species in the model
-  int<lower=1> nSite;           // Number of sites
+  int<lower=1> nsite_year;           // Number of site_years
   int<lower=1> nPop;            // Number of source populations
   int<lower=1> N;               // Number of data points for the survival model
   int<lower=1> nPlot;          // Number of plots
   // Survival data
   int<lower=1> Spp[N];     // Species index for each survival data point
-  int<lower=1> site[N];     // Site index for each survival data point
+  int<lower=1> site_year[N];     // site_year_year index for each survival data point
   int<lower=1> plot[N];       // Plot index for each survival data point
   int<lower=1> pop[N];        // Population index for each survival data point
   int<lower=0,upper=1> y[N];  // Survival status at time t+1 (1 = survived, 0 = did not survive)
@@ -32,8 +32,8 @@ parameters {
   vector[nPlot] plot_rfx;   // Random effects for each plot
   real<lower=0> pop_tau;       // Variance for population-level random effects
   vector[nPop] pop_rfx;      // Random effects for each population
-  vector<lower=0>[nSpp] site_tau;      // Variance for site-level random effects
-  matrix[nSpp, nSite] site_rfx; // Random effects for each species at each site
+  vector<lower=0>[nSpp] site_year_tau;      // Variance for site_year-level random effects
+  matrix[nSpp, nsite_year] site_year_rfx; // Random effects for each species at each site_year
 }
 
 transformed parameters {
@@ -50,12 +50,12 @@ transformed parameters {
                 bendoclim[Spp[isurv]] * clim[isurv] * endo[isurv] + // Correct indexing
                 bendoherb[Spp[isurv]] * endo[isurv] * herb[isurv] + // Correct indexing
                 // Quadratic climate effects
-                bclim2[Spp[isurv]] * pow(clim[isurv], 2) +  
-                bendoclim2[Spp[isurv]] * endo[isurv] * pow(clim[isurv], 2) + 
+                bclim2[Spp[isurv]] * square(clim[isurv]) +  
+                bendoclim2[Spp[isurv]] * endo[isurv] * square(clim[isurv]) + 
                 // Random effects
                 plot_rfx[plot[isurv]] +  // Plot-level random effect
                 pop_rfx[pop[isurv]] +    // Population-level random effect
-                site_rfx[Spp[isurv], site[isurv]]; // Site-level random effect for each species at each site
+                site_year_rfx[Spp[isurv], site_year[isurv]]; // site_year-level random effect for each species at each site_year
   }
 }
 
@@ -71,21 +71,21 @@ model {
   bendoclim2 ~ normal(0, 5);
   
   // Priors for random effects variances (inverse gamma distribution)
-  plot_tau ~ inv_gamma(2, 1);
+  plot_tau ~ normal(0, 1);
   for (i in 1:nPlot) {
     plot_rfx[i] ~ normal(0, plot_tau);  // Random effects for each plot
   }
   
-  pop_tau ~ inv_gamma(2, 1);
+  pop_tau ~ normal(0, 1);
   for (i in 1:nPop) {
     pop_rfx[i] ~ normal(0, pop_tau);   // Random effects for each population
   }
   
-  // Priors for site-level random effects variances (separate for each species)
-  site_tau ~ inv_gamma(2, 1);  // Separate variance for each species
+  // Priors for site_year-level random effects variances (separate for each species)
+  site_year_tau ~ normal(0, 1);  // Separate variance for each species
   for (i in 1:nSpp) {
-    for (j in 1:nSite) {
-      site_rfx[i, j] ~ normal(0, site_tau[i]);  // Random effects for each site and species
+    for (j in 1:nsite_year) {
+      site_year_rfx[i, j] ~ normal(0, site_year_tau[i]);  // Random effects for each site_year and species
     }
   }
 

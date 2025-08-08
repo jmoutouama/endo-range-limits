@@ -236,6 +236,14 @@ dat_t_t1_herb %>%
     grow = (log(tiller_t1 + 1) - log(tiller_t + 1))
   ) -> demography_climate
 
+demography_climate %>%
+  group_by(Species) %>%
+  summarise(
+    n_total = n(),
+    n_survived = sum(surv1, na.rm = TRUE),
+    survival_rate = n_survived / n_total
+  )
+
 # names(demography_climate)
 # view(demography_climate)
 # summary(demography_climate)

@@ -88,7 +88,7 @@
 \DeclareGraphicsExtensions{.eps}
 \fi
 
-\graphicspath{{/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/endo-range-limits/Figure}}
+\graphicspath{{/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure}}
 %\graphicspath{{C:/Users/tm9/Dropbox/github/ELVI-endophyte-density/Figure}}
 \newcommand{\tom}[2]{{\color{red}{#1}}\footnote{\textit{\color{red}{#2}}}}
 \newcommand{\jacob}[2]{{\color{blue}{#1}}\footnote{\textit{\color{blue}{#2}}}}
@@ -259,7 +259,7 @@ We used the number of spikelets from these three tillers to estimate the average
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{clim_map1.pdf}
+\includegraphics[width=1\textwidth]{clim_map.pdf}
 \caption{Distribution of common garden sites along the longitudinal aridity gradient in the central and southern Great Plains for: A) \emph{Agrostis hyemalis} (AGHY), B)  \emph{Elymus virginicus} (ELVI), and C)  \emph{Poa autumnalis} (POAU). Red dots indicate the locations of source populations, while grey dots represent the Global Biodiversity Information Facility (GBIF) occurrence records for each species within the study area. D) Relationship between the distance from the range center and longitude for each species.}
 \label{fig:site}
 \end{figure}
@@ -332,38 +332,57 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the RStan inte
 % final files after acceptance.
 \section*{Results}
 
+We  tested the effects of precipitation, endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced) on survival, growth, and reproductive traits in three cool-season grass species: \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. 
+Our findings indicate that the influence of endophytes is context-dependent, varying from beneficial to neutral or even detrimental depending on species identity and herbivore presence.
+
+At low precipitation levels representing  species  range edge, E$^{-}$ individuals exhibited higher survival rates than E$^{+}$ individuals (Fig.~\ref{fig:Surv}), suggesting a cost of endophyte association under drought stress. 
+This cost was partially offset in unfenced plots, where E$^{+}$ individuals showed comparable or greater survival relative to E$^{-}$ individuals, potentially reflecting endophyte-conferred resistance to herbivory. 
+Across all species, survival was generally higher in fenced plots, underscoring the negative impact of herbivores on plant persistence.
+
+Patterns of growth were consistent across species and treatments. 
+Across the full precipitation gradient, E$^{+}$ individuals had higher relative growth than E$^{-}$ individuals (Fig.~\ref{fig:growth}), suggesting a general growth advantage associated with endophyte presence. 
+Moreover, plants in unfenced plots exhibited higher annual growth rates compared to those in fenced plots, possibly due to compensatory growth following herbivory or altered resource allocation strategies.
+
+Inflorescence production tended to be higher in E$^{+}$ individuals than in E$^{-}$ individuals under wet conditions, but this advantage declined under drier conditions (Fig.~\ref{fig:flowering}). 
+This pattern suggests that the reproductive benefit of endophyte association is contingent on water availability. 
+Fencing had a modest overall effect on flowering, although \textit{Poa autumnalis} produced more inflorescences in fenced plots.
+
+Spikelet production revealed a cost of endophyte association under dry conditions, particularly in \textit{Elymus virginicus}, where E$^{+}$ individuals produced fewer spikelets than E$^{-}$ individuals (Fig.~\ref{fig:spikelet}). 
+Additionally, fenced plots supported higher spikelet production across all species, further supporting the conclusion that herbivory suppresses reproductive output.
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{PrSurival_ppt.pdf}
 \caption{XXX 
 }
-\label{fig:climate}
+\label{fig:Surv}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{Growth_geo_distance.pdf}
+\includegraphics[width=0.9\textwidth]{Growth_ppt.pdf}
 \caption{XXX 
 }
-\label{fig:climate}
+\label{fig:growth}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{Flow_geo_distance.pdf}
+\includegraphics[width=0.9\textwidth]{Flow_ppt.pdf}
 \caption{XXX 
 }
-\label{fig:climate}
+\label{fig:flowering}
 \end{figure}
 
-%\begin{figure}[H]
-%\includegraphics[width=0.9\textwidth]{Fig_temp_mean.pdf}
-%\caption{Variation in vital rates across a temperature gradient.
-%}
-%\label{fig:vital}
-%\end{figure}
-%
-%
+\begin{figure}[H]
+\includegraphics[width=0.9\textwidth]{Spik_ppt.pdf}
+\caption{XX
+}
+\label{fig:spikelet}
+\end{figure}
+
+
 
 \section*{Acknowledgements}
 This research was supported by National Science Foundation Division of Environmental Biology awards.
@@ -469,7 +488,7 @@ Flowering  & \textbf{model2} & \textbf{0.0}   & \textbf{0.0} \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{distance_plot.pdf}
+\includegraphics[width=1\textwidth]{combined_ppc_plots.pdf}
 \caption{
 (A-C) Relationship between distance from geographic center and longitude for the focal species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}). 
 A generalized additive model (GAM) with a smooth term was used to capture the non-linear trends in these relationships for each species.
@@ -482,7 +501,7 @@ The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a s
 
 \begin{figure}[H]
 		\centering
-		\includegraphics[width=0.72\linewidth]{geodistance_surv_coeff.pdf}
+		\includegraphics[width=0.50\linewidth]{ppt_surv_coeff.pdf}
 		\caption{Coefficient estimates from Bayesian models linking survival and geographic distance.
 		 Points represent posterior means and lines indicate 95\% credible intervals.
 		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
@@ -492,7 +511,7 @@ The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a s
 
 \begin{figure}[H]
 		\centering
-		\includegraphics[width=0.72\linewidth]{geodistance_grow_coeff.pdf}
+		\includegraphics[width=0.50\linewidth]{ppt_grow_coeff.pdf}
 		\caption{Coefficient estimates from Bayesian models linking growth and geographic distance.
 		 Points represent posterior means and lines indicate 95\% credible intervals.
 		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
@@ -502,7 +521,17 @@ The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a s
 
 \begin{figure}[H]
 		\centering
-		\includegraphics[width=0.72\linewidth]{geodistance_flow_coeff.pdf}
+		\includegraphics[width=0.50\linewidth]{ppt_flow_coeff.pdf}
+		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
+		 Points represent posterior means and lines indicate 95\% credible intervals.
+		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
+		 Horizontal dashed lines denote zero effect.}
+		\label{Sup:temp_variation}
+\end{figure}
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.50\linewidth]{ppt_spik_coeff.pdf}
 		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
 		 Points represent posterior means and lines indicate 95\% credible intervals.
 		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).

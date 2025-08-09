@@ -269,8 +269,9 @@ dat_t_t1_herb %>%
     ##if the plant was alive at the start of the transition year, it survived if tillers_t1>0
     surv1 = ifelse(tiller_t>0,tiller_t1>0,NA),
     site_species_plot = interaction(Site, Species, Plot),
-    ##if the plant was alive at the start of the transition year, growth is the log ratio of tiller counts, else NA
-    grow = ifelse(tiller_t>0,log(tiller_t1/tiller_t),NA)
+    ##if the plant was alive at the start of the transition year and it survived, growth is the log ratio of tiller counts, else NA
+    ##note there that growth is conditional on survival, which I think is how it should be
+    grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA)
   ) -> demography_climate
 }
 

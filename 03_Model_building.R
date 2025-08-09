@@ -225,7 +225,7 @@ dat_t_t1_herb %>%
   dplyr::select(Species, census_year, tiller_t1) %>%
   group_by(Species, census_year) %>%
   summarise(n = n(), .groups = "drop")
-
+##unclear why 2023 is kep here as a transition year, and why it has such small sample size
 
 ## Create new variables
 dat_t_t1_herb %>%
@@ -235,6 +235,44 @@ dat_t_t1_herb %>%
     site_species_plot = interaction(Site, Species, Plot),
     grow = (log(tiller_t1 + 1) - log(tiller_t + 1))
   ) -> demography_climate
+
+{ ##TOM
+  ##look at "mortality"
+demography_climate %>% filter(surv1==0) %>% View
+demography_climate  %>% 
+  filter(surv1==0) %>% 
+  summarise(n())
+## most of these have NA for tiller_t1 because they died the *preceding year*
+demography_climate  %>% 
+  filter(surv1==0) %>% 
+  filter(tiller_t==0) %>% 
+  summarise(n())
+## the others have NA because there are in plots that were destroyed, mainly KER but also the flooded plot in HUN
+demography_climate %>% 
+  filter(surv1==0) %>% 
+  filter(tiller_t>0) %>% 
+  group_by(Species,Site,census_year) %>% 
+  summarise(n())
+## I also noticed that TagIDs are often duplicated within years, which should not happen
+demography_climate %>% 
+  group_by(Tag_ID,census_year) %>% 
+  summarise(tag_rep = n()) %>% 
+  filter(tag_rep>1)
+## look at one of these as an example -- here, the 2025 data are duplicated. In other cases it's 2024.
+demography_climate %>% filter(Tag_ID==111) %>% View
+
+##once the duplicate tag issues are fixed, I think the right way to estimate mortality and growth would look something like this:
+dat_t_t1_herb %>%
+  mutate(
+    site_year=interaction(Site,census_year),
+    ##if the plant was dead or size was NA at the start of the transition year, survival is NA
+    ##if the plant was alive at the start of the transition year, it survived if tillers_t1>0
+    surv1 = ifelse(tiller_t>0,tiller_t1>0,NA),
+    site_species_plot = interaction(Site, Species, Plot),
+    ##if the plant was alive at the start of the transition year, growth is the log ratio of tiller counts, else NA
+    grow = ifelse(tiller_t>0,log(tiller_t1/tiller_t),NA)
+  ) -> demography_climate
+}
 
 demography_climate %>%
   group_by(Species) %>%

@@ -259,7 +259,7 @@ demography_climate %>%
   summarise(tag_rep = n()) %>% 
   filter(tag_rep>1)
 ## look at one of these as an example -- here, the 2025 data are duplicated. In other cases it's 2024.
-demography_climate %>% filter(Tag_ID==111) %>% View
+demography_climate %>% filter(Tag_ID==119) %>% View
 
 ##once the duplicate tag issues are fixed, I think the right way to estimate mortality and growth would look something like this:
 dat_t_t1_herb %>%

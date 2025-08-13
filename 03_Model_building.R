@@ -64,9 +64,9 @@ climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/arl44h1v0xoaymz0s4b5
 dat23 %>%
   mutate(spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T)), digit = 0) -> dat23_spike
 dat24 %>%
-  mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowMeans(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
+  mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
 dat25 %>%
-  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowMeans(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
+  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
 
 # Check for duplicate Tag_IDs
 datini$Tag_ID <- as.character(datini$Tag_ID)
@@ -75,9 +75,8 @@ dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
 dat24_spike$Tag_ID <- as.character(dat24_spike$Tag_ID)
 dat25_spike$Tag_ID <- as.character(dat25_spike$Tag_ID)
 #view(dat24_spike)
-# Here 731 was two row to I change one with 7311
-# dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
-# dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
+#dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
+#dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
 
 ## Merge the initial data to the 23 to get the Tag ID for each elements -----
 datini23_spike <- dat23_spike %>%
@@ -98,46 +97,36 @@ combined_data <- bind_rows(datini[,c("Site","Species","Plot","Tag_ID","Populatio
 dat24_spike_sp_site_tag<-left_join(x = dat24_spike, y = combined_data, by = c("Tag_ID")) %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_24","brokenInf_24"))) %>% 
   filter(!is.na(Species))
+#dat24_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
 # view(dat24_spike_sp_site_tag)
 
 dat25_spike_sp_site_tag<- dat25_spike %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_25","brokenInf_25"))) 
+#dat25_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
 
 dat2324 <- datini23_spike %>%
   left_join(
     dat24_spike_sp_site_tag %>%
       dplyr::select(Tag_ID, Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
     by = "Tag_ID"
-  ) %>%
-  mutate(
-    census_year = if_else(!is.na(date_24), 2024L, 2023L)
-  )
+  ) 
+
+#dat2324 %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
+# dat2324 %>%
+#   group_by(Tag_ID,census_year) %>%
+#   summarise(tag_rep = n()) %>%
+#   filter(tag_rep>1)
 
 dat2425 <- dat24_spike_sp_site_tag %>%
   left_join(
     dat25_spike_sp_site_tag %>%
       dplyr::select(Tag_ID, Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
     by = "Tag_ID"
-  ) %>%
-  mutate(
-    census_year = if_else(!is.na(date_25), 2025L, 2024L)
   )
 
-## Merge the demographic data with the climatic data -----
-dat2324_clim <- dat2324 %>%
-  left_join(
-    climate_site,
-    by = c("Site" = "Site", "Species" = "Species", "census_year" = "year")
-  )
-
-dat2425_clim <- dat2425 %>%
-  left_join(
-    climate_site,
-    by = c("Site" = "Site", "Species" = "Species", "census_year" = "year")
-  )
 
 # Change variable names
-dat2324_clim %>%
+dat2324%>%
   mutate(
     tiller_t = Tiller_23,
     tiller_t1 = Tiller_24,
@@ -148,7 +137,8 @@ dat2324_clim %>%
     tiller_Herb_t = tiller_Herb_23,
     tiller_Herb_t1 = tiller_herb_24,
     date_t=date_23,
-    date_t1=date_24
+    date_t1=date_24,
+    census_year=rep(2024,nrow(datini23_spike))
   ) %>%
   dplyr::select(
     Site,
@@ -156,8 +146,6 @@ dat2324_clim %>%
     Plot,
     Tag_ID,
     Population,
-    Clone,
-    GreenhouseID,
     Endo,
     tiller_t,
     tiller_t1,
@@ -167,14 +155,16 @@ dat2324_clim %>%
     spikelet_t1,
     tiller_Herb_t,
     tiller_Herb_t1,
-    cumulative_pptmean,
-    census_year,
-    date_t,
-    date_t1
+    census_year
   ) -> dat2324_t_t1
 
+# dat2324_t_t1 %>% count(Tag_ID) %>% filter(n > 1) 
+# dat2324_t_t1 %>%
+#   group_by(Tag_ID,census_year) %>%
+#   summarise(tag_rep = n()) %>%
+#   filter(tag_rep>1)
 
-dat2425_clim %>%
+dat2425 %>%
   mutate(
     tiller_t = Tiller_24,
     tiller_t1 = Tiller_25,
@@ -185,7 +175,8 @@ dat2425_clim %>%
     tiller_Herb_t = tiller_herb_24,
     tiller_Herb_t1 = tiller_herb_25,
     date_t = date_24,
-    date_t1 = date_25
+    date_t1 = date_25,
+    census_year=rep(2025,nrow(dat24_spike_sp_site_tag))
   ) %>%
   dplyr::select(
     Site,
@@ -202,67 +193,45 @@ dat2425_clim %>%
     spikelet_t1,
     tiller_Herb_t,
     tiller_Herb_t1,
-    cumulative_pptmean,
-    census_year,
-    date_t,
-    date_t1
+    census_year
   ) -> dat2425_t_t1
 
-dat_t_t1 <- bind_rows(dat2324_t_t1, dat2425_t_t1) %>%
-  mutate(
-    date_t = ymd(date_t),
-    date_t1 = ymd(date_t1)
-  )
+# dat2425_t_t1 %>% count(Tag_ID) %>% filter(n > 1)
+# dat2425_t_t1 %>%
+#   group_by(Tag_ID,census_year) %>%
+#   summarise(tag_rep = n()) %>%
+#   filter(tag_rep>1)
+
+dat_t_t1 <- rbind(dat2324_t_t1, dat2425_t_t1)
+# Find duplicates by Tag ID within each census year
+# dup_tags_per_year <- dat_t_t1 %>%
+#   count(Tag_ID, census_year) %>%
+#   filter(n > 1)
+# 
+# dup_tags_per_year
+
 ## Merge the demographic data with the herbivory data -----
 dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 # head(dat_t_t1_herb)
 # unique(dat_t_t1_herb$Species)
-# view(dat2324_t_t1_herb)
+# view(dat_t_t1_herb)
 
-# Check the number of data for each data
-dat_t_t1_herb %>%
-  #filter(tiller_t1 > 0) %>%
-  dplyr::select(Species, census_year, tiller_t1) %>%
-  group_by(Species, census_year) %>%
-  summarise(n = n(), .groups = "drop")
-##unclear why 2023 is kep here as a transition year, and why it has such small sample size
+## Merge the demographic data with the climatic data -----
+climate_site_unique <- climate_site %>%
+  distinct(Site, Species, year, .keep_all = TRUE)
 
-## Create new variables
-dat_t_t1_herb %>%
-  mutate(
-    site_year=interaction(Site,census_year),
-    surv1 = 1 * (!is.na(tiller_t) & !is.na(tiller_t1)),
-    site_species_plot = interaction(Site, Species, Plot),
-    grow = (log(tiller_t1 + 1) - log(tiller_t + 1))
-  ) -> demography_climate
+dat_t_t1_herb_clim <- dat_t_t1_herb %>%
+  left_join(
+    climate_site_unique,
+    by = c("Site" = "Site", "Species" = "Species", "census_year" = "year")
+  )
 
-{ ##TOM
-  ##look at "mortality"
-demography_climate %>% filter(surv1==0) %>% View
-demography_climate  %>% 
-  filter(surv1==0) %>% 
-  summarise(n())
-## most of these have NA for tiller_t1 because they died the *preceding year*
-demography_climate  %>% 
-  filter(surv1==0) %>% 
-  filter(tiller_t==0) %>% 
-  summarise(n())
-## the others have NA because there are in plots that were destroyed, mainly KER but also the flooded plot in HUN
-demography_climate %>% 
-  filter(surv1==0) %>% 
-  filter(tiller_t>0) %>% 
-  group_by(Species,Site,census_year) %>% 
-  summarise(n())
-## I also noticed that TagIDs are often duplicated within years, which should not happen
-demography_climate %>% 
-  group_by(Tag_ID,census_year) %>% 
-  summarise(tag_rep = n()) %>% 
-  filter(tag_rep>1)
-## look at one of these as an example -- here, the 2025 data are duplicated. In other cases it's 2024.
-demography_climate %>% filter(Tag_ID==119) %>% View
+# dat_t_t1_herb_clim %>%
+# group_by(Tag_ID,census_year) %>%
+#   summarise(tag_rep = n()) %>%
+#   filter(tag_rep>1)
 
-##once the duplicate tag issues are fixed, I think the right way to estimate mortality and growth would look something like this:
-dat_t_t1_herb %>%
+dat_t_t1_herb_clim %>%
   mutate(
     site_year=interaction(Site,census_year),
     ##if the plant was dead or size was NA at the start of the transition year, survival is NA
@@ -273,7 +242,12 @@ dat_t_t1_herb %>%
     ##note there that growth is conditional on survival, which I think is how it should be
     grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA)
   ) -> demography_climate
-}
+
+## NO TagIDs  duplicated within years
+demography_climate %>% 
+  group_by(Tag_ID,census_year) %>% 
+  summarise(tag_rep = n()) %>% 
+  filter(tag_rep>1)
 
 demography_climate %>%
   group_by(Species) %>%

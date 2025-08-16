@@ -207,4 +207,4 @@ climate_2024_2025 <- climate_garden_2024_2025 %>%
 ## Combine all census periods into a single dataset
 climate_census_years <- bind_rows(climate_2023_2024, climate_2024_2025)
 # view(climate_census_years)
-# saveRDS(climate_census_years, "/Users/jacobmoutouama/Downloads/endo-range-limits/Data/climate_census_years.rds")
+# saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")

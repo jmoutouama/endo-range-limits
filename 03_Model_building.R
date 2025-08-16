@@ -1,5 +1,4 @@
 # Purpose: Fit vital rate models to test the effect of grass-endophyte symbiosis on  vital rate models (survival, growth, flowering and spikelet).
-# Note: Raster files are too large to provide in public repository. They are stored on a local machine
 # Authors: Jacob Moutouama
 # Date last modified (Y-M-D):
 rm(list = ls())

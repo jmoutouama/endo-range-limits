@@ -261,13 +261,13 @@ demography_climate %>%
 # summary(demography_climate)
 
 ## Running the stan model
-sim_pars <- list(
-  warmup = 1000,
-  iter = 4000,
-  thin = 2,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  chains = 4
-)
+# sim_pars <- list(
+#   warmup = 1000,
+#   iter = 4000,
+#   thin = 2,
+#   control = list(adapt_delta = 0.99, max_treedepth = 15),
+#   chains = 4
+# )
 
 # Survival----
 ## Read and format survival data to build the model
@@ -314,6 +314,35 @@ demography_surv_ppt <- list(
   N          = nrow(demography_climate_surv)
 )
 
+# Intercept only model 
+fit_surv_ppt_intercept <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/surv_intercept.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains
+)
+
+fit_surv_ppt_abiotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/surv_abiotic.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains
+)
+
+fit_surv_ppt_biotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/surv_biotic.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains
+)
+
+
 fit_surv_ppt <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
   data = demography_surv_ppt,
@@ -340,6 +369,9 @@ bayesplot::mcmc_trace(posterior_surv_ppt,
 ) + theme_bw()
 
 ## Save RDS file for further use
+# saveRDS(fit_surv_ppt_intercept, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt_intercept.rds')
+# saveRDS(fit_surv_ppt_abiotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt_abiotic.rds')
+# saveRDS(fit_surv_ppt_biotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt_biotic.rds')
 # saveRDS(fit_surv_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_ppt.rds')
 
 
@@ -388,6 +420,35 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
+fit_grow_ppt_intercept <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_ppt_intercept.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+
+fit_grow_ppt_abiotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_ppt_abiotc.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+fit_grow_ppt_biotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_ppt_biotic.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+
 fit_grow_ppt <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
   data = demography_grow_ppt,
@@ -415,7 +476,10 @@ bayesplot::mcmc_trace(posterior_grow_ppt,
 
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
+# saveRDS(fit_grow_ppt_intercept, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_intercept.rds')
+# saveRDS(fit_grow_ppt_abiotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_abiotic.rds')
+# saveRDS(fit_grow_ppt_biotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_biotic.rds')
+# # saveRDS(fit_grow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
 
 # Flowering----
 demography_climate %>%
@@ -461,6 +525,34 @@ demography_flow_ppt <- list(
   N = nrow(demography_climate_flow)
 )
 
+fit_flow_ppt_intercept <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_ppt_intercept.stan",
+  data = demography_flow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+fit_flow_ppt_abiotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_ppt_abiotic.stan",
+  data = demography_flow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+fit_flow_ppt_biotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/fowering_ppt_biotic.stan",
+  data = demography_flow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control = sim_pars$control)
+
+
 fit_flow_ppt <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
   data = demography_flow_ppt,
@@ -488,6 +580,9 @@ bayesplot::mcmc_trace(posterior_flow_ppt,
 
 
 ## Save RDS file for further use
+# saveRDS(fit_flow_ppt_intercept, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_ppt_intercept.rds')
+# saveRDS(fit_flow_ppt_abiotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_ppt_abiotic.rds')
+# saveRDS(fit_flow_ppt_biotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_ppt_biotic.rds')
 # saveRDS(fit_flow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_ppt.rds')
 
 # Spikelet----
@@ -534,6 +629,33 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_spik)
 )
 
+fit_spik_ppt_intercept <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spik_ppt_intercept.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control =sim_pars$control)
+
+fit_spik_ppt_abiotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spik_ppt_abiotic.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control =sim_pars$control)
+
+fit_spik_ppt_biotic <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spik_ppt_biotic.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  thin = sim_pars$thin,
+  chains = sim_pars$chains,
+  control =sim_pars$control)
+
 fit_spik_ppt <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
   data = demography_spik_ppt,
@@ -561,6 +683,9 @@ bayesplot::mcmc_trace(posterior_spik_ppt,
 
 
 ## Save RDS file for further use
+# saveRDS(fit_spik_ppt_intercept, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_ppt_intercept.rds')
+# saveRDS(fit_spik_ppt_abiotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_ppt_abiotic.rds')
+# saveRDS(fit_spik_ppt_biotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_ppt_biotic.rds')
 # saveRDS(fit_spik_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_ppt.rds')
 
 # Posterior predictive check----
@@ -595,9 +720,8 @@ simulate_ppc <- function(pred_matrix, phi = NULL, family = c("bernoulli", "norma
   return(y_rep)
 }
 
-
 bayesplot::color_scheme_set("blue")
-## Survival Model ----
+## Survival Model full model----
 fit_survival <- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_surv_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
 post_surv <- rstan::extract(fit_survival)
 pred_surv <- post_surv$predS
@@ -605,7 +729,7 @@ y_surv <- demography_surv_ppt$y
 y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
 p_surv <- ppc_dens_overlay(y_surv, y_rep_surv[1:500, ]) + ggtitle("Survival")
 
-## Growth Model ----
+## Growth Model full model----
 fit_growth <- readRDS(url("https://www.dropbox.com/scl/fi/5oduhrkn3l0cu5b9soju5/fit_grow_ppt.rds?rlkey=mpxxl4aejowhdm29pij9jv8kk&dl=1"))
 post_grow <- rstan::extract(fit_growth)
 pred_grow <- post_grow$predG
@@ -614,7 +738,7 @@ y_grow <- demography_grow_ppt$y
 y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
 p_grow <- ppc_dens_overlay(y_grow, y_rep_grow[1:500, ]) + ggtitle("Growth")
 
-## Flowering Model ----
+## Flowering Model full model ----
 fit_flowering <- readRDS(url("https://www.dropbox.com/scl/fi/1j3ln3jxk94s56c9j193q/fit_flow_ppt.rds?rlkey=ag5bdlhngtg2gsfbfbx15purr&dl=1"))
 post_flow <- rstan::extract(fit_flowering)
 pred_flow <- post_flow$predF
@@ -623,7 +747,7 @@ y_flow <- demography_flow_ppt$y
 y_rep_flow <- simulate_ppc(pred_flow, phi = phi_flow, family = "negbinomial")
 p_flow <- ppc_dens_overlay(y_flow, y_rep_flow[1:500, ]) + ggtitle("Flowering")
 
-## Spikelet Model ----
+## Spikelet Model full model ----
 fit_spikelet <- readRDS(url("https://www.dropbox.com/scl/fi/fg562lkkl077j8qoegb8q/fit_spik_ppt.rds?rlkey=cbfyy7tq7tja3e9mxujv0scm6&dl=1"))
 post_spik <- rstan::extract(fit_spikelet)
 pred_spik <- post_spik$predF
@@ -632,7 +756,7 @@ y_spik <- demography_spik_ppt$y
 y_rep_spik <- simulate_ppc(pred_spik, phi = phi_spik, family = "negbinomial")
 p_spik <- ppc_dens_overlay(y_spik, y_rep_spik[1:500, ]) + ggtitle("Spikelet")
 
-# Combine all PPC plots ----
+# Combine all PPC plots full model ----
 combined_plot <- (p_surv | p_grow) / (p_flow | p_spik) +
   plot_annotation(title = "")
 print(combined_plot)
@@ -645,3 +769,90 @@ combined_plot <- (p_surv | p_grow) / (p_flow | p_spik) +
 
 # Save to PDF
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots.pdf", plot = combined_plot, width = 7, height = 6)
+
+## Survival Model abiotic----
+fit_survival_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_surv_ppt_abiotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
+post_surv_abiotic <- rstan::extract(fit_survival_abiotic)
+pred_surv_abiotic <- post_surv_abiotic$predS
+y_surv_abiotic <- demography_surv_ppt$y
+y_rep_surv_abiotic <- simulate_ppc(pred_surv_abiotic, family = "bernoulli")
+p_surv_abiotic <- ppc_dens_overlay(y_surv_abiotic, y_rep_surv_abiotic[1:500, ]) + ggtitle("Survival")
+
+## Growth Model abiotic----
+fit_growth_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/wwy6y5z2xpu5ukausel6m/fit_grow_ppt_abiotic.rds?rlkey=teyk9e49bjp8ojsyi860z1241&dl=1"))
+post_grow_abiotic <- rstan::extract(fit_growth_abiotic)
+pred_grow_abiotic <- post_grow_abiotic$pred
+sigma_grow_abiotic <- post_grow_abiotic$sigma
+y_grow_abiotic <- demography_grow_ppt$y
+y_rep_grow_abiotic <- simulate_ppc(pred_grow_abiotic, phi = sigma_grow_abiotic, family = "normal")
+p_grow_abiotic <- ppc_dens_overlay(y_grow_abiotic, y_rep_grow_abiotic[1:500, ]) + ggtitle("Growth")
+
+## Flowering Model abiotic ----
+fit_flowering_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/8amcccm6vtn9jxsoa97yk/fit_flow_ppt_abiotic.rds?rlkey=l87f6ipeyn5si41wozsz2c57k&dl=1"))
+post_flow_abiotic <- rstan::extract(fit_flowering_abiotic)
+pred_flow_abiotic <- post_flow_abiotic$pred
+phi_flow_abiotic <- post_flow_abiotic$phi
+y_flow_abiotic <- demography_flow_ppt$y
+y_rep_flow_abiotic <- simulate_ppc(pred_flow_abiotic, phi = phi_flow_abiotic, family = "negbinomial")
+p_flow_abiotic <- ppc_dens_overlay(y_flow_abiotic, y_rep_flow_abiotic[1:500, ]) + ggtitle("Flowering")
+
+## Spikelet Model abiotic----
+fit_spikelet_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/idg2f35yu055pv38ugp71/fit_spik_ppt_abiotic.rds?rlkey=c860tyv2b187p8w9a8ctrl3x9&dl=1"))
+post_spik_abiotic <- rstan::extract(fit_spikelet_abiotic)
+pred_spik_abiotic <- post_spik_abiotic$pred
+phi_spik_abiotic <- post_spik_abiotic$phi
+y_spik_abiotioc <- demography_spik_ppt$y
+y_rep_spik_abiotic <- simulate_ppc(pred_spik_abiotic, phi = phi_spik_abiotic, family = "negbinomial")
+p_spik_abiotic <- ppc_dens_overlay(y_spik_abiotioc, y_rep_spik_abiotic[1:500, ]) + ggtitle("Spikelet")
+
+# Combine all PPC plots abiotic ----
+combined_plot_abiotic <- (p_surv_abiotic | p_grow_abiotic) / (p_flow_abiotic | p_spik_abiotic) +
+  plot_annotation(title = "")+
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+print(combined_plot_abiotic)
+ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_abiotic.pdf", plot = combined_plot_abiotic, width = 7, height = 6)
+
+
+## Survival Model biotic----
+fit_survival_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_surv_ppt_biotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
+post_surv_biotic <- rstan::extract(fit_survival_biotic)
+pred_surv_biotic <- post_surv_biotic$predS
+y_surv_biotic <- demography_surv_ppt$y
+y_rep_surv_biotic <- simulate_ppc(pred_surv_biotic, family = "bernoulli")
+p_surv_biotic <- ppc_dens_overlay(y_surv_biotic, y_rep_surv_biotic[1:500, ]) + ggtitle("Survival")
+
+## Growth Model biotic----
+fit_growth_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/wwy6y5z2xpu5ukausel6m/fit_grow_ppt_biotic.rds?rlkey=teyk9e49bjp8ojsyi860z1241&dl=1"))
+post_grow_biotic <- rstan::extract(fit_growth_biotic)
+pred_grow_biotic <- post_grow_biotic$pred
+sigma_grow_biotic <- post_grow_biotic$sigma
+y_grow_biotic <- demography_grow_ppt$y
+y_rep_grow_biotic <- simulate_ppc(pred_grow_biotic, phi = sigma_grow_biotic, family = "normal")
+p_grow_biotic <- ppc_dens_overlay(y_grow_biotic, y_rep_grow_biotic[1:500, ]) + ggtitle("Growth")
+
+## Flowering Model biotic ----
+fit_flowering_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/8amcccm6vtn9jxsoa97yk/fit_flow_ppt_biotic.rds?rlkey=l87f6ipeyn5si41wozsz2c57k&dl=1"))
+post_flow_biotic <- rstan::extract(fit_flowering_biotic)
+pred_flow_biotic <- post_flow_biotic$pred
+phi_flow_biotic <- post_flow_biotic$phi
+y_flow_biotic <- demography_flow_ppt$y
+y_rep_flow_biotic <- simulate_ppc(pred_flow_biotic, phi = phi_flow_biotic, family = "negbinomial")
+p_flow_biotic <- ppc_dens_overlay(y_flow_biotic, y_rep_flow_biotic[1:500, ]) + ggtitle("Flowering")
+
+## Spikelet Model biotic----
+fit_spikelet_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/idg2f35yu055pv38ugp71/fit_spik_ppt_biotic.rds?rlkey=c860tyv2b187p8w9a8ctrl3x9&dl=1"))
+post_spik_biotic <- rstan::extract(fit_spikelet_biotic)
+pred_spik_biotic <- post_spik_biotic$pred
+phi_spik_biotic <- post_spik_biotic$phi
+y_spik_abiotioc <- demography_spik_ppt$y
+y_rep_spik_biotic <- simulate_ppc(pred_spik_biotic, phi = phi_spik_biotic, family = "negbinomial")
+p_spik_biotic <- ppc_dens_overlay(y_spik_abiotioc, y_rep_spik_biotic[1:500, ]) + ggtitle("Spikelet")
+
+# Combine all PPC plots biotic ----
+combined_plot_biotic <- (p_surv_biotic | p_grow_biotic) / (p_flow_biotic | p_spik_biotic) +
+  plot_annotation(title = "")+
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+print(combined_plot_biotic)
+ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_biotic.pdf", plot = combined_plot_biotic, width = 7, height = 6)

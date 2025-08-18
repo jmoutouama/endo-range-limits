@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  7 AUG 2025 10:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 AUG 2025 11:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1158,14 +1158,14 @@ Overfull \hbox (53.2753pt too wide) in paragraph at lines 446--454
  []
 
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combi
-ned_ppc_plots.pdf, id=296, 578.16pt x 433.62pt>
+ned_ppc_plots.pdf, id=296, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 combined_ppc_plots.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 ombined_ppc_plots.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/combined_ppc_plots.pdf  used on input line 491.
-(pdftex.def)             Requested size: 469.75502pt x 352.31538pt.
+(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [18]
@@ -1259,7 +1259,7 @@ mtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/
 local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/t
 exlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit.pdf (23 pages, 5848779 bytes).
+Output written on Range_limit.pdf (23 pages, 6408832 bytes).
 PDF statistics:
  427 PDF objects out of 1000 (max. 8388607)
  354 compressed objects within 4 object streams

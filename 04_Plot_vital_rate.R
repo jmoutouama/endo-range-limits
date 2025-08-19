@@ -397,71 +397,114 @@ observed_data <- data.frame(
   y = demography_surv_ppt$y # Observed survival
 )
 
-# Plot the results with credible intervals, mean survival, and observed points using ggplot2
-pdf(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt.pdf",
-  useDingbats = F,
-  height = 9,
-  width = 7
-)
-ggplot(cred_intervals, aes(
-  x = exp(clim),
-  y = mean,
-  color = factor(endo)
-)) +
-  # geom_line(aes(y = median), linetype = "solid", size = 1) +  # Plot the median survival probability
-  geom_line(aes(y = mean), linetype = "solid", size = 1) + # Plot the mean survival probability (dashed line)
+
+# --- Calculate differences E+ - E- ---
+diff_df <- pred_probs_long_df %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(
+    diff = mean(Pred_Survival[endo == 1]) - mean(Pred_Survival[endo == 0]),
+    .groups = "drop"
+  )
+
+# Credible intervals for differences
+diff_ci <- diff_df %>%
+  group_by(species, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(diff, 0.05),
+    upper_90 = quantile(diff, 0.95),
+    lower_95 = quantile(diff, 0.025),
+    upper_95 = quantile(diff, 0.975),
+    mean = mean(diff),
+    median = median(diff),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Difference (E+ - E-)")
+
+cred_intervals <- cred_intervals %>%
+  mutate(panel = "Predicted survival probability")
+
+plot_data <- bind_rows(cred_intervals, diff_ci)
+
+
+library(patchwork)
+
+# Split data for clarity
+top_panel_data <- top_panel_data %>%
+  mutate(panel = "Predicted survival probability")
+
+lower_panel_data <- lower_panel_data %>%
+  mutate(panel = "Δ (E+ - E-)")
+
+# Combine so they share the same panel factor
+plot_data <- bind_rows(top_panel_data, lower_panel_data) %>%
+  mutate(panel = factor(panel,
+                        levels = c("Predicted survival probability", "Δ (E+ - E-)")))
+
+
+# Add a panel column to observed data if needed
+observed_data <- observed_data %>%
+  mutate(panel = "Predicted survival probability")
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt_diff.pdf",
+width = 12, height = 6.5)
+ggplot(plot_data) +
+  # survival probability
+  geom_line(
+    data = subset(plot_data, panel == "Predicted survival probability"),
+    aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
+    size = 1
+  ) +
   geom_ribbon(
-    aes(
-      ymin = lower_90,
-      ymax = upper_90,
-      fill = factor(endo)
-    ),
-    alpha = 0.3,
-    color = NA
-  ) + # Credible interval
+    data = subset(plot_data, panel == "Predicted survival probability"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
+        fill = factor(endo), group = endo),
+    alpha = 0.3, color = NA
+  ) +
   geom_point(
     data = observed_data,
-    aes(
-      x = exp(clim),
-      y = y,
-      color = factor(endo)
-    ),
-    size = 3,
-    position = position_jitter(width = 0, height = 0.02)  # jitter only y-direction
-  )+
-  facet_grid(species ~ herb,
+    aes(x = exp(clim), y = y, color = factor(endo)),
+    size = 2, position = position_jitter(width = 0, height = 0.02)
+  ) +
+  
+  # delta panel
+  geom_line(
+    data = subset(plot_data, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), y = mean),
+    color = "black", size = 1
+  ) +
+  geom_ribbon(
+    data = subset(plot_data, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+    fill = "#9B6B96", alpha = 0.5
+  ) +
+  geom_hline(
+    data = subset(plot_data, panel == "Δ (E+ - E-)"),
+    aes(yintercept = 0),
+    linetype = "dashed", color = "black"
+  ) +
+  
+  facet_grid(panel ~ species + herb,
              scales = "free_y",
              labeller = labeller(
                species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
                herb = c("0" = "Unfenced", "1" = "Fenced")
              )) +
-  labs(
-    x = "Precipitation (mm)",
-    y = "Predicted survival probability",
-    color = "Endophyte",
-    fill = "Endophyte",
-    title = ""
-  ) +
+  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                     labels = c("E-", "E+")) + # Change endophyte labels
+                     labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                    labels = c("E-", "E+")) + # Change fill labels
-  theme_classic() +
+                    labels = c("E-", "E+")) +
+  theme_bw() +
   theme(
-    legend.position = c(0.08, 0.21),
+    legend.position = c(0.06, 0.85),
     panel.border = element_rect(fill = NA, color = "black"),
-    legend.title = element_text(size = 10),
-    # Reduce legend title size
-    legend.text = element_text(size = 12),
-    # Adjust legend text size
     axis.title = element_text(size = 13),
-    # Increase axis title size
     axis.text = element_text(size = 10),
-    # Increase axis label size
+    text = element_text(family = "Arial"),
     strip.text = element_text(size = 13)
   )
+
 dev.off()
+
 
 # Growth----
 ## Read and format survival data to build the model

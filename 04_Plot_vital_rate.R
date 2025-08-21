@@ -35,6 +35,7 @@ library(bayesplot)
 library(extraDistr)
 library(lubridate)
 library(patchwork)
+library(ggh4x)
 # Install cmdstanr from R
 # install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 # # Install CmdStan backend (once)
@@ -397,8 +398,74 @@ observed_data <- data.frame(
   y = demography_surv_ppt$y # Observed survival
 )
 
+# Plot the results with credible intervals, mean survival, and observed points using ggplot2
+pdf(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt.pdf",
+  useDingbats = F,
+  height = 9,
+  width = 7
+)
+ggplot(cred_intervals, aes(
+  x = exp(clim),
+  y = mean,
+  color = factor(endo)
+)) +
+  # geom_line(aes(y = median), linetype = "solid", size = 1) +  # Plot the median survival probability
+  geom_line(aes(y = mean), linetype = "solid", size = 1) + # Plot the mean survival probability (dashed line)
+  geom_ribbon(
+    aes(
+      ymin = lower_90,
+      ymax = upper_90,
+      fill = factor(endo)
+    ),
+    alpha = 0.3,
+    color = NA
+  ) + # Credible interval
+  geom_point(
+    data = observed_data,
+    aes(
+      x = exp(clim),
+      y = y,
+      color = factor(endo)
+    ),
+    size = 3,
+    position = position_jitter(width = 0, height = 0.02)  # jitter only y-direction
+  )+
+  facet_grid(species ~ herb,
+             scales = "free_y",
+             labeller = labeller(
+               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+               herb = c("0" = "Unfenced", "1" = "Fenced")
+             )) +
+  labs(
+    x = "Precipitation (mm)",
+    y = "Pr (survival)",
+    color = "Endophyte",
+    fill = "Endophyte",
+    title = ""
+  ) +
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+                     labels = c("E-", "E+")) + # Change endophyte labels
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+                    labels = c("E-", "E+")) + # Change fill labels
+  theme_bw() +
+  theme(
+    legend.position = c(0.08, 0.21),
+    panel.border = element_rect(fill = NA, color = "black"),
+    legend.title = element_text(size = 10),
+    # Reduce legend title size
+    legend.text = element_text(size = 12),
+    # Adjust legend text size
+    axis.title = element_text(size = 13),
+    # Increase axis title size
+    axis.text = element_text(size = 10),
+    # Increase axis label size
+    strip.text = element_text(size = 13)
+  )
+dev.off()
 
-# --- Calculate differences E+ - E- ---
+# Calculate differences E+ - E- 
+# Differences between endophyte states
 diff_df <- pred_probs_long_df %>%
   group_by(species, herb, clim, Posterior_Sample) %>%
   summarise(
@@ -414,47 +481,129 @@ diff_ci <- diff_df %>%
     upper_90 = quantile(diff, 0.95),
     lower_95 = quantile(diff, 0.025),
     upper_95 = quantile(diff, 0.975),
-    mean = mean(diff),
-    median = median(diff),
-    .groups = "drop"
+    mean     = mean(diff),
+    median   = median(diff),
+    .groups  = "drop"
   ) %>%
-  mutate(panel = "Difference (E+ - E-)")
-
-cred_intervals <- cred_intervals %>%
-  mutate(panel = "Predicted survival probability")
-
-plot_data <- bind_rows(cred_intervals, diff_ci)
-
-
-library(patchwork)
-
-# Split data for clarity
-top_panel_data <- top_panel_data %>%
-  mutate(panel = "Predicted survival probability")
-
-lower_panel_data <- lower_panel_data %>%
   mutate(panel = "Δ (E+ - E-)")
 
-# Combine so they share the same panel factor
-plot_data <- bind_rows(top_panel_data, lower_panel_data) %>%
+# Keep panel naming consistent
+cred_intervals <- cred_intervals %>%
+  mutate(panel = "Pr (survival)")
+
+# Build combined dataset for plotting
+plot_data <- bind_rows(cred_intervals, diff_ci) %>%
   mutate(panel = factor(panel,
-                        levels = c("Predicted survival probability", "Δ (E+ - E-)")))
+                        levels = c("Pr (survival)", "Δ (E+ - E-)")))
 
 
 # Add a panel column to observed data if needed
 observed_data <- observed_data %>%
-  mutate(panel = "Predicted survival probability")
-Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt_diff.pdf",
-width = 12, height = 6.5)
+  mutate(panel = "Pr (survival)")
+
+# Difference between E+ and E-
+
+# Save as PDF
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_delta.pdf",
+                width = 5.5, height = 6)
+
+ggplot(subset(plot_data, panel == "Δ (E+ - E-)")) +
+  geom_line(aes(x = exp(clim), y = mean), color = "black", size = 1) +
+  geom_ribbon(aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+              fill = "#9B6B96", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  facet_grid(species ~ herb, 
+             labeller = labeller(
+               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+               herb = c("0" = "Unfenced", "1" = "Fenced")
+             )) +
+  scale_y_continuous(limits = c(-0.4, 0.5), expand = c(0,0)) +
+  labs(x = "Precipitation (mm)", y = "Δ Pr (Survival) (E+ - E-)") +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(fill = NA, color = "black"),
+    axis.title = element_text(size = 13),
+    axis.text = element_text(size = 10),
+    strip.text = element_text(size = 13)
+  )
+
+dev.off()
+
+# Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt_diff.pdf",
+# width = 12, height = 6.5)
+# ggplot(plot_data) +
+#   # survival probability
+#   geom_line(
+#     data = subset(plot_data, panel == "Pr (survival)"),
+#     aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
+#     size = 1
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data, panel == "Pr (survival)"),
+#     aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
+#         fill = factor(endo), group = endo),
+#     alpha = 0.3, color = NA
+#   ) +
+#   geom_point(
+#     data = observed_data,
+#     aes(x = exp(clim), y = y, color = factor(endo)),
+#     size = 2, position = position_jitter(width = 0, height = 0.02)
+#   ) +
+#   
+#   # delta panel
+#   geom_line(
+#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
+#     aes(x = exp(clim), y = mean),
+#     color = "black", size = 1
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
+#     aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+#     fill = "#9B6B96", alpha = 0.5
+#   ) +
+#   geom_hline(
+#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
+#     aes(yintercept = 0),
+#     linetype = "dashed", color = "black"
+#   ) +
+#   
+#   facet_grid(panel ~ species + herb,
+#              scales = "free_y",
+#              labeller = labeller(
+#                species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+#                herb = c("0" = "Unfenced", "1" = "Fenced")
+#              )) +
+#   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+#   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+#                      labels = c("E-", "E+")) +
+#   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+#                     labels = c("E-", "E+")) +
+#   theme_bw() +
+#   theme(
+#     legend.position = c(0.06, 0.85),
+#     panel.border = element_rect(fill = NA, color = "black"),
+#     axis.title = element_text(size = 13),
+#     axis.text = element_text(size = 10),
+#     text = element_text(family = "Arial"),
+#     strip.text = element_text(size = 13)
+#   )
+# 
+# dev.off()
+
+heights <- c("Pr (survival)" = 4, "Δ (E+ - E-)" = 1)
+# Make sure panel is a character, not factor
+plot_data$panel <- as.character(plot_data$panel)
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt_diff_h.pdf",
+                width = 8, height = 14)
 ggplot(plot_data) +
   # survival probability
   geom_line(
-    data = subset(plot_data, panel == "Predicted survival probability"),
+    data = subset(plot_data, panel == "Pr (survival)"),
     aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
     size = 1
   ) +
   geom_ribbon(
-    data = subset(plot_data, panel == "Predicted survival probability"),
+    data = subset(plot_data, panel == "Pr (survival)"),
     aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
         fill = factor(endo), group = endo),
     alpha = 0.3, color = NA
@@ -482,12 +631,18 @@ ggplot(plot_data) +
     linetype = "dashed", color = "black"
   ) +
   
-  facet_grid(panel ~ species + herb,
-             scales = "free_y",
-             labeller = labeller(
-               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
-               herb = c("0" = "Unfenced", "1" = "Fenced")
-             )) +
+  # facets: species × herb grid, with panel stacked within species
+  facet_nested(species + panel ~ herb,
+               scales = "free_y",
+               space = "free_y",
+               labeller = labeller(
+                 species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+                 herb = c("0" = "Unfenced", "1" = "Fenced"))) +
+  facetted_pos_scales(
+    y = list(
+      "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0, 0))
+    )
+  ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                      labels = c("E-", "E+")) +
@@ -495,7 +650,10 @@ ggplot(plot_data) +
                     labels = c("E-", "E+")) +
   theme_bw() +
   theme(
-    legend.position = c(0.06, 0.85),
+    legend.position = c(0.075, 0.23),
+    #panel.spacing.y = unit(1.5, "cm"),  # reduce vertical gap
+    ggh4x.facet.nest.heights = heights,
+    # legend.direction = "horizontal",  # arrange items left–right
     panel.border = element_rect(fill = NA, color = "black"),
     axis.title = element_text(size = 13),
     axis.text = element_text(size = 10),
@@ -701,7 +859,7 @@ ggplot(cred_intervalg, aes(
                      labels = c("E-", "E+")) + # Change endophyte labels
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
-  theme_classic() +
+  theme_bw() +
   theme(
     legend.position = c(0.12, 0.23),
     panel.border = element_rect(fill = NA, color = "black"),
@@ -715,6 +873,152 @@ ggplot(cred_intervalg, aes(
     # Increase axis label size
     strip.text = element_text(size = 13)
   )
+dev.off()
+
+# -Calculate differences for growth: E+ - E- ---
+diff_g <- pred_probg_long_df %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(
+    diff = mean(Pred_Growth[endo == 1]) - mean(Pred_Growth[endo == 0]),
+    .groups = "drop"
+  )
+
+diff_g_ci <- diff_g %>%
+  group_by(species, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(diff, 0.05),
+    upper_90 = quantile(diff, 0.95),
+    lower_95 = quantile(diff, 0.025),
+    upper_95 = quantile(diff, 0.975),
+    mean = mean(diff),
+    median = median(diff),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Δ (E+ - E-)")
+
+# Upper panel: predicted growth
+cred_intervalg <- cred_intervalg %>%
+  mutate(panel = "Predicted growth")
+
+# Observed growth data
+observed_grow <- observed_grow %>%
+  mutate(panel = "Predicted growth")
+
+# Combine
+plot_grow_data <- bind_rows(cred_intervalg, diff_g_ci) %>%
+  mutate(panel = factor(panel, levels = c("Predicted growth", "Δ (E+ - E-)")))
+
+# Panel heights: lower panel smaller
+heights <- c("Predicted growth" = 3, "Δ (E+ - E-)" = 2)
+
+# Make panel character
+plot_grow_data$panel <- as.character(plot_grow_data$panel)
+
+# PLot difference 
+
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_delta_only.pdf",
+                width = 5.5, height = 6)
+
+ggplot(subset(plot_grow_data, panel == "Δ (E+ - E-)")) +
+  geom_line(aes(x = exp(clim), y = mean), color = "black", size = 1) +
+  geom_ribbon(aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+              fill = "#9B6B96", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  
+  facet_grid(species ~ herb,
+             labeller = labeller(
+               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+               herb = c("0" = "Unfenced", "1" = "Fenced")
+             )) +
+  
+  scale_y_continuous(limits = c(-1.2, 1.2), expand = c(0,0)) +
+  labs(x = "Precipitation (mm)",
+       y = "Δ Growth (E+ - E-)") +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(fill = NA, color = "black"),
+    axis.title = element_text(size = 13),
+    axis.text = element_text(size = 9),
+    strip.text = element_text(size = 13)
+  )
+
+dev.off()
+
+
+
+
+
+# Plot with predicted and difference
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_ppt_diff.pdf",width = 18, height = 34)
+ggplot(plot_grow_data) +
+  # Predicted growth
+  geom_line(
+    data = subset(plot_grow_data, panel == "Predicted growth"),
+    aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
+    size = 1
+  ) +
+  geom_ribbon(
+    data = subset(plot_grow_data, panel == "Predicted growth"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
+        fill = factor(endo), group = endo),
+    alpha = 0.3, color = NA
+  ) +
+  geom_point(
+    data = observed_grow,
+    aes(x = exp(clim), y = y, color = factor(endo)),
+    size = 2, position = position_jitter(width = 0, height = 0.02)
+  ) +
+  
+  # Delta panel
+  geom_line(
+    data = subset(plot_grow_data, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), y = mean),
+    color = "black", size = 1
+  ) +
+  geom_ribbon(
+    data = subset(plot_grow_data, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+    fill = "#9B6B96", alpha = 0.5
+  ) +
+  geom_hline(
+    data = subset(plot_grow_data, panel == "Δ (E+ - E-)"),
+    aes(yintercept = 0),
+    linetype = "dashed", color = "black"
+  ) +
+  
+  # Facets: species × herb
+  facet_nested(species + panel ~ herb,
+               scales = "free_y",
+               space = "free_y",
+               labeller = labeller(
+                 species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+                 herb = c("0" = "Unfenced", "1" = "Fenced"))) +
+  # Fix delta panel y-limits across facets
+  facetted_pos_scales(
+    y = list(
+      "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-1, 1), expand = c(0,0))
+    )
+  ) +
+  
+  # Labels and colors
+  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+                     labels = c("E-", "E+")) +
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
+                    labels = c("E-", "E+")) +
+  theme_bw() +
+  theme(
+    legend.position = c(0.075, 0.25),
+    legend.text = element_text(size = 18),
+    legend.title = element_text(size = 20),
+    ggh4x.facet.nest.heights = heights,
+    panel.border = element_rect(fill = NA, color = "black"),
+    axis.title = element_text(size = 20),
+    axis.text = element_text(size = 12),
+    #text = element_text(family = "Arial"),
+    strip.text = element_text(size = 24)
+  )
+
 dev.off()
 
 # Flowering----
@@ -911,7 +1215,7 @@ ggplot(cred_intervalf, aes(
                      labels = c("E-", "E+")) + # Change endophyte labels
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
-  theme_classic() +
+  theme_bw() +
   theme(
     legend.position = c(0.1, 0.2),
     panel.border = element_rect(fill = NA, color = "black"),
@@ -925,6 +1229,66 @@ ggplot(cred_intervalf, aes(
     # Increase axis label size
     strip.text = element_text(size = 13)
   )
+dev.off()
+
+# Calculate differences (E+ - E-) for flow ---
+diff_f <- pred_probf_long_df %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(
+    diff = mean(Pred_Flow[endo == 1]) - mean(Pred_Flow[endo == 0]),
+    .groups = "drop"
+  )
+
+diff_f_ci <- diff_f %>%
+  group_by(species, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(diff, 0.05),
+    upper_90 = quantile(diff, 0.95),
+    lower_95 = quantile(diff, 0.025),
+    upper_95 = quantile(diff, 0.975),
+    mean = mean(diff),
+    median = median(diff),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Δ (E+ - E-)")
+
+# Prepare predicted panel if you want both predicted & difference ---
+cred_intervalf <- cred_intervalf %>%
+  mutate(panel = "Predicted flow")
+
+# observed data panel
+observed_flow <- observed_flow %>%
+  mutate(panel = "Predicted flow")
+
+# Combine
+plot_flow_data <- bind_rows(cred_intervalf, diff_f_ci) %>%
+  mutate(panel = factor(panel, levels = c("Predicted flow", "Δ (E+ - E-)")))
+
+# --- 3. Plot only Δ (E+ − E-) ---
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_delta_only.pdf",
+                width = 5.5, height = 6)
+
+ggplot(subset(plot_flow_data, panel == "Δ (E+ - E-)")) +
+  geom_line(aes(x = exp(clim), y = mean), color = "black", size = 1) +
+  geom_ribbon(aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+              fill = "#9B6B96", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  facet_grid(species ~ herb, scales = "free_y",
+             labeller = labeller(
+               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+               herb = c("0" = "Unfenced", "1" = "Fenced")
+             )) +
+  labs(x = "Precipitation (mm)",
+       y = "Δ Inflorescences (E+ - E-)") +
+  #scale_y_continuous(limits = c(-1.2, 1.2), expand = c(0,0)) +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(fill = NA, color = "black"),
+    axis.title = element_text(size = 13),
+    axis.text = element_text(size = 9),
+    strip.text = element_text(size = 13)
+  )
+
 dev.off()
 
 # Spikelet----
@@ -1120,7 +1484,7 @@ ggplot(cred_intervalspk, aes(
                      labels = c("E-", "E+")) + # Change endophyte labels
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) + # Change fill labels
-  theme_classic() +
+  theme_bw() +
   theme(
     legend.position = c(0.1, 0.35),
     panel.border = element_rect(fill = NA, color = "black"),
@@ -1135,4 +1499,64 @@ ggplot(cred_intervalspk, aes(
     strip.text = element_text(size = 13)
   )
 dev.off()
+
+# Calculate differences (E+ - E-) for spikes ---
+diff_spk <- pred_probspk_long_df %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(
+    diff = mean(Pred_Spik[endo == 1]) - mean(Pred_Spik[endo == 0]),
+    .groups = "drop"
+  )
+
+diff_spk_ci <- diff_spk %>%
+  group_by(species, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(diff, 0.05),
+    upper_90 = quantile(diff, 0.95),
+    lower_95 = quantile(diff, 0.025),
+    upper_95 = quantile(diff, 0.975),
+    mean = mean(diff),
+    median = median(diff),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Δ (E+ - E-)")
+
+# Prepare predicted panel if needed ---
+cred_intervalspk <- cred_intervalspk %>%
+  mutate(panel = "Predicted spikes")
+
+# observed data panel
+observed_spk <- observed_spk %>%
+  mutate(panel = "Predicted spikes")
+
+# Combine into one data frame
+plot_spk_data <- bind_rows(cred_intervalspk, diff_spk_ci) %>%
+  mutate(panel = factor(panel, levels = c("Predicted spikes", "Δ (E+ - E-)")))
+
+# Plot only Δ (E+ − E-) ---
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_delta_only.pdf",
+                width = 5.5, height = 5)
+
+ggplot(subset(plot_spk_data, panel == "Δ (E+ - E-)")) +
+  geom_line(aes(x = exp(clim), y = mean), color = "black", size = 1) +
+  geom_ribbon(aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+              fill = "#9B6B96", alpha = 0.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  facet_grid(species ~ herb, scales = "free_y",
+             labeller = labeller(
+               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
+               herb = c("0" = "Unfenced", "1" = "Fenced")
+             )) +
+  labs(x = "Precipitation (mm)",
+       y = "Δ Spikelets (E+ - E-)") +
+  theme_bw() +
+  theme(
+    panel.border = element_rect(fill = NA, color = "black"),
+    axis.title = element_text(size = 13),
+    axis.text = element_text(size = 9),
+    strip.text = element_text(size = 13)
+  )
+
+dev.off()
+
 

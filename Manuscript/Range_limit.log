@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 AUG 2025 11:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  25 AUG 2025 13:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1088,51 +1088,53 @@ LaTeX Warning: Reference `sup:ppc_flowering' on page 7 undefined on input line
 
 [7]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSur
-ival_ppt.pdf, id=206, 505.89pt x 650.43pt>
+vival_diff.pdf, id=206, 469.755pt x 722.7pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
-PrSurival_ppt.pdf Graphic file (type pdf)
+PrSurvival_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/P
-rSurival_ppt.pdf>
+rSurvival_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/PrSurival_ppt.pdf  used on input line 356.
-(pdftex.def)             Requested size: 422.77664pt x 543.57854pt.
+ange-limits/Figure/PrSurvival_diff.pdf  used on input line 356.
+(pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [8]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growt
-h_ppt.pdf, id=217, 505.89pt x 650.43pt>
+h_diff.pdf, id=217, 469.755pt x 867.24pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
-Growth_ppt.pdf Graphic file (type pdf)
+Growth_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
-rowth_ppt.pdf>
+rowth_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Growth_ppt.pdf  used on input line 364.
-(pdftex.def)             Requested size: 422.77664pt x 543.57854pt.
+ange-limits/Figure/Growth_diff.pdf  used on input line 364.
+(pdftex.def)             Requested size: 328.82707pt x 607.06387pt.
 
 
 [9 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Pr
-Surival_ppt.pdf>]
+Survival_diff.pdf>]
+Overfull \vbox (14.63387pt too high) has occurred while \output is active []
+
+
+
+[10 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
+rowth_diff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flow_
-ppt.pdf, id=230, 505.89pt x 650.43pt>
+ppt.pdf, id=256, 505.89pt x 650.43pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Flow_ppt.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/F
 low_ppt.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Flow_ppt.pdf  used on input line 372.
+ange-limits/Figure/Flow_ppt.pdf  used on input line 373.
 (pdftex.def)             Requested size: 422.77664pt x 543.57854pt.
-
-
-[10 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
-rowth_ppt.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spik_
-ppt.pdf, id=243, 505.89pt x 505.89pt>
+ppt.pdf, id=257, 505.89pt x 505.89pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Spik_ppt.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/S
 pik_ppt.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Spik_ppt.pdf  used on input line 379.
+ange-limits/Figure/Spik_ppt.pdf  used on input line 380.
 (pdftex.def)             Requested size: 422.77664pt x 422.7833pt.
 
 
@@ -1153,69 +1155,69 @@ pik_ppt.pdf>] (./Range_limit.bbl
 [17
 
 ]
-Overfull \hbox (53.2753pt too wide) in paragraph at lines 446--454
+Overfull \hbox (53.2753pt too wide) in paragraph at lines 447--455
  [][] 
  []
 
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combi
-ned_ppc_plots.pdf, id=296, 505.89pt x 433.62pt>
+ned_ppc_plots.pdf, id=310, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 combined_ppc_plots.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 ombined_ppc_plots.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/combined_ppc_plots.pdf  used on input line 491.
+ange-limits/Figure/combined_ppc_plots.pdf  used on input line 492.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [18]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/ppt_s
-urv_coeff.pdf, id=303, 361.35pt x 867.24pt>
+urv_coeff.pdf, id=317, 361.35pt x 867.24pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ppt_surv_coeff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_surv_coeff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/ppt_surv_coeff.pdf  used on input line 504.
+ange-limits/Figure/ppt_surv_coeff.pdf  used on input line 505.
 (pdftex.def)             Requested size: 234.8775pt x 563.71257pt.
 
 
 [19 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 ombined_ppc_plots.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/ppt_g
-row_coeff.pdf, id=318, 361.35pt x 867.24pt>
+row_coeff.pdf, id=332, 361.35pt x 867.24pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ppt_grow_coeff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_grow_coeff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/ppt_grow_coeff.pdf  used on input line 514.
+ange-limits/Figure/ppt_grow_coeff.pdf  used on input line 515.
 (pdftex.def)             Requested size: 234.8775pt x 563.71257pt.
 
 
 [20 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_surv_coeff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/ppt_f
-low_coeff.pdf, id=330, 361.35pt x 867.24pt>
+low_coeff.pdf, id=344, 361.35pt x 867.24pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ppt_flow_coeff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_flow_coeff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/ppt_flow_coeff.pdf  used on input line 524.
+ange-limits/Figure/ppt_flow_coeff.pdf  used on input line 525.
 (pdftex.def)             Requested size: 234.8775pt x 563.71257pt.
 
 
 [21 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_grow_coeff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/ppt_s
-pik_coeff.pdf, id=342, 361.35pt x 867.24pt>
+pik_coeff.pdf, id=356, 361.35pt x 867.24pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ppt_spik_coeff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/p
 pt_spik_coeff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/ppt_spik_coeff.pdf  used on input line 534.
+ange-limits/Figure/ppt_spik_coeff.pdf  used on input line 535.
 (pdftex.def)             Requested size: 234.8775pt x 563.71257pt.
 
 
@@ -1244,8 +1246,8 @@ Package rerunfilecheck Info: File `Range_limit.out' has not changed.
 ### bottom level 
 Here is how much of TeX's memory you used:
  28597 strings out of 473190
- 529675 string characters out of 5715801
- 926206 words of memory out of 5000000
+ 529702 string characters out of 5715801
+ 926618 words of memory out of 5000000
  50572 multiletter control sequences out of 15000+600000
  666636 words of font info for 647 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1259,10 +1261,10 @@ mtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/
 local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/t
 exlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit.pdf (23 pages, 6408832 bytes).
+Output written on Range_limit.pdf (23 pages, 6322225 bytes).
 PDF statistics:
- 427 PDF objects out of 1000 (max. 8388607)
- 354 compressed objects within 4 object streams
+ 441 PDF objects out of 1000 (max. 8388607)
+ 362 compressed objects within 4 object streams
  87 named destinations out of 1000 (max. 500000)
  178775 words of extra memory for PDF output out of 184870 (max. 10000000)
 

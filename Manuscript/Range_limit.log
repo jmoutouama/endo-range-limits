@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  26 AUG 2025 12:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  26 AUG 2025 12:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1095,7 +1095,7 @@ PrSurvival_diff.pdf Graphic file (type pdf)
 rSurvival_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/PrSurvival_diff.pdf  used on input line 358.
-(pdftex.def)             Requested size: 328.82707pt x 505.88655pt.
+(pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [8]
@@ -1107,7 +1107,7 @@ Growth_diff.pdf Graphic file (type pdf)
 rowth_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/Growth_diff.pdf  used on input line 366.
-(pdftex.def)             Requested size: 328.82707pt x 505.88655pt.
+(pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [9 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Pr
@@ -1120,7 +1120,7 @@ Flowering_diff.pdf Graphic file (type pdf)
 lowering_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/Flowering_diff.pdf  used on input line 375.
-(pdftex.def)             Requested size: 328.82707pt x 505.88655pt.
+(pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [10 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
@@ -1133,7 +1133,7 @@ Spik_ppt_diff.pdf Graphic file (type pdf)
 pik_ppt_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/Spik_ppt_diff.pdf  used on input line 383.
-(pdftex.def)             Requested size: 328.82707pt x 354.12057pt.
+(pdftex.def)             Requested size: 375.80544pt x 404.71254pt.
 
 
 [11 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/F
@@ -1259,7 +1259,7 @@ mtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/
 local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/t
 exlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit.pdf (23 pages, 6349419 bytes).
+Output written on Range_limit.pdf (23 pages, 6349408 bytes).
 PDF statistics:
  479 PDF objects out of 1000 (max. 8388607)
  386 compressed objects within 4 object streams

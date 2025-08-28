@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2023)
+This is BibTeX, Version 0.99d (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit.aux
 The style file: apalike.bst
@@ -15,45 +15,45 @@ Repeated entry---line 640 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-You've used 38 entries,
+You've used 37 entries,
             1935 wiz_defined-function locations,
-            730 strings with 11588 characters,
-and the built_in function-call counts, 16274 in all, are:
-= -- 1610
-> -- 707
-< -- 16
-+ -- 249
-- -- 240
-* -- 1504
-:= -- 2824
-add.period$ -- 114
-call.type$ -- 38
-change.case$ -- 308
-chr.to.int$ -- 37
-cite$ -- 38
-duplicate$ -- 535
-empty$ -- 1110
-format.name$ -- 294
-if$ -- 3113
+            723 strings with 11413 characters,
+and the built_in function-call counts, 15820 in all, are:
+= -- 1560
+> -- 700
+< -- 14
++ -- 247
+- -- 238
+* -- 1476
+:= -- 2756
+add.period$ -- 111
+call.type$ -- 37
+change.case$ -- 302
+chr.to.int$ -- 36
+cite$ -- 37
+duplicate$ -- 512
+empty$ -- 1075
+format.name$ -- 291
+if$ -- 3013
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 37
-newline$ -- 193
-num.names$ -- 114
-pop$ -- 228
+missing$ -- 36
+newline$ -- 188
+num.names$ -- 111
+pop$ -- 223
 preamble$ -- 1
-purify$ -- 310
+purify$ -- 304
 quote$ -- 0
-skip$ -- 403
+skip$ -- 380
 stack$ -- 0
-substring$ -- 1339
-swap$ -- 47
-text.length$ -- 1
+substring$ -- 1295
+swap$ -- 37
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 226
+type$ -- 220
 warning$ -- 0
-while$ -- 142
+while$ -- 137
 width$ -- 0
-write$ -- 494
+write$ -- 481
 (There were 3 error messages)

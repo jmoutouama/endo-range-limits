@@ -101,7 +101,7 @@
 % I cannot get \orcidlink working on my computer so for now replacing this with \textit
 
 %-------------------------------------------------------------------------
-\title{\Large When Grass–Endophyte Mutualisms Turn Costly Under Stress}
+\title{\Large Abiotic Stress Turns Grass–Endophyte Mutualisms Costly}
 \author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
 \author[1]{Julia Martin}
 \author[1]{Ulisses Rizo}
@@ -167,13 +167,13 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 \spacing{1.25}
 \section*{Abstract}
 %150 words limit for Ecology letter. The number now is 
-Interactions between plants and fungi are ubiquitous in nature and have significant effects on plant fitness.
-However, the extent to which variation in fungal symbiosis and herbivory affects plant demography across environmental gradients remains unclear. 
-Using three cool-season grass species that host seed-transmitted fungal endophytes, we combined geographically-distributed field experiments across an aridity gradient and Bayesian modeling of demographic performance to test whether plant-fungi interactions affect host demography and, consequently, determine geographic range limits. 
-We found that all vital rates decreased toward the species' range edges, indicating reduced demographic performance in these regions. 
-However, that decline was more pronounced in i host ndividuals having endophytic symbionts, suggesting that plant-fungi interactions that are beneficial under benign conditions may become parasitic under stressful conditions.
-Our results highlight that \jacob{ host resistance  at range limits}{Tom wants us to think about this a bit more.} may be hindered by the presence of  mutualist partners.
-
+Interactions between plants and fungi are ubiquitous and can strongly influence plant fitness. 
+Yet, how endophytes affect host demography across abiotic stress gradients and under negative biotic interactions remains unclear.
+We studied three cool-season grass species hosting seed-transmitted fungal endophytes using geographically distributed field experiments along an aridity gradient. Herbivory was manipulated at each site with fenced (herbivory excluded) and unfenced (herbivory allowed) plots.
+Bayesian models showed that all vital rates declined toward more arid sites, indicating reduced performance under stress.
+Declines were more pronounced in individuals hosting endophytes, suggesting that interactions beneficial under benign conditions can become costly under abiotic stress.
+There was no significant difference between fenced and unfenced plots, indicating that endophyte effects were largely independent of negative biotic interactions. 
+These results highlight that mutualistic fungi can impose demographic costs under stressful conditions, revealing that interactions beneficial under benign conditions can become costly under stress.
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
@@ -490,60 +490,60 @@ Flowering  & \textbf{model2} & \textbf{0.0}   & \textbf{0.0} \\
 
 \section {Supporting Figures}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{combined_ppc_plots.pdf}
-\caption{
-(A-C) Relationship between distance from geographic center and longitude for the focal species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}). 
-A generalized additive model (GAM) with a smooth term was used to capture the non-linear trends in these relationships for each species.
-The solid lines represent the fitted GAM with shaded regions showing the 95\% confidence interval.
-D) displays the relationship between the distance from geographic center and the distance from niche centroid for all species also fitted with a GAM on a log scale. 
-The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a significant relationship between log-transformed geographic distance and Mahalanobis distance.
-}
-\label{sup:md}
-\end{figure}
-
-\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.50\linewidth]{ppt_surv_coeff.pdf}
-		\caption{Coefficient estimates from Bayesian models linking survival and geographic distance.
-		 Points represent posterior means and lines indicate 95\% credible intervals.
-		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
-		 Horizontal dashed lines denote zero effect.}
-		\label{Sup:temp_variation}
-\end{figure}
-
-\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.50\linewidth]{ppt_grow_coeff.pdf}
-		\caption{Coefficient estimates from Bayesian models linking growth and geographic distance.
-		 Points represent posterior means and lines indicate 95\% credible intervals.
-		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
-		 Horizontal dashed lines denote zero effect.}
-		\label{Sup:temp_variation}
-\end{figure}
-
-\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.50\linewidth]{ppt_flow_coeff.pdf}
-		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
-		 Points represent posterior means and lines indicate 95\% credible intervals.
-		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
-		 Horizontal dashed lines denote zero effect.}
-		\label{Sup:temp_variation}
-\end{figure}
-
-\begin{figure}[H]
-		\centering
-		\includegraphics[width=0.50\linewidth]{ppt_spik_coeff.pdf}
-		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
-		 Points represent posterior means and lines indicate 95\% credible intervals.
-		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
-		 Horizontal dashed lines denote zero effect.}
-		\label{Sup:temp_variation}
-\end{figure}
-
-
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=1\textwidth]{combined_ppc_plots.pdf}
+%\caption{
+%(A-C) Relationship between distance from geographic center and longitude for the focal species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}). 
+%A generalized additive model (GAM) with a smooth term was used to capture the non-linear trends in these relationships for each species.
+%The solid lines represent the fitted GAM with shaded regions showing the 95\% confidence interval.
+%D) displays the relationship between the distance from geographic center and the distance from niche centroid for all species also fitted with a GAM on a log scale. 
+%The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a significant relationship between log-transformed geographic distance and Mahalanobis distance.
+%}
+%\label{sup:md}
+%\end{figure}
+%
+%\begin{figure}[H]
+%		\centering
+%		\includegraphics[width=0.50\linewidth]{ppt_surv_coeff.pdf}
+%		\caption{Coefficient estimates from Bayesian models linking survival and geographic distance.
+%		 Points represent posterior means and lines indicate 95\% credible intervals.
+%		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
+%		 Horizontal dashed lines denote zero effect.}
+%		\label{Sup:temp_variation}
+%\end{figure}
+%
+%\begin{figure}[H]
+%		\centering
+%		\includegraphics[width=0.50\linewidth]{ppt_grow_coeff.pdf}
+%		\caption{Coefficient estimates from Bayesian models linking growth and geographic distance.
+%		 Points represent posterior means and lines indicate 95\% credible intervals.
+%		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
+%		 Horizontal dashed lines denote zero effect.}
+%		\label{Sup:temp_variation}
+%\end{figure}
+%
+%\begin{figure}[H]
+%		\centering
+%		\includegraphics[width=0.50\linewidth]{ppt_flow_coeff.pdf}
+%		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
+%		 Points represent posterior means and lines indicate 95\% credible intervals.
+%		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
+%		 Horizontal dashed lines denote zero effect.}
+%		\label{Sup:temp_variation}
+%\end{figure}
+%
+%\begin{figure}[H]
+%		\centering
+%		\includegraphics[width=0.50\linewidth]{ppt_spik_coeff.pdf}
+%		\caption{Coefficient estimates from Bayesian models linking flowering and geographic distance.
+%		 Points represent posterior means and lines indicate 95\% credible intervals.
+%		 Species abbreviations: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (PAOU).
+%		 Horizontal dashed lines denote zero effect.}
+%		\label{Sup:temp_variation}
+%\end{figure}
+%
+%
 
 %\begin{figure}[H]
 %		\centering

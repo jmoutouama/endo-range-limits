@@ -68,15 +68,22 @@ Benning, J.~W. and Moeller, D.~A. (2021b).
   plant’s geographic range margin.
 \newblock {\em Ecology}, 102(3):e03254.
 
-\bibitem[Berkhof et~al., 2000]{berkhof2000posterior}
-Berkhof, J., Van~Mechelen, I., and Hoijtink, H. (2000).
-\newblock Posterior predictive checks: Principles and discussion.
-\newblock {\em Computational Statistics}, 15:337--354.
-
 \bibitem[Bronstein, 1994]{bronstein1994conditional}
 Bronstein, J.~L. (1994).
 \newblock Conditional outcomes in mutualistic interactions.
 \newblock {\em Trends in ecology \& evolution}, 9(6):214--217.
+
+\bibitem[Bronstein, 2001]{bronstein2001exploitation}
+Bronstein, J.~L. (2001).
+\newblock The exploitation of mutualisms.
+\newblock {\em Ecology letters}, 4(3):277--287.
+
+\bibitem[Clay et~al., 2005]{clay2005herbivores}
+Clay, K., Holah, J., and Rudgers, J.~A. (2005).
+\newblock Herbivores cause a rapid increase in hereditary symbiosis and alter
+  plant community composition.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  102(35):12465--12470.
 
 \bibitem[Clay and Schardl, 2002]{clay2002evolutionary}
 Clay, K. and Schardl, C. (2002).
@@ -104,13 +111,6 @@ Fowler, J.~C., Donald, M.~L., Bronstein, J.~L., and Miller, T.~E. (2023).
   species' range limits.
 \newblock {\em Ecological Monographs}, 93(1):e1558.
 
-\bibitem[Gelman et~al., 2000]{gelman2000diagnostic}
-Gelman, A., Goegebeur, Y., Tuerlinckx, F., and Van~Mechelen, I. (2000).
-\newblock Diagnostic checks for discrete data regression models using posterior
-  predictive simulations.
-\newblock {\em Journal of the Royal Statistical Society: Series C (Applied
-  Statistics)}, 49(2):247--268.
-
 \bibitem[Giauque et~al., 2019]{giauque2019endophyte}
 Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
 \newblock Endophyte traits relevant to stress tolerance, resource use and
@@ -125,15 +125,22 @@ Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   autumnalis.
 \newblock {\em Annals of Botany}, 125(6):981--991.
 
-\bibitem[Hampe and Petit, 2005]{hampe2005conserving}
-Hampe, A. and Petit, R.~J. (2005).
-\newblock Conserving biodiversity under climate change: the rear edge matters.
-\newblock {\em Ecology letters}, 8(5):461--467.
-
 \bibitem[Hoeksema and Bruna, 2015]{hoeksema2015context}
 Hoeksema, J.~D. and Bruna, E.~M. (2015).
 \newblock Context-dependent outcomes of mutualistic interactions.
 \newblock {\em Mutualism}, 10:181--202.
+
+\bibitem[Johnson et~al., 1997]{johnson1997functioning}
+Johnson, N.~C., Graham, J.~H., and Smith, F.~A. (1997).
+\newblock Functioning of mycorrhizal associations along the
+  mutualism--parasitism continuum.
+\newblock {\em The New Phytologist}, 135(4):575--585.
+
+\bibitem[Klironomos, 2003]{klironomos2003variation}
+Klironomos, J.~N. (2003).
+\newblock Variation in plant response to native and exotic arbuscular
+  mycorrhizal fungi.
+\newblock {\em Ecology}, 84(9):2292--2301.
 
 \bibitem[Louthan et~al., 2015]{louthan2015and}
 Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).

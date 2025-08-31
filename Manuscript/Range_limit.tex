@@ -63,6 +63,7 @@
 \usepackage{gensymb}
 \usepackage{enumitem}
 \usepackage{orcidlink}
+%\usepackage{hyperref}
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
 
@@ -101,7 +102,7 @@
 % I cannot get \orcidlink working on my computer so for now replacing this with \textit
 
 %-------------------------------------------------------------------------
-\title{\Large Abiotic Stress Turns Grass–Endophyte Mutualisms Costly}
+\title{\Large When Mutualism Becomes Costly: Abiotic Stress Shapes Grass Demography}
 \author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
 \author[1]{Julia Martin}
 \author[1]{Ulisses Rizo}
@@ -167,39 +168,42 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 \spacing{1.25}
 \section*{Abstract}
 %150 words limit for Ecology letter. The number now is 
-Interactions between plants and fungi are ubiquitous and can strongly influence plant fitness. 
-Yet, how endophytes affect host demography across abiotic stress gradients and under negative biotic interactions remains unclear.
-We studied three cool-season grass species hosting seed-transmitted fungal endophytes using geographically distributed field experiments along an aridity gradient. Herbivory was manipulated at each site with fenced (herbivory excluded) and unfenced (herbivory allowed) plots.
-Bayesian models showed that all vital rates declined toward more arid sites, indicating reduced performance under stress.
-Declines were more pronounced in individuals hosting endophytes, suggesting that interactions beneficial under benign conditions can become costly under abiotic stress.
-There was no significant difference between fenced and unfenced plots, indicating that endophyte effects were largely independent of negative biotic interactions. 
-These results highlight that mutualistic fungi can impose demographic costs under stressful conditions, revealing that interactions beneficial under benign conditions can become costly under stress.
+Interactions between plants and fungi are ubiquitous and can strongly influence plant fitness.
+Yet, how endophytes affect host demography across abiotic stress gradients and under herbivory remains unclear.
+We studied three cool-season grasses hosting seed-transmitted fungal endophytes using geographically distributed field experiments along an aridity gradient, with factorial manipulations of endophyte presence and herbivory. 
+Bayesian models showed that all vital rates declined toward more arid sites, indicating reduced performance under stress. 
+Declines were more pronounced in individuals hosting endophytes, suggesting that interactions typically beneficial under benign conditions can become costly under abiotic stress. 
+Herbivory had no detectable effect on demography. 
+Considering both abiotic and biotic factors, abiotic stress was the primary driver of vital rates, with herbivory and endophytes having little effect. 
+These results highlight that mutualistic fungi can become liabilities under stress, and that abiotic conditions largely determine species demography across environmental gradients.
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
 Plant-microbe symbioses are widespread and ecologically important. 
 These interactions are famously context-dependent, where the direction and strength of the interaction outcome depends on the environment in which it occurs \citep{hoeksema2015context, bronstein1994conditional}.
-Plant-microbe  interactions that are beneficial under stressful conditions  may become neutral or parasitic under benign conditions \citep{giauque2019endophyte}.
+For example, plant-microbe  interactions that are beneficial under stressful conditions  may become neutral or parasitic under benign conditions \citep{giauque2019endophyte}.
 Under biotic stress (e.g., herbivory), endophyte symbiosis can benefit host plants by facilitating the production of secondary compounds that deter feeding or exert direct toxicity, thereby reducing insect growth, survival, and oviposition \citep{atala2022fungal,bastias2017epichloe,vega2008insect}.
-Similarly under abiotic stress (e.g., drought), symbionts can increase their host tolerance \citep{clay2002evolutionary}.
- For example, mycorrhizal fungi form extensive networks that increase root surface area, helping plants absorb more water and nutrients such as phosphorus and nitrogen \citep{amijee1989development}. 
- Symbiotic microbes also stimulate plants to produce antioxidant enzymes like superoxide dismutase and catalase that reduce oxidative damage caused by stresses such as drought, salinity, and heat \citep{ruiz1996superoxide}.
- All these mechanisms help the host species better buffer against environmental stochasticity \citep{fowler2023geographic}.
+Similarly under abiotic stress (e.g., low precipitation or high temperature), symbionts can increase their host tolerance \citep{clay2002evolutionary}.
+Mycorrhizal fungi form extensive networks that increase root surface area, helping plants absorb more water and nutrients such as phosphorus and nitrogen \citep{amijee1989development}. 
+Symbiotic microbes also stimulate plants to produce antioxidant enzymes like superoxide dismutase and catalase that reduce oxidative damage caused by stresses such as drought, salinity, and heat \citep{ruiz1996superoxide}.
+ All these mechanisms could help the host species better buffer against environmental stochasticity \citep{fowler2023geographic}.
+However, in resource-limited environments, maintaining symbionts can also impose significant costs on hosts \citep{johnson1997functioning, bronstein2001exploitation}. 
+Because microbes depend on host-derived carbon and nutrients, plants must allocate part of their limited resources to sustaining the symbiont.
+This investment can reduce host growth, reproduction, or competitive ability, particularly when the benefits provided by the symbiont do not outweigh these costs \citep{klironomos2003variation}. 
 
 %\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
 %Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
 %This cost is often manifested by a reduction in host biomass or reproductive success \citep{faeth2009asexual}, particularly under harsh abiotic conditions \citep{cui2024review}. 
 %Ultimately, these context-dependent costs and benefits may underlie the observed distribution of host species.
 
-Context dependence raises the hypothesis that plant-microbe interactions are likely to vary across environmental gradients, from range core to range edge, with significant implications for host range expansion at leading edges or resilience at trailing edges. 
-Because range-edge environments are often more stressful due to factors such as extreme temperatures and limited soil nutrients \citep{hampe2005conserving}, the role of microbial symbionts may be especially important in these zones.
-If microbial symbiosis provides greater benefits under environmental stress, then symbionts could enhance the suitability of range-edge environments, potentially extending host range limits \citep{allsup2023shifting,rudgers2020climate}.
-For instance, fungal endophytes improve the survival of \emph{Bromus laevipes}  populations in dry conditions, increasing their drought resistance at the range edge and thereby extending the species' geographic range \citep{david2019soil,afkhami2014mutualist}.
-Even if the symbiont does not directly improve host survival, it may still enhance host population growth over time by increasing relative growth and reproduction, potentially offsetting the negative effects of lower survival rates \citep{yule2013costs}.
-Conversely, if microbial symbiosis is costly for the host at range edge, symbionts could constrain host range \citep{benning2021microbes,benning2021plant,bennett2022costs}.
-For instance, symbiotic microbes, especially mycorrhizal fungi, require carbon subsidies from the plant (up to 20\% of photosynthetically fixed carbon) \citep{thirkell2020carbon,soudzilovskaia2015quantitative}. 
-At range edges, photosynthesis may be limited, making the carbon cost harder to bear. 
-Under such conditions, plants may reduce symbiosis, leading to  host poor performance.
+Context dependence raises the hypothesis that plant–microbe interactions are likely to vary across abiotic stress gradients, such as high temperatures or low precipitation, as well as under biotic stressors like intense herbivory, with significant implications for host fitness. 
+If microbial symbiosis provides greater benefits under these stressful conditions, symbionts could enhance host survival, growth, and reproduction \citep{allsup2023shifting,rudgers2020climate}. 
+For example, fungal endophytes enhance host tolerance to abiotic stress in \emph{Bromus laevipes} by improving population survival in dry environments \citep{david2019soil,afkhami2014mutualist}.
+Even when symbionts do not directly increase survival under stress, they may still promote host fitness by enhancing growth and reproduction, thereby offsetting the negative effects of lower survival rates \citep{yule2013costs}. 
+Conversely, if microbial symbiosis becomes costly under stressful conditions, symbionts could reduce host fitness \citep{benning2021microbes,benning2021plant,bennett2022costs}. 
+For instance, mycorrhizal fungi require substantial carbon subsidies from the host plant (up to 20\% of photosynthetically fixed carbon) \citep{thirkell2020carbon,soudzilovskaia2015quantitative}. 
+When photosynthesis is limited by abiotic stress, this carbon cost may outweigh the benefits of symbiosis, leading to reduced host fitness.
+
 %Mutualist limitation reduces population fitness and therefore limits range expansion in \emph{Medicago polymorpha} populations \citep{lopez2021microbial}. 
 %Although context dependence, along with spatiotemporal variations in abiotic environmental conditions may reduce the effectiveness of the benefits provided by the symbiont to the host species, our understanding of the mechanisms that alter host-symbiont interactions across species geographic range remains limited.
 
@@ -210,23 +214,24 @@ Under such conditions, plants may reduce symbiosis, leading to  host poor perfor
 %However, populations with lower prevalence may experience higher symbiont loss among offspring \citep{afkhami2008symbiosis}. 
 %Thus, overlooking symbiont dynamics could result in inaccurate predictions of host population responses to global change.}{Again, I really like this paragraph, but we need to think about whether and how the symbiont density data will be used here. Is that what you are pointing towards here? Otherwise I am not sure why you are bringing up symbiont prevalence, since I did not think the prevalence data were going into this paper.}
 
-Despite growing interest in the role of symbiosis in host performance, few studies examined in natural  conditions  how abiotic and biotic stressors shape the effects of symbionts on host demography across geographic ranges \citep{louthan2015and}. 
-Moreover, it remains unclear which stressor is  most critical in eliciting the benefits of endophyte symbiosis, or how multiple stressors may interact to influence host  demography. 
-%In addition to abiotic stressors, 
-Herbivory is a pervasive biotic factor that can significantly affect host performance \citep{benning2019biotic} and mediate the outcomes of symbiotic interactions across species’ ranges. 
-Herbivores reduce host fitness through tissue damage, defoliation, and altered resource allocation \citep{maron2006herbivory}, but they may also shape the selective landscape in ways that favor symbiont persistence or transmission. 
-For example, herbivory can enhance the fitness benefits of endophyte infection by triggering host defense pathways or promoting vertical transmission of the symbiont \citep{gundel2020simulated, agrawal1999transgenerational}. 
-These effects may be especially pronounced at range margins, where plant populations often encounter  intensified biotic pressures.  
-If the ecological context of herbivory alters the net fitness effects of symbiosis, then interactions between herbivory and abiotic stress (e.g., drought) may play a critical role in determining population persistence and thereby  species’ range limits.
+Despite growing interest in the role of symbiosis in host performance, few studies have examined under natural conditions how abiotic and biotic stressors shape the effects of symbionts on host demography along abiotic stress gradients \citep{louthan2015and}. 
+Moreover, it remains unclear which stressor is most critical in eliciting the benefits of endophyte symbiosis, or how multiple stressors may interact to influence host demography. 
+Herbivory is a biotic factor that can significantly affect host fitness \citep{benning2019biotic} and mediate the outcomes of symbiotic interactions. 
+Herbivores reduce host fitness through tissue damage, defoliation, and altered resource allocation \citep{maron2006herbivory}, but they may also shape the selective landscape in ways that favor symbiont persistence or transmission \citep{clay2005herbivores}. 
+For example, herbivory can enhance the fitness benefits of endophyte infection by triggering host defense pathways or promoting vertical transmission of the symbiont \citep{gundel2020simulated,agrawal1999transgenerational}. 
+If the ecological context of herbivory alters the net fitness effects of symbiosis, then interactions between herbivory and abiotic stress (e.g., drought or high temperature) may play a critical role in determining host population persistence.
 
-Working across a precipitation gradient in the south-central US, we investigated  how endophyte symbiosis affects their host demography from core to edge.
-To do so, we studied the symbiotic association between three native cool-season grass species (\emph{Agrostis hyemalis}, \emph{Elymus virginicus} and \emph{Poa autumnalis}) and their  vertically transmitted fungal symbionts (\emph{Epichloë} spp.). 
-Our experiment was design to  address  the following:
+
+Working across an aridity gradient in the south-central US, we investigated how endophyte symbiosis influences host demography under varying abiotic stress. 
+This region provides an ideal system to study stressful gradients because it spans a strong east–west precipitation gradient, with mesic sites in the east transitioning to increasingly arid conditions toward the west. 
+We also incorporated herbivory as a biotic stressor to evaluate its potential interactive effects with abiotic conditions. 
+Specifically, we studied the symbiotic association between three native cool-season grass species (\emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis}) and their vertically transmitted fungal symbionts (\emph{Epichloë} spp.). 
+Our experiment was designed to address the following questions:
 \begin{enumerate}
-    \item Do plants with endophytes experience less damage from biotic stressors and maintain higher vital rates compared to plants without endophytes, when biotic stressors are present?
-    \item Under combined biotic and abiotic stress, do the mutualistic benefits of endophytes give host plants a performance advantage compared to those without endophytes?
-    \item Under combined biotic and abiotic stress, do the added physiological demands and resource costs of maintaining endophyte associations reduce overall plant performance, resulting in endophyte-infected plants performing worse than uninfected plants?
+    \item Under combined abiotic stress and herbivory, do endophytes provide fitness benefits or impose costs on their host plants?
+    \item Between abiotic and biotic factors, which plays a stronger role in shaping host population demography in association with endophytes?
 \end{enumerate}
+
 
 
 %\begin{enumerate}
@@ -238,19 +243,31 @@ Our experiment was design to  address  the following:
 %--------------------------------------------------------------------
 \section*{Materials and methods}
 \subsection*{Study system}
-Our study was conducted across seven sites along a geographic and climatic gradient spanning Louisiana and Texas in the United States (Fig.~\ref{fig:site}; Fig.\ref{sup:md}).  
-At each site, we established eight plots (1.5 m $\times$ 1.5 m), with each plot containing 18 individuals of a single species. We used three cool-season perennial grasses native to woodland and prairie habitats of eastern North America \citep{shaw2011guide}: \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} (subfamily Pooideae).  
-%These species are capable of both self-pollination and outcrossing \citep{church1958artificial}.  
-They typically host seed-transmitted fungal endophytes.
-%however, \emph{Poa autumnalis} may also acquire endophytes via horizontal transmission \citep{gundel2020simulated}.
-In \textcolor{red}{ summer–fall 2021}, seeds were collected from naturally symbiotic populations (source populations) of the three focal host species (Fig.~\ref{fig:site}). 
-These seeds were either heat-treated to eliminate symbionts or left untreated to generate symbiont-free ($E^-$) and symbiotic ($E^+$) plants from the same genetic lineages as the source populations.
+We conducted our study across seven sites spanning a strong east–west precipitation gradient from Louisiana to Texas, USA (Fig.~\ref{fig:site}).  
+Louisiana represents mesic conditions, whereas Texas experiences increasingly arid conditions, making this gradient an ideal natural laboratory to study the effects of precipitation and aridity on plant–microbe interactions.  
+Mean annual temperature did not differ significantly across sites (Fig.~\ref{Sup:temp}), which is why we focus on precipitation as the primary abiotic stressor.  
+This gradient also overlaps the natural distributions of our focal species, ensuring realistic exposure to climatic and biotic conditions (Fig.~\ref{fig:site}).  
 
-Across all sites, each plot was randomly assigned one of four initial endophyte frequency treatments (80\%, 60\%, 40\%, or 20\%) and one of two herbivory treatments (herbivore exclusion or herbivore access).  
-We ensured that all plots received comparable quantities of source plant material.
-\jacob{This experimental design was informed by natural patterns of endophyte prevalence observed in Texas, where the proportion of symbiotic individuals has been reported as 86.55\% in \emph{A. hyemalis} (ranging from 77.16\% to 93.5\%) \citep{donald2021context}, 53\% in \emph{E. virginicus} (ranging from 10\% to 100\%) \citep{sneck2017variation}, and 96\% in \emph{P. autumnalis} \citep{rudgers2009fungus}.  
-Additionally, fungal genotyping has confirmed the presence of biosynthetic pathways for secondary metabolites such as peramine, loline, and ergot alkaloids, which may enhance host resistance to drought and herbivory \citep{beaudry1951seed}}{I am trying to justify why we choose the starting  endophyte prevalence}.
+At each site, we established eight 1.5 m $\times$ 1.5 m plots, each containing 18 individuals of one of three cool-season perennial grasses: \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} \citep{shaw2011guide}.  
+These species typically host seed-transmitted fungal endophytes.  
+Seeds were collected in summer–fall 2021 from naturally symbiotic populations and either heat-treated to remove symbionts ($E^-$) or left untreated ($E^+$), maintaining the same genetic lineages as the source populations.  
+
+Plots were randomly assigned one of four initial endophyte frequency treatments (80\%, 60\%, 40\%, or 20\%) and one of two herbivory treatments (herbivore access or exclusion).  
+%This design was informed by natural patterns of endophyte prevalence in Texas \citep{donald2021context, sneck2017variation, rudgers2009fungus}, and fungal genotyping confirmed pathways for secondary metabolites that may affect host resistance to drought and herbivory \citep{beaudry1951seed}.  
 Full details of the study design are provided in the supplementary materials (Supplementary Method \ref{sec:study_design}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{clim_map.pdf}
+\caption{Distribution of common garden sites along the longitudinal aridity gradient in the central and southern Great Plains for: 
+A) \emph{Agrostis hyemalis} (AGHY), 
+B) \emph{Elymus virginicus} (ELVI), and 
+C) \emph{Poa autumnalis} (POAU). 
+The first three panels (A–C) are based on 30-year normals of climate predictions (1993–2023) from PRISM data, which illustrate the precipitation gradient across sites (scale on the right is in mm). 
+Red dots indicate the locations of source populations, while grey dots represent Global Biodiversity Information Facility (GBIF) occurrence records for each species within the study area. 
+D) Cumulative precipitation measured during the study period at each site, confirming the precipitation gradient shown in panels A–C.}
+\label{fig:site}
+\end{figure}
 
 \subsection*{Demographic data collection}
 We collected demographic data including survival, growth, and reproduction in May and June of 2023, 2024 and 2025, which coincided with the flowering season of \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis}. 
@@ -259,70 +276,46 @@ We recorded the number of inflorescences per plant and counted the number of spi
 Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 We used the number of spikelets from these three tillers to estimate the average number of spikelets per plant.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{clim_map.pdf}
-\caption{Distribution of common garden sites along the longitudinal aridity gradient in the central and southern Great Plains for: A) \emph{Agrostis hyemalis} (AGHY), B)  \emph{Elymus virginicus} (ELVI), and C)  \emph{Poa autumnalis} (POAU). Red dots indicate the locations of source populations, while grey dots represent the Global Biodiversity Information Facility (GBIF) occurrence records for each species within the study area. D) Relationship between the distance from the range center and longitude for each species.}
-\label{fig:site}
-\end{figure}
-
-\subsection*{Models building and models selection}
-To assess how stress associated with aridity  and herbivory affects plant–fungal  interactions, we developed four candidate models for each vital rate (survival, growth, and fertility).  
-Each vital rate was modeled using a grand mean intercept ($\beta_{0}$), slopes for variation in each covariate ($\beta_{1}$, $\beta_{2}$ and $\beta_{3}$), and interaction terms between covariates ($\beta_{4}$, $\beta_{5}$ and $\beta_{6}$).  
-Each model included normally distributed random effects to account for site-to-site variation ($\phi \sim N(0,\ \sigma_{site})$), plot-to-plot variation ($\rho \sim N(0,\ \sigma_{plot})$), and source-to-source variation associated with the provenance of transplants used in the common garden ($\omega \sim N(0,\ \sigma_{source})$) (Eq.~\ref{eq:candidates}).
-
+\subsection*{Modeling the effects of aridity and herbivory on endophyte–host demography}
+\label{sec:aridity_herbivory}
+To quantify how abiotic stress and herbivory shape plant–fungal interactions, we developed hierarchical models for each vital rate (survival, growth, and fertility). 
+Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, and fertility, measured as the number of inflorescences and the number of spikelets, with negative binomial distributions.
+All species were modeled jointly to estimate pooled fixed effects. 
+Each vital rate model included normally distributed random effects to account for site-to-site variation ($\phi_{\text{site}[i]} \sim \mathcal{N}(0,\; \sigma_{\text{site}})$), source-to-source variation ($\omega_{\text{source}[i]} \sim \mathcal{N}(0,\; \sigma_{\text{source}})$) associated with the provenance of transplants used in the common garden, and plot-to-plot variation ($\rho_{\text{plot}[i]} \sim \mathcal{N}(0,\; \sigma_{\text{plot}})$).
+By modeling species jointly with this hierarchical structure, we increase statistical power to detect shared effects while still capturing species-specific responses.
+To allow for non-linear effects of precipitation, we included a quadratic term, reflecting the expectation that vital rates may peak at intermediate precipitation and decline at both low and high levels. 
+The expected value of each vital rate for individual $i$ was modeled as:
 \begin{equation}\label{eq:candidates}
 \begin{aligned}
-\text{Model 1:} \quad 
-\mu &= \beta_{0}^{\text{sp}} + \beta_{\text{P}}^{\text{sp}} P + \beta_{\text{endo}}^{\text{sp}}\,\text{endo} + \beta_{\text{herb}}^{\text{sp}}\,\text{herb} \\
-&\quad + \beta_{\text{endo} \times \text{P}}^{\text{sp}}\,\text{endo} \cdot P 
-+ \beta_{\text{herb} \times \text{endo}}^{\text{sp}}\,\text{herb} \cdot \text{endo} 
-+ \beta_{\text{herb} \times \text{P}}^{\text{sp}}\,\text{herb} \cdot P \\
-&\quad + \beta_{\text{P}^2}^{\text{sp}} P^2 + \beta_{\text{endo} \times \text{P}^2}^{\text{sp}}\,\text{endo} \cdot P^2 
-+ \phi^{\text{sp}} + \omega^{\text{sp}} + \rho^{\text{sp}} \\
-%\text{Model 2:} \quad 
-%\mu &= \beta_{0}^{\text{sp}} + \beta_{\text{SPEI}}^{\text{sp}}\,\text{SPEI} + \beta_{\text{endo}}^{\text{sp}}\,\text{endo} + \beta_{\text{herb}}^{\text{sp}}\,\text{herb} \\
-%&\quad + \beta_{\text{endo} \times \text{SPEI}}^{\text{sp}}\,\text{endo} \cdot \text{SPEI} 
-%+ \beta_{\text{herb} \times \text{endo}}^{\text{sp}}\,\text{herb} \cdot \text{endo} 
-%+ \beta_{\text{herb} \times \text{SPEI}}^{\text{sp}}\,\text{herb} \cdot \text{SPEI} \\
-%&\quad + \beta_{\text{SPEI}^2}^{\text{sp}} \text{SPEI}^2 
-%+ \beta_{\text{endo} \times \text{SPEI}^2}^{\text{sp}}\,\text{endo} \cdot \text{SPEI}^2 
-%+ \phi^{\text{sp}} + \omega^{\text{sp}} + \rho^{\text{sp}} \\
-\text{Model 2:} \quad 
-\mu &= \beta_{0}^{\text{sp}} + \beta_{\text{GD}}^{\text{sp}}\,\text{GD} + \beta_{\text{endo}}^{\text{sp}}\,\text{endo} + \beta_{\text{herb}}^{\text{sp}}\,\text{herb} \\
-&\quad + \beta_{\text{endo} \times \text{GD}}^{\text{sp}}\,\text{endo} \cdot \text{GD} 
-+ \beta_{\text{herb} \times \text{endo}}^{\text{sp}}\,\text{herb} \cdot \text{endo} 
-+ \beta_{\text{herb} \times \text{GD}}^{\text{sp}}\,\text{herb} \cdot \text{GD} \\
-&\quad + \phi^{\text{sp}} + \omega^{\text{sp}} + \rho^{\text{sp}} \\
-\text{Model 3:} \quad 
-\mu &= \beta_{0}^{\text{sp}} + \beta_{\text{MD}}^{\text{sp}}\,\text{MD} + \beta_{\text{endo}}^{\text{sp}}\,\text{endo} + \beta_{\text{herb}}^{\text{sp}}\,\text{herb} \\
-&\quad + \beta_{\text{endo} \times \text{MD}}^{\text{sp}}\,\text{endo} \cdot \text{MD} 
-+ \beta_{\text{herb} \times \text{endo}}^{\text{sp}}\,\text{herb} \cdot \text{endo} 
-+ \beta_{\text{herb} \times \text{MD}}^{\text{sp}}\,\text{herb} \cdot \text{MD} \\
-&\quad + \phi^{\text{sp}} + \omega^{\text{sp}} + \rho^{\text{sp}}
+\mu_i &= \beta_0 + \beta_P P_i + \beta_{endo}\,endo_i + \beta_{herb}\,herb_i \\
+&\quad + \beta_{endo \times P}\,endo_i P_i 
++ \beta_{herb \times endo}\,herb_i endo_i 
++ \beta_{herb \times P}\,herb_i P_i \\
+&\quad + \beta_{P^2} P_i^2 + \beta_{endo \times P^2}\,endo_i P_i^2 \\
+&\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]} 
 \end{aligned}
 \end{equation}
+\noindent where $P$ is precipitation, $\text{endo}$ indicates endophyte presence, and $\text{herb}$ indicates herbivory. 
+The intercept $\beta_0$ represents the grand mean vital rate across species. 
+The coefficients $\beta_P$ and $\beta_{P^2}$ describe linear and quadratic responses to precipitation, respectively, while $\beta_{\text{endo}}$ and $\beta_{\text{herb}}$ capture the main effects of endophytes and herbivory. 
+The interaction terms capture combined effects: $\beta_{\text{endo}\times P}$ captures how endophytes alter the response to precipitation, $\beta_{\text{herb}\times P}$ captures how herbivory affects the response to precipitation, $\beta_{\text{herb}\times \text{endo}}$ represents the joint effect of herbivory and endophytes, and $\beta_{\text{endo}\times P^2}$ captures how endophytes influence the quadratic response to precipitation.
+%Models were implemented in R \citep{RCoreTeam} using Stan via the RStan interface \citep{Rstan}.
 
-\noindent where \( sp \in \{1, 2, 3\} \) represents the species index, \( P \) denotes Precipitation, 
-%\( \text{SPEI} \) is the Standardized Precipitation Evapotranspiration Index, 
-\( \text{GD} \) refers to distance from geographic center, and \( \text{MD} \) stands for mahalanobis distance, \( \text{endo} \) indicates Endophyte status (absence or present), and \( \text{herb} \) represents Herbivory (fenced and unfenced). The terms \( \phi^{(sp)} \), \( \omega^{(sp)} \), and \( \rho^{(sp)} \) are plot-level, population-level, and site-level random effects, respectively, for species \( sp \).
+\subsection*{Disentangling abiotic and biotic drivers of endophyte–host demography}
+To disentangle the relative contributions of abiotic and biotic factors to endophyte–host demography, we developed three candidate models. 
+The first included only abiotic predictors (precipitation), the second included only biotic predictors (herbivory and endophyte status), and the third included both abiotic and biotic predictors. 
+All models followed the same hierarchical structure described above, differing only in the inclusion of predictor terms (Supplementary Method \ref{sec:models}).
 
-Survival was modeled using a Bernoulli distribution, growth with a Gaussian distribution, flowering with a negative binomial distribution, and fertility (number of spikelets) also with a negative binomial distribution.
-To assess the goodness-of-fit of the models, we performed posterior predictive checks \citep{gelman2000diagnostic, berkhof2000posterior}.  
-All models effectively captured key aspects of the data, including means, standard deviations, and quantiles (Fig.~\ref{sup:ppc_surv}, Fig.~\ref{sup:ppc_growth}, Fig.~\ref{sup:ppc_spikelet}, Fig.~\ref{sup:ppc_flowering}).
-To determine the best model for each vital rate, we compared the four models using leave-one-out cross-validation (LOOCV) \citep{vehtari2017practical}.  
-LOOCV combines validation and training by using one observation for testing and the remaining $n-1$ observations for training.  
-This process is repeated $n$ times once for each observation resulting in $n$ fitted models \citep{silva2024robust}.  
-The test error estimate from LOOCV is obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}).
+To determine the best-supported model for each vital rate, we compared candidate models using leave-one-out cross-validation (LOOCV) \citep{vehtari2017practical}. 
+LOOCV combines validation and training by iteratively holding out one observation as a test set while fitting the model on the remaining $n-1$ observations. 
+This process is repeated $n$ times, once for each observation, resulting in $n$ fitted models \citep{silva2024robust}. 
+The overall test error estimate is then obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}).
 
 \begin{align}\label{eq:Loo}
-\begin{split}
 CV_{n} = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \hat{y}_{i})^2
-\end{split}
 \end{align}
 
-All models were implemented in R \citep{RCoreTeam} using Stan via the RStan interface \citep{Rstan}.
-
+All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -333,25 +326,10 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the RStan inte
 % If you remove this section, you will need to add it back in to your
 % final files after acceptance.
 \section*{Results}
-
-We  tested the effects of precipitation, endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced) on survival, growth, and reproductive traits in three cool-season grass species: \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. 
-Our findings indicate that the influence of endophytes is context-dependent, varying from beneficial to neutral or even detrimental depending on species identity and herbivore presence.
-
-At low precipitation levels representing  species  range edge, E$^{-}$ individuals exhibited higher survival rates than E$^{+}$ individuals (Fig.~\ref{fig:Surv}), suggesting a cost of endophyte association under drought stress. 
-This cost was partially offset in unfenced plots, where E$^{+}$ individuals showed comparable or greater survival relative to E$^{-}$ individuals, potentially reflecting endophyte-conferred resistance to herbivory. 
-Across all species, survival was generally higher in fenced plots, underscoring the negative impact of herbivores on plant persistence.
-
-Patterns of growth were consistent across species and treatments. 
-Across the full precipitation gradient, E$^{+}$ individuals had higher relative growth than E$^{-}$ individuals (Fig.~\ref{fig:growth}), suggesting a general growth advantage associated with endophyte presence. 
-Moreover, plants in unfenced plots exhibited higher annual growth rates compared to those in fenced plots, possibly due to compensatory growth following herbivory or altered resource allocation strategies.
-
-Inflorescence production tended to be higher in E$^{+}$ individuals than in E$^{-}$ individuals under wet conditions, but this advantage declined under drier conditions (Fig.~\ref{fig:flowering}). 
-This pattern suggests that the reproductive benefit of endophyte association is contingent on water availability. 
-Fencing had a modest overall effect on flowering, although \textit{Poa autumnalis} produced more inflorescences in fenced plots.
-
-Spikelet production revealed a cost of endophyte association under dry conditions, particularly in \textit{Elymus virginicus}, where E$^{+}$ individuals produced fewer spikelets than E$^{-}$ individuals (Fig.~\ref{fig:spikelet}). 
-Additionally, fenced plots supported higher spikelet production across all species, further supporting the conclusion that herbivory suppresses reproductive output.
-
+\subsection*{Endophyte presence influenced host survival and reproduction across the abiotic stress gradient, with no effects of herbivory}
+We used Bayesian mixed-effect models to test the effects of abiotic stress (low vs. high precipitation), endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced) on survival, growth, and reproductive traits in three cool-season grass species: \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. All models effectively captured key aspects of the data, including means, standard deviations, and quantiles (Fig.~\ref{sup:ppc_vital}).  
+High abiotic stress reduced survival, with E$^{-}$ individuals outperforming E$^{+}$ individuals, indicating a cost of endophyte association under drought conditions (Fig.~\ref{fig:Surv}). Growth was generally similar across species and treatments, except in \textit{Agrostis hyemalis}, where E$^{+}$ plants showed higher relative growth along the stress gradient (Fig.~\ref{fig:growth}). Inflorescence production differed little between E$^{+}$ and E$^{-}$ individuals, except for \textit{Poa autumnalis}, which produced more inflorescences under low abiotic stress (high precipitation; Fig.~\ref{fig:flowering}). Spikelet production also reflected costs of endophyte association under high stress, particularly in \textit{Elymus virginicus}, where E$^{+}$ individuals produced fewer spikelets than E$^{-}$ individuals (Fig.~\ref{fig:spikelet}).  
+Herbivore exclusion had minimal effects on all vital rates, with slightly higher survival and spikelet production in fenced plots, indicating that precipitation and endophyte status were the primary drivers of variation in host demography.
 
 \begin{figure}[H]
 \centering
@@ -409,38 +387,57 @@ This research was supported by National Science Foundation Division of Environme
 \renewcommand{\thesection}{S.\arabic{section}}
 
 \centerline{\Large{\textbf{Supporting Information}}}
-\section {Supporting methods}
-\subsection*{Study design} \label {sec:study_design}
-\paragraph {Experimental Design} 
-To understand the demographic effects of endophyte symbiosis from core to edge of the host range, we established  common gardens at 7 sites across the geographic range of \emph {Elymus virginicus} (Fig. \ref{sup:md}).
-Experimental sites spanned an aridity gradient (temperature gradient).
-Common gardens were established in 8 plots per site. 
-Plots were 1.5m * 1.5m and the area was tilled of existing vegetation to control for native plant competition.
-Plots were also selected in shaded areas under tree canopy or near shrubs to mimic the natural environmental of the species.
-In each plot,  we planted 15 individuals  of \emph{E. virginicus} approximately 15 cm deep in an evenly spaced 4*4 grid pattern, with positions randomly assigned. 
-For each plot, we randomly assigned a starting endophyte frequency  \jacob{(80\%, 60\%, 40\%, 20\%)}{Do we need a schematic of one replicate
-of the experimental design?} and herbivory treatment (herbivores exclusion and herbivores accessibility). 
-%Here, the endophyte frequency represents the percentage of  \emph{E. virginicus} individuals that have a symbiont ($E^+$).
-We ensured that all plots had comparable quantities of source populations.
-After establishing the plots, we watered the plants and recorded initial tiller counts, flowering status and plot position,  endophyte status, source population of each individual plant. 
-For herbivory exclusion plots, we enclosed them with 1.2m tall mesh fencing to prevent browsing by vertebrate herbivores and sprayed the plots with insecticide. 
-For herbivores accessibility plots (control treatment), we half enclosed the plots with the mesh netting.
-%We stationed one HOBO MX2307 data logger at each site to collect temperature and volumetric water content in the soil every hour. 
+\section{Supplementary Methods} 
+\subsection {Study design}\label{sec:study_design}
+\subsubsection {Abiotic stress}
+Common gardens were established at seven sites spanning the geographic range of \emph{Elymus virginicus} from Louisiana to Texas, USA (Fig.~\ref{sup:md}). Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
 
-\paragraph {Source populations and Identification of individual endophyte status} 
-Plants used  in the common garden experiment were derived from natural populations throughout the native range in the south-central US. 
-At each of these natural populations we collected seeds. 
-Some of the seeds of \emph{E. virginicus} were heat treated to produce endophyte negative plants ($E^-$) . 
-To do so, we placed these seeds  in a drying oven set at 60°C for approximately five days (120 hours). 
-While this method eliminates the endophytes from all individuals, it does not affect seed viability. 
-All seeds (both heat-treated and non-heat-treated) were planted in the Rice University greenhouse.
-Seedlings were regularly fertilized every two weeks. 
-The seedlings were then vegetatively propagated to produce enough individuals for your experiment (N = 840).
-Before planting in the field, we confirmed the endophyte status ($E^+$ or $E^-$) of all  seedlings using either microscopy or an immunoblot assay. 
-This was necessary due to the varying success of the heat treatment and differences in the prevalence of endophytes between the natural populations. 
-Leaf tissues were stained with aniline blue lactic acid and viewed under a compound microscope at 200x-400x to identify fungal hyphae. 
-The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of Epichloë spp. and chromagen to visually indicate presence or absence. Both methods yield similar detection rates.  
+\subsubsection {Plot establishment}
+At each site, we established eight plots measuring 1.5 m $\times$ 1.5 m. Existing vegetation was removed by tilling to reduce competition. Within each plot, 15 individuals of \emph{Elymus virginicus} were planted approximately 15 cm deep in an evenly spaced 4 $\times$ 4 grid, with positions randomly assigned to reduce positional effects.
 
+\subsubsection{Endophyte and herbivory treatments}
+Seeds were collected in summer–fall 2021 from naturally symbiotic populations (source populations). Seeds were either heat-treated to remove endophytes ($E^-$) or left untreated ($E^+$), maintaining the same genetic lineages. Each plot was randomly assigned a starting endophyte frequency (80\%, 60\%, 40\%, or 20\%) and a herbivory treatment. For herbivore exclusion plots, plants were enclosed with 1.2 m tall mesh fencing and sprayed with insecticide to prevent vertebrate and insect herbivory. For herbivore access (control) plots, plants were half-enclosed with mesh netting. All plots received comparable quantities of source population material.
+
+%\subsubsection{Initial measurements and monitoring}
+%After planting, all plots were watered to promote establishment. For each individual plant, we recorded initial tiller counts, flowering status, plot position, endophyte status, and source population.
+%
+\subsubsection{Experimental rationale}
+This experimental design was informed by natural patterns of endophyte prevalence in Texas \citep{donald2021context, sneck2017variation, rudgers2009fungus}. Fungal genotyping confirmed the presence of biosynthetic pathways for secondary metabolites, such as peramine, loline, and ergot alkaloids, which may enhance host resistance to drought and herbivory \citep{beaudry1951seed}. The design allows testing how endophyte frequency and herbivory interact with abiotic stress (aridity) to influence host demography from core to edge of the species range.
+
+\subsubsection{Source populations and identification of individual endophyte status}
+Plants used in the common garden experiment were derived from natural populations throughout the south-central US. Seeds were collected from these populations, and some were heat-treated at 60°C for approximately five days (120 hours) to produce endophyte-negative plants ($E^-$), a method that eliminates endophytes without affecting seed viability. All seeds, both heat-treated and non-heat-treated, were planted in the Rice University greenhouse, where seedlings were fertilized every two weeks. Seedlings were then vegetatively propagated to produce enough individuals for the experiment (N = 840). Before field planting, we confirmed endophyte status ($E^+$ or $E^-$) of all seedlings using either microscopy or an immunoblot assay. Leaf tissues were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify fungal hyphae. The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of \emph{Epichloë} spp. and a chromagen to visually indicate presence or absence. Both methods yield similar detection rates.
+
+\subsection{Candidate models for abiotic and biotic drivers} \label{sec:models}
+
+To disentangle the relative contributions of abiotic and biotic factors, we developed three candidate models:
+
+\begin{enumerate}
+    \item \textbf{Abiotic model:} includes precipitation ($P$) and its quadratic term ($P^2$) as predictors. 
+    The expected value of each vital rate for individual $i$ is:
+    \begin{align*}
+    \mu_i &= \beta_0 + \beta_P P_i + \beta_{P^2} P_i^2 \\
+    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \end{align*}
+
+    \item \textbf{Biotic model:} includes endophyte status ($\text{endo}$), herbivory ($\text{herb}$), and their interaction ($\text{endo} \times \text{herb}$):
+    \begin{align*}
+    \mu_i &= \beta_0 + \beta_{\text{endo}}\,endo_i + \beta_{\text{herb}}\,herb_i 
+            + \beta_{\text{endo}\times \text{herb}}\,endo_i\,herb_i \\
+    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \end{align*}
+
+    \item \textbf{Full model:} combines both abiotic and biotic predictors, including all relevant interactions:
+    \begin{align*}
+    \mu_i &= \beta_0 + \beta_P P_i + \beta_{P^2} P_i^2 + \beta_{\text{endo}}\,endo_i + \beta_{\text{herb}}\,herb_i \\
+    &\quad + \beta_{\text{endo}\times P}\,endo_i P_i 
+          + \beta_{\text{herb}\times P}\,herb_i P_i 
+          + \beta_{\text{herb}\times \text{endo}}\,herb_i\,endo_i 
+          + \beta_{\text{endo}\times P^2}\,endo_i P_i^2 \\
+    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \end{align*}
+\end{enumerate}
+
+All models included a hierarchical random effects structure accounting for site, source, and plot variation, with $\phi_{\text{site}[i]} \sim \mathcal{N}(0, \sigma_{\text{site}})$, $\omega_{\text{source}[i]} \sim \mathcal{N}(0, \sigma_{\text{source}})$, and $\rho_{\text{plot}[i]} \sim \mathcal{N}(0, \sigma_{\text{plot}})$.
 
 \section {Supporting Tables}
 
@@ -490,18 +487,30 @@ Flowering  & \textbf{model2} & \textbf{0.0}   & \textbf{0.0} \\
 
 \section {Supporting Figures}
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=1\textwidth]{combined_ppc_plots.pdf}
-%\caption{
-%(A-C) Relationship between distance from geographic center and longitude for the focal species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}). 
-%A generalized additive model (GAM) with a smooth term was used to capture the non-linear trends in these relationships for each species.
-%The solid lines represent the fitted GAM with shaded regions showing the 95\% confidence interval.
-%D) displays the relationship between the distance from geographic center and the distance from niche centroid for all species also fitted with a GAM on a log scale. 
-%The p-value for the smooth term in the GAM model is p$=$0.0166**, indicating a significant relationship between log-transformed geographic distance and Mahalanobis distance.
-%}
-%\label{sup:md}
-%\end{figure}
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth]{Climate_prism_2023_2025.pdf}
+		\caption{Abiotic conditions across the seven study sites. 
+		(A) Mean annual precipitation showing the pronounced east–west aridity gradient from mesic Louisiana to arid Texas. 
+		(B) Mean annual temperature across sites, which does not differ much. 
+		Panels highlight that precipitation, rather than temperature, constitutes the primary abiotic gradient in this system.}
+		\label{Sup:temp}
+\end{figure}
+\clearpage  % forces the next figure to start on a new page
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{combined_ppc_plots.pdf}
+\caption{
+Posterior predictive checks for the full demographic model. 
+Dark blue lines show observed data ($y$), and light blue lines show replicated datasets generated from posterior predictions ($y_{\text{rep}}$). 
+The strong overlap across survival, growth, flowering, and spikelet production indicates adequate model fit for all vital rates.
+}
+\label{sup:ppc_vital}
+\end{figure}
+
 %
 %\begin{figure}[H]
 %		\centering

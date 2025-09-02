@@ -856,3 +856,5 @@ combined_plot_biotic <- (p_surv_biotic | p_grow_biotic) / (p_flow_biotic | p_spi
   theme(legend.position = "bottom")
 print(combined_plot_biotic)
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_biotic.pdf", plot = combined_plot_biotic, width = 7, height = 6)
+
+

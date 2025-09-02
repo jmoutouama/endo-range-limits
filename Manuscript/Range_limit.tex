@@ -93,9 +93,10 @@
 %\graphicspath{{C:/Users/tm9/Dropbox/github/ELVI-endophyte-density/Figure}}
 \newcommand{\tom}[2]{{\color{red}{#1}}\footnote{\textit{\color{red}{#2}}}}
 \newcommand{\jacob}[2]{{\color{blue}{#1}}\footnote{\textit{\color{blue}{#2}}}}
-\renewcommand\Authfont{\large}    % sets author names to small
-\renewcommand\Affilfont{\footnotesize} % sets affiliations even smaller
-%\doublespacing
+\renewcommand\Authfont{\normalfont\normalsize}    % sets author names to small
+\renewcommand\Affilfont{\normalfont\small} % sets affiliations even smaller
+\setlength{\affilsep}{1em}  
+%\doublespacinq
 
 
 
@@ -103,20 +104,22 @@
 
 %-------------------------------------------------------------------------
 \title{\Large When Mutualism Becomes Costly: Abiotic Stress Shapes Grass Demography}
-\author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
+\author[1,2,3]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
 \author[1]{Julia Martin}
 \author[1]{Ulisses Rizo}
 \author[1]{Malcolm Sherwood}
 \author[1]{Emily Chong}
 \author[1]{Dajanae Pearson}
 \author[1]{Alexandra Jimenez Martín}
-\author[2]{Josh Fowler}
+\author[1,4]{Josh Fowler}
 \author[1]{Ali Campbell}
 \author[1]{Chris Oxley}
 \author[1]{Karl Schrader}
 \author[1]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
 \affil[1]{Program in Ecology and Evolutionary Biology, Department of BioSciences, Rice University, Houston, TX USA}
-\affil[2]{University of Miami, Department of Biology, Miami, FL USA}
+\affil[2]{Department of Botany, University of British Columbia, Vancouver, BC, Canada}
+\affil[3]{Biodiversity Research Centre, University of British Columbia, Vancouver, BC, Canada}
+\affil[4]{University of Miami, Department of Biology, Miami, FL USA}
 \date{} % clear date
 %\renewcommand\Authands{ and }
 
@@ -169,7 +172,7 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 \section*{Abstract}
 %150 words limit for Ecology letter. The number now is 
 Interactions between plants and fungi are ubiquitous and can strongly influence plant fitness.
-Yet, how endophytes affect host demography across abiotic stress gradients and under herbivory remains unclear.
+Yet, how endophytes affect host demography across abiotic stress gradients when hosts are subject to herbivory pressure remains unclear.
 We studied three cool-season grasses hosting seed-transmitted fungal endophytes using geographically distributed field experiments along an aridity gradient, with factorial manipulations of endophyte presence and herbivory. 
 Bayesian models showed that all vital rates declined toward more arid sites, indicating reduced performance under stress. 
 Declines were more pronounced in individuals hosting endophytes, suggesting that interactions typically beneficial under benign conditions can become costly under abiotic stress. 
@@ -217,7 +220,8 @@ When photosynthesis is limited by abiotic stress, this carbon cost may outweigh 
 Despite growing interest in the role of symbiosis in host performance, few studies have examined under natural conditions how abiotic and biotic stressors shape the effects of symbionts on host demography along abiotic stress gradients \citep{louthan2015and}. 
 Moreover, it remains unclear which stressor is most critical in eliciting the benefits of endophyte symbiosis, or how multiple stressors may interact to influence host demography. 
 Herbivory is a biotic factor that can significantly affect host fitness \citep{benning2019biotic} and mediate the outcomes of symbiotic interactions. 
-Herbivores reduce host fitness through tissue damage, defoliation, and altered resource allocation \citep{maron2006herbivory}, but they may also shape the selective landscape in ways that favor symbiont persistence or transmission \citep{clay2005herbivores}. 
+Herbivores reduce host fitness through tissue damage, defoliation, and altered resource allocation \citep{maron2006herbivory}, and can also impose indirect ecological costs by influencing reproductive or growth strategies \citep{miller2008herbivore}. 
+These ecological costs may shape the selective landscape in ways that favor symbiont persistence or transmission \citep{clay2005herbivores}. 
 For example, herbivory can enhance the fitness benefits of endophyte infection by triggering host defense pathways or promoting vertical transmission of the symbiont \citep{gundel2020simulated,agrawal1999transgenerational}. 
 If the ecological context of herbivory alters the net fitness effects of symbiosis, then interactions between herbivory and abiotic stress (e.g., drought or high temperature) may play a critical role in determining host population persistence.
 
@@ -248,10 +252,9 @@ Louisiana represents mesic conditions, whereas Texas experiences increasingly ar
 Mean annual temperature did not differ significantly across sites (Fig.~\ref{Sup:temp}), which is why we focus on precipitation as the primary abiotic stressor.  
 This gradient also overlaps the natural distributions of our focal species, ensuring realistic exposure to climatic and biotic conditions (Fig.~\ref{fig:site}).  
 
-At each site, we established eight 1.5 m $\times$ 1.5 m plots, each containing 18 individuals of one of three cool-season perennial grasses: \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} \citep{shaw2011guide}.  
-These species typically host seed-transmitted fungal endophytes.  
+At each site, we established eight 1.5 m $\times$ 1.5 m plots, each containing 18 individuals of one of three cool-season perennial grasses: \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis}.  
+These species typically host seed-transmitted fungal endophytes \citep{shaw2011guide}.  
 Seeds were collected in summer–fall 2021 from naturally symbiotic populations and either heat-treated to remove symbionts ($E^-$) or left untreated ($E^+$), maintaining the same genetic lineages as the source populations.  
-
 Plots were randomly assigned one of four initial endophyte frequency treatments (80\%, 60\%, 40\%, or 20\%) and one of two herbivory treatments (herbivore access or exclusion).  
 %This design was informed by natural patterns of endophyte prevalence in Texas \citep{donald2021context, sneck2017variation, rudgers2009fungus}, and fungal genotyping confirmed pathways for secondary metabolites that may affect host resistance to drought and herbivory \citep{beaudry1951seed}.  
 Full details of the study design are provided in the supplementary materials (Supplementary Method \ref{sec:study_design}).
@@ -259,7 +262,7 @@ Full details of the study design are provided in the supplementary materials (Su
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{clim_map.pdf}
-\caption{Distribution of common garden sites along the longitudinal aridity gradient in the central and southern Great Plains for: 
+\caption{Distribution of common garden sites along a natural aridity gradient from Texas to Louisiana in the United States for: 
 A) \emph{Agrostis hyemalis} (AGHY), 
 B) \emph{Elymus virginicus} (ELVI), and 
 C) \emph{Poa autumnalis} (POAU). 
@@ -276,8 +279,7 @@ We recorded the number of inflorescences per plant and counted the number of spi
 Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 We used the number of spikelets from these three tillers to estimate the average number of spikelets per plant.
 
-\subsection*{Modeling the effects of aridity and herbivory on endophyte–host demography}
-\label{sec:aridity_herbivory}
+\subsection*{Modeling the effects of aridity, herbivory  and endophyte on cool-season grass demography}
 To quantify how abiotic stress and herbivory shape plant–fungal interactions, we developed hierarchical models for each vital rate (survival, growth, and fertility). 
 Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, and fertility, measured as the number of inflorescences and the number of spikelets, with negative binomial distributions.
 All species were modeled jointly to estimate pooled fixed effects. 
@@ -295,13 +297,13 @@ The expected value of each vital rate for individual $i$ was modeled as:
 &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]} 
 \end{aligned}
 \end{equation}
-\noindent where $P$ is precipitation, $\text{endo}$ indicates endophyte presence, and $\text{herb}$ indicates herbivory. 
+\noindent where $P$ is precipitation, $endo$ indicates endophyte presence, and $herb$ indicates herbivory. 
 The intercept $\beta_0$ represents the grand mean vital rate across species. 
 The coefficients $\beta_P$ and $\beta_{P^2}$ describe linear and quadratic responses to precipitation, respectively, while $\beta_{\text{endo}}$ and $\beta_{\text{herb}}$ capture the main effects of endophytes and herbivory. 
 The interaction terms capture combined effects: $\beta_{\text{endo}\times P}$ captures how endophytes alter the response to precipitation, $\beta_{\text{herb}\times P}$ captures how herbivory affects the response to precipitation, $\beta_{\text{herb}\times \text{endo}}$ represents the joint effect of herbivory and endophytes, and $\beta_{\text{endo}\times P^2}$ captures how endophytes influence the quadratic response to precipitation.
 %Models were implemented in R \citep{RCoreTeam} using Stan via the RStan interface \citep{Rstan}.
 
-\subsection*{Disentangling abiotic and biotic drivers of endophyte–host demography}
+\subsection*{Disentangling abiotic and biotic drivers on cool-season grass demography}
 To disentangle the relative contributions of abiotic and biotic factors to endophyte–host demography, we developed three candidate models. 
 The first included only abiotic predictors (precipitation), the second included only biotic predictors (herbivory and endophyte status), and the third included both abiotic and biotic predictors. 
 All models followed the same hierarchical structure described above, differing only in the inclusion of predictor terms (Supplementary Method \ref{sec:models}).
@@ -327,41 +329,78 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rs
 % final files after acceptance.
 \section*{Results}
 \subsection*{Endophyte presence influenced host survival and reproduction across the abiotic stress gradient, with no effects of herbivory}
-We used Bayesian mixed-effect models to test the effects of abiotic stress (low vs. high precipitation), endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced) on survival, growth, and reproductive traits in three cool-season grass species: \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. All models effectively captured key aspects of the data, including means, standard deviations, and quantiles (Fig.~\ref{sup:ppc_vital}).  
-High abiotic stress reduced survival, with E$^{-}$ individuals outperforming E$^{+}$ individuals, indicating a cost of endophyte association under drought conditions (Fig.~\ref{fig:Surv}). Growth was generally similar across species and treatments, except in \textit{Agrostis hyemalis}, where E$^{+}$ plants showed higher relative growth along the stress gradient (Fig.~\ref{fig:growth}). Inflorescence production differed little between E$^{+}$ and E$^{-}$ individuals, except for \textit{Poa autumnalis}, which produced more inflorescences under low abiotic stress (high precipitation; Fig.~\ref{fig:flowering}). Spikelet production also reflected costs of endophyte association under high stress, particularly in \textit{Elymus virginicus}, where E$^{+}$ individuals produced fewer spikelets than E$^{-}$ individuals (Fig.~\ref{fig:spikelet}).  
+We used Bayesian mixed-effect models to test the effects of abiotic stress (low vs. high precipitation), endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced) on survival, growth, and reproductive traits in three cool-season grass species: \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. 
+All models effectively captured key aspects of the data, including means, standard deviations, and quantiles (Fig.~\ref{sup:ppc_vital}).  
+High abiotic stress reduced survival, with E$^{-}$ individuals outperforming E$^{+}$ individuals, indicating a cost of endophyte association under dry conditions (Fig.~\ref{fig:Surv}).
+Growth was generally similar across species and treatments, except in \textit{Agrostis hyemalis}, where E$^{+}$ plants showed higher relative growth along the stress gradient (Fig.~\ref{fig:growth}). 
+Inflorescence production differed little between E$^{+}$ and E$^{-}$ individuals, except for \textit{Poa autumnalis}, which produced more inflorescences under low abiotic stress (high precipitation; Fig.~\ref{fig:flowering}). 
+Spikelet production also reflected costs of endophyte association under high stress, particularly in \textit{Elymus virginicus}, where E$^{+}$ individuals produced fewer spikelets than E$^{-}$ individuals (Fig.~\ref{fig:spikelet}).  
 Herbivore exclusion had minimal effects on all vital rates, with slightly higher survival and spikelet production in fenced plots, indicating that precipitation and endophyte status were the primary drivers of variation in host demography.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{PrSurvival_diff.pdf}
-\caption{XXX 
-}
+\caption{Predicted survival rate (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
+Points represent mean observed survival per plot,  jittered  for visualization.  
+The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
+Panels are organized by species (AGHY, ELVI, POAU) and herbivory treatment (Fenced, Unfenced).}
 \label{fig:Surv}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Growth_diff.pdf}
-\caption{Predicted relative growth (top panels) and endophyte effect (\(\Delta\) E+ - E-, bottom panels) across precipitation gradients. Lines show posterior means, shading shows 90\% credible intervals, and points indicate mean observed growth per plot. \textbf{Colors}: E+ (blue), E- (red). \(\Delta = 0\) (dashed line) indicates no endophyte effect. Panels are organized by species (AGHY, ELVI, POAU) and herbivory treatment (Fenced, Unfenced).}
+\caption{Predicted relative growth (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
+Points represent mean observed growth per plot,  jittered  for visualization.  
+The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
+Panels are organized by species (AGHY, ELVI, POAU) and herbivory treatment (Fenced, Unfenced).}
 \label{fig:growth}
 \end{figure}
-
-
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Flowering_diff.pdf}
-\caption{XXX 
-}
+\caption{Predicted number of inflorescences (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
+Points represent mean observed inflorescences per plot,  jittered for visualization.  
+The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
+Panels are organized by species (AGHY, ELVI, POAU) and herbivory treatment (Fenced, Unfenced).}
 \label{fig:flowering}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Spik_ppt_diff.pdf}
-\caption{XX
-}
+\caption{Predicted number of spikelets (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
+Points represent mean observed spikelets per plot, slightly jittered for visualization. 
+Spikelets were measured for only two species (see Methods for details).  
+The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
+Panels are organized by species (AGHY, ELVI) and herbivory treatment (Fenced, Unfenced).}
 \label{fig:spikelet}
+\end{figure}
+
+\subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
+Across all vital rates, survival, growth, flowering, and spikelet production, models including only abiotic predictors consistently had the highest ELPD values (Figure~\ref{fig:bestdriver}). 
+The standard errors of the ELPD differences indicate some uncertainty in these comparisons. 
+For example, the difference between the abiotic-only and abiotic+biotic models for survival was small relative to its uncertainty ($\Delta \mathrm{ELPD} = -2.1$, SE = 3.7), suggesting that including biotic predictors provides only marginal additional information. 
+In contrast, biotic-only models had substantially lower ELPD values with smaller uncertainty (e.g., survival: $\Delta \mathrm{ELPD} = -5.2$, SE = 2.0), indicating they are clearly inferior. 
+Overall, these results suggest that the demography of \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis} is primarily driven by variation along the abiotic stress gradient, such as precipitation, whereas biotic interactions, including herbivory and endophyte presence, play a secondary role. 
+This pattern aligns with the stress gradient hypothesis, which predicts that abiotic factors have a stronger influence on species performance in stressful environments, while biotic interactions become more important under more benign conditions.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{bestdriver.pdf}
+    \caption{Model comparison across vital rates (survival, growth, flowering, spikelet production) using expected log predictive density (ELPD) differences. 
+    ELPD measures a model's ability to predict new data, with higher values indicating better predictive performance. Differences in ELPD relative to the best-supported model (abiotic-only) show which models perform better or worse. 
+    Circles indicate the ELPD of each model, error bars represent the standard error of the differences (SE), and stars mark the model with the highest ELPD. 
+%    Abiotic-only models consistently performed best, while differences between abiotic-only and abiotic+biotic models were generally small relative to SE, suggesting marginal improvement from adding biotic predictors. 
+%    Biotic-only models were consistently inferior, with $\Delta$ELPD larger than the SE, indicating clear underperformance. This comparison highlights that abiotic variation primarily drives the demography of \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}.
+     }
+    \label{fig:bestdriver}
 \end{figure}
 
 
@@ -390,10 +429,10 @@ This research was supported by National Science Foundation Division of Environme
 \section{Supplementary Methods} 
 \subsection {Study design}\label{sec:study_design}
 \subsubsection {Abiotic stress}
-Common gardens were established at seven sites spanning the geographic range of \emph{Elymus virginicus} from Louisiana to Texas, USA (Fig.~\ref{sup:md}). Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
+Common gardens were established at seven sites spanning the geographic range of \emph{Elymus virginicus} from Louisiana to Texas, USA. Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
 
 \subsubsection {Plot establishment}
-At each site, we established eight plots measuring 1.5 m $\times$ 1.5 m. Existing vegetation was removed by tilling to reduce competition. Within each plot, 15 individuals of \emph{Elymus virginicus} were planted approximately 15 cm deep in an evenly spaced 4 $\times$ 4 grid, with positions randomly assigned to reduce positional effects.
+At each site, we established eight plots measuring 1.5 m $\times$ 1.5 m. Existing vegetation was removed by tilling to reduce competition. Within each plot, 15 individuals of each species were planted approximately 15 cm deep in an evenly spaced 4 $\times$ 4 grid, with positions randomly assigned to reduce positional effects.
 
 \subsubsection{Endophyte and herbivory treatments}
 Seeds were collected in summer–fall 2021 from naturally symbiotic populations (source populations). Seeds were either heat-treated to remove endophytes ($E^-$) or left untreated ($E^+$), maintaining the same genetic lineages. Each plot was randomly assigned a starting endophyte frequency (80\%, 60\%, 40\%, or 20\%) and a herbivory treatment. For herbivore exclusion plots, plants were enclosed with 1.2 m tall mesh fencing and sprayed with insecticide to prevent vertebrate and insect herbivory. For herbivore access (control) plots, plants were half-enclosed with mesh netting. All plots received comparable quantities of source population material.
@@ -407,7 +446,7 @@ This experimental design was informed by natural patterns of endophyte prevalenc
 \subsubsection{Source populations and identification of individual endophyte status}
 Plants used in the common garden experiment were derived from natural populations throughout the south-central US. Seeds were collected from these populations, and some were heat-treated at 60°C for approximately five days (120 hours) to produce endophyte-negative plants ($E^-$), a method that eliminates endophytes without affecting seed viability. All seeds, both heat-treated and non-heat-treated, were planted in the Rice University greenhouse, where seedlings were fertilized every two weeks. Seedlings were then vegetatively propagated to produce enough individuals for the experiment (N = 840). Before field planting, we confirmed endophyte status ($E^+$ or $E^-$) of all seedlings using either microscopy or an immunoblot assay. Leaf tissues were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify fungal hyphae. The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of \emph{Epichloë} spp. and a chromagen to visually indicate presence or absence. Both methods yield similar detection rates.
 
-\subsection{Candidate models for abiotic and biotic drivers} \label{sec:models}
+\subsection{Candidate models for abiotic and biotic drivers of cool-grass species} \label{sec:models}
 
 To disentangle the relative contributions of abiotic and biotic factors, we developed three candidate models:
 
@@ -454,28 +493,31 @@ Jean Lafitte National Historical Park and Preserve  & Jean Lafitte, LA & 29.7851
 \end{tabular}
 \end{table}
 
+%\begin{table}[H]
+%\caption{Model comparison by vital rate using ELPD (Expected Log Pointwise Density) differences. The values in the \textbf{elpd\_diff} column represent the difference in the model's ELPD relative to the best model for each vital rate, with positive values indicating a worse model fit. The \textbf{se\_diff} column shows the standard error of the ELPD difference. Best models for each vital rate are bolded. Model selection is based on the ELPD difference and associated standard error, with smaller ELPD differences and lower standard errors indicating better model fit.}
+%
 \begin{table}[H]
-\caption{Model comparison by vital rate using ELPD (Expected Log Pointwise Density) differences. The values in the \textbf{elpd\_diff} column represent the difference in the model's ELPD relative to the best model for each vital rate, with positive values indicating a worse model fit. The \textbf{se\_diff} column shows the standard error of the ELPD difference. Best models for each vital rate are bolded. Model selection is based on the ELPD difference and associated standard error, with smaller ELPD differences and lower standard errors indicating better model fit.}
+\caption{Differences in expected log predictive density (ELPD) between models for each vital rate. The top model for each response (bold) has the highest ELPD. Standard errors of the differences are shown in the \texttt{se\_diff} column.}
 \centering
 \begin{tabular}{|l|l|r|r|}
 \hline
 \textbf{Vital rate} & \textbf{Model} & \textbf{elpd\_diff} & \textbf{se\_diff} \\
 \hline
-Survival   & \textbf{model1} & \textbf{0.0}   & \textbf{0.0} \\
-           & model2          & -1.0           & 1.5          \\
-           & model3          & -1.0           & 1.5          \\
+Survival   & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
+           & abiotic\_biotic        & -2.1          & 3.7          \\
+           & biotic                 & -5.2          & 2.0          \\
 \hline
-Growth     & \textbf{model3} & \textbf{0.0}   & \textbf{0.0} \\
-           & model2          & -1.3           & 2.0          \\
-           & model1          & -2.1           & 2.2          \\
+Growth     & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
+           & abiotic\_biotic        & -2.1          & 3.7          \\
+           & biotic                 & -5.2          & 2.0          \\
 \hline
-Flowering  & \textbf{model2} & \textbf{0.0}   & \textbf{0.0} \\
-           & model3          & 0.0            & 3.2          \\
-           & model1          & -1.3           & 3.9          \\
-%\hline
-%Spikelet   & \textbf{model2} & \textbf{0.0}   & \textbf{0.0} \\
-%           & model3          & -4.6           & 4.2          \\
-%           & model1          & -6.4           & 5.3          \\
+Inflorescence & \textbf{abiotic}     & \textbf{0.0}  & \textbf{0.0} \\
+              & abiotic\_biotic      & -2.1          & 3.7          \\
+              & biotic               & -5.2          & 2.0          \\
+\hline
+Spikelet   & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
+           & abiotic\_biotic        & -2.1          & 3.7          \\
+           & biotic                 & -5.2          & 2.0          \\
 \hline
 \end{tabular}
 \label{tab:elpd_vital_rates}

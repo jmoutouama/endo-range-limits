@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  31 AUG 2025 16:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2025 12:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -822,7 +822,7 @@ Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
 LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 
-128.
+131.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pplx.fd
 File: ot1pplx.fd 2004/09/06 font definitions for OT1/pplx.
@@ -835,24 +835,24 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 (./Range_limit.aux)
 \openout1 = `Range_limit.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 128.
-LaTeX Font Info:    ... okay on input line 128.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 131.
+LaTeX Font Info:    ... okay on input line 131.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -907,37 +907,37 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 128.
+Package hyperref Info: Link coloring OFF on input line 131.
 (./Range_limit.out) (./Range_limit.out)
 \@outlinefile=\write4
 \openout4 = `Range_limit.out'.
 
-LaTeX Info: Redefining \celsius on input line 128.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 128
+LaTeX Info: Redefining \celsius on input line 131.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 131
 .
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 128.
-Package gensymb Info: Using \upOmega for \ohm on input line 128.
+LaTeX Info: Redefining \ohm on input line 131.
+Package gensymb Info: Using \upOmega for \ohm on input line 131.
 
 Package gensymb Warning: Not defining \micro.
 
-LaTeX Info: Redefining \microtypecontext on input line 128.
-Package microtype Info: Applying patch `item' on input line 128.
-Package microtype Info: Applying patch `toc' on input line 128.
-Package microtype Info: Applying patch `eqnum' on input line 128.
-Package microtype Info: Applying patch `footnote' on input line 128.
-Package microtype Info: Applying patch `verbatim' on input line 128.
-LaTeX Info: Redefining \microtypesetup on input line 128.
+LaTeX Info: Redefining \microtypecontext on input line 131.
+Package microtype Info: Applying patch `item' on input line 131.
+Package microtype Info: Applying patch `toc' on input line 131.
+Package microtype Info: Applying patch `eqnum' on input line 131.
+Package microtype Info: Applying patch `footnote' on input line 131.
+Package microtype Info: Applying patch `verbatim' on input line 131.
+LaTeX Info: Redefining \microtypesetup on input line 131.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 128.
+LaTeX Info: Redefining \showhyphens on input line 131.
 Package microtype Info: Tracking enabled.
 Package microtype Info: Using tracking set `all'.
 Package microtype Info: No adjustment of interword spacing.
@@ -946,50 +946,50 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-134.
+137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-134.
+137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-134.
+137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 15.0049pt on input line 134.
+(Font)              scaled to size 12.50409pt on input line 137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 134.
+(Font)              scaled to size 9.37807pt on input line 137.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 134.
+(Font)              scaled to size 7.29405pt on input line 137.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 15.0049pt on input line 134.
+(Font)              scaled to size 12.50409pt on input line 137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 134.
+(Font)              scaled to size 9.37807pt on input line 137.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 134.
+(Font)              scaled to size 7.29405pt on input line 137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-134.
+137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
@@ -999,35 +999,35 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 
-134.
+137.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 134.
+(Font)              scaled to size 11.40997pt on input line 137.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 134.
+(Font)              scaled to size 8.33606pt on input line 137.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 137.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 134.
+(Font)              scaled to size 11.40997pt on input line 137.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 134.
+(Font)              scaled to size 8.33606pt on input line 137.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 6.25204pt on input line 137.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 137.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 137.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 10.42007pt on input line 137.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.91925pt on input line 137.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 145.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 145.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 145.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 145.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 145.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 145.
 
 
 [1
@@ -1046,74 +1046,68 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [4]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_
-map.pdf, id=174, 650.43pt x 578.16pt>
+map.pdf, id=178, 650.43pt x 578.16pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 clim_map.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 lim_map.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/clim_map.pdf  used on input line 261.
+ange-limits/Figure/clim_map.pdf  used on input line 264.
 (pdftex.def)             Requested size: 399.29463pt x 354.93552pt.
 
 
 [5]
-Underfull \hbox (badness 1546) in paragraph at lines 279--279
-|\OT1/pplx/b/n/14.4/-25ls (+20) Modeling the ef-fects of arid-ity and her-bivor
-y on en-do-phyte{host
- []
-
-
 
 [6 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/cl
 im_map.pdf>]
 
 [7]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSur
-vival_diff.pdf, id=223, 469.755pt x 722.7pt>
+vival_diff.pdf, id=228, 469.755pt x 722.7pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 PrSurvival_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/P
 rSurvival_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/PrSurvival_diff.pdf  used on input line 336.
+ange-limits/Figure/PrSurvival_diff.pdf  used on input line 342.
 (pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [8]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growt
-h_diff.pdf, id=239, 469.755pt x 722.7pt>
+h_diff.pdf, id=244, 469.755pt x 722.7pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Growth_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
 rowth_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Growth_diff.pdf  used on input line 344.
+ange-limits/Figure/Growth_diff.pdf  used on input line 353.
 (pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [9 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Pr
 Survival_diff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowe
-ring_diff.pdf, id=265, 469.755pt x 722.7pt>
+ring_diff.pdf, id=270, 469.755pt x 722.7pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Flowering_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/F
 lowering_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Flowering_diff.pdf  used on input line 353.
+ange-limits/Figure/Flowering_diff.pdf  used on input line 364.
 (pdftex.def)             Requested size: 375.80544pt x 578.16078pt.
 
 
 [10 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/G
 rowth_diff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spik_
-ppt_diff.pdf, id=291, 469.755pt x 505.89pt>
+ppt_diff.pdf, id=296, 469.755pt x 505.89pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Spik_ppt_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/S
 pik_ppt_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Spik_ppt_diff.pdf  used on input line 361.
+ange-limits/Figure/Spik_ppt_diff.pdf  used on input line 375.
 (pdftex.def)             Requested size: 375.80544pt x 404.71254pt.
 
 
@@ -1121,56 +1115,67 @@ ange-limits/Figure/Spik_ppt_diff.pdf  used on input line 361.
 lowering_diff.pdf>]
 
 [12 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/S
-pik_ppt_diff.pdf>] (./Range_limit.bbl
+pik_ppt_diff.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/bestd
+river.pdf, id=350, 578.16pt x 433.62pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+bestdriver.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/b
+estdriver.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/bestdriver.pdf  used on input line 396.
+(pdftex.def)             Requested size: 469.75502pt x 352.31538pt.
 
-[13]
 
-[14]
+[13 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/b
+estdriver.pdf>]
 
-[15])
+[14] (./Range_limit.bbl
+
+[15]
 
 [16]
 
-LaTeX Warning: Reference `sup:md' on page 17 undefined on input line 393.
+[17])
 
+[18]
 
-
-[17
+[19
 
 ]
 
-[18]
-Overfull \hbox (53.2753pt too wide) in paragraph at lines 447--455
+[20]
+Overfull \hbox (53.2753pt too wide) in paragraph at lines 486--494
  [][] 
  []
 
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Clima
-te_prism_2023_2025.pdf, id=383, 867.24pt x 361.35pt>
+te_prism_2023_2025.pdf, id=416, 867.24pt x 361.35pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/C
 limate_prism_2023_2025.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Climate_prism_2023_2025.pdf  used on input line 492.
+ange-limits/Figure/Climate_prism_2023_2025.pdf  used on input line 534.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
 
-[19]
+[21]
 
-[20 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/C
+[22 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/C
 limate_prism_2023_2025.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combi
-ned_ppc_plots.pdf, id=402, 505.89pt x 433.62pt>
+ned_ppc_plots.pdf, id=434, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 combined_ppc_plots.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 ombined_ppc_plots.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/combined_ppc_plots.pdf  used on input line 505.
+ange-limits/Figure/combined_ppc_plots.pdf  used on input line 547.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[21
+[23
 
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/comb
 ined_ppc_plots.pdf>] (./Range_limit.aux)
@@ -1178,41 +1183,35 @@ ined_ppc_plots.pdf>] (./Range_limit.aux)
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `Range_limit.out' has not changed.
-(rerunfilecheck)             Checksum: 7AF797D34EA4C21EB94CEC2A54AA99AA;2003.
+(rerunfilecheck)             Checksum: 1819DED3AAF31D258EEAAD888464106E;2122.
  )
 (\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 168 (\begingroup)
+### semi simple group (level 1) entered at line 171 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 28602 strings out of 473190
- 528094 string characters out of 5715801
- 925528 words of memory out of 5000000
- 50557 multiletter control sequences out of 15000+600000
- 667740 words of font info for 664 fonts, out of 8000000 for 9000
+ 28697 strings out of 473190
+ 529935 string characters out of 5715801
+ 928669 words of memory out of 5000000
+ 50580 multiletter control sequences out of 15000+600000
+ 673882 words of font info for 715 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,101p,1194b,890s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,11n,101p,1194b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/c
 m/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr
-.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb
-></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/t
-exlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit.pdf (21 pages, 6326496 bytes).
+mtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+tt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.
+pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
+</usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on Range_limit.pdf (23 pages, 6358155 bytes).
 PDF statistics:
- 477 PDF objects out of 1000 (max. 8388607)
- 392 compressed objects within 4 object streams
- 86 named destinations out of 1000 (max. 500000)
- 178816 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 514 PDF objects out of 1000 (max. 8388607)
+ 419 compressed objects within 5 object streams
+ 90 named destinations out of 1000 (max. 500000)
+ 187525 words of extra memory for PDF output out of 221844 (max. 10000000)
 

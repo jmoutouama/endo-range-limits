@@ -3,57 +3,57 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 182 of file References.bib
+Repeated entry---line 194 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 204 of file References.bib
+Repeated entry---line 216 of file References.bib
  : @article{donald2021context
  :                           ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 683 of file References.bib
+Repeated entry---line 695 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-You've used 38 entries,
+You've used 39 entries,
             1935 wiz_defined-function locations,
-            730 strings with 11518 characters,
-and the built_in function-call counts, 16174 in all, are:
-= -- 1598
-> -- 696
+            735 strings with 11708 characters,
+and the built_in function-call counts, 16603 in all, are:
+= -- 1641
+> -- 714
 < -- 15
-+ -- 247
-- -- 236
-* -- 1506
-:= -- 2812
-add.period$ -- 114
-call.type$ -- 38
-change.case$ -- 306
-chr.to.int$ -- 37
-cite$ -- 38
-duplicate$ -- 526
-empty$ -- 1112
-format.name$ -- 288
-if$ -- 3084
++ -- 253
+- -- 242
+* -- 1547
+:= -- 2886
+add.period$ -- 117
+call.type$ -- 39
+change.case$ -- 314
+chr.to.int$ -- 38
+cite$ -- 39
+duplicate$ -- 540
+empty$ -- 1142
+format.name$ -- 295
+if$ -- 3166
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 37
-newline$ -- 193
-num.names$ -- 114
-pop$ -- 224
+missing$ -- 38
+newline$ -- 198
+num.names$ -- 117
+pop$ -- 230
 preamble$ -- 1
-purify$ -- 308
+purify$ -- 316
 quote$ -- 0
-skip$ -- 391
+skip$ -- 401
 stack$ -- 0
-substring$ -- 1352
-swap$ -- 38
+substring$ -- 1389
+swap$ -- 39
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 226
+type$ -- 232
 warning$ -- 0
-while$ -- 141
+while$ -- 145
 width$ -- 0
-write$ -- 494
+write$ -- 507
 (There were 3 error messages)

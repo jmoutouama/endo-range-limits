@@ -1927,7 +1927,7 @@ ggplot(plot_spk_data) +
   
   theme_light() +
   theme(
-    legend.position = c(0.08, 0.35),
+    legend.position = c(0.08, 0.40),
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 8),
     ggh4x.facet.nest.heights = heights_spk,

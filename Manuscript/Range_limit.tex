@@ -170,14 +170,14 @@ During peer review, our code (Stan and R) is available at \url{https://github.co
 %-------------------------------------------------------------------------
 \spacing{1.25}
 \section*{Abstract}
-%150 words limit for Ecology letter. The number now is 
+%150 words limit for Ecology letter. The number now is 150
 Interactions between plants and fungi are ubiquitous and can strongly influence plant fitness.
 Yet, how endophytes affect host demography across abiotic stress gradients when hosts are subject to herbivory pressure remains unclear.
-We studied three cool-season grasses hosting seed-transmitted fungal endophytes using geographically distributed field experiments along an aridity gradient, with factorial manipulations of endophyte presence and herbivory. 
-Bayesian models showed that all vital rates declined toward more arid sites, indicating reduced performance under stress. 
+We studied three cool-season grasses hosting seed-transmitted fungal endophytes using geographically distributed field experiments along a natural aridity gradient, with factorial manipulations of endophyte presence and herbivory. 
+Bayesian models showed that  all components of host fitness (survival, growth and fertility) declined toward more arid sites, indicating reduced performance under stress. 
 Declines were more pronounced in individuals hosting endophytes, suggesting that interactions typically beneficial under benign conditions can become costly under abiotic stress. 
 Herbivory had no detectable effect on demography. 
-Considering both abiotic and biotic factors, abiotic stress was the primary driver of vital rates, with herbivory and endophytes having little effect. 
+ Abiotic stress was the primary driver of vital rates, with herbivory and endophytes having little effect. 
 These results highlight that mutualistic fungi can become liabilities under stress, and that abiotic conditions largely determine species demography across environmental gradients.
 %--------------------------------------------------------------------
 \newpage
@@ -351,7 +351,7 @@ Panels are organized by species (AGHY, ELVI, POAU) and herbivory treatment (Fenc
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\textwidth]{Growth_diff.pdf}
-\caption{Predicted relative growth (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+\caption{Predicted relative growth from year to the next year (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
 Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
 Points represent mean observed growth per plot,  jittered  for visualization.  
 The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
@@ -383,12 +383,13 @@ Panels are organized by species (AGHY, ELVI) and herbivory treatment (Fenced, Un
 \end{figure}
 
 \subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
-Across all vital rates, survival, growth, flowering, and spikelet production, models including only abiotic predictors consistently had the highest ELPD values (Figure~\ref{fig:bestdriver}). 
-The standard errors of the ELPD differences indicate some uncertainty in these comparisons. 
-For example, the difference between the abiotic-only and abiotic+biotic models for survival was small relative to its uncertainty ($\Delta \mathrm{ELPD} = -2.1$, SE = 3.7), suggesting that including biotic predictors provides only marginal additional information. 
-In contrast, biotic-only models had substantially lower ELPD values with smaller uncertainty (e.g., survival: $\Delta \mathrm{ELPD} = -5.2$, SE = 2.0), indicating they are clearly inferior. 
-Overall, these results suggest that the demography of \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis} is primarily driven by variation along the abiotic stress gradient, such as precipitation, whereas biotic interactions, including herbivory and endophyte presence, play a secondary role. 
-This pattern aligns with the stress gradient hypothesis, which predicts that abiotic factors have a stronger influence on species performance in stressful environments, while biotic interactions become more important under more benign conditions.
+Across all vital rates (survival, growth, inflorescence, and spikelet production), models that included only abiotic predictors consistently provided the best fits, measured by expected log predictive density (ELPD; higher values indicate better predictive accuracy; Figure~\ref{fig:bestdriver}).  
+Uncertainty estimates showed that in some cases the advantage of abiotic-only models over those that also included biotic predictors was small. For example, for survival, the abiotic-only model outperformed the abiotic and biotic model only slightly 
+($\Delta \mathrm{ELPD} = -2.1$, SE = 3.7), suggesting that adding biotic predictors contributed little additional explanatory power.  
+By contrast, models based only on biotic factors performed much worse (e.g., survival: $\Delta \mathrm{ELPD} = -5.2$, SE = 2.0).  
+Taken together, these results suggest that the demography of \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis} 
+is shaped primarily by abiotic stressors such as precipitation, while biotic interactions (herbivory and endophyte presence) play a secondary role. 
+This pattern aligns with the stress gradient hypothesis, which predicts that abiotic factors dominate in stressful environments, whereas biotic interactions gain importance under more benign conditions.
 
 
 \begin{figure}[H]
@@ -429,7 +430,7 @@ This research was supported by National Science Foundation Division of Environme
 \section{Supplementary Methods} 
 \subsection {Study design}\label{sec:study_design}
 \subsubsection {Abiotic stress}
-Common gardens were established at seven sites spanning the geographic range of \emph{Elymus virginicus} from Louisiana to Texas, USA. Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
+Common gardens were established at seven sites spanning the geographic range of \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} from Louisiana to Texas, USA. Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
 
 \subsubsection {Plot establishment}
 At each site, we established eight plots measuring 1.5 m $\times$ 1.5 m. Existing vegetation was removed by tilling to reduce competition. Within each plot, 15 individuals of each species were planted approximately 15 cm deep in an evenly spaced 4 $\times$ 4 grid, with positions randomly assigned to reduce positional effects.
@@ -491,6 +492,8 @@ Texas Tech University  & Junction, TX & 30°28'18.2"N, 99°47'01.7"W & NE+ = 49,
 Palmetto State Park  & Palmetto, TX & 29.591623, -97.584781 & NE+ = 250, NE- = 192 \\ \hline
 Jean Lafitte National Historical Park and Preserve  & Jean Lafitte, LA & 29.785105, -90.114933 & NE+ = 83, NE- = 94 \\ \hline
 \end{tabular}
+\\[0.5em]
+\textit{\textcolor{blue}{I need to clean this Table and add the remaining sites}}
 \end{table}
 
 %\begin{table}[H]

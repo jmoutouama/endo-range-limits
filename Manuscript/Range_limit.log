@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 SEP 2025 12:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 SEP 2025 10:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1123,7 +1123,7 @@ bestdriver.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/b
 estdriver.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/bestdriver.pdf  used on input line 396.
+ange-limits/Figure/bestdriver.pdf  used on input line 397.
 (pdftex.def)             Requested size: 469.75502pt x 352.31538pt.
 
 
@@ -1145,22 +1145,23 @@ estdriver.pdf>]
 ]
 
 [20]
-Overfull \hbox (53.2753pt too wide) in paragraph at lines 486--494
+Overfull \hbox (53.2753pt too wide) in paragraph at lines 487--495
  [][] 
  []
 
+
+
+[21]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Clima
-te_prism_2023_2025.pdf, id=416, 867.24pt x 361.35pt>
+te_prism_2023_2025.pdf, id=424, 867.24pt x 361.35pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/C
 limate_prism_2023_2025.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/Climate_prism_2023_2025.pdf  used on input line 534.
+ange-limits/Figure/Climate_prism_2023_2025.pdf  used on input line 537.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
-
-[21]
 
 [22 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/C
 limate_prism_2023_2025.pdf>]
@@ -1171,7 +1172,7 @@ combined_ppc_plots.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/c
 ombined_ppc_plots.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
-ange-limits/Figure/combined_ppc_plots.pdf  used on input line 547.
+ange-limits/Figure/combined_ppc_plots.pdf  used on input line 550.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1191,11 +1192,11 @@ Package rerunfilecheck Info: File `Range_limit.out' has not changed.
 ### semi simple group (level 1) entered at line 171 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 28697 strings out of 473190
- 529935 string characters out of 5715801
- 928669 words of memory out of 5000000
+ 28692 strings out of 473190
+ 529881 string characters out of 5715801
+ 927696 words of memory out of 5000000
  50580 multiletter control sequences out of 15000+600000
- 673882 words of font info for 715 fonts, out of 8000000 for 9000
+ 673580 words of font info for 711 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,11n,101p,1194b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1208,7 +1209,7 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit.pdf (23 pages, 6358155 bytes).
+Output written on Range_limit.pdf (23 pages, 6358555 bytes).
 PDF statistics:
  514 PDF objects out of 1000 (max. 8388607)
  419 compressed objects within 5 object streams

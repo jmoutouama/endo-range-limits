@@ -7,12 +7,15 @@ library(readxl)
 library(bayesplot)
 library(tidybayes)
 library(posterior)
+setwd("C:/Users/tm9/Dropbox/github/ELVI-endophyte-density")
 
 ## read in agrinostics scores from lab drive
 path1<-gs4_get("https://docs.google.com/spreadsheets/d/1vHibZHiy-vdkwIuLU1EAah9cBx4XqloSkyTFDXMtoYw/edit?gid=1882843135#gid=1882843135")
 recruits<-read_sheet(path1,sheet="recruit_harvest")
 ## read in plot-level treatment data
 ## this is in the drive but it's an .xlsx file so I need to read it differently
+
+
 file_id<-"11m_-0KYtLtp5J0EqGWZ8RzNM-JfsDB3B"
 drive_download(as_id(file_id), path = "Data/endo_range_limits_experiment.xlsx", overwrite = TRUE)
 plots <- readxl::read_excel("Data//endo_range_limits_experiment.xlsx",sheet="Initial Plot Data")
@@ -85,8 +88,8 @@ prevalence_samples<-sampling(prevalence_model, data = prevalence_data,
                              cores = parallel::detectCores() - 1,
                        pars = c("beta0","beta1","rho1","rho2","p"),   
                        save_warmup=F)
-saveRDS(prevalence_samples,"Analysis/stan/prevalence_samples.rds")
-
+#saveRDS(prevalence_samples,"Analysis/stan/prevalence_samples.rds")
+prevalence_samples<-readRDS("Analysis/stan/prevalence_samples.rds")
 ## I got this code from CHatGPT, then modified
 # Convert MCMC samples to tidy format
 tidy_samples <- prevalence_samples %>%
@@ -207,3 +210,22 @@ ggplot(posterior_eqm)+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   labs(x="Equilibrium E+ prevalence")
 
+##AGHY only
+posterior_eqm %>% 
+  filter(Species=="AGHY") %>% 
+  ggplot()+
+  geom_histogram(aes(x=eqm_prev95,fill=Fence))+
+  facet_grid(cols=vars(Site))+
+  xlim(0,1)+theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(x="Equilibrium E+ prevalence")
+
+##Full fence only
+posterior_eqm %>% 
+  filter(Fence=="Full") %>% 
+  ggplot()+
+  geom_histogram(aes(x=eqm_prev95))+
+  facet_grid(rows=vars(Species),cols=vaSrs(Site))+
+  xlim(0,1)+theme_bw()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(x="Equilibrium E+ prevalence")

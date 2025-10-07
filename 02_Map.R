@@ -186,91 +186,259 @@ crop_ppt_annual <- terra::crop(ppt_annual_norm, study_area,mask=TRUE)
 col_precip <- terrain.colors(30)
 col_precip_rev <- rev(col_precip)
 
+# Fenced plots change herbivory that plants experience
+## Data
+datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
+dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
+datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
+## Match the data with initial data 
+dat23_sp <- dat23 %>%
+  left_join(
+    datini %>%
+      dplyr::select(Site, Species, Plot, Position, Tag_ID, Population, 
+                    GreenhouseID, Clone, Endo),
+    by = "Tag_ID"
+  ) %>%
+  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C")))
+#Combine datini and dat23
+combined_data <- bind_rows(datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")], dat23_sp[,c("Site","Species","Plot","Tag_ID","Population","Endo" )])%>% 
+  distinct(Tag_ID, .keep_all = TRUE)
+
+dat24_sp<-left_join(x = dat24, y = combined_data, by = c("Tag_ID")) %>% 
+  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit"))) %>% 
+  filter(!is.na(Species))
+## Merge the demographic data with the herbivory data
+dat23_herb <- left_join(x = dat23_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+dat24_herb <- left_join(x = dat24_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+demography_climate<-readRDS("/Users/jacobmoutouama/Desktop/Range/demography_climate.RDS")
+
+dat23_herb_plot <- dat23_herb %>%
+  group_by(Site, Plot, Herbivory) %>%
+  summarise(
+    prop_plants_damaged = mean(tiller_Herb_23 > 0, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+#  Summarize per Site × Herbivory
+summary_23 <- dat23_herb_plot %>%
+  group_by(Site, Herbivory) %>%
+  summarise(
+    Mean = mean(prop_plants_damaged, na.rm = TRUE),
+    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
+    .groups = "drop"
+  )
+
+# Define colors
+herb_levels <- c(0, 1)  # 0 = Unfenced, 1 = Fenced
+colors <- c("lightgreen", "salmon")
+names(colors) <- herb_levels
+
+# Create matrix for barplot (rows = Herbivory, columns = Site)
+site_ids <- unique(summary_23$Site)
+mean_matrix <- sapply(site_ids, function(s){
+  sapply(herb_levels, function(h){
+    v <- summary_23$Mean[summary_23$Site == s & summary_23$Herbivory == h]
+    if (length(v) == 0) NA else v
+  })
+})
+
+# Create SE matrix
+se_matrix <- sapply(site_ids, function(s){
+  sapply(herb_levels, function(h){
+    v <- summary_23$SE[summary_23$Site == s & summary_23$Herbivory == h]
+    if (length(v) == 0) NA else v
+  })
+})
+
+
 
 # Maps (Figure 1) ----
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",width=9,height=8)
-op <- par(mfrow = c(2,2), mar=c(0,1,3.75,1), oma = c(0, 2, 1, 0)) 
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",
+    width=9, height=10.5)
 
-# First plot (A)
+# Define layout as a 3x2 grid
+layout_matrix <- matrix(c(1,2,
+                          3,4,
+                          5,6), nrow=3, ncol=2, byrow=TRUE)
+
+layout(layout_matrix, heights=c(1,1,0.9))  # adjust heights if you want barplot bigger
+
+# Set default margins
+par(mar=c(3,0,4,1), oma=c(0,2,1,0))
+
+### Panel A
 plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
-plot(study_area, add=T)
-plot(aghy, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
-plot(garden_aghy, add=T, pch = 3, col="black", cex=2)
-plot(source_aghy, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext(~ italic("Agrostis hyemalis"), side = 3, adj = 0.5, cex=1.2, line=0.2)
-mtext("A", side = 3, adj = 0, cex=1.25, line=0.2)
-legend(-106, 28, 
-       legend = c("GBIF occurences", "Common garden sites", "Source populations"),
-       pch = c(23, 3, 21),
-       pt.cex = c(0.55, 1, 1),
-       col = c("grey50", "black", "black"),
-       pt.bg = c("grey", "black", "red"),
-       cex = 0.7, 
-       bty = "n", 
-       horiz = F)
-
-# Second plot (B)
+plot(study_area, add=TRUE)
+plot(aghy, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_aghy, add=TRUE, pch=3, col="black", cex=2)
+plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
+mtext("A", side=3, adj=0, cex=1.25, line=0.2)
+mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+### Panel B
 plot(crop_ppt_annual, xlab="Longitude", ylab="", col=col_precip_rev, cex.lab=1.2)
-plot(study_area, add=T)
-plot(elvi, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
-plot(garden_elvi, add=T, pch = 3, col="black", cex=2)
-plot(source_elvi, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext(~ italic ("Elymus virginicus"), side = 3, adj = 0.5, cex=1.2, line=0.2)
-mtext("B", side = 3, adj = 0, cex=1.25, line=0.2)
-legend(-106, 28, 
-       legend = c("GBIF occurences", "Common garden sites", "Source populations"),
-       pch = c(23, 3, 21),
-       pt.cex = c(0.55, 1, 1),
-       col = c("grey50", "black", "black"),
-       pt.bg = c("grey", "black", "red"),
-       cex = 0.7, 
-       bty = "n", 
-       horiz = F)
-
-# Third plot (C)
+plot(study_area, add=TRUE)
+plot(elvi, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_elvi, add=TRUE, pch=3, col="black", cex=2)
+plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
+mtext("B", side=3, adj=0, cex=1.25, line=0.2)
+mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+### Panel C
 par(mar=c(0,3,3.75,1))
 plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
-plot(study_area, add=T)
-plot(poau, add=T, pch = 23, col="grey50", bg="grey", cex=0.55)
-plot(garden_poau, add=T, pch = 3, col="black", cex=2)
-plot(source_poau, add=T, pch = 21, col="black", bg="red", cex=1)
-mtext( ~ italic("Poa autumnalis"), side = 3, adj = 0.5, cex=1.2, line=0.2)
-mtext("C", side = 3, adj = 0, cex=1.25, line=0.2)
-legend(-105.9, 28, 
-       legend = c("GBIF occurences", "Common garden sites", "Source populations"),
-       pch = c(23, 3, 21),
-       pt.cex = c(0.55, 1, 1),
-       col = c("grey50", "black", "black"),
-       pt.bg = c("grey", "black", "red"),
-       cex = 0.7, 
-       bty = "n", 
-       horiz = F)
+plot(study_area, add=TRUE)
+plot(poau, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_poau, add=TRUE, pch=3, col="black", cex=2)
+plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
+mtext("C", side=3, adj=0, cex=1.25, line=0.3)
+mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+### Panel D (barplot ordered largest → smallest)
+par(mar=c(6,4,4,1))
+ordered_data <- prism_summary[order(prism_summary[,2], decreasing=TRUE), ]
+bar_vals <- as.numeric(ordered_data[,2])
+names(bar_vals) <- ordered_data[,1]
+barplot(bar_vals,
+        col="#E69F00",
+        xlab="Sites", ylab="Cumulative Precipitation (mm)",
+        ylim=c(0,3500),
+        las=2,
+        cex.lab=1.2,
+        cex.names=0.75)
+mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
 
-# Fourth plot (D)
-# Fourth plot (D) - fix margins and improve layout
-par(mar = c(6, 4, 4, 1))  # bottom, left, top, right
+### Panel E
+par(mar=c(0, 0, 0, 0))  
+plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
+mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
 
-# Reorder for plotting
-ordered_data <- prism_summary[order(prism_summary[, 2], decreasing = FALSE), ]
-barplot(
-  ordered_data[, 2], 
-  names.arg = ordered_data[, 1], 
-  col = "#E69F00", 
-  xlab = "Sites", 
-  ylab = "Cumulative Precipitation (mm)", 
-  main = "", 
-  ylim = c(0, 3500), 
-  las = 2,  # rotate x-axis labels for better readability
+# fenced
+rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
+plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
+plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+points(plants1_x+0.1, plants1_y+0.1, pch=19, col="salmon", cex=1.5)
+mtext("Fenced", side=3, at=0.85, line=-4, cex=0.9)
+
+# unfenced
+rect(1.9, 0.1, 3.4, 1.6, border=NA)
+segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
+segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
+plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
+plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+points(plants2_x-2+1.9, plants2_y+0.1, pch=19, col="lightgreen", cex=1.5)
+mtext("Unfenced", side=3, at=2.65, line=-4, cex=0.9)
+# Match site order in Panel F to that in Panel D
+ordered_sites <- ordered_data[,1]
+# Reorder the data used for Panel F
+match_idx <- match(ordered_sites, site_ids)
+mean_matrix <- mean_matrix[, match_idx, drop=FALSE]
+se_matrix <- se_matrix[, match_idx, drop=FALSE]
+site_ids <- ordered_sites
+
+### Panel F
+par(mar = c(8, 4, 2, 1))  # bottom, left, top, right
+mtext("F", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
+
+bp <- barplot(
+  height = mean_matrix,
+  beside = TRUE,
+  names.arg = site_ids,
+  col = colors,
+  ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
+  xlab="Sites",
+  ylab = "Proportion of damaged plants",
+  las = 2,
   cex.lab=1.2,
-  cex.names = 0.75  # adjust text size if needed
+  cex.names=0.75
 )
 
-#mtext("Cumulative Precipitation (mm)", side = 3, adj = 0.5, cex = 1.2, line = 0.3)
-mtext("D", side = 3, adj = 0, cex = 1.25, line = 0.3)
+# Add error bars
+arrows(
+  x0 = bp,
+  y0 = mean_matrix - se_matrix,
+  x1 = bp,
+  y1 = mean_matrix + se_matrix,
+  angle = 90, code = 3, length = 0.07
+)
 
-par(op)
+# Add legend — shifted inside the plot for cleaner layout
+legend(0,0.98,"topleft", legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 1.2)
+
 dev.off()
 
+## 2024 
+dat24_herb_plot <- dat24_herb %>%
+  group_by(Site, Plot, Herbivory) %>%
+  summarise(
+    prop_plants_damaged = mean(tiller_herb_24 > 0, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Summarize per Site × Herbivory
+summary_24 <- dat24_herb_plot %>%
+  group_by(Site, Herbivory) %>%
+  summarise(
+    Mean = mean(prop_plants_damaged, na.rm = TRUE),
+    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
+    .groups = "drop"
+  )
+
+# Define colors
+herb_levels <- c(0,1)  # 0 = Fenced, 1 = Unfenced
+colors <- c("lightgreen", "salmon")
+names(colors) <- herb_levels
+
+# Create matrix for barplot (rows = Herbivory, columns = Site)
+site_ids <- unique(summary_24$Site)
+mean_matrix <- sapply(site_ids, function(s){
+  sapply(herb_levels, function(h){
+    v <- summary_24$Mean[summary_24$Site==s & summary_24$Herbivory==h]
+    if(length(v)==0) NA else v
+  })
+})
+
+# Create SE matrix
+se_matrix <- sapply(site_ids, function(s){
+  sapply(herb_levels, function(h){
+    v <- summary_24$SE[summary_24$Site==s & summary_24$Herbivory==h]
+    if(length(v)==0) NA else v
+  })
+})
+
+# Export barplot as PDF
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot24.pdf",
+    width = 4, height = 5)
+
+bp <- barplot(
+  height = mean_matrix,
+  beside = TRUE,
+  names.arg = site_ids,
+  col = colors,
+  ylim = c(0, max(mean_matrix + se_matrix, na.rm=TRUE) * 1.2),
+  ylab = "Proportion of plants with any damage",
+  xlab="Sites",
+  main = "",
+  las = 2,
+  cex.names = 0.6
+)
+
+# Add error bars
+arrows(
+  x0 = bp,
+  y0 = mean_matrix - se_matrix,
+  x1 = bp,
+  y1 = mean_matrix + se_matrix,
+  angle = 90, code = 3, length = 0.05
+)
+
+# Add legend
+legend(0,0.7, legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 0.8)
+
+dev.off()
 
 
 

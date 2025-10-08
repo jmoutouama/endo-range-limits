@@ -261,13 +261,13 @@ demography_climate %>%
 # summary(demography_climate)
 
 ## Running the stan model
-# sim_pars <- list(
-#   warmup = 1000,
-#   iter = 4000,
-#   thin = 2,
-#   control = list(adapt_delta = 0.99, max_treedepth = 15),
-#   chains = 4
-# )
+sim_pars <- list(
+  warmup = 1000,
+  iter = 4000,
+  thin = 2,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  chains = 4
+)
 
 # Survival----
 ## Read and format survival data to build the model

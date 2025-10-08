@@ -425,7 +425,6 @@ bp <- barplot(
   las = 2,
   cex.names = 0.6
 )
-
 # Add error bars
 arrows(
   x0 = bp,

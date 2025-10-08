@@ -13,13 +13,14 @@ data {
   int<lower=1> pop[N];       // Population index for each observation
   int<lower=0,upper=1> y[N]; // Survival outcome (1 = survived, 0 = died)
   int<lower=0,upper=1> endo[N];  // Endophyte presence (1 = positive, 0 = negative)
-  int<lower=0,upper=1> herb[N];  // Herbivory presence (1 = damaged, 0 = not)
+  vector[N] clim;             // Climate covariate (e.g., precipitation)
 }
 
 parameters {
   // Fixed effects
-  vector[nSpp] b0;             // Intercept for each species
-  vector[nSpp] bendoherb;      // Coefficient for endophyte × herbivory interaction
+  vector[nSpp] b0;            // Intercept for each species
+  vector[nSpp] bendoclim;     // Coefficient for linear endophyte × climate interaction
+  vector[nSpp] bendoclim2;    // Coefficient for quadratic endophyte × climate^2 interaction
 
   // Random effects
   real<lower=0> plot_tau;         // SD for plot-level random effects
@@ -35,18 +36,20 @@ transformed parameters {
 
   // Loop over all observations to compute predicted survival
   for (i in 1:N) {
-    predS[i] = b0[Spp[i]] +                        // Species-specific intercept
-               bendoherb[Spp[i]] * endo[i] * herb[i] +  // Endophyte × herbivory interaction
-               plot_rfx[plot[i]] +                  // Plot-level random effect
-               pop_rfx[pop[i]] +                    // Population-level random effect
-               site_year_rfx[Spp[i], site_year[i]]; // Site_year-level random effect
+    predS[i] = b0[Spp[i]] +                              // Species-specific intercept
+               bendoclim[Spp[i]] * endo[i] * clim[i] +  // Linear endo × climate interaction
+               bendoclim2[Spp[i]] * endo[i] * square(clim[i]) + // Quadratic endo × climate interaction
+               plot_rfx[plot[i]] +                        // Plot-level random effect
+               pop_rfx[pop[i]] +                          // Population-level random effect
+               site_year_rfx[Spp[i], site_year[i]];      // Site_year-level random effect
   }
 }
 
 model {
   // Priors for fixed effects
   b0 ~ normal(0,5);
-  bendoherb ~ normal(0,5);
+  bendoclim ~ normal(0,5);
+  bendoclim2 ~ normal(0,5);
 
   // Priors and distributions for random effects
   plot_tau ~ normal(0,1);

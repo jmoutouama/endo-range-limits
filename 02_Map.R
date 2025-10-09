@@ -163,7 +163,7 @@ crs(source_aghy) <- CRS1
 crs(source_elvi) <- CRS1
 crs(source_poau) <- CRS1
 
-# Climatic and distance data----
+# Climatic data----
 prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/rjwgk98idmdatk025g6st/prism_means.rds?rlkey=dfooohwn3j2d5pew0ryjpultl&dl=1"))
 
 # Study area shapefile ----
@@ -212,8 +212,7 @@ dat24_sp<-left_join(x = dat24, y = combined_data, by = c("Tag_ID")) %>%
 ## Merge the demographic data with the herbivory data
 dat23_herb <- left_join(x = dat23_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 dat24_herb <- left_join(x = dat24_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-demography_climate<-readRDS("/Users/jacobmoutouama/Desktop/Range/demography_climate.RDS")
+#dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 
 dat23_herb_plot <- dat23_herb %>%
   group_by(Site, Plot, Herbivory) %>%
@@ -411,7 +410,7 @@ se_matrix <- sapply(site_ids, function(s){
 
 # Export barplot as PDF
 pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot24.pdf",
-    width = 4, height = 5)
+    width = 5, height = 4)
 
 bp <- barplot(
   height = mean_matrix,
@@ -419,7 +418,7 @@ bp <- barplot(
   names.arg = site_ids,
   col = colors,
   ylim = c(0, max(mean_matrix + se_matrix, na.rm=TRUE) * 1.2),
-  ylab = "Proportion of plants with any damage",
+  ylab = "Proportion of damaged plants",
   xlab="Sites",
   main = "",
   las = 2,
@@ -435,10 +434,41 @@ arrows(
 )
 
 # Add legend
-legend(0,0.7, legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 0.8)
+legend(0,0.95, legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 0.8)
 
 dev.off()
 
 
+# Climatic census ----
+prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
 
+# Aggregate cum_ppt by site and year
+# Aggregate cum_ppt by site and year
+site_data <- aggregate(cum_ppt ~ site + census_year, data = prism_summary_census, sum)
+
+# Ensure site is a factor with the desired order
+site_data$site <- factor(site_data$site, levels = c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON"))
+
+# Reshape into matrix: rows = sites, columns = years
+library(reshape2)
+bar_matrix <- dcast(site_data, site ~ census_year, value.var = "cum_ppt", fill = 0)
+rownames(bar_matrix) <- bar_matrix$site
+bar_matrix <- as.matrix(bar_matrix[, c("2024", "2025")])
+
+# Side-by-side bar plot
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/climate_census_years.pdf",
+    width = 5, height = 4)
+barplot(
+  t(bar_matrix),             # transpose so 2024 and 2025 are beside each other
+  beside = TRUE,
+  col = c("skyblue", "orange"),
+  legend.text = c("2024", "2025"),
+  args.legend = list(x = "topright"),
+  main = "",
+  ylim=c(0,7000),
+  xlab = "Sites",
+  ylab = "Cumulative Precipitation (mm)",
+  las = 1
+)
+dev.off()
 

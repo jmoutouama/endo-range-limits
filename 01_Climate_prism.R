@@ -20,12 +20,9 @@ library(lubridate)      # date manipulation
 
 ## Load and compile PRISM raster data
 options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
-
 # Download PRISM data (commented out as already done)
 # get_prism_monthlys(type="ppt", years=1990:2025, mon=1:12, keepZip = TRUE)
 # get_prism_monthlys(type="tmean", years=1990:2025, mon=1:12, keepZip = TRUE)
-# get_prism_monthlys(type="vpdmin", years=1990:2025, mon=1:12, keepZip = TRUE)
-# get_prism_monthlys(type="vpdmax", years=1990:2025, mon=1:12, keepZip = TRUE)
 
 climate_data <- prism_archive_ls() %>%
   pd_stack()
@@ -83,12 +80,10 @@ climate_garden_2023_2025 <- climate_garden_1995_2025 %>%
 
 ## Compute site-level summary
 climate_garden_2023_2025 %>%
-  mutate(vpd = (vpdmax + vpdmin)/2) %>%
   group_by(site) %>%
   summarise(
     sum_ppt = sum(ppt, na.rm = TRUE),
     mean_temp = mean(tmean, na.rm = TRUE),
-    mean_vpd = mean(vpd, na.rm = TRUE)
   ) -> prism_means
 
 prism_means <- as.data.frame(prism_means)
@@ -147,7 +142,7 @@ census_dates_23_24 <- date_sp_site23_unique %>%
     end_year    = year(end_date),
     end_month   = month(end_date)
   )
-
+view(census_dates_23_24)
 # head(census_dates_23_24)
 
 ## Compute cumulative precipitation and mean temperature per species × site for 2023–2024

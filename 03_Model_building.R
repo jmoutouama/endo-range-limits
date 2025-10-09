@@ -56,7 +56,7 @@ dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_202
 datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
 
 # Climatic data ----
-climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/yjxwq78v2iruk6sshf8if/climate_census_years.rds?rlkey=k2dg37ofts7u6xcqiwvqqnmf4&dl=1"))
+climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/arl44h1v0xoaymz0s4b5m/site_climate_summary.rds?rlkey=w7wuh62on061cm3cdhwl6gu9e&dl=1"))
 # head(climate_site)
 
 # calculate the average spikelet and inflorescence number for each census
@@ -420,30 +420,33 @@ fit_grow_abio_endo <- stan(
   iter = sim_pars$iter,
   thin = sim_pars$thin,
   chains = sim_pars$chains,
-  control = sim_pars$control)
+  control = sim_pars$control,
+  seed = 13)
 
-fit_grow_ppt_biotic <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_ppt_biotic.stan",
+fit_grow_bio_endo <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_bio_endo.stan",
   data = demography_grow_ppt,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
   thin = sim_pars$thin,
   chains = sim_pars$chains,
-  control = sim_pars$control)
+  control = sim_pars$control,
+  seed = 13)
 
 
-fit_grow_ppt <- stan(
+fit_grow_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
   data = demography_grow_ppt,
   warmup = sim_pars$warmup,
   iter = sim_pars$iter,
   thin = sim_pars$thin,
   chains = sim_pars$chains,
-  control = sim_pars$control)
+  control = sim_pars$control,
+  seed = 13)
 
 # summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
-posterior_grow_ppt <- as.array(fit_grow_ppt) # Converts to an array
-bayesplot::mcmc_trace(posterior_grow_ppt,
+posterior_grow_abio_bio_endo <- as.array(fit_grow_abio_bio_endo) # Converts to an array
+bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
                       pars = quote_bare(
                         b0[1], b0[2], b0[3],
                         bendo[1], bendo[2], bendo[3],
@@ -459,10 +462,9 @@ bayesplot::mcmc_trace(posterior_grow_ppt,
 
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_ppt_intercept, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_intercept.rds')
-# saveRDS(fit_grow_ppt_abiotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_abiotic.rds')
-# saveRDS(fit_grow_ppt_biotic, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt_biotic.rds')
-# # saveRDS(fit_grow_ppt, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_ppt.rds')
+# saveRDS(fit_grow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_endo.rds')
+# saveRDS(fit_grow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_bio_endo.rds')
+# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 
 # Flowering----
 demography_climate %>%

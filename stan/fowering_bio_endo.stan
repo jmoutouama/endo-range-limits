@@ -1,72 +1,84 @@
 data {
-  int<lower=1> nSpp;
-  int<lower=1> nsite_year;
-  int<lower=1> nPop;
-  int<lower=1> N;
-  int<lower=1> nPlot;
+  // Indices
+  int<lower=1> nSpp;         // Number of species
+  int<lower=1> nsite_year;   // Number of site_years
+  int<lower=1> nPop;         // Number of source populations
+  int<lower=1> N;            // Number of observations for flowering model
+  int<lower=1> nPlot;        // Number of plots
 
-  int<lower=1> Spp[N];
-  int<lower=1> site_year[N];
-  int<lower=1> plot[N];
-  int<lower=1> pop[N];
-
-  int<lower=0> y[N];
-  int<lower=0,upper=1> endo[N];
-  int<lower=0,upper=1> herb[N];
+  // Observation-level data
+  int<lower=1> Spp[N];       // Species index
+  int<lower=1> site_year[N]; // Site-year index
+  int<lower=1> plot[N];      // Plot index
+  int<lower=1> pop[N];       // Population index
+  int<lower=0> y[N];         // Flowering counts at t+1
+  int<lower=0,upper=1> endo[N];  // Endophyte status (1 = positive)
+  int<lower=0,upper=1> herb[N];  // Herbivory status (1 = present)
 }
 
 parameters {
-  vector[nSpp] b0;
-  vector[nSpp] bendo;
-  vector[nSpp] bherb;
+  // Fixed effects (species-specific)
+  vector[nSpp] b0;              
+  vector[nSpp] bendo;           
+  vector[nSpp] bherb;           
+  vector[nSpp] bendoherb;        // Interaction between endo and herb
 
-  real<lower=0> plot_tau;
-  vector[nPlot] plot_rfx;
+  // Random effects
+  real<lower=0> plot_tau;              
+  vector[nPlot] plot_rfx;              
+  real<lower=0> pop_tau;               
+  vector[nPop] pop_rfx;                
+  vector<lower=0>[nSpp] site_year_tau; 
+  matrix[nSpp, nsite_year] site_year_rfx; 
 
-  real<lower=0> pop_tau;
-  vector[nPop] pop_rfx;
-
-  vector<lower=0>[nSpp] site_year_tau;
-  matrix[nSpp, nsite_year] site_year_rfx;
-
-  real<lower=0> phi;
+  real<lower=0> phi; 
 }
 
 transformed parameters {
-  vector[N] pred;
+  vector[N] predF; 
 
-  for (i in 1:N){
-    pred[i] = b0[Spp[i]] +
-              bendo[Spp[i]] * endo[i] +
-              bherb[Spp[i]] * herb[i] +
-              plot_rfx[plot[i]] +
-              pop_rfx[pop[i]] +
-              site_year_rfx[Spp[i], site_year[i]];
+  for (i in 1:N) {
+    predF[i] =
+      b0[Spp[i]] +                              
+      // Main effects
+      bendo[Spp[i]] * endo[i] +
+      bherb[Spp[i]] * herb[i] +
+      // Interaction
+      bendoherb[Spp[i]] * endo[i] * herb[i] +
+      // Random effects
+      plot_rfx[plot[i]] +
+      pop_rfx[pop[i]] +
+      site_year_rfx[Spp[i], site_year[i]];
   }
 }
 
 model {
-  b0 ~ normal(0,5);
-  bendo ~ normal(0,5);
-  bherb ~ normal(0,5);
-  phi ~ normal(0,5);
+  // Priors for fixed effects
+  b0 ~ normal(0, 5);    
+  bendo ~ normal(0, 5);   
+  bherb ~ normal(0, 5); 
+  bendoherb ~ normal(0, 5);
+  phi ~ normal(0, 5); 
 
-  plot_tau ~ normal(0,1);
-  plot_rfx ~ normal(0, plot_tau);
+  // Priors for random effects
+  plot_tau ~ normal(0, 1);
+  plot_rfx ~ normal(0, plot_tau);  
 
-  pop_tau ~ normal(0,1);
-  pop_rfx ~ normal(0, pop_tau);
+  pop_tau ~ normal(0, 1);
+  pop_rfx ~ normal(0, pop_tau);    
 
-  site_year_tau ~ normal(0,1);
-  for (i in 1:nSpp)
-    for (j in 1:nsite_year)
-      site_year_rfx[i,j] ~ normal(0, site_year_tau[i]);
+  site_year_tau ~ normal(0, 1);     
+  for (f in 1:nSpp)
+    site_year_rfx[f] ~ normal(0, site_year_tau[f]);
 
-  y ~ neg_binomial_2_log(pred, phi);
+  // Likelihood
+  y ~ neg_binomial_2_log(predF, phi);
 }
 
 generated quantities {
   vector[N] log_lik;
-  for (i in 1:N)
-    log_lik[i] = neg_binomial_2_log_lpmf(y[i] | pred[i], phi);
+
+  for (i in 1:N) {
+    log_lik[i] = neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
+  }
 }

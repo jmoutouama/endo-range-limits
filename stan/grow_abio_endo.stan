@@ -27,7 +27,6 @@ parameters {
   vector[nSpp] bclim;        // Coefficient for the linear effect of climate for each species
   vector[nSpp] bendoclim;    // Coefficient for the interaction between endophyte and climate
   vector[nSpp] bclim2;       // Coefficient for the quadratic effect of climate for each species
-  vector[nSpp] bendoclim2;   // Coefficient for the quadratic interaction between endophyte and climate
 
   // Random effects variances
   real<lower=0> plot_tau;         // Variance for plot-level random effects
@@ -55,7 +54,6 @@ transformed parameters {
                    bendoclim[Spp[igrow]] * clim[igrow] * endo[igrow] +
                    // Quadratic climate effects
                    bclim2[Spp[igrow]] * square(clim[igrow]) +  
-                   bendoclim2[Spp[igrow]] * endo[igrow] * square(clim[igrow]) + 
                    // Random effects
                    plot_rfx[plot[igrow]] +     // Plot-level random effect
                    pop_rfx[pop[igrow]] +       // Population-level random effect
@@ -70,7 +68,6 @@ model {
   bclim ~ normal(0, 5);  
   bendoclim ~ normal(0, 5);  
   bclim2 ~ normal(0, 5);  
-  bendoclim2 ~ normal(0, 5);
   sigma ~ normal(0, 5);  // Prior for residual standard deviation
 
   // Priors for random effects variances

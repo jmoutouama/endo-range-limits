@@ -13,18 +13,13 @@ data {
   int<lower=0> y[N];          // Count response: number of inflorescences
   int<lower=0,upper=1> endo[N]; // Endophyte presence (1=yes, 0=no)
   int<lower=0,upper=1> herb[N]; // Herbivory presence (1=yes, 0=no)
-  vector[N] clim;             // Climate covariate (e.g., precipitation, PET, etc.)
 }
 parameters {
   // Fixed effects
   vector[nSpp] b0;             // Species-specific intercepts
   vector[nSpp] bendo;          // Effect of endophyte presence
   vector[nSpp] bherb;          // Effect of herbivory
-  vector[nSpp] bclim;          // Linear climate effect
-  vector[nSpp] bendoclim;      // Endophyte × climate interaction
   vector[nSpp] bendoherb;      // Endophyte × herbivory interaction
-  vector[nSpp] bendoherbclim; 
-  vector[nSpp] bclim2;         // Quadratic climate effect
   // Random effects
   real<lower=0> plot_tau;      // SD of plot random effects
   vector[nPlot] plot_rfx;      // Plot-level random effects
@@ -42,14 +37,8 @@ transformed parameters {
                // Main effects
                bendo[Spp[i]] * endo[i] +
                bherb[Spp[i]] * herb[i] +
-               bclim[Spp[i]] * clim[i] +
-               // 2-way interactions between endophyte and stressors
-               bendoclim[Spp[i]] * endo[i] * clim[i] +
+               // Interaction
                bendoherb[Spp[i]] * endo[i] * herb[i] +
-               // 3-way interaction between endophyte, herbivory, and climate
-                bendoherbclim[Spp[i]] * endo[i] * herb[i] * clim[i] + 
-               // Quadratic effects
-               bclim2[Spp[i]] * square(clim[i]) +
                // Random effects
                plot_rfx[plot[i]] +
                pop_rfx[pop[i]] +
@@ -62,12 +51,9 @@ model {
   b0 ~ normal(0, 5);
   bendo ~ normal(0, 5);
   bherb ~ normal(0, 5);
-  bclim ~ normal(0, 5);
-  bendoclim ~ normal(0, 5);
   bendoherb ~ normal(0, 5);
-  bendoherbclim ~ normal(0, 5);   
-  bclim2 ~ normal(0, 5);
   phi ~ normal(0, 5);
+
   // Priors for random effects
   plot_tau ~ normal(0, 1);
   plot_rfx ~ normal(0, plot_tau);
@@ -76,7 +62,7 @@ model {
   site_year_tau ~ normal(0, 1);
   for (spk in 1:nSpp)
     site_year_rfx[spk] ~ normal(0, site_year_tau[spk]);
-    
+
   // Likelihood: Negative binomial for count data
   y ~ neg_binomial_2_log(predF, phi);
 }

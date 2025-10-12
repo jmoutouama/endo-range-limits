@@ -26,8 +26,6 @@ parameters {
   vector[nSpp] bendo;        // Coefficient for endophyte status for each species
   vector[nSpp] bherb;        // Coefficient for herbivory for each species
   vector[nSpp] bendoherb;    // Coefficient for the interaction between endophyte and herbivory
-  vector[nSpp] bherb2;       // Coefficient for the quadratic effect of herbivory
-  vector[nSpp] bendoherb2;   // Coefficient for the quadratic interaction between endophyte and herbivory
 
   // Random effects variances
   real<lower=0> plot_tau;         // Variance for plot-level random effects
@@ -53,9 +51,6 @@ transformed parameters {
                    bherb[Spp[igrow]] * herb[igrow] +
                    // Two-way interaction
                    bendoherb[Spp[igrow]] * endo[igrow] * herb[igrow] +
-                   // Quadratic herbivory effects
-                   bherb2[Spp[igrow]] * square(herb[igrow]) +  
-                   bendoherb2[Spp[igrow]] * endo[igrow] * square(herb[igrow]) + 
                    // Random effects
                    plot_rfx[plot[igrow]] +     // Plot-level random effect
                    pop_rfx[pop[igrow]] +       // Population-level random effect
@@ -69,8 +64,6 @@ model {
   bendo ~ normal(0, 5);   
   bherb ~ normal(0, 5);  
   bendoherb ~ normal(0, 5);  
-  bherb2 ~ normal(0, 5);  
-  bendoherb2 ~ normal(0, 5);
   sigma ~ normal(0, 5);  // Prior for residual standard deviation
 
   // Priors for random effects variances

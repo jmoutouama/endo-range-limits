@@ -679,16 +679,16 @@ simulate_ppc <- function(pred_matrix, phi = NULL, family = c("bernoulli", "norma
 
 bayesplot::color_scheme_set("blue")
 ## Survival Model full model----
-fit_survival <- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_surv_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
-post_surv <- rstan::extract(fit_survival)
+fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/x5q2v6fxnojb9msl0yhnj/fit_surv_abio_bio_endo.rds?rlkey=ojivjcdq1s30jf15is7pbezx8&dl=1"))
+post_surv <- rstan::extract(fit_surv_abio_bio_endo)
 pred_surv <- post_surv$predS
 y_surv <- demography_surv_ppt$y
 y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
 p_surv <- ppc_dens_overlay(y_surv, y_rep_surv[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model full model----
-fit_growth <- readRDS(url("https://www.dropbox.com/scl/fi/5oduhrkn3l0cu5b9soju5/fit_grow_ppt.rds?rlkey=mpxxl4aejowhdm29pij9jv8kk&dl=1"))
-post_grow <- rstan::extract(fit_growth)
+fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/6zy5h2kdj56jkzm5ca8ok/fit_grow_abio_bio_endo.rds?rlkey=92hul5ki05hpbgguo9nbg6dd3&dl=1"))
+post_grow <- rstan::extract(fit_grow_abio_bio_endo)
 pred_grow <- post_grow$predG
 sigma_grow <- post_grow$sigma
 y_grow <- demography_grow_ppt$y
@@ -696,17 +696,17 @@ y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
 p_grow <- ppc_dens_overlay(y_grow, y_rep_grow[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model full model ----
-fit_flowering <- readRDS(url("https://www.dropbox.com/scl/fi/1j3ln3jxk94s56c9j193q/fit_flow_ppt.rds?rlkey=ag5bdlhngtg2gsfbfbx15purr&dl=1"))
-post_flow <- rstan::extract(fit_flowering)
+fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pl6444lqmvl10s8ccxbsf/fit_flow_abio_bio_endo.rds?rlkey=x34lgk5q3n1hfryd6y2se2rm2&dl=1"))
+post_flow <- rstan::extract(fit_flow_abio_bio_endo)
 pred_flow <- post_flow$predF
 phi_flow <- post_flow$phi
 y_flow <- demography_flow_ppt$y
 y_rep_flow <- simulate_ppc(pred_flow, phi = phi_flow, family = "negbinomial")
-p_flow <- ppc_dens_overlay(y_flow, y_rep_flow[1:500, ]) + ggtitle("Flowering")
+p_flow <- ppc_dens_overlay(y_flow, y_rep_flow[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model full model ----
-fit_spikelet <- readRDS(url("https://www.dropbox.com/scl/fi/fg562lkkl077j8qoegb8q/fit_spik_ppt.rds?rlkey=cbfyy7tq7tja3e9mxujv0scm6&dl=1"))
-post_spik <- rstan::extract(fit_spikelet)
+fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/dyr574ub0zv4rfcbla7ov/fit_spik_abio_bio_endo.rds?rlkey=agw1q5xilj21z8wmzyziqsg6u&dl=1"))
+post_spik <- rstan::extract(fit_spik_abio_bio_endo)
 pred_spik <- post_spik$predF
 phi_spik <- post_spik$phi
 y_spik <- demography_spik_ppt$y
@@ -728,16 +728,16 @@ combined_plot <- (p_surv | p_grow) / (p_flow | p_spik) +
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots.pdf", plot = combined_plot, width = 7, height = 6)
 
 ## Survival Model abiotic----
-fit_survival_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_surv_ppt_abiotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
-post_surv_abiotic <- rstan::extract(fit_survival_abiotic)
+fit_surv_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/d3pozyvc8esrf8llkvzfk/fit_surv_abio_endo.rds?rlkey=znr5uguaysgjl100fbwnsx1k7&dl=1"))
+post_surv_abiotic <- rstan::extract(fit_surv_abio_endo)
 pred_surv_abiotic <- post_surv_abiotic$predS
 y_surv_abiotic <- demography_surv_ppt$y
 y_rep_surv_abiotic <- simulate_ppc(pred_surv_abiotic, family = "bernoulli")
 p_surv_abiotic <- ppc_dens_overlay(y_surv_abiotic, y_rep_surv_abiotic[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model abiotic----
-fit_growth_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/wwy6y5z2xpu5ukausel6m/fit_grow_ppt_abiotic.rds?rlkey=teyk9e49bjp8ojsyi860z1241&dl=1"))
-post_grow_abiotic <- rstan::extract(fit_growth_abiotic)
+fit_grow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/3qcj9258hckcfe3b5jq8f/fit_grow_abio_endo.rds?rlkey=krm1rpun1ns8l68lvvw7vxoaf&dl=1"))
+post_grow_abiotic <- rstan::extract(fit_grow_abio_endo)
 pred_grow_abiotic <- post_grow_abiotic$pred
 sigma_grow_abiotic <- post_grow_abiotic$sigma
 y_grow_abiotic <- demography_grow_ppt$y
@@ -745,17 +745,17 @@ y_rep_grow_abiotic <- simulate_ppc(pred_grow_abiotic, phi = sigma_grow_abiotic, 
 p_grow_abiotic <- ppc_dens_overlay(y_grow_abiotic, y_rep_grow_abiotic[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model abiotic ----
-fit_flowering_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/8amcccm6vtn9jxsoa97yk/fit_flow_ppt_abiotic.rds?rlkey=l87f6ipeyn5si41wozsz2c57k&dl=1"))
-post_flow_abiotic <- rstan::extract(fit_flowering_abiotic)
+fit_flow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/ytlje7tlfr8dmz1e96m7y/fit_flow_abio_endo.rds?rlkey=3bbgdc92zjzke89sd1r7kpa9i&dl=1"))
+post_flow_abiotic <- rstan::extract(fit_flow_abio_endo)
 pred_flow_abiotic <- post_flow_abiotic$pred
 phi_flow_abiotic <- post_flow_abiotic$phi
 y_flow_abiotic <- demography_flow_ppt$y
 y_rep_flow_abiotic <- simulate_ppc(pred_flow_abiotic, phi = phi_flow_abiotic, family = "negbinomial")
-p_flow_abiotic <- ppc_dens_overlay(y_flow_abiotic, y_rep_flow_abiotic[1:500, ]) + ggtitle("Flowering")
+p_flow_abiotic <- ppc_dens_overlay(y_flow_abiotic, y_rep_flow_abiotic[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model abiotic----
-fit_spikelet_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/idg2f35yu055pv38ugp71/fit_spik_ppt_abiotic.rds?rlkey=c860tyv2b187p8w9a8ctrl3x9&dl=1"))
-post_spik_abiotic <- rstan::extract(fit_spikelet_abiotic)
+fit_spik_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/kush5mhwj13omawtr85z2/fit_spik_abio_endo.rds?rlkey=n3q07t2hywazw5rnsg7x5avmi&dl=1"))
+post_spik_abiotic <- rstan::extract(fit_spik_abio_endo)
 pred_spik_abiotic <- post_spik_abiotic$pred
 phi_spik_abiotic <- post_spik_abiotic$phi
 y_spik_abiotioc <- demography_spik_ppt$y
@@ -772,16 +772,16 @@ ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-li
 
 
 ## Survival Model biotic----
-fit_survival_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_surv_ppt_biotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
-post_surv_biotic <- rstan::extract(fit_survival_biotic)
+fit_sur_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/l0bmf9512cm98tumuc6fy/fit_sur_bio_endo.rds?rlkey=3kb1tpd41laz8vudbvsjyzxw0&dl=1"))
+post_surv_biotic <- rstan::extract(fit_sur_bio_endo)
 pred_surv_biotic <- post_surv_biotic$predS
 y_surv_biotic <- demography_surv_ppt$y
 y_rep_surv_biotic <- simulate_ppc(pred_surv_biotic, family = "bernoulli")
 p_surv_biotic <- ppc_dens_overlay(y_surv_biotic, y_rep_surv_biotic[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model biotic----
-fit_growth_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/wwy6y5z2xpu5ukausel6m/fit_grow_ppt_biotic.rds?rlkey=teyk9e49bjp8ojsyi860z1241&dl=1"))
-post_grow_biotic <- rstan::extract(fit_growth_biotic)
+fit_grow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/6qc83mk3ae32ia1tgi291/fit_grow_bio_endo.rds?rlkey=pnc951w8ihuhfhcuuj1q5c80h&dl=1"))
+post_grow_biotic <- rstan::extract(fit_grow_bio_endo)
 pred_grow_biotic <- post_grow_biotic$pred
 sigma_grow_biotic <- post_grow_biotic$sigma
 y_grow_biotic <- demography_grow_ppt$y
@@ -789,17 +789,17 @@ y_rep_grow_biotic <- simulate_ppc(pred_grow_biotic, phi = sigma_grow_biotic, fam
 p_grow_biotic <- ppc_dens_overlay(y_grow_biotic, y_rep_grow_biotic[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model biotic ----
-fit_flowering_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/8amcccm6vtn9jxsoa97yk/fit_flow_ppt_biotic.rds?rlkey=l87f6ipeyn5si41wozsz2c57k&dl=1"))
-post_flow_biotic <- rstan::extract(fit_flowering_biotic)
+fit_flow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/ysef9wgrl5ni4dnbc8mzv/fit_flow_bio_endo.rds?rlkey=5bz8uu080785dey8apaappnl0&dl=1"))
+post_flow_biotic <- rstan::extract(fit_flow_bio_endo)
 pred_flow_biotic <- post_flow_biotic$pred
 phi_flow_biotic <- post_flow_biotic$phi
 y_flow_biotic <- demography_flow_ppt$y
 y_rep_flow_biotic <- simulate_ppc(pred_flow_biotic, phi = phi_flow_biotic, family = "negbinomial")
-p_flow_biotic <- ppc_dens_overlay(y_flow_biotic, y_rep_flow_biotic[1:500, ]) + ggtitle("Flowering")
+p_flow_biotic <- ppc_dens_overlay(y_flow_biotic, y_rep_flow_biotic[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model biotic----
-fit_spikelet_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/idg2f35yu055pv38ugp71/fit_spik_ppt_biotic.rds?rlkey=c860tyv2b187p8w9a8ctrl3x9&dl=1"))
-post_spik_biotic <- rstan::extract(fit_spikelet_biotic)
+fit_spik_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/zvsyek57kiofs9udz15tx/fit_spik_bio_endo.rds?rlkey=be7fupcq0e2t39miz855cv6p8&dl=1"))
+post_spik_biotic <- rstan::extract(fit_spik_bio_endo)
 pred_spik_biotic <- post_spik_biotic$pred
 phi_spik_biotic <- post_spik_biotic$phi
 y_spik_abiotioc <- demography_spik_ppt$y

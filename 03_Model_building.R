@@ -243,6 +243,8 @@ dat_t_t1_herb_clim %>%
     grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA_real_)
   ) -> demography_climate
 
+saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
+
 ## check for TagIDs  duplicated within years
 # demography_climate %>%
 #   group_by(Tag_ID,census_year) %>%

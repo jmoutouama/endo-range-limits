@@ -63,6 +63,8 @@
 \usepackage{gensymb}
 \usepackage{enumitem}
 \usepackage{orcidlink}
+\usepackage{tabularx} % put this once in your preamble
+\usepackage{booktabs}
 %\usepackage{hyperref}
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
@@ -257,7 +259,7 @@ Each plot contained 15 individuals of a single species, with half of the plots p
 In summer–fall 2021, seeds were collected from naturally symbiotic source populations and either heat-treated to remove endophytes or left untreated, producing symbiont-free ($E^-$) and symbiotic ($E^+$) plants from the same genetic lineages.
 
 \subsection*{Source populations and symbiont removal}
-Plants used in the common garden experiment were derived from natural (source) populations throughout the natural distribution of the species (Fig.~\ref{fig:site}). 
+Plants used in the common garden experiment were derived from natural (source) populations throughout the natural distribution of the species (Fig.~\ref{fig:site},Table~\ref{tab:source_pop}). 
 Seeds were collected from these source populations, and some were heat-treated at 60°C for approximately five days (120 hours) to produce endophyte-negative plants ($E^-$), a method that eliminates endophytes without affecting seed viability. 
 All seeds, both heat-treated and non-heat-treated, were planted in the Rice University greenhouse, where seedlings were fertilized every two weeks. 
 Seedlings were then vegetatively propagated to produce enough individuals for the experiment. 
@@ -267,7 +269,7 @@ The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinost
 Both methods yield similar detection rates.
 
 \subsection*{Common garden experimental design}
-We conducted our common experiment across \tom{seven sites}{You should create a table for the lat long of each site and a brief description of the site. This can go in a supplement. Lot/Long is important for meta-analysis, as you know.} spanning the precipitation gradient from Louisiana to central Texas, USA (Fig.~\ref{fig:site}). 
+We conducted our common experiment across spanning the precipitation gradient from Louisiana to central Texas, USA (Fig.~\ref{fig:site}, Table~\ref{tab:exp_sites}). 
 During our study period (2023-2025) realized precipitation at these sites corresponded well to 30-year normals, with wetter eastern sites and drier western sites. 
 %Louisiana represents mesic conditions, whereas Texas experiences increasingly arid conditions, making this gradient an ideal natural laboratory to study the effects of precipitation and aridity on plant–microbe interactions.  
 Mean annual temperature did not differ significantly across sites (Fig.~\ref{Sup:temp}), so we focus on precipitation as the primary abiotic factor that varied across sites.  
@@ -312,24 +314,21 @@ We modeled all vital rates (survival, growth, and fertility) using species-speci
 \end{aligned}
 \end{equation}
 
-\noindent Here, $P_i$ is total precipitation (mm) averaged over the 12 months preceding the census, $endo_i$ indicates endophyte presence, and $herb_i$ indicates herbivore access. Random effects account for background variation at multiple hierarchical levels: $\phi_{\text{site}[i],Sp_i}$ captures site-to-site heterogeneity not explained by precipitation, $\omega_{\text{source}[i],Sp_i}$ captures variation associated with the provenance of transplants, and $\rho_{\text{plot}[i],Sp_i}$ captures plot-to-plot variation. Each species has its own random effect for each site, source, and plot, while the variance parameters ($\sigma_{\text{site}}$, $\sigma_{\text{source}}$, $\sigma_{\text{plot}}$) are shared across species. This hierarchical structure allows the model to ``borrow strength'' across species, improving estimates of fixed effects and background variation, while still capturing species-specific responses to environmental heterogeneity.
-
-
-
+\noindent Here, $P_i$ is total precipitation (mm) averaged over the 12 months preceding the census, $endo_i$ indicates endophyte presence, and $herb_i$ indicates herbivore access.
+Random effects account for background variation at multiple hierarchical levels: $\phi_{\text{site}[i],Sp_i}$ captures site-to-site heterogeneity not explained by precipitation, $\omega_{\text{source}[i],Sp_i}$ captures variation associated with the provenance of transplants, and $\rho_{\text{plot}[i],Sp_i}$ captures plot-to-plot variation.
+Each species has its own random effect for each site, source, and plot, while the variance parameters ($\sigma_{\text{site}}$, $\sigma_{\text{source}}$, $\sigma_{\text{plot}}$) are shared across species. 
+This hierarchical structure allows the model to ``borrow strength'' across species, improving estimates of fixed effects and background variation, while still capturing species-specific responses to environmental heterogeneity.
 
 \subsection*{Disentangling abiotic and biotic drivers on cool-season grass demography}
-To disentangle the relative contributions of abiotic and biotic factors to endophyte–host demography, we developed \tom{three candidate models.}{It is a little confusing which vital rates this model comparison was done for, and if it's all of them, isn't that more than three models?} 
-The first included only abiotic predictors (precipitation), the second included only biotic predictors (herbivory and endophyte status), and the third included both abiotic and biotic predictors. 
-All models followed the same hierarchical structure described above, differing only in the inclusion of predictor terms (Supplementary Method \ref{sec:models}).
-\tom{}{This was a very clever idea and I think it is a great addition to the paper. I think it might make more sense to include endophyte in all the models, because the question is really about whether biotic or abiotic stressors are more important for the benefits of the symbiosis. The models then become (1) endophyte*precip, (2) endophyte*herbivory, (3) endophyte*precip + endophyte*herbivory and/or maybe endophyte*precip*herbivory, which is the three-way interaction I asked about.}
-
-\tom{To determine the best-supported model for each vital rate}{Not clear from above that this was done for each vital rate. In that case I am not sure what we are looking at in the figure. Is this an average across vital rates? Is that legit?}, we compared candidate models using leave-one-out cross-validation (LOOCV) \citep{vehtari2017practical}. 
-LOOCV combines validation and training by iteratively holding out one observation as a test set while fitting the model on the remaining $n-1$ observations. 
-This process is repeated $n$ times, once for each observation, resulting in $n$ fitted models \citep{silva2024robust}. 
-\tom{The overall test error estimate is then obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}).}{And averaging across vital rates?}
-
+To understand whether biotic or abiotic stressors are more important for the benefits of the symbiosis, we developed three candidate models for each vital rate: (1) endophyte × precipitation, (2) endophyte × herbivory, and (3) endophyte × precipitation × herbivory, which allows for additive and interactive effects of abiotic and biotic factors. 
+Abiotic effects were represented by precipitation, while biotic effects included herbivory. 
+All models followed the hierarchical structure described above, differing only in the inclusion of predictor terms (Supplementary Method \ref{sec:models}).
+For each vital rate, we determined the best-supported model using leave-one-out cross-validation (LOOCV) \citep{vehtari2017practical}. 
+LOOCV iteratively holds out one observation as a test set while fitting the model on the remaining $n-1$ observations. 
+This process is repeated $n$ times, resulting in $n$ fitted models. 
+The overall test error for each vital rate was estimated by averaging the prediction errors across the $n$ models:
 \begin{align}\label{eq:Loo}
-CV_{n} = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \hat{y}_{i})^2
+CV_{n} = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \hat{y}_{i})^2.
 \end{align}
 
 All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.
@@ -445,76 +444,86 @@ This research was supported by National Science Foundation Division of Environme
 \renewcommand{\thesection}{S.\arabic{section}}
 
 \centerline{\Large{\textbf{Supporting Information}}}
-\section{Supplementary Methods} 
-\tom{}{Much of this section repeats verbatim what you have in the main text. I suggest eliminating this section and putting all the field methods in the main document.}
-\subsection {Study design}\label{sec:study_design}
-\subsubsection {Abiotic stress}
-Common gardens were established at seven sites spanning the geographic range of \emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis} from Louisiana to Texas, USA. Sites were selected along a pronounced aridity gradient, with Louisiana representing mesic conditions and Texas increasingly arid conditions. Mean annual temperature did not differ significantly among sites (Fig.~\ref{Sup:temp}), confirming that precipitation is the primary abiotic gradient. Sites were chosen to reflect natural environmental conditions, including shaded areas under tree canopy or near shrubs.
-
-\subsubsection {Plot establishment}
-At each site, we established eight plots measuring 1.5 m $\times$ 1.5 m. Existing vegetation was removed by tilling to reduce competition. Within each plot, 15 individuals of each species were planted approximately 15 cm deep in an evenly spaced 4 $\times$ 4 grid, with positions randomly assigned to reduce positional effects.
-
-\subsubsection{Endophyte and herbivory treatments}
-Seeds were collected in summer–fall 2021 from naturally symbiotic populations (source populations). Seeds were either heat-treated to remove endophytes ($E^-$) or left untreated ($E^+$), maintaining the same genetic lineages. Each plot was randomly assigned a starting endophyte frequency (80\%, 60\%, 40\%, or 20\%) and a herbivory treatment. For herbivore exclusion plots, plants were enclosed with 1.2 m tall mesh fencing and sprayed with insecticide to prevent vertebrate and insect herbivory. For herbivore access (control) plots, plants were half-enclosed with mesh netting. All plots received comparable quantities of source population material.
-
-%\subsubsection{Initial measurements and monitoring}
-%After planting, all plots were watered to promote establishment. For each individual plant, we recorded initial tiller counts, flowering status, plot position, endophyte status, and source population.
-%
-\subsubsection{Experimental rationale}
-\tom{This experimental design was informed by natural patterns of endophyte prevalence in Texas \citep{donald2021context, sneck2017variation, rudgers2009fungus}.}{Informed how? I am not sure about the purpose of this section.} \tom{Fungal genotyping confirmed the presence of biosynthetic pathways for secondary metabolites, such as peramine, loline, and ergot alkaloids, which may enhance host resistance to drought and herbivory \citep{beaudry1951seed}. }{Unclear what genotyping you are referring to. I don't know the paper cited here but they certainly did not genotype anything in 1951.}The design allows testing how endophyte frequency and herbivory interact with abiotic stress (aridity) to influence host demography from core to edge of the species range.
-
-\subsubsection{Source populations and identification of individual endophyte status}
-Plants used in the common garden experiment were derived from natural populations throughout the south-central US. Seeds were collected from these populations, and some were heat-treated at 60°C for approximately five days (120 hours) to produce endophyte-negative plants ($E^-$), a method that eliminates endophytes without affecting seed viability. All seeds, both heat-treated and non-heat-treated, were planted in the Rice University greenhouse, where seedlings were fertilized every two weeks. Seedlings were then vegetatively propagated to produce enough individuals for the experiment (N = 840). Before field planting, we confirmed endophyte status ($E^+$ or $E^-$) of all seedlings using either microscopy or an immunoblot assay. Leaf tissues were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify fungal hyphae. The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of \emph{Epichloë} spp. and a chromagen to visually indicate presence or absence. Both methods yield similar detection rates.
-
 \subsection{Candidate models for abiotic and biotic drivers of cool-grass species} \label{sec:models}
-
-To disentangle the relative contributions of abiotic and biotic factors, we developed three candidate models:
-
 \begin{enumerate}
-    \item \textbf{Abiotic model:} includes precipitation ($P$) and its quadratic term ($P^2$) as predictors. 
-    The expected value of each vital rate for individual $i$ is:
+    \item \textbf{Abiotic model:} includes precipitation ($P$) and its quadratic term ($P^2$) as predictors, along with endophyte status ($\text{endo}$) and its interactions with climate. Species-specific effects borrow strength across species:
     \begin{align*}
-    \mu_i &= \beta_0 + \beta_P P_i + \beta_{P^2} P_i^2 \\
-    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \mu_i &= \beta_0[\text{Sp}_i] + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_P[\text{Sp}_i] P_i + \beta_{P^2}[\text{Sp}_i] P_i^2 
+            + \beta_{\text{endo}\times P}[\text{Sp}_i]\,endo_i P_i 
+            + \beta_{\text{endo}\times P^2}[\text{Sp}_i]\,endo_i P_i^2 \\
+    &\quad + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
 
-    \item \textbf{Biotic model:} includes endophyte status ($\text{endo}$), herbivory ($\text{herb}$), and their interaction ($\text{endo} \times \text{herb}$):
+    \item \textbf{Biotic model:} includes endophyte status ($\text{endo}$), herbivory ($\text{herb}$), and their interaction, with species-specific effects:
     \begin{align*}
-    \mu_i &= \beta_0 + \beta_{\text{endo}}\,endo_i + \beta_{\text{herb}}\,herb_i 
-            + \beta_{\text{endo}\times \text{herb}}\,endo_i\,herb_i \\
-    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \mu_i &= \beta_0[\text{Sp}_i] + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_{\text{herb}}[\text{Sp}_i]\,herb_i 
+            + \beta_{\text{endo}\times \text{herb}}[\text{Sp}_i]\,endo_i\,herb_i \\
+    &\quad + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
 
-    \item \textbf{Full model:} combines both abiotic and biotic predictors, including all relevant interactions:
+    \item \textbf{Full model:} combines abiotic and biotic predictors, including all relevant interactions up to the three-way interaction between endophyte, herbivory, and precipitation, with species-varying coefficients:
     \begin{align*}
-    \mu_i &= \beta_0 + \beta_P P_i + \beta_{P^2} P_i^2 + \beta_{\text{endo}}\,endo_i + \beta_{\text{herb}}\,herb_i \\
-    &\quad + \beta_{\text{endo}\times P}\,endo_i P_i 
-          + \beta_{\text{herb}\times P}\,herb_i P_i 
-          + \beta_{\text{herb}\times \text{endo}}\,herb_i\,endo_i 
-          + \beta_{\text{endo}\times P^2}\,endo_i P_i^2 \\
-    &\quad + \phi_{\text{site}[i]} + \omega_{\text{source}[i]} + \rho_{\text{plot}[i]}
+    \mu_i &= \beta_0[\text{Sp}_i] + \beta_P[\text{Sp}_i] P_i + \beta_{P^2}[\text{Sp}_i] P_i^2 + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_{\text{herb}}[\text{Sp}_i]\,herb_i \\
+    &\quad + \beta_{\text{endo}\times P}[\text{Sp}_i]\,endo_i P_i 
+          + \beta_{\text{endo}\times P^2}[\text{Sp}_i]\,endo_i P_i^2
+          + \beta_{\text{herb}\times P}[\text{Sp}_i]\,herb_i P_i 
+          + \beta_{\text{herb}\times \text{endo}}[\text{Sp}_i]\,herb_i\,endo_i \\
+    &\quad + \beta_{\text{endo}\times \text{herb} \times P}[\text{Sp}_i]\,endo_i\,herb_i\,P_i
+          + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
 \end{enumerate}
-
-All models included a hierarchical random effects structure accounting for site, source, and plot variation, with $\phi_{\text{site}[i]} \sim \mathcal{N}(0, \sigma_{\text{site}})$, $\omega_{\text{source}[i]} \sim \mathcal{N}(0, \sigma_{\text{source}})$, and $\rho_{\text{plot}[i]} \sim \mathcal{N}(0, \sigma_{\text{plot}})$.
+In these models, the $\beta$ coefficients represent species-specific effects. 
+The intercept $\beta_0[\text{Sp}_i]$ corresponds to the baseline value of the vital rate for species $\text{Sp}_i$ in the absence of predictors. $\beta_{\text{endo}}[\text{Sp}_i]$ and $\beta_{\text{herb}}[\text{Sp}_i]$ describe the effects of endophyte presence and herbivory, respectively, for species $\text{Sp}_i$. 
+The linear and quadratic effects of precipitation are captured by $\beta_P[\text{Sp}_i]$ and $\beta_{P^2}[\text{Sp}_i]$, while interactions between endophyte and precipitation are represented by $\beta_{\text{endo}\times P}[\text{Sp}_i]$ and $\beta_{\text{endo}\times P^2}[\text{Sp}_i]$. 
+The interaction between endophyte and herbivory is given by $\beta_{\text{endo}\times \text{herb}}[\text{Sp}_i]$, the interaction between herbivory and precipitation by $\beta_{\text{herb}\times P}[\text{Sp}_i]$, and the three-way interaction among endophyte, herbivory, and precipitation by $\beta_{\text{endo}\times \text{herb} \times P}[\text{Sp}_i]$. All $\beta$ coefficients are modeled hierarchically across species, allowing information to be shared while capturing species-specific responses.
+All models included a hierarchical random effects structure accounting for site-year, source population, and plot variation, with species-specific random effects $\phi_{\text{site}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{site}})$, $\omega_{\text{source}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{source}})$, and $\rho_{\text{plot}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{plot}})$.
 
 \section {Supporting Tables}
-
-\begin{table}[H]
+\begin{table}[ht]
 \centering
-\caption{Populations and Coordinates}
-\begin{tabular}{|p{2in}|l|l|l|}
-\hline
-\textbf{Population} & \textbf{Location} & \textbf{Coordinates} & \textbf{NE+ / NE-} \\ \hline
-Sam Houston State University Field Station  & Huntsville, TX & 30°44'30.5"N, 95°28'28.2"W & NE+ = 39, NE- = 50 \\ \hline
-Texas Tech University  & Junction, TX & 30°28'18.2"N, 99°47'01.7"W & NE+ = 49, NE- = 83 \\ \hline
-Palmetto State Park  & Palmetto, TX & 29.591623, -97.584781 & NE+ = 250, NE- = 192 \\ \hline
-Jean Lafitte National Historical Park and Preserve  & Jean Lafitte, LA & 29.785105, -90.114933 & NE+ = 83, NE- = 94 \\ \hline
+\caption{Geographic coordinates and brief descriptions of source populations for \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (POAU).}
+\label{tab:source_pop}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Species} & \textbf{Population} & \textbf{Latitude} & \textbf{Longitude} & \textbf{Description} \\
+\midrule
+AGHY & SJC  & 30.771969 & -95.200620 & Ecolab property \\
+AGHY & COHR & 29.672833 & -96.567517 & Columbus, TX herbarium record \\
+AGHY & LPEF & 30.085383 & -97.172508 & Lost Pines \\
+POAU & LA7  & 30.849660 & -93.276772 & DeRidder, LA \\
+POAU & LA1  & 32.568125 & -93.932976 & Jean Lafitte National Historical Park and Preserve \\
+POAU & LA2  & 31.183040 & -92.616969 & Jean Lafitte National Historical Park and Preserve \\
+POAU & SFAEF & 31.492158 & -94.772200 & Stephen F. Austin Experimental Forest, TX \\
+POAU & WB   & 30.399346 & -95.150026 & Sam Houston National Forest \\
+ELVI & HUNT & 30.741797 & -95.474508 & Sam Houston State University Field Station \\
+ELVI & SHS  & 30.741797 & -95.474508 & Sam Houston State University Field Station \\
+ELVI & RL5  & 30.471717 & -99.783803 & Texas Tech University, Junction \\
+ELVI & PALM & 29.591623 & -97.584781 & Palmetto State Park, TX \\
+ELVI & JLP  & 29.785105 & -90.114933 & Jean Lafitte Park, outside of New Orleans \\
+\bottomrule
 \end{tabular}
-\\[0.5em]
-\textit{\textcolor{blue}{I need to clean this Table and add the remaining sites}}
-\textit{\textcolor{red}{Different species came from different source populations, so that should be clarified.}}
 \end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Common garden and field experiment sites used for reciprocal transplant and environmental manipulation studies.}
+\label{tab:exp_sites}
+\begin{tabular}{llrr}
+\hline
+\textbf{Site} & \textbf{Code} & \textbf{Latitude} & \textbf{Longitude} \\
+\hline
+University of Louisiana Ecology Center & LAF & 30.304773 & -92.012401 \\
+Center for Biological Field Studies & HUN & 30.742815 & -95.476881 \\
+TAMU Ecology and Natural Resource Teaching Area & COL & 30.569302 & -96.366324 \\
+UT Stengl Lost Pines Field Station & BAS & 30.092343 & -97.172442 \\
+1335 Medina Hwy, Kerrville, TX & KER & 30.028437 & -99.142888 \\
+Brackenridge Field Laboratory & BFL & 30.284866 & -97.780675 \\
+TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
+\hline
+\end{tabular}
+\end{table}
+
+
 
 %\begin{table}[H]
 %\caption{Model comparison by vital rate using ELPD (Expected Log Pointwise Density) differences. The values in the \textbf{elpd\_diff} column represent the difference in the model's ELPD relative to the best model for each vital rate, with positive values indicating a worse model fit. The \textbf{se\_diff} column shows the standard error of the ELPD difference. Best models for each vital rate are bolded. Model selection is based on the ELPD difference and associated standard error, with smaller ELPD differences and lower standard errors indicating better model fit.}

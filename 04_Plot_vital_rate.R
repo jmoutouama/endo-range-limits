@@ -49,199 +49,7 @@ quote_bare <- function(...) {
 }
 set.seed(13)
 # Demographic data -----
-# Merge the demographic census
-datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
-dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
-
-# Climatic data ----
-climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
-# head(climate_site)
-
-# calculate the average spikelet and inflorescence number for each census
-dat23 %>%
-  mutate(spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T)), digit = 0) -> dat23_spike
-dat24 %>%
-  mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
-dat25 %>%
-  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
-
-# Check for duplicate Tag_IDs
-datini$Tag_ID <- as.character(datini$Tag_ID)
-dat23_spike$Tag_ID <- as.character(dat23_spike$Tag_ID)
-dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
-dat24_spike$Tag_ID <- as.character(dat24_spike$Tag_ID)
-dat25_spike$Tag_ID <- as.character(dat25_spike$Tag_ID)
-#view(dat24_spike)
-#dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
-#dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
-
-## Merge the initial data to the 23 to get the Tag ID for each elements -----
-datini23_spike <- dat23_spike %>%
-  left_join(
-    datini %>%
-      dplyr::select(Site, Species, Plot, Position, Tag_ID, Population, 
-                    GreenhouseID, Clone, Endo),
-    by = "Tag_ID"
-  ) %>%
-  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit")))
-
-# view(datini23_spike)
-
-#Combine datini and dat23
-combined_data <- bind_rows(datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")], datini23_spike[,c("Site","Species","Plot","Tag_ID","Population","Endo" )])%>% 
-  distinct(Tag_ID, .keep_all = TRUE)
-
-dat24_spike_sp_site_tag<-left_join(x = dat24_spike, y = combined_data, by = c("Tag_ID")) %>% 
-  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_24","brokenInf_24"))) %>% 
-  filter(!is.na(Species))
-#dat24_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
-# view(dat24_spike_sp_site_tag)
-
-dat25_spike_sp_site_tag<- dat25_spike %>% 
-  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_25","brokenInf_25"))) 
-#dat25_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
-
-dat2324 <- datini23_spike %>%
-  left_join(
-    dat24_spike_sp_site_tag %>%
-      dplyr::select(Tag_ID, Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
-    by = "Tag_ID"
-  ) 
-
-#dat2324 %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
-# dat2324 %>%
-#   group_by(Tag_ID,census_year) %>%
-#   summarise(tag_rep = n()) %>%
-#   filter(tag_rep>1)
-
-dat2425 <- dat24_spike_sp_site_tag %>%
-  left_join(
-    dat25_spike_sp_site_tag %>%
-      dplyr::select(Tag_ID, Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
-    by = "Tag_ID"
-  )
-
-# Change variable names
-dat2324%>%
-  mutate(
-    tiller_t = Tiller_23,
-    tiller_t1 = Tiller_24,
-    inf_t = Inf_23,
-    inf_t1 = Inf_24,
-    spikelet_t = spikelet_23,
-    spikelet_t1 = spikelet_24,
-    tiller_Herb_t = tiller_Herb_23,
-    tiller_Herb_t1 = tiller_herb_24,
-    date_t=date_23,
-    date_t1=date_24,
-    census_year=rep(2024,nrow(datini23_spike))
-  ) %>%
-  dplyr::select(
-    Site,
-    Species,
-    Plot,
-    Tag_ID,
-    Population,
-    Endo,
-    tiller_t,
-    tiller_t1,
-    inf_t,
-    inf_t1,
-    spikelet_t,
-    spikelet_t1,
-    tiller_Herb_t,
-    tiller_Herb_t1,
-    census_year
-  ) -> dat2324_t_t1
-
-# dat2324_t_t1 %>% count(Tag_ID) %>% filter(n > 1) 
-# dat2324_t_t1 %>%
-#   group_by(Tag_ID,census_year) %>%
-#   summarise(tag_rep = n()) %>%
-#   filter(tag_rep>1)
-dat2425 %>%
-  mutate(
-    tiller_t = Tiller_24,
-    tiller_t1 = Tiller_25,
-    inf_t = Inf_24,
-    inf_t1 = Inf_25,
-    spikelet_t = spikelet_24,
-    spikelet_t1 = spikelet_25,
-    tiller_Herb_t = tiller_herb_24,
-    tiller_Herb_t1 = tiller_herb_25,
-    date_t = date_24,
-    date_t1 = date_25,
-    census_year=rep(2025,nrow(dat24_spike_sp_site_tag))
-  ) %>%
-  dplyr::select(
-    Site,
-    Species,
-    Plot,
-    Tag_ID,
-    Population,
-    Endo,
-    tiller_t,
-    tiller_t1,
-    inf_t,
-    inf_t1,
-    spikelet_t,
-    spikelet_t1,
-    tiller_Herb_t,
-    tiller_Herb_t1,
-    census_year
-  ) -> dat2425_t_t1
-
-# dat2425_t_t1 %>% count(Tag_ID) %>% filter(n > 1)
-# dat2425_t_t1 %>%
-#   group_by(Tag_ID,census_year) %>%
-#   summarise(tag_rep = n()) %>%
-#   filter(tag_rep>1)
-dat_t_t1 <- rbind(dat2324_t_t1, dat2425_t_t1)
-# Find duplicates by Tag ID within each census year
-# dup_tags_per_year <- dat_t_t1 %>%
-#   count(Tag_ID, census_year) %>%
-#   filter(n > 1)
-# dup_tags_per_year
-
-## Merge the demographic data with the herbivory data -----
-dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-# head(dat_t_t1_herb)
-# unique(dat_t_t1_herb$Species)
-# view(dat_t_t1_herb)
-
-## Merge the demographic data with the climatic data -----
-climate_site_unique <- climate_site %>%
-  distinct(site, Species, census_year, .keep_all = TRUE)
-
-#view(climate_site_unique)
-dat_t_t1_herb$census_year<-as.character(dat_t_t1_herb$census_year)
-climate_site_unique$census_year<-as.character(climate_site_unique$census_year)
-
-dat_t_t1_herb_clim <- dat_t_t1_herb %>%
-  left_join(
-    climate_site_unique,
-    by = c("Site" = "site", "Species", "census_year")
-  )
-
-# dat_t_t1_herb_clim %>%
-# group_by(Tag_ID,census_year) %>%
-#   summarise(tag_rep = n()) %>%
-#   filter(tag_rep>1)
-
-dat_t_t1_herb_clim %>%
-  mutate(
-    site_year=interaction(Site,census_year),
-    ##if the plant was dead or size was NA at the start of the transition year, survival is NA
-    ##if the plant was alive at the start of the transition year, it survived if tillers_t1>0
-    surv1 = ifelse(tiller_t>0,tiller_t1>0,NA),
-    site_species_plot = interaction(Site, Species, Plot),
-    ##if the plant was alive at the start of the transition year and it survived, growth is the log ratio of tiller counts, else NA
-    ##note there that growth is conditional on survival, which I think is how it should be
-    grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA_real_)
-  ) -> demography_climate
+demography_climate<-readRDS(url("https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"))
 
 # Survival----
 ## Read and format survival data to build the model
@@ -288,15 +96,6 @@ demography_surv_ppt <- list(
   N          = nrow(demography_climate_surv)
 )
 
-
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(ggh4x)
-library(Cairo)
-library(grid)
-library(rstan)
-
 # Load model and data
 fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/x5q2v6fxnojb9msl0yhnj/fit_surv_abio_bio_endo.rds?rlkey=ojivjcdq1s30jf15is7pbezx8&dl=1"))
 
@@ -312,11 +111,10 @@ predictions <- expand.grid(
 )
 
 # Extract posterior samples
-posterior_samples <- rstan::extract(fit_surv_ppt)
-
+posterior_samples_survival <- rstan::extract(fit_surv_ppt)
 # Prediction function
-get_predictions <- function(clim, endo, herb, species_index, posterior_samples) {
-  with(posterior_samples, {
+get_predictions_survival <- function(clim, endo, herb, species_index, posterior_samples_survival) {
+  with(posterior_samples_survival, {
     logit_preds <- b0[, species_index] +
       bendo[, species_index] * endo +
       bherb[, species_index] * herb +
@@ -330,21 +128,22 @@ get_predictions <- function(clim, endo, herb, species_index, posterior_samples) 
 }
 
 # Generate predictions
-n_post <- nrow(posterior_samples$b0)
-pred_probs_matrix <- matrix(NA, nrow = nrow(predictions), ncol = n_post)
+n_post_survival <- nrow(posterior_samples_survival$b0)
+pred_probs_matrix_survival <- matrix(NA, nrow = nrow(predictions), ncol = n_post_survival)
+
 for (i in seq_len(nrow(predictions))) {
-  pred_probs_matrix[i, ] <- get_predictions(
+  pred_probs_matrix_survival[i, ] <- get_predictions_survival(
     predictions$clim[i],
     predictions$endo[i],
     predictions$herb[i],
     predictions$species[i],
-    posterior_samples
+    posterior_samples_survival
   )
 }
 
 # Combine with predictors
-pred_probs_df <- cbind(predictions, as.data.frame(pred_probs_matrix))
-pred_probs_long_df <- pred_probs_df %>%
+pred_probs_df_survival <- cbind(predictions, as.data.frame(pred_probs_matrix_survival))
+pred_probs_long_df_survival <- pred_probs_df_survival %>%
   pivot_longer(
     cols = starts_with("V"),
     names_to = "Posterior_Sample",
@@ -352,7 +151,7 @@ pred_probs_long_df <- pred_probs_df %>%
   )
 
 # Credible intervals
-cred_intervals <- pred_probs_long_df %>%
+cred_intervals_survival <- pred_probs_long_df_survival %>%
   group_by(species, endo, herb, clim) %>%
   summarise(
     lower_90 = quantile(Pred_Survival, 0.05),
@@ -361,23 +160,31 @@ cred_intervals <- pred_probs_long_df %>%
     mean = mean(Pred_Survival),
     .groups = "drop"
   ) %>%
-  mutate(panel = "Pr_survival")
+  mutate(panel = "Pr (survival)")
 
 # Observed data
-observed_data <- demography_surv_ppt %>% 
-  data.frame(clim = .$clim, endo = .$endo, herb = .$herb, species = .$Spp, plot = .$plot, y = .$y) %>% 
+observed_data_survival <- demography_surv_ppt %>% 
+  data.frame(
+    clim = .$clim,
+    endo = .$endo,
+    herb = .$herb,
+    species = .$Spp,
+    plot = .$plot,
+    y = .$y
+  ) %>% 
   group_by(plot, species, herb, clim, endo) %>% 
-  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop")
-observed_data$panel <- factor("Pr_survival", levels = c("Pr_survival", "Delta_E"))
+  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop") %>%
+  mutate(panel = "Pr (survival)")
 
-
-# Difference (E+ - E-)
-diff_df <- pred_probs_long_df %>%
+# Differences (E+ - E-)
+diff_df_survival <- pred_probs_long_df_survival %>%
   group_by(species, herb, clim, Posterior_Sample) %>%
-  summarise(diff = mean(Pred_Survival[endo == 1]) - mean(Pred_Survival[endo == 0]),
-            .groups = "drop")
+  summarise(
+    diff = mean(Pred_Survival[endo == 1]) - mean(Pred_Survival[endo == 0]),
+    .groups = "drop"
+  )
 
-diff_ci <- diff_df %>%
+diff_ci_survival <- diff_df_survival %>%
   group_by(species, herb, clim) %>%
   summarise(
     lower_90 = quantile(diff, 0.05),
@@ -385,114 +192,145 @@ diff_ci <- diff_df %>%
     mean = mean(diff),
     .groups = "drop"
   ) %>%
-  mutate(panel = "Delta_E")
+  mutate(panel = "Δ (E+ - E-)")
 
 # Merge panels
-plot_data <- bind_rows(cred_intervals, diff_ci)
-
-# Factor levels for panels: upper (Pr) first, lower (Δ) second
-plot_data$panel <- factor(plot_data$panel, levels = c("Pr_survival", "Delta_E"))
-observed_data$panel <- factor(observed_data$panel, levels = c("Pr_survival", "Delta_E"))
-
-# Species labels (italic)
-species_labels <- c(
-  "1" = "italic('Agrostis hyemalis')",
-  "2" = "italic('Elymus virginicus')",
-  "3" = "italic('Poa autumnalis')"
+plot_data_survival <- bind_rows(cred_intervals_survival, diff_ci_survival)
+# Ensure species column is factor with parseable labels for italics
+plot_data_survival$species <- factor(
+  plot_data_survival$species,
+  levels = c("1","2","3"),
+  labels = c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  )
 )
 
-plot_data$species <- factor(as.character(plot_data$species),
-                            levels = names(species_labels),
-                            labels = species_labels)
-observed_data$species <- factor(as.character(observed_data$species),
-                                levels = names(species_labels),
-                                labels = species_labels)
-
-# Panel height control
-heights <- c("Pr_survival" = 2.5, "Delta_E" = 0.7)
-
-# Panel labels
-panel_labeller <- c(
-  "Pr_survival" = "Pr~(survival)",          # use ~ for space
-  "Delta_E" = "Delta ~ (E^'+' - E^'-')"    # keep as-is
+observed_data_survival$species <- factor(
+  observed_data_survival$species,
+  levels = c("1","2","3"),
+  labels = c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  )
 )
 
-# --------------------------
-# PLOT
-# --------------------------
-Cairo::CairoPDF("PrSurvival_diff.pdf", width = 6, height = 6.5)
+# Trim panel names
+plot_data_survival$panel <- trimws(as.character(plot_data_survival$panel))
+observed_data_survival$panel <- trimws(as.character(observed_data_survival$panel))
 
-p <- ggplot(plot_data, aes(x = exp(clim))) +
+# 9. Plot
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.pdf",
+  width = 5, height = 7
+)
+
+ggplot(plot_data_survival) +
   # Survival panel
-  geom_line(aes(y = mean, color = factor(endo), group = endo),
-            data = filter(plot_data, panel == "Pr_survival"), size = 0.5) +
-  geom_ribbon(aes(ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-              data = filter(plot_data, panel == "Pr_survival"), alpha = 0.3, color = NA) +
-  geom_point(aes(y = y_plot_mean, color = factor(endo)),
-             data = filter(observed_data, panel == "Pr_survival"),
-             size = 0.75, position = position_jitter(width = 0, height = 0.01)) +
+  geom_line(
+    data = subset(plot_data_survival, panel == "Pr (survival)"),
+    aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
+    size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_survival, panel == "Pr (survival)"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+    alpha = 0.3, color = NA
+  ) +
+  geom_point(
+    data = subset(observed_data_survival, panel == "Pr (survival)"),
+    aes(x = exp(clim), y = y_plot_mean, color = factor(endo)),
+    size = 0.75, position = position_jitter(width = 0, height = 0.01)
+  ) +
   
   # Δ panel
-  geom_line(aes(y = mean),
-            data = filter(plot_data, panel == "Delta_E"),
-            color = "black", size = 0.5) +
-  geom_ribbon(aes(ymin = lower_90, ymax = upper_90),
-              data = filter(plot_data, panel == "Delta_E"),
-              fill = "#9B6B96", alpha = 0.5) +
-  geom_hline(aes(yintercept = 0),
-             data = filter(plot_data, panel == "Delta_E"),
-             linetype = "dashed", color = "black") +
-  
+  geom_line(
+    data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), y = mean), color = "black", size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+    aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+    fill = "#9B6B96", alpha = 0.5
+  ) +
+  geom_hline(
+    data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+    aes(yintercept = 0), linetype = "dashed", color = "black"
+  ) +
+  # Optional: add "0" label on lower panels
+  # geom_text(
+  #   data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+  #   aes(x = min(exp(clim)), y = 0, label = "0"),
+  #   inherit.aes = FALSE,
+  #   hjust = 1.1, vjust = 0.5,
+  #   size = 2.5
+  # ) +
+  # Facets with heights
   ggh4x::facet_nested(
     species + panel ~ herb,
     scales = "free_y",
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      panel   = as_labeller(panel_labeller, label_parsed),
-      herb    = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Unfenced", "1" = "Fenced")
     )
   ) +
-  
-  # Remove y-ticks for Delta panel only
   ggh4x::facetted_pos_scales(
-  y = list(
-    "Pr_survival" = scale_y_continuous(
-      expand = c(0, 0)   # keeps usual ticks for this panel
-    ),
-    "Delta_E" = scale_y_continuous(
-      breaks = NULL,         # only tick at 0
-      labels = 0,         # show "0"
-      minor_breaks = NULL,
-      limits = c(-0.3, 0.3),
-      expand = c(0, 0)
+    y = list(
+      # Agrostis hyemalis 
+      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(
+          breaks = 0,
+          labels = 0,
+          minor_breaks = NULL,
+          limits = c(-0.3, 0.3),
+          expand = c(0,0)
+        ),
+      
+      # Elymus virginicus 
+      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(
+          breaks = 0,
+          labels = 0,
+          minor_breaks = NULL,
+          limits = c(-0.3, 0.3),
+          expand = c(0,0)
+        ),
+      
+      # Poa autumnalis
+      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(
+          breaks = 0,
+          labels = 0,
+          minor_breaks = NULL,
+          limits = c(-0.3, 0.3),
+          expand = c(0,0)
+        ),
+      
+      # Upper panels (same for all)
+      panel == "Pr (survival)" ~ scale_y_continuous(expand = c(0,0))
     )
-  )
-)+
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-  scale_color_manual(
-    values = c("0" = "tomato", "1" = "cornflowerblue"),
-    labels = expression(E^"-", E^"+")
-  ) +
-  scale_fill_manual(
-    values = c("0" = "tomato", "1" = "cornflowerblue"),
-    labels = expression(E^"-", E^"+")
   )+
+  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.08, 0.24),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    #ggh4x.facet.nest.heights = heights,
+    legend.position = c(0.075, 0.27),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 10),
-    axis.text = element_text(size = 8),
+    axis.title = element_text(size = 8),
+    axis.text = element_text(size = 6),
+    axis.line.y = element_blank(),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.5, linetype = "solid")
+    strip.text.x = element_text(size = 9, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 9, color = "black", face = "plain"),
+    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
   )
-print(p)
+
 dev.off()
 
 # Growth----

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  17 OCT 2025 17:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  21 OCT 2025 10:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1042,12 +1042,146 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [2]
 
+Package natbib Warning: Citation `hoeksema2015context' on page 3 undefined on i
+nput line 186.
+
+
+Package natbib Warning: Citation `bronstein1994conditional' on page 3 undefined
+ on input line 186.
+
+
+Package natbib Warning: Citation `giauque2019endophyte' on page 3 undefined on 
+input line 187.
+
+
+Package natbib Warning: Citation `atala2022fungal' on page 3 undefined on input
+ line 190.
+
+
+Package natbib Warning: Citation `bastias2017epichloe' on page 3 undefined on i
+nput line 190.
+
+
+Package natbib Warning: Citation `vega2008insect' on page 3 undefined on input 
+line 190.
+
+
+Package natbib Warning: Citation `clay2002evolutionary' on page 3 undefined on 
+input line 191.
+
+
+Package natbib Warning: Citation `amijee1989development' on page 3 undefined on
+ input line 192.
+
+
+Package natbib Warning: Citation `ruiz1996superoxide' on page 3 undefined on in
+put line 193.
+
+
+Package natbib Warning: Citation `fowler2023geographic' on page 3 undefined on 
+input line 194.
+
+
+Package natbib Warning: Citation `johnson1997functioning' on page 3 undefined o
+n input line 196.
+
+
+Package natbib Warning: Citation `bronstein2001exploitation' on page 3 undefine
+d on input line 196.
+
+
+Package natbib Warning: Citation `klironomos2003variation' on page 3 undefined 
+on input line 198.
+
+
+Package natbib Warning: Citation `allsup2023shifting' on page 3 undefined on in
+put line 206.
+
+
+Package natbib Warning: Citation `rudgers2020climate' on page 3 undefined on in
+put line 206.
+
+
+Package natbib Warning: Citation `david2019soil' on page 3 undefined on input l
+ine 207.
+
+
+Package natbib Warning: Citation `afkhami2014mutualist' on page 3 undefined on 
+input line 207.
+
+
+Package natbib Warning: Citation `yule2013costs' on page 3 undefined on input l
+ine 208.
+
+
+Package natbib Warning: Citation `benning2021microbes' on page 3 undefined on i
+nput line 209.
+
+
+Package natbib Warning: Citation `benning2021plant' on page 3 undefined on inpu
+t line 209.
+
+
+Package natbib Warning: Citation `bennett2022costs' on page 3 undefined on inpu
+t line 209.
+
+
+Package natbib Warning: Citation `thirkell2020carbon' on page 3 undefined on in
+put line 210.
+
+
+Package natbib Warning: Citation `soudzilovskaia2015quantitative' on page 3 und
+efined on input line 210.
+
+
+
 [3]
+
+Package natbib Warning: Citation `louthan2015and' on page 4 undefined on input 
+line 223.
+
+
+Package natbib Warning: Citation `benning2019biotic' on page 4 undefined on inp
+ut line 225.
+
+
+Package natbib Warning: Citation `maron2006herbivory' on page 4 undefined on in
+put line 226.
+
+
+Package natbib Warning: Citation `miller2008herbivore' on page 4 undefined on i
+nput line 226.
+
+
+Package natbib Warning: Citation `clay2005herbivores' on page 4 undefined on in
+put line 227.
+
+
+Package natbib Warning: Citation `gundel2020simulated' on page 4 undefined on i
+nput line 228.
+
+
+Package natbib Warning: Citation `agrawal1999transgenerational' on page 4 undef
+ined on input line 228.
+
+
 
 [4]
 
+LaTeX Warning: Reference `Sup:temp' on page 5 undefined on input line 262.
+
+
+
 [5]
-<../Figure/clim_map.pdf, id=214, 650.43pt x 758.835pt>
+
+Package natbib Warning: Citation `shaw2011guide' on page 6 undefined on input l
+ine 268.
+
+
+LaTeX Warning: Reference `sec:study_design' on page 6 undefined on input line 2
+74.
+
+<../Figure/clim_map.pdf, id=79, 650.43pt x 758.835pt>
 File: ../Figure/clim_map.pdf Graphic file (type pdf)
 <use ../Figure/clim_map.pdf>
 Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 278.
@@ -1066,10 +1200,49 @@ nd sym-bio-sis on grass
 
 [8]
 
+LaTeX Warning: Reference `sec:models' on page 9 undefined on input line 321.
+
+
+Package natbib Warning: Citation `vehtari2017practical' on page 9 undefined on 
+input line 324.
+
+
+Package natbib Warning: Citation `silva2024robust' on page 9 undefined on input
+ line 326.
+
+
+
 [9]
 
+Package natbib Warning: Citation `RCoreTeam' on page 10 undefined on input line
+ 333.
+
+
+Package natbib Warning: Citation `Rstan' on page 10 undefined on input line 333
+.
+
+
+LaTeX Warning: Reference `sup:ppc_vital' on page 10 undefined on input line 346
+.
+
+
+LaTeX Warning: Reference `fig:Surv' on page 10 undefined on input line 347.
+
+
+LaTeX Warning: Reference `fig:growth' on page 10 undefined on input line 348.
+
+
+LaTeX Warning: Reference `fig:flowering' on page 10 undefined on input line 349
+.
+
+
+LaTeX Warning: Reference `fig:spikelet' on page 10 undefined on input line 350.
+
+
+
+
 [10]
-<../Figure/PrSurvival_diff.pdf, id=328, 361.35pt x 469.755pt>
+<../Figure/PrSurvival_diff.pdf, id=164, 361.35pt x 469.755pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 357.
@@ -1102,11 +1275,11 @@ If that doesn't work, type  X <return>  to quit.
 
  
 Here is how much of TeX's memory you used:
- 28529 strings out of 473190
- 521935 string characters out of 5715801
- 925747 words of memory out of 5000000
- 50409 multiletter control sequences out of 15000+600000
- 672444 words of font info for 706 fonts, out of 8000000 for 9000
+ 28479 strings out of 473190
+ 520440 string characters out of 5715801
+ 919700 words of memory out of 5000000
+ 50356 multiletter control sequences out of 15000+600000
+ 674360 words of font info for 750 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,10n,101p,1171b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 ./Range_limit.tex:368:  ==> Fatal error occurred, no output PDF file produced!

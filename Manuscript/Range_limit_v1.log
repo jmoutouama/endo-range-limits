@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  19 OCT 2025 16:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 OCT 2025 17:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1064,32 +1064,32 @@ Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 282.
 
 [10]
 
-LaTeX Warning: Reference `fig:growth' on page 11 undefined on input line 351.
+LaTeX Warning: Reference `fig:growth' on page 11 undefined on input line 350.
 
 
-LaTeX Warning: Reference `fig:flowering' on page 11 undefined on input line 352
+LaTeX Warning: Reference `fig:flowering' on page 11 undefined on input line 351
 .
 
 
-LaTeX Warning: Reference `fig:spikelet' on page 11 undefined on input line 353.
+LaTeX Warning: Reference `fig:spikelet' on page 11 undefined on input line 352.
 
 
-<../Figure/PrSurvival_diff.pdf, id=319, 361.35pt x 469.755pt>
+<../Figure/PrSurvival_diff.pdf, id=317, 361.35pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 360.
+Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 359.
 
-(pdftex.def)             Requested size: 375.80544pt x 488.54802pt.
+(pdftex.def)             Requested size: 375.80544pt x 526.12862pt.
 
 
 [11]
 
-LaTeX Warning: Reference `fig:bestdriver' on page 12 undefined on input line 40
-4.
-
-
-
 [12 <../Figure/PrSurvival_diff.pdf>]
+
+LaTeX Warning: Reference `fig:bestdriver' on page 13 undefined on input line 40
+3.
+
+
 
 [13] (./Range_limit_v1.bbl
 
@@ -1106,7 +1106,7 @@ LaTeX Warning: Reference `fig:bestdriver' on page 12 undefined on input line 40
 ]
 
 [19]
-Overfull \hbox (53.2753pt too wide) in paragraph at lines 507--515
+Overfull \hbox (53.2753pt too wide) in paragraph at lines 506--514
  [][] 
  []
 
@@ -1115,22 +1115,22 @@ Overfull \hbox (53.2753pt too wide) in paragraph at lines 507--515
 [20]
 
 [21]
-<../Figure/Climate_prism_2023_2025.pdf, id=433, 867.24pt x 361.35pt>
+<../Figure/Climate_prism_2023_2025.pdf, id=425, 867.24pt x 361.35pt>
 File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use ../Figure/Climate_prism_2023_2025.pdf>
 Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
-ine 558.
+ine 557.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
 
 [22
 
  <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/combined_ppc_plots.pdf, id=443, 505.89pt x 433.62pt>
+<../Figure/combined_ppc_plots.pdf, id=435, 505.89pt x 433.62pt>
 File: ../Figure/combined_ppc_plots.pdf Graphic file (type pdf)
 <use ../Figure/combined_ppc_plots.pdf>
 Package pdftex.def Info: ../Figure/combined_ppc_plots.pdf  used on input line 5
-71.
+70.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1153,8 +1153,8 @@ Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 ### semi simple group (level 1) entered at line 168 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 28837 strings out of 473190
- 527469 string characters out of 5715801
+ 28836 strings out of 473190
+ 527457 string characters out of 5715801
  929678 words of memory out of 5000000
  50554 multiletter control sequences out of 15000+600000
  682260 words of font info for 824 fonts, out of 8000000 for 9000
@@ -1170,10 +1170,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (23 pages, 6003311 bytes).
+Output written on Range_limit_v1.pdf (23 pages, 6000473 bytes).
 PDF statistics:
- 530 PDF objects out of 1000 (max. 8388607)
- 451 compressed objects within 5 object streams
- 123 named destinations out of 1000 (max. 500000)
+ 522 PDF objects out of 1000 (max. 8388607)
+ 445 compressed objects within 5 object streams
+ 122 named destinations out of 1000 (max. 500000)
  187505 words of extra memory for PDF output out of 221844 (max. 10000000)
 

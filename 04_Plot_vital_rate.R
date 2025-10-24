@@ -57,7 +57,7 @@ dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_202
 datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
 
 # Climatic data ----
-climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/yjxwq78v2iruk6sshf8if/climate_census_years.rds?rlkey=k2dg37ofts7u6xcqiwvqqnmf4&dl=1"))
+climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
 # head(climate_site)
 
 # calculate the average spikelet and inflorescence number for each census
@@ -289,61 +289,50 @@ demography_surv_ppt <- list(
 )
 
 
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_surv_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
-# Create a new data frame for generating predictions
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggh4x)
+library(Cairo)
+library(grid)
+library(rstan)
+
+# Load model and data
+fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/x5q2v6fxnojb9msl0yhnj/fit_surv_abio_bio_endo.rds?rlkey=ojivjcdq1s30jf15is7pbezx8&dl=1"))
+
+# Prediction grid
 climate_range <- seq(min(demography_surv_ppt$clim),
                      max(demography_surv_ppt$clim),
                      length.out = 30)
-endo_status <- c(0, 1) # Endophyte negative and positive
-herb_status <- c(0, 1) # Herbivory no and yes
-species <- 1:3 # Species 1, 2, 3
-
-# Create a data frame with all combinations
 predictions <- expand.grid(
   clim = climate_range,
-  endo = endo_status,
-  herb = herb_status,
-  species = species
+  endo = c(0, 1),
+  herb = c(0, 1),
+  species = 1:3
 )
 
 # Extract posterior samples
 posterior_samples <- rstan::extract(fit_surv_ppt)
 
-# Function to calculate predictions based on the posterior samples
-get_predictions <- function(clim,
-                            endo,
-                            herb,
-                            species_index,
-                            posterior_samples) {
-  b0 <- posterior_samples$b0[, species_index]
-  bendo <- posterior_samples$bendo[, species_index]
-  bherb <- posterior_samples$bherb[, species_index]
-  bclim <- posterior_samples$bclim[, species_index]
-  bendoclim <- posterior_samples$bendoclim[, species_index]
-  bendoherb <- posterior_samples$bendoherb[, species_index]
-  bclim2 <- posterior_samples$bclim2[, species_index]
-  bendoclim2 <- posterior_samples$bendoclim2[, species_index]
-  # Predicted survival (logit scale)
-  logit_preds <- b0 +
-    bendo * endo +
-    bclim * clim +
-    bherb * herb +
-    bendoclim * clim * endo +
-    bendoherb * endo * herb +
-    bclim2 * clim ^ 2 +
-    bendoclim2 * endo * clim ^ 2
-  # Convert logit to probability using logistic function
-  pred_probs <- 1 / (1 + exp(-logit_preds))
-  return(pred_probs)
+# Prediction function
+get_predictions <- function(clim, endo, herb, species_index, posterior_samples) {
+  with(posterior_samples, {
+    logit_preds <- b0[, species_index] +
+      bendo[, species_index] * endo +
+      bherb[, species_index] * herb +
+      bclim[, species_index] * clim +
+      bendoclim[, species_index] * clim * endo +
+      bendoherb[, species_index] * endo * herb +
+      bendoherbclim[, species_index] * endo * herb * clim +
+      bclim2[, species_index] * clim^2
+    1 / (1 + exp(-logit_preds))
+  })
 }
 
-# Apply the function to generate predictions for all combinations
-n_posterior_samples <- length(posterior_samples$b0) # Number of posterior samples
-# Initialize a matrix to hold predictions for each posterior sample
-pred_probs_matrix <- matrix(NA, nrow = nrow(predictions), ncol = n_posterior_samples)
-
-# Generate predictions for each combination of climate, endophyte, herbivory, and species
-for (i in 1:nrow(predictions)) {
+# Generate predictions
+n_post <- nrow(posterior_samples$b0)
+pred_probs_matrix <- matrix(NA, nrow = nrow(predictions), ncol = n_post)
+for (i in seq_len(nrow(predictions))) {
   pred_probs_matrix[i, ] <- get_predictions(
     predictions$clim[i],
     predictions$endo[i],
@@ -352,342 +341,159 @@ for (i in 1:nrow(predictions)) {
     posterior_samples
   )
 }
-species_1_preds <- get_predictions(0.5, 1, 0, 1, posterior_samples)
-species_2_preds <- get_predictions(0.2, 0, 1, 2, posterior_samples)
-species_3_preds <- get_predictions(-0.3, 1, 1, 3, posterior_samples)
 
-# Convert the matrix into a data frame with the correct structure
-pred_probs_df <- as.data.frame(pred_probs_matrix)
-colnames(pred_probs_df) <- paste("Posterior_Sample", 1:n_posterior_samples)
+# Combine with predictors
+pred_probs_df <- cbind(predictions, as.data.frame(pred_probs_matrix))
+pred_probs_long_df <- pred_probs_df %>%
+  pivot_longer(
+    cols = starts_with("V"),
+    names_to = "Posterior_Sample",
+    values_to = "Pred_Survival"
+  )
 
-# Add the `predictions` columns (clim_s, endo_s, herb_s, species)
-pred_probs_df <- cbind(predictions, pred_probs_df)
-
-# Reshape the data frame so we have long format for ggplot
-pred_probs_long_df <- gather(pred_probs_df,
-                             key = "Posterior_Sample",
-                             value = "Pred_Survival",
-                             -clim,
-                             -endo,
-                             -herb,
-                             -species)
-
-# Calculate credible intervals (90% and 95%) and mean survival probability
+# Credible intervals
 cred_intervals <- pred_probs_long_df %>%
   group_by(species, endo, herb, clim) %>%
   summarise(
     lower_90 = quantile(Pred_Survival, 0.05),
     upper_90 = quantile(Pred_Survival, 0.95),
-    lower_95 = quantile(Pred_Survival, 0.025),
-    upper_95 = quantile(Pred_Survival, 0.975),
     median = quantile(Pred_Survival, 0.5),
-    mean = mean(Pred_Survival) # Calculate the mean survival probability
-  ) %>%
-  ungroup()
-
-# observed_data should have columns: clim_s, endo_s, herb_s, species, y_s (observed survival)
-observed_data <- data.frame(
-  clim    = demography_surv_ppt$clim,
-  endo    = demography_surv_ppt$endo,
-  herb    = demography_surv_ppt$herb,
-  species = demography_surv_ppt$Spp,
-  plot    = demography_surv_ppt$plot,
-  y       = demography_surv_ppt$y
-)
-
-
-# Compute mean survival per plot, grouped by endo
-observed_plot <- observed_data %>%
-  group_by(plot, species, herb, clim, endo) %>%  # include endo now
-  summarise(
-    y_plot_mean = mean(y, na.rm = TRUE),
+    mean = mean(Pred_Survival),
     .groups = "drop"
-  )
+  ) %>%
+  mutate(panel = "Pr_survival")
+
+# Observed data
+observed_data <- demography_surv_ppt %>% 
+  data.frame(clim = .$clim, endo = .$endo, herb = .$herb, species = .$Spp, plot = .$plot, y = .$y) %>% 
+  group_by(plot, species, herb, clim, endo) %>% 
+  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop")
+observed_data$panel <- factor("Pr_survival", levels = c("Pr_survival", "Delta_E"))
 
 
-
-# Plot the results with credible intervals, mean survival, and observed points using ggplot2
-pdf(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt.pdf",
-  useDingbats = F,
-  height = 7,
-  width = 6.5
-)
-ggplot(cred_intervals, aes(
-  x = exp(clim),
-  y = mean,
-  color = factor(endo)
-)) +
-  # geom_line(aes(y = median), linetype = "solid", size = 1) +  # Plot the median survival probability
-  geom_line(aes(y = mean), linetype = "solid", size = 1) + # Plot the mean survival probability (dashed line)
-  geom_ribbon(
-    aes(
-      ymin = lower_90,
-      ymax = upper_90,
-      fill = factor(endo)
-    ),
-    alpha = 0.3,
-    color = NA
-  ) + # Credible interval
-  geom_point(
-    data = observed_plot,
-    aes(
-      x = exp(clim),
-      y = y_plot_mean,
-      color = factor(endo)
-    ),
-    size = 3,
-    position = position_jitter(width = 0, height = 0.02)  # jitter only y-direction
-  )+
-  facet_grid(species ~ herb,
-             scales = "free_y",
-             labeller = labeller(
-               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
-               herb = c("0" = "Unfenced", "1" = "Fenced")
-             )) +
-  labs(
-    x = "Precipitation (mm)",
-    y = "Pr (survival)",
-    color = "Endophyte",
-    fill = "Endophyte",
-    title = ""
-  ) +
-  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                     labels = c("E-", "E+")) + # Change endophyte labels
-  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                    labels = c("E-", "E+")) + # Change fill labels
-  theme_bw() +
-  theme(
-    legend.position = c(0.08, 0.225),
-    panel.border = element_rect(fill = NA, color = "black"),
-    legend.title = element_text(size = 10),
-    # Reduce legend title size
-    legend.text = element_text(size = 12),
-    # Adjust legend text size
-    axis.title = element_text(size = 13),
-    # Increase axis title size
-    axis.text = element_text(size = 10),
-    # Increase axis label size
-    strip.text = element_text(size = 13)
-  )
-dev.off()
-
-# Calculate differences E+ - E- 
-# Differences between endophyte states
+# Difference (E+ - E-)
 diff_df <- pred_probs_long_df %>%
   group_by(species, herb, clim, Posterior_Sample) %>%
-  summarise(
-    diff = mean(Pred_Survival[endo == 1]) - mean(Pred_Survival[endo == 0]),
-    .groups = "drop"
-  )
+  summarise(diff = mean(Pred_Survival[endo == 1]) - mean(Pred_Survival[endo == 0]),
+            .groups = "drop")
 
-# Credible intervals for differences
 diff_ci <- diff_df %>%
   group_by(species, herb, clim) %>%
   summarise(
     lower_90 = quantile(diff, 0.05),
     upper_90 = quantile(diff, 0.95),
-    lower_95 = quantile(diff, 0.025),
-    upper_95 = quantile(diff, 0.975),
-    mean     = mean(diff),
-    median   = median(diff),
-    .groups  = "drop"
+    mean = mean(diff),
+    .groups = "drop"
   ) %>%
-  mutate(panel = "Δ (E+ - E-)")
+  mutate(panel = "Delta_E")
 
-# Keep panel naming consistent
-cred_intervals <- cred_intervals %>%
-  mutate(panel = "Pr (survival)")
+# Merge panels
+plot_data <- bind_rows(cred_intervals, diff_ci)
 
-# Build combined dataset for plotting
-plot_data <- bind_rows(cred_intervals, diff_ci) %>%
-  mutate(panel = factor(panel,
-                        levels = c("Pr (survival)", "Δ (E+ - E-)")))
+# Factor levels for panels: upper (Pr) first, lower (Δ) second
+plot_data$panel <- factor(plot_data$panel, levels = c("Pr_survival", "Delta_E"))
+observed_data$panel <- factor(observed_data$panel, levels = c("Pr_survival", "Delta_E"))
 
+# Species labels (italic)
+species_labels <- c(
+  "1" = "italic('Agrostis hyemalis')",
+  "2" = "italic('Elymus virginicus')",
+  "3" = "italic('Poa autumnalis')"
+)
 
-# Add a panel column to observed data if needed
-observed_data <- observed_plot %>%
-  mutate(panel = "Pr (survival)")
+plot_data$species <- factor(as.character(plot_data$species),
+                            levels = names(species_labels),
+                            labels = species_labels)
+observed_data$species <- factor(as.character(observed_data$species),
+                                levels = names(species_labels),
+                                labels = species_labels)
 
-# Difference between E+ and E-
+# Panel height control
+heights <- c("Pr_survival" = 2.5, "Delta_E" = 0.7)
 
-# Save as PDF
-Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_delta.pdf",
-                width = 5.5, height = 6)
+# Panel labels
+panel_labeller <- c(
+  "Pr_survival" = "Pr~(survival)",          # use ~ for space
+  "Delta_E" = "Delta ~ (E^'+' - E^'-')"    # keep as-is
+)
 
-ggplot(subset(plot_data, panel == "Δ (E+ - E-)")) +
-  geom_line(aes(x = exp(clim), y = mean), color = "black", size = 1) +
-  geom_ribbon(aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+# --------------------------
+# PLOT
+# --------------------------
+Cairo::CairoPDF("PrSurvival_diff.pdf", width = 6, height = 6.5)
+
+p <- ggplot(plot_data, aes(x = exp(clim))) +
+  # Survival panel
+  geom_line(aes(y = mean, color = factor(endo), group = endo),
+            data = filter(plot_data, panel == "Pr_survival"), size = 0.5) +
+  geom_ribbon(aes(ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+              data = filter(plot_data, panel == "Pr_survival"), alpha = 0.3, color = NA) +
+  geom_point(aes(y = y_plot_mean, color = factor(endo)),
+             data = filter(observed_data, panel == "Pr_survival"),
+             size = 0.75, position = position_jitter(width = 0, height = 0.01)) +
+  
+  # Δ panel
+  geom_line(aes(y = mean),
+            data = filter(plot_data, panel == "Delta_E"),
+            color = "black", size = 0.5) +
+  geom_ribbon(aes(ymin = lower_90, ymax = upper_90),
+              data = filter(plot_data, panel == "Delta_E"),
               fill = "#9B6B96", alpha = 0.5) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
-  facet_grid(species ~ herb, 
-             labeller = labeller(
-               species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
-               herb = c("0" = "Unfenced", "1" = "Fenced")
-             )) +
-  scale_y_continuous(limits = c(-0.4, 0.5), expand = c(0,0)) +
-  labs(x = "Precipitation (mm)", y = "Δ Pr (Survival) (E+ - E-)") +
-  theme_bw() +
-  theme(
-    panel.border = element_rect(fill = NA, color = "black"),
-    axis.title = element_text(size = 13),
-    axis.text = element_text(size = 10),
-    strip.text = element_text(size = 13)
-  )
-
-dev.off()
-
-# Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurival_ppt_diff.pdf",
-# width = 12, height = 6.5)
-# ggplot(plot_data) +
-#   # survival probability
-#   geom_line(
-#     data = subset(plot_data, panel == "Pr (survival)"),
-#     aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
-#     size = 1
-#   ) +
-#   geom_ribbon(
-#     data = subset(plot_data, panel == "Pr (survival)"),
-#     aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
-#         fill = factor(endo), group = endo),
-#     alpha = 0.3, color = NA
-#   ) +
-#   geom_point(
-#     data = observed_data,
-#     aes(x = exp(clim), y = y, color = factor(endo)),
-#     size = 2, position = position_jitter(width = 0, height = 0.02)
-#   ) +
-#   
-#   # delta panel
-#   geom_line(
-#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
-#     aes(x = exp(clim), y = mean),
-#     color = "black", size = 1
-#   ) +
-#   geom_ribbon(
-#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
-#     aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
-#     fill = "#9B6B96", alpha = 0.5
-#   ) +
-#   geom_hline(
-#     data = subset(plot_data, panel == "Δ (E+ - E-)"),
-#     aes(yintercept = 0),
-#     linetype = "dashed", color = "black"
-#   ) +
-#   
-#   facet_grid(panel ~ species + herb,
-#              scales = "free_y",
-#              labeller = labeller(
-#                species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
-#                herb = c("0" = "Unfenced", "1" = "Fenced")
-#              )) +
-#   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-#   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-#                      labels = c("E-", "E+")) +
-#   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-#                     labels = c("E-", "E+")) +
-#   theme_bw() +
-#   theme(
-#     legend.position = c(0.06, 0.85),
-#     panel.border = element_rect(fill = NA, color = "black"),
-#     axis.title = element_text(size = 13),
-#     axis.text = element_text(size = 10),
-#     text = element_text(family = "Arial"),
-#     strip.text = element_text(size = 13)
-#   )
-# 
-# dev.off()
-
-library(ggplot2)
-library(ggh4x)
-library(Cairo)
-
-# Adjusted panel heights (smaller difference)
-heights <- c("Pr (survival)" = 2.5, "Δ (E+ - E-)" = 0.1)
-
-# Make sure panel is character
-plot_data$panel <- as.character(plot_data$panel)
-
-# Save PDF at Ecology Letters recommended size
-Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.pdf",
-                width = 6.5, height = 10)
-ggplot(plot_data) +
-  # Survival probability panel
-  geom_line(
-    data = subset(plot_data, panel == "Pr (survival)"),
-    aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
-    size = 1
-  ) +
-  geom_ribbon(
-    data = subset(plot_data, panel == "Pr (survival)"),
-    aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
-        fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
-  ) +
-  geom_point(
-    data = observed_data,
-    aes(x = exp(clim), y = y_plot_mean, color = factor(endo)),
-    size = 1.5, position = position_jitter(width = 0, height = 0.01)
-  ) +
+  geom_hline(aes(yintercept = 0),
+             data = filter(plot_data, panel == "Delta_E"),
+             linetype = "dashed", color = "black") +
   
-  # Δ (E+ - E-) panel
-  geom_line(
-    data = subset(plot_data, panel == "Δ (E+ - E-)"),
-    aes(x = exp(clim), y = mean),
-    color = "black", size = 1
-  ) +
-  geom_ribbon(
-    data = subset(plot_data, panel == "Δ (E+ - E-)"),
-    aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
-  ) +
-  geom_hline(
-    data = subset(plot_data, panel == "Δ (E+ - E-)"),
-    aes(yintercept = 0),
-    linetype = "dashed", color = "black"
-  ) +
-  
-  # Facets: species × herb, panels stacked
-  facet_nested(species + panel ~ herb,
-               scales = "free_y",
-               space = "free_y",
-               labeller = labeller(
-                 species = c("1" = "AGHY", "2" = "ELVI", "3" = "POAU"),
-                 herb = c("0" = "Unfenced", "1" = "Fenced"))) +
-  facetted_pos_scales(
-    y = list(
-      "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.25, 0.3), expand = c(0, 0))
+  ggh4x::facet_nested(
+    species + panel ~ herb,
+    scales = "free_y",
+    space = "free_y",
+    labeller = labeller(
+      species = label_parsed,
+      panel   = as_labeller(panel_labeller, label_parsed),
+      herb    = c("0" = "Unfenced", "1" = "Fenced")
     )
   ) +
   
+  # Remove y-ticks for Delta panel only
+  ggh4x::facetted_pos_scales(
+  y = list(
+    "Pr_survival" = scale_y_continuous(
+      expand = c(0, 0)   # keeps usual ticks for this panel
+    ),
+    "Delta_E" = scale_y_continuous(
+      breaks = NULL,         # only tick at 0
+      labels = 0,         # show "0"
+      minor_breaks = NULL,
+      limits = c(-0.3, 0.3),
+      expand = c(0, 0)
+    )
+  )
+)+
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                     labels = c("E-", "E+")) +
-  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
-                    labels = c("E-", "E+")) +
-  
+  scale_color_manual(
+    values = c("0" = "tomato", "1" = "cornflowerblue"),
+    labels = expression(E^"-", E^"+")
+  ) +
+  scale_fill_manual(
+    values = c("0" = "tomato", "1" = "cornflowerblue"),
+    labels = expression(E^"-", E^"+")
+  )+
   theme_light() +
   theme(
     legend.position = c(0.08, 0.24),
-    legend.title = element_text(size = 8),  
-    ggh4x.facet.nest.heights = heights,
-    panel.spacing.y = unit(0.0, "cm"), 
-    #panel.border = element_rect(fill = NA, color = "black"),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 8),
+    #ggh4x.facet.nest.heights = heights,
+    panel.spacing.y = unit(0.0, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 8),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(
-      size = 10, color = "grey40", face = "bold"
-    ),
-    strip.text.y = element_text(
-      size = 10, color = "grey40", face = "bold"),
-    strip.background = element_rect(
-      color="black", fill="white", size=0.5, linetype="solid"
-    )
+    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.5, linetype = "solid")
   )
-
+print(p)
 dev.off()
-
 
 # Growth----
 ## Read and format survival data to build the model

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 OCT 2025 16:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 OCT 2025 17:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1103,17 +1103,13 @@ Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 284.
 
 [9]
 
-LaTeX Warning: Reference `fig:flowering' on page 10 undefined on input line 350
-.
-
-
 LaTeX Warning: Reference `fig:spikelet' on page 10 undefined on input line 351.
 
 
 
 
 [10]
-<../Figure/PrSurvival_diff.pdf, id=281, 361.35pt x 505.89pt>
+<../Figure/PrSurvival_diff.pdf, id=282, 361.35pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 358.
@@ -1122,7 +1118,7 @@ Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 358.
 
 
 [11]
-<../Figure/Growth_diff.pdf, id=292, 433.62pt x 686.565pt>
+<../Figure/Growth_diff.pdf, id=294, 433.62pt x 686.565pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
 Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 369.
@@ -1135,21 +1131,30 @@ Overfull \vbox (14.62436pt too high) has occurred while \output is active []
 
 
 [13 <../Figure/Growth_diff.pdf>]
+<../Figure/Flowering_diff_v.pdf, id=347, 722.7pt x 361.35pt>
+File: ../Figure/Flowering_diff_v.pdf Graphic file (type pdf)
+<use ../Figure/Flowering_diff_v.pdf>
+Package pdftex.def Info: ../Figure/Flowering_diff_v.pdf  used on input line 380
+.
+(pdftex.def)             Requested size: 469.75502pt x 234.88023pt.
+
 
 LaTeX Warning: Reference `fig:bestdriver' on page 14 undefined on input line 40
 2.
 
 
 
-[14] (./Range_limit_v1.bbl
+[14 <../Figure/Flowering_diff_v.pdf>]
 
-[15]
+[15] (./Range_limit_v1.bbl
 
 [16]
 
-[17])
+[17]
 
-[18]
+[18])
+
+[19]
 Overfull \hbox (38.45683pt too wide) detected at line 455
 []
  []
@@ -1161,7 +1166,7 @@ Overfull \hbox (36.59242pt too wide) detected at line 473
 
 
 
-[19
+[20
 
 ]
 Overfull \hbox (42.68626pt too wide) in paragraph at lines 486--505
@@ -1170,10 +1175,10 @@ Overfull \hbox (42.68626pt too wide) in paragraph at lines 486--505
 
 
 
-[20]
-
 [21]
-<../Figure/Climate_prism_2023_2025.pdf, id=396, 867.24pt x 361.35pt>
+
+[22]
+<../Figure/Climate_prism_2023_2025.pdf, id=424, 867.24pt x 361.35pt>
 File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use ../Figure/Climate_prism_2023_2025.pdf>
 Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
@@ -1181,10 +1186,10 @@ ine 566.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
 
-[22
+[23
 
  <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/combined_ppc_plots.pdf, id=406, 505.89pt x 433.62pt>
+<../Figure/combined_ppc_plots.pdf, id=434, 505.89pt x 433.62pt>
 File: ../Figure/combined_ppc_plots.pdf Graphic file (type pdf)
 <use ../Figure/combined_ppc_plots.pdf>
 Package pdftex.def Info: ../Figure/combined_ppc_plots.pdf  used on input line 5
@@ -1192,7 +1197,7 @@ Package pdftex.def Info: ../Figure/combined_ppc_plots.pdf  used on input line 5
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[23
+[24
 
  <../Figure/combined_ppc_plots.pdf>] (./Range_limit_v1.aux)
  ***********
@@ -1211,11 +1216,11 @@ Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 ### semi simple group (level 1) entered at line 170 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 29017 strings out of 473190
- 530371 string characters out of 5715801
- 933565 words of memory out of 5000000
- 50741 multiletter control sequences out of 15000+600000
- 682187 words of font info for 823 fonts, out of 8000000 for 9000
+ 29031 strings out of 473190
+ 530725 string characters out of 5715801
+ 934056 words of memory out of 5000000
+ 50748 multiletter control sequences out of 15000+600000
+ 682489 words of font info for 827 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,11n,101p,1174b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1228,10 +1233,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (23 pages, 6045690 bytes).
+Output written on Range_limit_v1.pdf (24 pages, 6096861 bytes).
 PDF statistics:
- 491 PDF objects out of 1000 (max. 8388607)
- 407 compressed objects within 5 object streams
- 109 named destinations out of 1000 (max. 500000)
- 187454 words of extra memory for PDF output out of 221844 (max. 10000000)
+ 519 PDF objects out of 1000 (max. 8388607)
+ 427 compressed objects within 5 object streams
+ 111 named destinations out of 1000 (max. 500000)
+ 187459 words of extra memory for PDF output out of 221844 (max. 10000000)
 

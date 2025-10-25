@@ -823,7 +823,7 @@ dev.off()
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff_v.pdf",
-  width = 10, height = 6
+  width = 10, height = 5
 )
 
 ggplot(plot_data_flow) +
@@ -846,6 +846,15 @@ ggplot(plot_data_flow) +
     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
     aes(x = exp(clim), y = mean), color = "black", size = 0.5
   ) +
+  # Add a horizontal dashed line at y = 0 in the Δ-panel
+  geom_hline(
+    data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
+    aes(yintercept = 0),
+    color = "black",
+    linetype = "dashed",
+    size = 0.3,
+    inherit.aes = FALSE
+  )+
   geom_ribbon(
     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
     aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
@@ -900,7 +909,7 @@ ggplot(plot_data_flow) +
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )
 

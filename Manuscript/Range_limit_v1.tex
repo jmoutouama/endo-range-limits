@@ -65,6 +65,7 @@
 \usepackage{orcidlink}
 \usepackage{tabularx} % put this once in your preamble
 \usepackage{booktabs}
+\usepackage{pdflscape}  % or \usepackage{lscape}
 %\usepackage{hyperref}
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
@@ -343,6 +344,18 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rs
 % final files after acceptance.
 \section*{Results}
 \subsection*{Endophyte presence influenced host survival and reproduction across the abiotic stress gradient, with no effects of herbivory}
+Survival declined under lower precipitation, and the effect of endophytes on survival changed from beneficial under wetter conditions to costly under drier conditions (Fig.~\ref{fig:Surv};Table~\ref{tab:delta_summary_surv}). 
+For \textit{Agrostis hyemalis} and \textit{Elymus virginicus}, endophytes generally enhanced survival under wetter conditions (median $\Delta$~(E$^{+} - $E$^{-})$ increased from $\sim$0.004 and 0.023 at $\sim$1113 mm to 0.033 and 0.084 at $\sim$2163 mm, respectively, with posterior probabilities Pr ($\Delta>0$) $>$ 0.55 and $>$0.84), and became neutral or slightly negative under drier conditions ($\sim$0.007 and $-$0.013 at $\sim$766 mm, Pr ($\Delta>0$) $\sim$0.12--0.43). 
+In contrast, \textit{Poa autumnalis} exhibited divergent endophyte effects depending on herbivore exclusion: in fenced plots (herbivores excluded), endophytes generally enhanced survival across the precipitation gradient (median $\Delta \sim$0.005--0.027, Pr ($\Delta>0$) $\sim$0.64--0.69), whereas in unfenced plots (herbivores had access), endophytes had a negative effect on survival (median $\Delta \sim -0.012$ to $-0.052$, Pr ($\Delta>0$) $\sim$0.17--0.25).
+
+While endophytes consistently enhanced growth for \textit{Agrostis hyemalis} and \textit{Elymus virginicus}, their effects on \textit{Poa autumnalis} depended strongly on herbivore access (Fig.~\ref{fig:growth}; Table~\ref{tab:delta_summary_grow}).
+Endophyte effects on growth were generally positive across the precipitation gradient for \textit{Agrostis hyemalis} and \textit{Elymus virginicus} (median $\Delta$~(E$^{+} - $E$^{-})$ increased from approximately 0.0826 and 0.0632 at $\sim$1316 mm to 0.0942 and 0.0605 at $\sim$2163 mm, respectively, with posterior probabilities $\mathrm{Pr}(\Delta > 0)$ consistently above 0.92). 
+Under drier conditions, however, endophyte benefits were weaker, and relative growth differences were modest or nearly neutral ($\sim$0.0671 and 0.0647 at $\sim$774 mm, $\mathrm{Pr}(\Delta > 0) \sim$0.88–0.97).
+In contrast, \textit{Poa autumnalis} displayed divergent patterns depending on herbivore access. 
+In plots where herbivores were excluded, endophytes tended to increase annual growth across precipitation levels (median $\Delta \sim$0.0041–0.0448, $\mathrm{Pr}(\Delta > 0) \sim$0.55–0.91), whereas in unfenced plots, endophytes had neutral or slightly negative effects (median $\Delta \sim$–0.0131 to 0.0122, $\mathrm{Pr}(\Delta > 0) \sim$0.30–0.65).  
+
+
+
 \tom{We used Bayesian mixed-effect models to test the effects of abiotic stress (geographic gradient of precipitation), endophyte association (E$^{-}$ vs. E$^{+}$), and herbivore exclusion (fenced vs. unfenced plots) on survival, growth, and reproductive traits in three grass host species.}{Rather than provide a recap here, lead with a strong topic sentence that gives an overview of the results described next.}
 These models effectively captured key aspects of the grass demography data, including means, standard deviations, and quantiles (Fig.~\ref{sup:ppc_vital}).  
 \tom{High abiotic stress reduced survival, with E$^{-}$ individuals outperforming E$^{+}$ individuals, indicating a cost of endophyte association under dry conditions (Fig.~\ref{fig:Surv}).}{I think there are two results here that should be separately acknowledged: survival declined under lower precipitation, and the effect of endophytes on survival changed from beneficial under wetter conditions to costly under drier conditions. I think these results can be communicated more clearly, and you should also provide statistical support for this result. }
@@ -378,25 +391,28 @@ Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{../Figure/Flowering_diff_v.pdf}
-\caption{Predicted number of inflorescences (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
-Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
-Points represent mean observed inflorescences per plot,  jittered for visualization.  
-The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
-Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
+\caption{
+%Effects of precipitation, endophyte presence, and herbivory on flowering output (number of inflorescences) across three cool-season grass species. 
+Predicted number of inflorescences (upper panels) and the difference between endophyte-infected (E$^+$) and endophyte-free (E$^-$) plants ($\Delta$(E$^+$--E$^-$), lower panels) are shown across a gradient of precipitation.
+%for \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. 
+Shaded areas represent 90\% credible intervals. 
+Points indicate observed means,jittered  for visualization. 
+Panels are grouped by species and herbivory treatment (unfenced = with herbivory; fenced = herbivory excluded).}
 \label{fig:flowering}
 \end{figure}
 
-%\begin{figure}[H]
-%\centering
-%\includegraphics[width=0.8\textwidth]{../Figure/Spik_ppt_diff.pdf}
-%\caption{Predicted number of spikelets (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
-%Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
-%Points represent mean observed spikelets per plot, slightly jittered for visualization. 
-%Spikelets were measured for only two species (see Methods for details).  
-%The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
-%Panels are organized by species (AGHY, ELVI) and herbivory treatment (Fenced, Unfenced).}
-%\label{fig:spikelet}
-%\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{../Figure/Spikelet_diff.pdf}
+\caption{Predicted number of spikelets (upper panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
+Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
+Points represent mean observed spikelets per plot, slightly jittered for visualization. 
+Spikelets were measured for only two species (see Methods for details).  
+The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
+Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
+\label{fig:spikelet}
+\end{figure}
 
 \subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
 Across all vital rates (survival, growth, inflorescence, and spikelet production), models that included only abiotic predictors consistently provided the best fits, measured by expected log predictive density (ELPD; higher values indicate better predictive accuracy; Figure~\ref{fig:bestdriver}).  
@@ -523,6 +539,95 @@ TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
 \end{tabular}
 \end{table}
 
+\begin{landscape}
+\begin{table}[ht]
+\centering
+\small
+\caption{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) at precipitation quantiles for each species and herbivore exclusion treatment. Median, 90\% credible interval, and posterior probability that $\Delta > 0$ are shown. Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had access.}
+\label{tab:delta_summary_surv}
+\begin{tabular}{llrrrrr}
+\hline
+Species & Herbivore exclusion & Precipitation (mm) & P($\Delta>0$) & Median & Lower 90\% & Upper 90\% \\
+\hline
+\textit{Agrostis hyemalis} & Unfenced & 765.76 & 0.40 & -0.007 & -0.092 & 0.063 \\
+\textit{Agrostis hyemalis} & Unfenced & 848.28 & 0.44 & -0.005 & -0.082 & 0.064 \\
+\textit{Agrostis hyemalis} & Unfenced & 1113.25 & 0.55 & 0.004  & -0.065 & 0.076 \\
+\textit{Agrostis hyemalis} & Unfenced & 1644.36 & 0.69 & 0.021  & -0.063 & 0.129 \\
+\textit{Agrostis hyemalis} & Unfenced & 2163.28 & 0.74 & 0.033  & -0.067 & 0.178 \\
+\textit{Agrostis hyemalis} & Fenced   & 765.76 & 0.12 & -0.042 & -0.149 & 0.020 \\
+\textit{Agrostis hyemalis} & Fenced   & 848.28 & 0.14 & -0.038 & -0.135 & 0.022 \\
+\textit{Agrostis hyemalis} & Fenced   & 1113.25 & 0.25 & -0.025 & -0.107 & 0.039 \\
+\textit{Agrostis hyemalis} & Fenced   & 1644.36 & 0.53 & 0.004  & -0.097 & 0.106 \\
+\textit{Agrostis hyemalis} & Fenced   & 2163.28 & 0.66 & 0.025  & -0.098 & 0.173 \\
+\textit{Elymus virginicus} & Unfenced & 765.76 & 0.43 & -0.013 & -0.138 & 0.109 \\
+\textit{Elymus virginicus} & Unfenced & 848.28 & 0.48 & -0.004 & -0.127 & 0.117 \\
+\textit{Elymus virginicus} & Unfenced & 1113.25 & 0.63 & 0.023  & -0.098 & 0.147 \\
+\textit{Elymus virginicus} & Unfenced & 1644.36 & 0.80 & 0.067  & -0.068 & 0.208 \\
+\textit{Elymus virginicus} & Unfenced & 2163.28 & 0.85 & 0.084  & -0.054 & 0.251 \\
+\textit{Elymus virginicus} & Fenced   & 765.76 & 0.18 & -0.074 & -0.215 & 0.060 \\
+\textit{Elymus virginicus} & Fenced   & 848.28 & 0.24 & -0.054 & -0.182 & 0.070 \\
+\textit{Elymus virginicus} & Fenced   & 1113.25 & 0.50 & 0.001  & -0.109 & 0.109 \\
+\textit{Elymus virginicus} & Fenced   & 1644.36 & 0.82 & 0.056  & -0.045 & 0.186 \\
+\textit{Elymus virginicus} & Fenced   & 2163.28 & 0.89 & 0.068  & -0.026 & 0.237 \\
+\textit{Poa autumnalis}    & Unfenced & 765.76 & 0.21 & -0.012 & -0.095 & 0.020 \\
+\textit{Poa autumnalis}    & Unfenced & 848.28 & 0.19 & -0.018 & -0.115 & 0.024 \\
+\textit{Poa autumnalis}    & Unfenced & 1113.25 & 0.17 & -0.050 & -0.175 & 0.041 \\
+\textit{Poa autumnalis}    & Unfenced & 1644.36 & 0.20 & -0.052 & -0.191 & 0.053 \\
+\textit{Poa autumnalis}    & Unfenced & 2163.28 & 0.25 & -0.014 & -0.142 & 0.037 \\
+\textit{Poa autumnalis}    & Fenced   & 765.76 & 0.64 & 0.005  & -0.039 & 0.077 \\
+\textit{Poa autumnalis}    & Fenced   & 848.28 & 0.65 & 0.008  & -0.048 & 0.092 \\
+\textit{Poa autumnalis}    & Fenced   & 1113.25 & 0.69 & 0.025  & -0.074 & 0.143 \\
+\textit{Poa autumnalis}    & Fenced   & 1644.36 & 0.67 & 0.027  & -0.092 & 0.166 \\
+\textit{Poa autumnalis}    & Fenced   & 2163.28 & 0.64 & 0.007  & -0.071 & 0.124 \\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}[ht]
+\centering
+\small
+\caption{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) at precipitation quantiles for each species and herbivore exclusion treatment. Median, 90\% credible interval, and posterior probability that $\Delta > 0$ are shown. Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had access.}
+\label{tab:delta_summary_grow}
+\begin{tabular}{llrrrrrr}
+\hline
+Species & Herbivore exclusion & Precipitation (mm) & Median & Lower 90\% & Upper 90\% & P($\Delta>0$) & clim\_exp \\
+\hline
+\textit{Agrostis hyemalis} & Unfenced & 773.91  & 0.0671  & 0.0067   & 0.1364  & 0.9653 & 773.91 \\
+\textit{Agrostis hyemalis} & Unfenced & 1075.09 & 0.0765  & 0.0231   & 0.1336  & 0.9908 & 1075.09 \\
+\textit{Agrostis hyemalis} & Unfenced & 1316.25 & 0.0826  & 0.0271   & 0.1412  & 0.9924 & 1316.25 \\
+\textit{Agrostis hyemalis} & Unfenced & 1979.35 & 0.0927  & 0.0137   & 0.1779  & 0.9734 & 1979.35 \\
+\textit{Agrostis hyemalis} & Unfenced & 2163.28 & 0.0942  & 0.0077   & 0.1877  & 0.9636 & 2163.28 \\
+\textit{Agrostis hyemalis} & Fenced   & 773.91  & 0.0132  & -0.0330  & 0.0625  & 0.6861 & 773.91 \\
+\textit{Agrostis hyemalis} & Fenced   & 1075.09 & 0.0228  & -0.0180  & 0.0645  & 0.8163 & 1075.09 \\
+\textit{Agrostis hyemalis} & Fenced   & 1316.25 & 0.0297  & -0.0158  & 0.0765  & 0.8550 & 1316.25 \\
+\textit{Agrostis hyemalis} & Fenced   & 1979.35 & 0.0452  & -0.0291  & 0.1227  & 0.8374 & 1979.35 \\
+\textit{Agrostis hyemalis} & Fenced   & 2163.28 & 0.0489  & -0.0343  & 0.1351  & 0.8300 & 2163.28 \\
+\textit{Elymus virginicus} & Unfenced & 773.91  & 0.0647  & -0.0237  & 0.1507  & 0.8831 & 773.91 \\
+\textit{Elymus virginicus} & Unfenced & 1075.09 & 0.0642  & -0.0032  & 0.1282  & 0.9428 & 1075.09 \\
+\textit{Elymus virginicus} & Unfenced & 1316.25 & 0.0632  & 0.0038   & 0.1221  & 0.9583 & 1316.25 \\
+\textit{Elymus virginicus} & Unfenced & 1979.35 & 0.0613  & -0.0064  & 0.1310  & 0.9298 & 1979.35 \\
+\textit{Elymus virginicus} & Unfenced & 2163.28 & 0.0605  & -0.0117  & 0.1354  & 0.9155 & 2163.28 \\
+\textit{Elymus virginicus} & Fenced   & 773.91  & 0.0095  & -0.0714  & 0.0925  & 0.5755 & 773.91 \\
+\textit{Elymus virginicus} & Fenced   & 1075.09 & 0.0164  & -0.0381  & 0.0726  & 0.6887 & 1075.09 \\
+\textit{Elymus virginicus} & Fenced   & 1316.25 & 0.0204  & -0.0271  & 0.0682  & 0.7598 & 1316.25 \\
+\textit{Elymus virginicus} & Fenced   & 1979.35 & 0.0279  & -0.0332  & 0.0905  & 0.7695 & 1979.35 \\
+\textit{Elymus virginicus} & Fenced   & 2163.28 & 0.0295  & -0.0386  & 0.0984  & 0.7571 & 2163.28 \\
+\textit{Poa autumnalis}    & Unfenced & 773.91  & -0.0131 & -0.0740  & 0.0405  & 0.3020 & 773.91 \\
+\textit{Poa autumnalis}    & Unfenced & 1075.09 & -0.0119 & -0.0669  & 0.0441  & 0.3537 & 1075.09 \\
+\textit{Poa autumnalis}    & Unfenced & 1316.25 & -0.0060 & -0.0590  & 0.0482  & 0.4236 & 1316.25 \\
+\textit{Poa autumnalis}    & Unfenced & 1979.35 & 0.0105  & -0.0461  & 0.0692  & 0.6258 & 1979.35 \\
+\textit{Poa autumnalis}    & Unfenced & 2163.28 & 0.0122  & -0.0453  & 0.0744  & 0.6500 & 2163.28 \\
+\textit{Poa autumnalis}    & Fenced   & 773.91  & 0.0448  & -0.0095  & 0.1346  & 0.9119 & 773.91 \\
+\textit{Poa autumnalis}    & Fenced   & 1075.09 & 0.0270  & -0.0277  & 0.0895  & 0.7897 & 1075.09 \\
+\textit{Poa autumnalis}    & Fenced   & 1316.25 & 0.0041  & -0.0495  & 0.0587  & 0.5503 & 1316.25 \\
+\textit{Poa autumnalis}    & Fenced   & 1979.35 & -0.0480 & -0.1165  & 0.0124  & 0.0963 & 1979.35 \\
+\textit{Poa autumnalis}    & Fenced   & 2163.28 & -0.0542 & -0.1313  & 0.0074  & 0.0727 & 2163.28 \\
+\hline
+\end{tabular}
+\end{table}
+\end{landscape}
 
 
 %\begin{table}[H]

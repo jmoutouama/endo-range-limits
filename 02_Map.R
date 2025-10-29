@@ -14,6 +14,7 @@ library(dismo)
 library(prism)
 library(MESS)
 library(mgcv)
+library(maps)
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
@@ -277,6 +278,14 @@ plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
 mtext("A", side=3, adj=0, cex=1.25, line=0.2)
 mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
 ### Panel B
 plot(crop_ppt_annual, xlab="Longitude", ylab="", col=col_precip_rev, cex.lab=1.2)
 plot(study_area, add=TRUE)
@@ -286,6 +295,14 @@ plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
 mtext("B", side=3, adj=0, cex=1.25, line=0.2)
 mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
 ### Panel C
 par(mar=c(0,3,3.75,1))
 plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
@@ -296,9 +313,27 @@ plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
 mtext("C", side=3, adj=0, cex=1.25, line=0.3)
 mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
+legend(
+  -105, 28,          # longitude coordinate for legend
+  legend = c("Species", "Garden", "Source"),
+  pch = c(23, 3, 21),
+  pt.bg = c("grey", NA, "red"),  # fill color for points; NA for symbols without fill
+  col = c("grey50", "black", "black"),
+  pt.cex = c(0.55, 2, 1),
+  bty = "n",                # no box around legend
+  cex = 0.9                 # text size
+)
 ### Panel D (barplot ordered largest → smallest)
 par(mar=c(6,4,4,1))
-ordered_data <- prism_summary[order(prism_summary[,2], decreasing=TRUE), ]
+ordered_data <- prism_summary[order(prism_summary[,2], decreasing=FALSE), ]
 bar_vals <- as.numeric(ordered_data[,2])
 names(bar_vals) <- ordered_data[,1]
 barplot(bar_vals,
@@ -365,7 +400,7 @@ arrows(
 )
 
 # Add legend — shifted inside the plot for cleaner layout
-legend(0,0.98,"topleft", legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 1.2)
+legend(12,0.98,"topleft", legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 1.2)
 
 dev.off()
 
@@ -439,6 +474,91 @@ legend(0,0.95, legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex =
 dev.off()
 
 
+# Summarize data per plot and herbivory
+dat24_herb_plot_by_species <- dat24_herb %>%
+  group_by(Species, Site, Plot, Herbivory) %>%
+  summarise(
+    prop_plants_damaged = mean(tiller_herb_24 > 0, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Summarize per Site × Herbivory × Species
+summary_24 <- dat24_herb_plot_by_species %>%
+  group_by(Species, Site, Herbivory) %>%
+  summarise(
+    Mean = mean(prop_plants_damaged, na.rm = TRUE),
+    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
+    .groups = "drop"
+  )
+
+# Define colors and herbivory levels (1 = Fenced, 0 = Unfenced)
+herb_levels <- c(1, 0)  # reordered
+colors <- c("salmon","lightgreen")
+names(colors) <- herb_levels
+
+# Get species list
+species_list <- unique(summary_24$Species)
+
+# Export barplots as a multi-page PDF
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot24_by_species.pdf",
+    width = 5, height = 4)
+
+for (sp in species_list) {
+  
+  sp_data <- summary_24 %>% filter(Species == sp)
+  site_ids <- unique(sp_data$Site)
+  
+  # Create numeric mean matrix (rows = Herbivory, columns = Site)
+  mean_matrix <- matrix(
+    as.numeric(sapply(site_ids, function(s){
+      sapply(herb_levels, function(h){
+        v <- sp_data$Mean[sp_data$Site==s & sp_data$Herbivory==h]
+        if(length(v)==0) NA else v
+      })
+    })),
+    nrow = length(herb_levels), byrow = FALSE
+  )
+  
+  # SE matrix
+  se_matrix <- matrix(
+    as.numeric(sapply(site_ids, function(s){
+      sapply(herb_levels, function(h){
+        v <- sp_data$SE[sp_data$Site==s & sp_data$Herbivory==h]
+        if(length(v)==0) NA else v
+      })
+    })),
+    nrow = length(herb_levels), byrow = FALSE
+  )
+  
+  # Create barplot with italic species name
+  bp <- barplot(
+    height = mean_matrix,
+    beside = TRUE,
+    names.arg = site_ids,
+    col = colors,
+    ylim = c(0, max(mean_matrix + se_matrix, na.rm=TRUE) * 1.2),
+    ylab = "Proportion of damaged plants",
+    xlab = "Sites",
+    main = substitute(italic(sp_name), list(sp_name = sp)),
+    las = 2,
+    cex.names = 0.6
+  )
+  
+  # Add error bars
+  arrows(
+    x0 = bp,
+    y0 = mean_matrix - se_matrix,
+    x1 = bp,
+    y1 = mean_matrix + se_matrix,
+    angle = 90, code = 3, length = 0.05
+  )
+  
+  # Add legend (Fenced = 1, Unfenced = 0)
+  legend("topright", legend = c("Fenced", "Unfenced"), fill = colors, bty = "n", cex = 0.8)
+}
+
+dev.off()
+
 # Climatic census ----
 prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
 
@@ -471,4 +591,18 @@ barplot(
   las = 1
 )
 dev.off()
+
+# Find rows with maximum longitude for each dataset
+max_aghy <- aghy[which.max(aghy$longitude), ]
+max_elvi <- elvi[which.max(elvi$longitude), ]
+max_poau <- poau[which.max(poau$longitude), ]
+
+# Combine into a single table
+max_long_table <- rbind(max_aghy, max_elvi, max_poau)
+
+# Optionally, add a species column if not present
+max_long_table$species <- c("aghy", "elvi", "poau")
+
+# Save as RDS
+saveRDS(max_long_table, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
 

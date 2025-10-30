@@ -3,10 +3,8 @@
 ## Authors: Jacob Moutouama
 ## Date last modified: 2024-08-03
 
-
 ## Clear workspace and load packages
 rm(list = ls())
-
 ## Load reauire package 
 library(tidyverse)      # data wrangling and plotting
 library(prism)          # download and process PRISM climate data
@@ -26,7 +24,6 @@ options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
 
 climate_data <- prism_archive_ls() %>%
   pd_stack()
-
 climate_crs <- climate_data@crs@projargs
 
 ## Load and format garden site data
@@ -203,3 +200,38 @@ climate_2024_2025 <- climate_garden_2024_2025 %>%
 climate_census_years <- bind_rows(climate_2023_2024, climate_2024_2025)
 # view(climate_census_years)
 # saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
+
+#Load your species coordinates
+max_long_table <- readRDS("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
+max_sites <- max_long_table
+coordinates(max_sites) <- c("longitude", "latitude")
+proj4string(max_sites) <- CRS(climate_crs)
+
+# Extract climate data at site coordinates
+climate_sites_max <- data.frame(
+  coordinates(max_sites),
+  species = max_long_table$species,
+  extract(climate_data, max_sites)
+)
+
+# Reshape and clean names
+climate_sites_max <- climate_sites_max %>%
+  gather(date, value, 4:ncol(climate_sites_max)) %>%
+  mutate(date = gsub("PRISM_", "", date),
+         date = gsub("stable_4kmM3_", "", date),
+         date = gsub("provisional_4kmM3_", "", date),
+         date = gsub("_bil", "", date))
+
+# Split layer names into variable type and date (year-month)
+climate_sites_max <- separate(climate_sites_max, "date", into = c("clim", "YearMonth"), sep = "_") %>%
+  separate(YearMonth, into = c("year", "month"), sep = 4) %>%
+  mutate(year = as.numeric(year), month = as.numeric(month))
+
+# Reshape wide and filter to 2023–2025
+climate_sites_max <- climate_sites_max %>%
+  spread(clim, value) %>%
+  filter(year %in% 2023:2025)
+
+# Save output 
+saveRDS(climate_sites_max, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_max_2023_2025.rds")
+

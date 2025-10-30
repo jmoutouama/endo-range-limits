@@ -217,6 +217,17 @@ observed_data_survival$species <- factor(
   )
 )
 
+# Create label table (a–f for 3 species × 2 herbivory)
+panel_labels <- data.frame(
+  species = rep(c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  ), each = 2),
+  herb = rep(c(0, 1), times = 3),
+  label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
+  panel = "Pr (survival)"   # only place labels on upper panels
+)
 # Trim panel names
 plot_data_survival$panel <- trimws(as.character(plot_data_survival$panel))
 observed_data_survival$panel <- trimws(as.character(observed_data_survival$panel))
@@ -224,9 +235,8 @@ observed_data_survival$panel <- trimws(as.character(observed_data_survival$panel
 # 9. Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.pdf",
-  width = 5, height = 7
+  width = 6, height = 7
 )
-
 ggplot(plot_data_survival) +
   # Survival panel
   geom_line(
@@ -259,15 +269,8 @@ ggplot(plot_data_survival) +
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
     aes(yintercept = 0), linetype = "dashed", color = "black"
   ) +
-  # Optional: add "0" label on lower panels
-  # geom_text(
-  #   data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
-  #   aes(x = min(exp(clim)), y = 0, label = "0"),
-  #   inherit.aes = FALSE,
-  #   hjust = 1.1, vjust = 0.5,
-  #   size = 2.5
-  # ) +
-  # Facets with heights
+  
+  # Facets
   ggh4x::facet_nested(
     species + panel ~ herb,
     scales = "free_y",
@@ -279,46 +282,16 @@ ggplot(plot_data_survival) +
   ) +
   ggh4x::facetted_pos_scales(
     y = list(
-      # Agrostis hyemalis 
-      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(
-          breaks = 0,
-          labels = 0,
-          minor_breaks = NULL,
-          limits = c(-0.3, 0.3),
-          expand = c(0,0)
-        ),
-      
-      # Elymus virginicus 
-      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          breaks = 0,
-          labels = 0,
-          minor_breaks = NULL,
-          limits = c(-0.3, 0.3),
-          expand = c(0,0)
-        ),
-      
-      # Poa autumnalis
-      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          breaks = 0,
-          labels = 0,
-          minor_breaks = NULL,
-          limits = c(-0.3, 0.3),
-          expand = c(0,0)
-        ),
-      
-      # Upper panels (same for all)
+      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0,0)),
       panel == "Pr (survival)" ~ scale_y_continuous(expand = c(0,0))
     )
-  )+
+  ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.075, 0.27),
+    legend.position = c(0.17, 0.936),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -327,10 +300,18 @@ ggplot(plot_data_survival) +
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1)
+  ) +
+  # Add facet labels (a–f) only on top panels
+  geom_text(
+    data = panel_labels,
+    aes(x = 490, y = 0.9, label = label),
+    fontface = "plain", size = 3.5, hjust = 0,
+    inherit.aes = FALSE
   )
+
 
 dev.off()
 

@@ -50,6 +50,23 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 demography_climate<-readRDS(url("https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"))
+climate_max<-readRDS(url("https://www.dropbox.com/scl/fi/v9lp1wvc2eeatgf0uf7ol/prism_max_2023_2025.rds?rlkey=debj1y03k9buxank3s5wadbcc&dl=1"))
+yearly_prism_max <- climate_max %>%
+  group_by(species, year) %>%
+  summarise(
+    ppt_sum = sum(ppt, na.rm = TRUE),
+    tmean_mean = mean(tmean, na.rm = TRUE)
+  ) %>%
+  ungroup()
+yearly_prism_max_avg <- yearly_prism_max %>%
+  group_by(species) %>%
+  summarise(
+    ppt_avg = mean(ppt_sum, na.rm = TRUE),
+    tmean_avg = mean(tmean_mean, na.rm = TRUE)
+  ) %>%
+  ungroup()
+
+yearly_prism_avg
 
 # Survival----
 ## Read and format survival data to build the model
@@ -414,30 +431,42 @@ delta_long_surv <- delta_surv_summary %>%
 # Plot for survival 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff_stat.pdf",
-  width = 7, height = 5
+  width = 7, height = 6
 )
 
 ggplot(delta_long_surv, aes(x = clim_exp, y = value, color = herb, group = herb)) +
   geom_line(size = 0.5) +
-  # Horizontal dashed line at y = 0 only for median Δ panels
+  # Horizontal dashed lines
   geom_hline(
     data = delta_long_surv %>% filter(metric == "Median Δ (E+ − E−)"),
     aes(yintercept = 0),
     linetype = "dashed",
     color = "black"
   ) +
-  # Horizontal dashed line at y = 0.5 only for Pr(Δ > 0) panels
   geom_hline(
     data = delta_long_surv %>% filter(metric == "Pr (Δ > 0)"),
     aes(yintercept = 0.5),
     linetype = "dashed",
     color = "black"
   ) +
-  # Use species_label for italics, metric as plain label
+  # Vertical lines for species-specific average precipitation
+  geom_vline(
+    data = yearly_prism_max_avg %>% 
+      mutate(species_label = case_when(
+        species == "aghy" ~ "italic('Agrostis hyemalis')",
+        species == "elvi" ~ "italic('Elymus virginicus')",
+        species == "poau" ~ "italic('Poa autumnalis')"
+      )),
+    aes(xintercept = ppt_avg),
+    linetype = "dotted",
+    color = "#0072B2",
+    size = 0.6
+  ) +
+  # Facets
   facet_grid(metric ~ species_label, scales = "free_y",
              labeller = labeller(
                species_label = label_parsed,
-               metric = label_value   # plain string for metric
+               metric = label_value
              )) +
   scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
   labs(
@@ -448,11 +477,11 @@ ggplot(delta_long_surv, aes(x = clim_exp, y = value, color = herb, group = herb)
   ) +
   theme_light() +
   theme(
-    legend.position = c(0.08, 0.9),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
+    legend.position = "bottom",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
@@ -461,6 +490,7 @@ ggplot(delta_long_surv, aes(x = clim_exp, y = value, color = herb, group = herb)
     strip.text.y = element_text(size = 10, color = "black", face = "plain"),
     strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
   )
+
 dev.off()
 
 # Growth----
@@ -634,11 +664,21 @@ y_limits <- plot_data_grow %>%
     ymax = max(upper_90, na.rm = TRUE)
   )
 
+panel_labels_grow <- data.frame(
+  species = rep(c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  ), each = 2),
+  herb = rep(c(0, 1), times = 3),
+  label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
+  panel = "Growth"   # only place labels on upper panels
+)
 
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 6, height = 9.5
+  width = 7, height = 9
 )
 
 ggplot(plot_data_grow) +
@@ -739,7 +779,14 @@ ggplot(plot_data_grow) +
     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+  )+
+  geom_text(
+    data = panel_labels_grow,
+    aes(x = 490, y = 0.8, label = label),
+    fontface = "plain", size = 3.5, hjust = 0,
+    inherit.aes = FALSE
   )
+
 
 dev.off()
 
@@ -840,7 +887,7 @@ delta_long_grow <- delta_grow_summary %>%
 # Create the growth plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff_stat.pdf",
-  width = 7, height = 5
+  width = 7, height = 6
 )
 ggplot(delta_long_grow, aes(x = clim_exp, y = value, color = herb, group = herb)) +
   geom_line(size = 1) +
@@ -858,6 +905,19 @@ ggplot(delta_long_grow, aes(x = clim_exp, y = value, color = herb, group = herb)
     linetype = "dashed",
     color = "black"
   ) +
+  # Vertical lines for species-specific average precipitation
+  geom_vline(
+    data = yearly_prism_max_avg %>% 
+      mutate(species_label = case_when(
+        species == "aghy" ~ "italic('Agrostis hyemalis')",
+        species == "elvi" ~ "italic('Elymus virginicus')",
+        species == "poau" ~ "italic('Poa autumnalis')"
+      )),
+    aes(xintercept = ppt_avg),
+    linetype = "dotted",
+    color = "#0072B2",
+    size = 0.6
+  ) +
   facet_grid(metric ~ species_label, scales = "free_y",
              labeller = labeller(
                species_label = label_parsed,
@@ -872,11 +932,11 @@ ggplot(delta_long_grow, aes(x = clim_exp, y = value, color = herb, group = herb)
   ) +
   theme_light() +
   theme(
-    legend.position = c(0.87, 0.395),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
+    legend.position = "bottom",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
@@ -885,6 +945,7 @@ ggplot(delta_long_grow, aes(x = clim_exp, y = value, color = herb, group = herb)
     strip.text.y = element_text(size = 10, color = "black", face = "plain"),
     strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
   )
+
 dev.off()
 
 # Flowering----
@@ -942,7 +1003,8 @@ predictions <- expand.grid(
   herb = c(0, 1),
   species = 1:3
 )
-
+# Extract posterior samples
+posterior_samples_flow <- rstan::extract(fit_flow_ppt)
 # Prediction function for flowering
 get_predictions_flow <- function(clim, endo, herb, species_index, posterior_samples_flow) {
   with(posterior_samples_flow, {
@@ -974,6 +1036,61 @@ for (i in seq_len(nrow(predictions))) {
     posterior_samples_flow
   )
 }
+
+# Combine predictions with original predictors
+pred_flow_df <- cbind(predictions, as.data.frame(pred_matrix_flow))
+
+# Pivot longer for tidy format
+pred_flow_long <- pred_flow_df %>%
+  pivot_longer(
+    cols = starts_with("V"),
+    names_to = "Posterior_Sample",
+    values_to = "Pred_Flow"
+  )
+
+# Compute credible intervals per species × endo × herb × clim
+cred_intervals_flow <- pred_flow_long %>%
+  group_by(species, endo, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(Pred_Flow, 0.05),
+    upper_90 = quantile(Pred_Flow, 0.95),
+    median = quantile(Pred_Flow, 0.5),
+    mean = mean(Pred_Flow),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Flowering")
+
+# Compute Δ (E+ − E−) for flowering
+diff_df_flow <- pred_flow_long %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(
+    diff = mean(Pred_Flow[endo == 1]) - mean(Pred_Flow[endo == 0]),
+    .groups = "drop"
+  )
+
+diff_ci_flow <- diff_df_flow %>%
+  group_by(species, herb, clim) %>%
+  summarise(
+    lower_90 = quantile(diff, 0.05),
+    upper_90 = quantile(diff, 0.95),
+    mean = mean(diff),
+    .groups = "drop"
+  ) %>%
+  mutate(panel = "Δ (E+ - E-)")
+
+# Combine credible intervals and difference panels
+plot_data_flow <- bind_rows(cred_intervals_flow, diff_ci_flow)
+
+# Relabel species for plotting in italics
+plot_data_flow$species <- factor(
+  plot_data_flow$species,
+  levels = c("1","2","3"),
+  labels = c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  )
+)
 
 # Change panel name for upper panel
 plot_data_flow <- plot_data_flow %>%
@@ -1018,6 +1135,17 @@ y_limits_flow <- plot_data_flow %>%
     ymax = max(upper_90, na.rm = TRUE),
     .groups = "drop"
   )
+
+panel_labels_flow <- data.frame(
+  species = rep(c(
+    "italic('Agrostis hyemalis')",
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  ), each = 2),
+  herb = rep(c(0, 1), times = 3),
+  label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
+  panel = "#Inflorescences"   # only place labels on upper panels
+)
 
 # Plot with updated panel labels
 Cairo::CairoPDF(
@@ -1208,9 +1336,15 @@ ggplot(plot_data_flow) +
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 12, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+  )+
+  geom_text(
+    data = panel_labels_flow,
+    aes(x = 490, y = 19, label = label),
+    fontface = "plain", size = 3.5, hjust = 0,
+    inherit.aes = FALSE
   )
 
 dev.off()
@@ -1334,6 +1468,19 @@ ggplot(delta_long_flow, aes(x = clim_exp, y = value, color = herb, group = herb)
     linetype = "dashed",
     color = "black"
   ) +
+  # Vertical lines for species-specific average precipitation
+  geom_vline(
+    data = yearly_prism_max_avg %>% 
+      mutate(species_label = case_when(
+        species == "aghy" ~ "italic('Agrostis hyemalis')",
+        species == "elvi" ~ "italic('Elymus virginicus')",
+        species == "poau" ~ "italic('Poa autumnalis')"
+      )),
+    aes(xintercept = ppt_avg),
+    linetype = "dotted",
+    color = "#0072B2",
+    size = 0.6
+  ) +
   facet_grid(metric ~ species_label, scales = "free_y", 
              labeller = labeller(
                species_label = label_parsed,
@@ -1348,11 +1495,11 @@ ggplot(delta_long_flow, aes(x = clim_exp, y = value, color = herb, group = herb)
   ) +
   theme_light() +
   theme(
-    legend.position = c(0.87, 0.25),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
+    legend.position = "bottom",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
@@ -1361,6 +1508,7 @@ ggplot(delta_long_flow, aes(x = clim_exp, y = value, color = herb, group = herb)
     strip.text.y = element_text(size = 10, color = "black", face = "plain"),
     strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
   )
+
 dev.off()
 
 # Spikelet----
@@ -1409,7 +1557,7 @@ demography_spik_ppt <- list(
 
 
 fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/dyr574ub0zv4rfcbla7ov/fit_spik_abio_bio_endo.rds?rlkey=agw1q5xilj21z8wmzyziqsg6u&dl=1"))
-posterior_samples <- rstan::extract(fit_spik_ppt)
+posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 predictions <- expand.grid(
   clim = seq(
     min(demography_spik_ppt$clim),
@@ -1529,12 +1677,20 @@ y_limits_spik <- plot_data_spik %>%
     ymax = max(upper_90, na.rm = TRUE),
     .groups = "drop"
   )
-
+panel_labels_spik <- data.frame(
+  species = rep(c(
+    "italic('Elymus virginicus')",
+    "italic('Poa autumnalis')"
+  ), each = 2),
+  herb = rep(c(0, 1), times = 2),
+  label = c("(a)", "(b)", "(c)", "(d)"),
+  panel = "#Spikelets"   # only place labels on upper panels
+)
 
 # --- Plot (horizontal layout for paper figure) ---
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
-  width = 6, height = 6.5
+  width = 6, height = 6
 )
 
 ggplot(plot_data_spik) +
@@ -1616,7 +1772,7 @@ ggplot(plot_data_spik) +
                     labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.075, 0.475),
+    legend.position = c(0.12, 0.475),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -1628,6 +1784,12 @@ ggplot(plot_data_spik) +
     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+  )+
+  geom_text(
+    data = panel_labels_spik,
+    aes(x = 490, y = 42, label = label),
+    fontface = "plain", size = 3.5, hjust = 0,
+    inherit.aes = FALSE
   )
 
 dev.off()
@@ -1698,9 +1860,8 @@ delta_spik_summary <- delta_spik_quantiles %>%
   )
 
 # Relabel species and herbivore treatments
-delta_spik_summary$species <- factor(delta_spik_summary$species, levels = 1:3,
+delta_spik_summary$species <- factor(delta_spik_summary$species, levels = 1:2,
                                      labels = c(
-                                       "Agrostis hyemalis",
                                        "Elymus virginicus",
                                        "Poa autumnalis"
                                      ))
@@ -1724,7 +1885,6 @@ delta_long_spik <- delta_spik_summary %>%
                            "median_delta" = "Median Δ (E+ − E−)",
                            "prob_delta_gt0" = "Pr (Δ > 0)"),
     species_label = dplyr::case_when(
-      species == "Agrostis hyemalis" ~ "italic('Agrostis hyemalis')",
       species == "Elymus virginicus" ~ "italic('Elymus virginicus')",
       species == "Poa autumnalis" ~ "italic('Poa autumnalis')"
     )
@@ -1735,30 +1895,60 @@ Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_diff_stat.pdf",
   width = 6, height = 5
 )
-ggplot(delta_long_spik, aes(x = clim_exp, y = value, color = herb, group = herb)) +
+
+ggplot(
+  delta_long_spik %>%
+    filter(!is.na(species_label)),  # ✅ remove NA panels
+  aes(x = clim_exp, y = value, color = herb, group = herb)
+) +
   geom_line(size = 1) +
-  geom_hline(data = delta_long_spik %>% filter(metric == "Median Δ (E+ − E−)"), aes(yintercept = 0),
-             linetype = "dashed", color = "black") +
-  geom_hline(data = delta_long_spik %>% filter(metric == "Pr (Δ > 0)"), aes(yintercept = 0.5),
-             linetype = "dashed", color = "black") +
-  facet_grid(metric ~ species_label, scales = "free_y", 
-             labeller = labeller(species_label = label_parsed, metric = label_value)) +
+  geom_hline(
+    data = delta_long_spik %>%
+      filter(metric == "Median Δ (E+ − E−)", !is.na(species_label)),
+    aes(yintercept = 0),
+    linetype = "dashed", color = "black"
+  ) +
+  geom_hline(
+    data = delta_long_spik %>%
+      filter(metric == "Pr (Δ > 0)", !is.na(species_label)),
+    aes(yintercept = 0.5),
+    linetype = "dashed", color = "black"
+  ) +
+  geom_vline(
+    data = yearly_prism_max_avg %>%
+      filter(species!="aghy") %>% 
+      mutate(species_label = case_when(
+        species == "elvi" ~ "italic('Elymus virginicus')",
+        species == "poau" ~ "italic('Poa autumnalis')"
+      )),
+    aes(xintercept = ppt_avg),
+    linetype = "dotted",
+    color = "#0072B2",
+    size = 0.6
+  ) +
+  facet_grid(
+    metric ~ species_label,
+    scales = "free_y",
+    labeller = labeller(species_label = label_parsed, metric = label_value)
+  ) +
   scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
   labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore exclusion") +
-  theme_light()+
+  theme_light() +
   theme(
-    legend.position = c(0.6, 0.25),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
+    legend.position = "bottom",
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 8),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
+    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )
+
 dev.off()
+
 

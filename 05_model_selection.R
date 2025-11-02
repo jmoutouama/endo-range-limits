@@ -37,90 +37,94 @@ library(extraDistr)
 library(bayestestR)
 
 #options(timeout = 120)
-# Survival----
-fit_surv_ppt_intercept <- readRDS(url("https://www.dropbox.com/scl/fi/ezsb8geutk7lvhopeq75g/fit_surv_ppt_intercept.rds?rlkey=kcee3sggvo613yizunj1g23im&dl=1"))
-fit_surv_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_surv_ppt_abiotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
-fit_surv_ppt_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/m5d7ggxlhqvprl3m8dlij/fit_surv_ppt_biotic.rds?rlkey=c5kr5q6fqq7q0n18rmk7qjtu5&dl=1"))
-fit_surv_ppt<- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_surv_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
+# Survival models ----
+# Load models
+fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/x5q2v6fxnojb9msl0yhnj/fit_surv_abio_bio_endo.rds?rlkey=ojivjcdq1s30jf15is7pbezx8&dl=1"))
+fit_sur_bio_endo       <- readRDS(url("https://www.dropbox.com/scl/fi/l0bmf9512cm98tumuc6fy/fit_sur_bio_endo.rds?rlkey=3kb1tpd41laz8vudbvsjyzxw0&dl=1"))
+fit_surv_abio_endo     <- readRDS(url("https://www.dropbox.com/scl/fi/d3pozyvc8esrf8llkvzfk/fit_surv_abio_endo.rds?rlkey=znr5uguaysgjl100fbwnsx1k7&dl=1"))
 
-log_lik_surv_ppt_intercept <- loo::extract_log_lik(fit_surv_ppt_intercept, merge_chains = FALSE)
-r_eff_surv_ppt_intercept <- loo::relative_eff(exp(log_lik_surv_ppt_intercept))
-loo_surv_ppt_intercept <- loo(log_lik_surv_ppt_intercept, r_eff = r_eff_surv_ppt_intercept, cores = 4)
-plot(loo_surv_ppt_intercept)
+# LOO for abio + bio + endo model
+log_lik_surv_abio_bio_endo <- loo::extract_log_lik(fit_surv_abio_bio_endo, merge_chains = FALSE)
+r_eff_surv_abio_bio_endo   <- loo::relative_eff(exp(log_lik_surv_abio_bio_endo))
+loo_surv_abio_bio_endo     <- loo(log_lik_surv_abio_bio_endo, r_eff = r_eff_surv_abio_bio_endo, cores = 4)
+plot(loo_surv_abio_bio_endo)
 
-log_lik_surv_ppt_abiotic <- loo::extract_log_lik(fit_surv_ppt_abiotic, merge_chains = FALSE)
-r_eff_surv_ppt_abiotic <- loo::relative_eff(exp(log_lik_surv_ppt_abiotic))
-loo_surv_ppt_abiotic <- loo(log_lik_surv_ppt_abiotic, r_eff = r_eff_surv_ppt_abiotic, cores = 4)
-plot(loo_surv_ppt_abiotic)
+# LOO for biotic + endo model
+log_lik_sur_bio_endo <- loo::extract_log_lik(fit_sur_bio_endo, merge_chains = FALSE)
+r_eff_sur_bio_endo   <- loo::relative_eff(exp(log_lik_sur_bio_endo))
+loo_sur_bio_endo     <- loo(log_lik_sur_bio_endo, r_eff = r_eff_sur_bio_endo, cores = 4)
+plot(loo_sur_bio_endo)
 
-log_lik_surv_ppt_biotic <- loo::extract_log_lik(fit_surv_ppt_biotic, merge_chains = FALSE)
-r_eff_surv_ppt_biotic <- loo::relative_eff(exp(log_lik_surv_ppt_biotic))
-loo_surv_ppt_biotic <- loo(log_lik_surv_ppt_biotic, r_eff = r_eff_surv_ppt_biotic, cores = 4)
-plot(loo_surv_ppt_biotic)
+# LOO for abiotic + endo model
+log_lik_surv_abio_endo <- loo::extract_log_lik(fit_surv_abio_endo, merge_chains = FALSE)
+r_eff_surv_abio_endo   <- loo::relative_eff(exp(log_lik_surv_abio_endo))
+loo_surv_abio_endo     <- loo(log_lik_surv_abio_endo, r_eff = r_eff_surv_abio_endo, cores = 4)
+plot(loo_surv_abio_endo)
 
-log_lik_surv_ppt <- loo::extract_log_lik(fit_surv_ppt, merge_chains = FALSE)
-r_eff_surv_ppt <- loo::relative_eff(exp(log_lik_surv_ppt))
-loo_surv_ppt <- loo(log_lik_surv_ppt, r_eff = r_eff_surv_ppt, cores = 4)
-plot(loo_surv_ppt)
-
-
-(comp_surv <- loo::loo_compare(loo_surv_ppt_abiotic,loo_surv_ppt_biotic,loo_surv_ppt))
+comp_surv <- loo::loo_compare(
+  loo_surv_abio_bio_endo, # abiotic + biotic + endo
+  loo_surv_abio_endo,     # abiotic + endo
+  loo_sur_bio_endo        # biotic + endo
+)
+comp_surv
 
 # Growth----
-fit_grow_ppt_intercept <- readRDS(url("https://www.dropbox.com/scl/fi/ezsb8geutk7lvhopeq75g/fit_grow_ppt_intercept.rds?rlkey=kcee3sggvo613yizunj1g23im&dl=1"))
-fit_grow_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_grow_ppt_abiotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
-fit_grow_ppt_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/m5d7ggxlhqvprl3m8dlij/fit_grow_ppt_biotic.rds?rlkey=c5kr5q6fqq7q0n18rmk7qjtu5&dl=1"))
-fit_grow_ppt<- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_grow_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
+fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/6zy5h2kdj56jkzm5ca8ok/fit_grow_abio_bio_endo.rds?rlkey=92hul5ki05hpbgguo9nbg6dd3&dl=1"))
+fit_grow_bio_endo      <- readRDS(url("https://www.dropbox.com/scl/fi/6qc83mk3ae32ia1tgi291/fit_grow_bio_endo.rds?rlkey=pnc951w8ihuhfhcuuj1q5c80h&dl=1"))
+fit_grow_abio_endo     <- readRDS(url("https://www.dropbox.com/scl/fi/3qcj9258hckcfe3b5jq8f/fit_grow_abio_endo.rds?rlkey=krm1rpun1ns8l68lvvw7vxoaf&dl=1"))
 
-log_lik_grow_ppt_intercept <- loo::extract_log_lik(fit_grow_ppt_intercept, merge_chains = FALSE)
-r_eff_grow_ppt_intercept <- loo::relative_eff(exp(log_lik_grow_ppt_intercept))
-loo_grow_ppt_intercept <- loo(log_lik_grow_ppt_intercept, r_eff = r_eff_grow_ppt_intercept, cores = 4)
-plot(loo_grow_ppt_intercept)
+# Compute LOO for each growth model 
+log_lik_grow_abio_bio_endo <- loo::extract_log_lik(fit_grow_abio_bio_endo, merge_chains = FALSE)
+r_eff_grow_abio_bio_endo   <- loo::relative_eff(exp(log_lik_grow_abio_bio_endo))
+loo_grow_abio_bio_endo     <- loo(log_lik_grow_abio_bio_endo, r_eff = r_eff_grow_abio_bio_endo, cores = 4)
+plot(loo_grow_abio_bio_endo)
 
-log_lik_grow_ppt_abiotic <- loo::extract_log_lik(fit_grow_ppt_abiotic, merge_chains = FALSE)
-r_eff_grow_ppt_abiotic <- loo::relative_eff(exp(log_lik_grow_ppt_abiotic))
-loo_grow_ppt_abiotic <- loo(log_lik_grow_ppt_abiotic, r_eff = r_eff_grow_ppt_abiotic, cores = 4)
-plot(loo_grow_ppt_abiotic)
+log_lik_grow_abio_endo <- loo::extract_log_lik(fit_grow_abio_endo, merge_chains = FALSE)
+r_eff_grow_abio_endo   <- loo::relative_eff(exp(log_lik_grow_abio_endo))
+loo_grow_abio_endo     <- loo(log_lik_grow_abio_endo, r_eff = r_eff_grow_abio_endo, cores = 4)
+plot(loo_grow_abio_endo)
 
-log_lik_grow_ppt_biotic <- loo::extract_log_lik(fit_grow_ppt_biotic, merge_chains = FALSE)
-r_eff_grow_ppt_biotic <- loo::relative_eff(exp(log_lik_grow_ppt_biotic))
-loo_grow_ppt_biotic <- loo(log_lik_grow_ppt_biotic, r_eff = r_eff_grow_ppt_biotic, cores = 4)
-plot(loo_grow_ppt_biotic)
+log_lik_grow_bio_endo <- loo::extract_log_lik(fit_grow_bio_endo, merge_chains = FALSE)
+r_eff_grow_bio_endo   <- loo::relative_eff(exp(log_lik_grow_bio_endo))
+loo_grow_bio_endo     <- loo(log_lik_grow_bio_endo, r_eff = r_eff_grow_bio_endo, cores = 4)
+plot(loo_grow_bio_endo)
 
-log_lik_grow_ppt <- loo::extract_log_lik(fit_grow_ppt, merge_chains = FALSE)
-r_eff_grow_ppt <- loo::relative_eff(exp(log_lik_grow_ppt))
-loo_grow_ppt <- loo(log_lik_grow_ppt, r_eff = r_eff_grow_ppt, cores = 4)
-plot(loo_grow_ppt)
-
-(comp_grow <- loo::loo_compare( loo_grow_ppt_abiotic,loo_grow_ppt_biotic,loo_grow_ppt))
+# Compare growth models
+comp_grow <- loo::loo_compare(
+  loo_grow_abio_bio_endo,  # abiotic + biotic + endo
+  loo_grow_abio_endo,     # abiotic + endo
+  loo_grow_bio_endo     # biotic + endo
+)
+comp_grow
 
 # Flowering----
-fit_flow_ppt_intercept <- readRDS(url("https://www.dropbox.com/scl/fi/ezsb8geutk7lvhopeq75g/fit_flow_ppt_intercept.rds?rlkey=kcee3sggvo613yizunj1g23im&dl=1"))
-fit_flow_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/ty2yavh70dopswv2wbrij/fit_flow_ppt_abiotic.rds?rlkey=sqd5etosja0pw41pocx6x9pyu&dl=1"))
-fit_flow_ppt_biotic <- readRDS(url("https://www.dropbox.com/scl/fi/m5d7ggxlhqvprl3m8dlij/fit_flow_ppt_biotic.rds?rlkey=c5kr5q6fqq7q0n18rmk7qjtu5&dl=1"))
-fit_flow_ppt<- readRDS(url("https://www.dropbox.com/scl/fi/0g5pn2igdi65vr3ky7heh/fit_flow_ppt.rds?rlkey=pkdj56oi1s3mfdn4p8nkgvlpy&dl=1"))
+fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pl6444lqmvl10s8ccxbsf/fit_flow_abio_bio_endo.rds?rlkey=x34lgk5q3n1hfryd6y2se2rm2&dl=1"))
+fit_flow_abio_endo     <- readRDS(url("https://www.dropbox.com/scl/fi/ytlje7tlfr8dmz1e96m7y/fit_flow_abio_endo.rds?rlkey=3bbgdc92zjzke89sd1r7kpa9i&dl=1"))
+fit_flow_bio_endo      <- readRDS(url("https://www.dropbox.com/scl/fi/ysef9wgrl5ni4dnbc8mzv/fit_flow_bio_endo.rds?rlkey=5bz8uu080785dey8apaappnl0&dl=1"))
 
-log_lik_flow_ppt_intercept <- loo::extract_log_lik(fit_flow_ppt_intercept, merge_chains = FALSE)
-r_eff_flow_ppt_intercept <- loo::relative_eff(exp(log_lik_flow_ppt_intercept))
-loo_flow_ppt_intercept <- loo(log_lik_flow_ppt_intercept, r_eff = r_eff_flow_ppt_intercept, cores = 4)
-plot(loo_flow_ppt_intercept)
+# Compute LOO for each flowering model ---
+log_lik_flow_abio_bio_endo <- loo::extract_log_lik(fit_flow_abio_bio_endo, merge_chains = FALSE)
+r_eff_flow_abio_bio_endo   <- loo::relative_eff(exp(log_lik_flow_abio_bio_endo))
+loo_flow_abio_bio_endo     <- loo(log_lik_flow_abio_bio_endo, r_eff = r_eff_flow_abio_bio_endo, cores = 4)
+plot(loo_flow_abio_bio_endo)
 
-log_lik_flow_ppt_abiotic <- loo::extract_log_lik(fit_flow_ppt_abiotic, merge_chains = FALSE)
-r_eff_flow_ppt_abiotic <- loo::relative_eff(exp(log_lik_flow_ppt_abiotic))
-loo_flow_ppt_abiotic <- loo(log_lik_flow_ppt_abiotic, r_eff = r_eff_flow_ppt_abiotic, cores = 4)
-plot(loo_flow_ppt_abiotic)
+log_lik_flow_abio_endo <- loo::extract_log_lik(fit_flow_abio_endo, merge_chains = FALSE)
+r_eff_flow_abio_endo   <- loo::relative_eff(exp(log_lik_flow_abio_endo))
+loo_flow_abio_endo     <- loo(log_lik_flow_abio_endo, r_eff = r_eff_flow_abio_endo, cores = 4)
+plot(loo_flow_abio_endo)
 
-log_lik_flow_ppt_biotic <- loo::extract_log_lik(fit_flow_ppt_biotic, merge_chains = FALSE)
-r_eff_flow_ppt_biotic <- loo::relative_eff(exp(log_lik_flow_ppt_biotic))
-loo_flow_ppt_biotic <- loo(log_lik_flow_ppt_biotic, r_eff = r_eff_flow_ppt_biotic, cores = 4)
-plot(loo_flow_ppt_biotic)
+log_lik_flow_bio_endo <- loo::extract_log_lik(fit_flow_bio_endo, merge_chains = FALSE)
+r_eff_flow_bio_endo   <- loo::relative_eff(exp(log_lik_flow_bio_endo))
+loo_flow_bio_endo     <- loo(log_lik_flow_bio_endo, r_eff = r_eff_flow_bio_endo, cores = 4)
+plot(loo_flow_bio_endo)
 
-log_lik_flow_ppt <- loo::extract_log_lik(fit_flow_ppt, merge_chains = FALSE)
-r_eff_flow_ppt <- loo::relative_eff(exp(log_lik_flow_ppt))
-loo_flow_ppt <- loo(log_lik_flow_ppt, r_eff = r_eff_flow_ppt, cores = 4)
-plot(loo_flow_ppt)
-
-(comp_flow <- loo::loo_compare( loo_flow_ppt_abiotic,loo_flow_ppt_biotic,loo_flow_ppt))
+# -Compare flowering models ---
+comp_flow <- loo::loo_compare(
+  loo_flow_abio_bio_endo,  # abiotic + biotic + endo
+  loo_flow_abio_endo,     # abiotic + endo
+  loo_flow_bio_endo      # biotic + endo
+)
+comp_flow
 
 # Spikelet----
 fit_spik_ppt_intercept <- readRDS(url("https://www.dropbox.com/scl/fi/ezsb8geutk7lvhopeq75g/fit_spik_ppt_intercept.rds?rlkey=kcee3sggvo613yizunj1g23im&dl=1"))

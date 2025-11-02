@@ -58,6 +58,13 @@ datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/h
 # Climatic data ----
 climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/arl44h1v0xoaymz0s4b5m/site_climate_summary.rds?rlkey=w7wuh62on061cm3cdhwl6gu9e&dl=1"))
 # head(climate_site)
+climate_site_scaled <- climate_site %>%
+  mutate(
+    # Log-transform precipitation first to reduce skew
+    ppt_log = log(cumulative_pptmean),
+    # Standardize across all rows: mean = 0, SD = 1
+    ppt_scaled = (ppt_log - mean(ppt_log, na.rm = TRUE)) / sd(ppt_log, na.rm = TRUE)
+  )
 
 # calculate the average spikelet and inflorescence number for each census
 dat23 %>%
@@ -212,7 +219,7 @@ dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot"
 # view(dat_t_t1_herb)
 
 ## Merge the demographic data with the climatic data -----
-climate_site_unique <- climate_site %>%
+climate_site_unique <- climate_site_scaled %>%
   rename(census_year=year,cum_ppt=cumulative_pptmean) %>% 
   distinct(Site, Species, census_year, .keep_all = TRUE)
 
@@ -243,7 +250,7 @@ dat_t_t1_herb_clim %>%
     grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA_real_)
   ) -> demography_climate
 
-saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
+#saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
 
 ## check for TagIDs  duplicated within years
 # demography_climate %>%
@@ -277,7 +284,7 @@ demography_climate_surv <- demography_climate %>%
   filter(tiller_t > 0) %>%
   dplyr::select(
     Species, Population, Site, site_species_plot, site_year, Endo, Herbivory,
-    tiller_t, surv1, cum_ppt
+    tiller_t, surv1, cum_ppt,ppt_scaled
   ) %>%
   na.omit() %>%
   mutate(
@@ -289,9 +296,9 @@ demography_climate_surv <- demography_climate %>%
     site_species_plot = as.integer(factor(site_species_plot)),
     
     # Survival and predictors
-    log_size_t0 = log(tiller_t),
+    log_size_t0 = ppt_scaled,
     surv_t1     = as.integer(surv1),
-    ppt         = log(cum_ppt)
+    ppt         = ppt_scaled
   )
 
 # summary(demography_climate_surv$cum_ppt)
@@ -326,7 +333,7 @@ fit_surv_abio_bio_endo <- stan(
   seed = 13
 )
 
-# rstan::check_hmc_diagnostics(fit_surv_ppt)
+#rstan::check_hmc_diagnostics(fit_surv_abio_bio_endo)
 #summary(fit_surv_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_surv_abio_bio_endo <- as.array(fit_surv_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
@@ -373,7 +380,7 @@ demography_climate%>%
   filter(tiller_t > 0 & tiller_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site, Plot,site_year, site_species_plot, Endo, Herbivory,
-    tiller_t, grow,cum_ppt
+    tiller_t, grow,cum_ppt,ppt_scaled
   ) %>%
   na.omit() %>%
   mutate(
@@ -388,7 +395,7 @@ demography_climate%>%
   mutate(
     log_size_t0 = log(tiller_t),
     grow = grow,
-    ppt = log(cum_ppt),
+    ppt = ppt_scaled,
   ) -> demography_climate_grow
 
 ## Separate each variable to use the same model stan
@@ -435,8 +442,6 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
                       )
 ) + theme_bw()
 
-
-
 fit_grow_abio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/grow_abio_endo.stan",
   data = demography_grow_ppt,
@@ -456,16 +461,16 @@ fit_grow_bio_endo <- stan(
   seed = 13)
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_endo.rds')
-# saveRDS(fit_grow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_bio_endo.rds')
-# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
+saveRDS(fit_grow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_endo.rds')
+saveRDS(fit_grow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_bio_endo.rds')
+saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 
 # Flowering----
 demography_climate %>%
   filter(tiller_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site,site_year, Plot, site_species_plot, Endo, Herbivory,
-    tiller_t, inf_t1, cum_ppt
+    tiller_t, inf_t1, cum_ppt,ppt_scaled
   ) %>%
   na.omit() %>%
   mutate(
@@ -480,7 +485,7 @@ demography_climate %>%
   mutate(
     log_size_t0 = log(tiller_t),
     flow_t1 = inf_t1,
-    ppt = log(cum_ppt)
+    ppt = ppt_scaled
   ) -> demography_climate_flow
 
 ## Separate each variable to use the same model stan
@@ -559,7 +564,7 @@ demography_climate %>%
   filter(tiller_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site,site_year, Plot, site_species_plot, Endo, Herbivory,
-    tiller_t, spikelet_t1, cum_ppt
+    tiller_t, spikelet_t1, cum_ppt,ppt_scaled
   ) %>%
   na.omit() %>%
   mutate(
@@ -574,7 +579,7 @@ demography_climate %>%
   mutate(
     log_size_t0 = log(tiller_t),
     spi_t1 = spikelet_t1,
-    ppt = log(cum_ppt)
+    ppt = ppt_scaled
   ) -> demography_climate_spik
 
 ### Precipitation
@@ -643,9 +648,9 @@ fit_spik_bio_endo <- stan(
 
 
 ## Save RDS file for further use
-# saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
-# saveRDS(fit_spik_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_endo.rds')
-# saveRDS(fit_spik_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_bio_endo.rds')
+saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
+saveRDS(fit_spik_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_endo.rds')
+saveRDS(fit_spik_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_bio_endo.rds')
 
 # Posterior predictive check----
 ## Helper functions
@@ -681,7 +686,7 @@ simulate_ppc <- function(pred_matrix, phi = NULL, family = c("bernoulli", "norma
 
 bayesplot::color_scheme_set("blue")
 ## Survival Model full model----
-fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/x5q2v6fxnojb9msl0yhnj/fit_surv_abio_bio_endo.rds?rlkey=ojivjcdq1s30jf15is7pbezx8&dl=1"))
+fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/tsyih2vbg04zf9odu2goe/fit_surv_abio_bio_endo.rds?rlkey=tp4no6tfv5mb6f85jwtkqfuyg&dl=1"))
 post_surv <- rstan::extract(fit_surv_abio_bio_endo)
 pred_surv <- post_surv$predS
 y_surv <- demography_surv_ppt$y
@@ -689,7 +694,7 @@ y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
 p_surv <- ppc_dens_overlay(y_surv, y_rep_surv[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model full model----
-fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/6zy5h2kdj56jkzm5ca8ok/fit_grow_abio_bio_endo.rds?rlkey=92hul5ki05hpbgguo9nbg6dd3&dl=1"))
+fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/4r5062xbfc66gqh5l6xbz/fit_grow_abio_bio_endo.rds?rlkey=spnn4nj0zvzfsss1kn3qsnocj&dl=1"))
 post_grow <- rstan::extract(fit_grow_abio_bio_endo)
 pred_grow <- post_grow$predG
 sigma_grow <- post_grow$sigma
@@ -698,7 +703,7 @@ y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
 p_grow <- ppc_dens_overlay(y_grow, y_rep_grow[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model full model ----
-fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pl6444lqmvl10s8ccxbsf/fit_flow_abio_bio_endo.rds?rlkey=x34lgk5q3n1hfryd6y2se2rm2&dl=1"))
+fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/5717xz8nt6sph3neq6jj9/fit_flow_abio_bio_endo.rds?rlkey=p4s7391sdqgepd89x53tbgw82&dl=1"))
 post_flow <- rstan::extract(fit_flow_abio_bio_endo)
 pred_flow <- post_flow$predF
 phi_flow <- post_flow$phi
@@ -707,7 +712,7 @@ y_rep_flow <- simulate_ppc(pred_flow, phi = phi_flow, family = "negbinomial")
 p_flow <- ppc_dens_overlay(y_flow, y_rep_flow[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model full model ----
-fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/dyr574ub0zv4rfcbla7ov/fit_spik_abio_bio_endo.rds?rlkey=agw1q5xilj21z8wmzyziqsg6u&dl=1"))
+fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pebuc3ysvv9rrr2dvihl2/fit_spik_abio_bio_endo.rds?rlkey=f1l4q9ucvk4h4236600zoyjci&dl=1"))
 post_spik <- rstan::extract(fit_spik_abio_bio_endo)
 pred_spik <- post_spik$predF
 phi_spik <- post_spik$phi
@@ -723,6 +728,7 @@ print(combined_plot)
 combined_plot <- (p_surv | p_grow) / (p_flow | p_spik) +
   plot_annotation(title = "") +
   plot_layout(guides = "collect") &
+  theme_light() +
   theme(legend.position = "bottom")
 
 
@@ -738,7 +744,7 @@ y_rep_surv_abiotic <- simulate_ppc(pred_surv_abiotic, family = "bernoulli")
 p_surv_abiotic <- ppc_dens_overlay(y_surv_abiotic, y_rep_surv_abiotic[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model abiotic----
-fit_grow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/3qcj9258hckcfe3b5jq8f/fit_grow_abio_endo.rds?rlkey=krm1rpun1ns8l68lvvw7vxoaf&dl=1"))
+fit_grow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/mu52vcsv01vd1nm52sl4a/fit_grow_abio_endo.rds?rlkey=umuac11mqkhaa74xy2gi3txaz&dl=1"))
 post_grow_abiotic <- rstan::extract(fit_grow_abio_endo)
 pred_grow_abiotic <- post_grow_abiotic$pred
 sigma_grow_abiotic <- post_grow_abiotic$sigma
@@ -747,7 +753,7 @@ y_rep_grow_abiotic <- simulate_ppc(pred_grow_abiotic, phi = sigma_grow_abiotic, 
 p_grow_abiotic <- ppc_dens_overlay(y_grow_abiotic, y_rep_grow_abiotic[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model abiotic ----
-fit_flow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/ytlje7tlfr8dmz1e96m7y/fit_flow_abio_endo.rds?rlkey=3bbgdc92zjzke89sd1r7kpa9i&dl=1"))
+fit_flow_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/8m4y87hfwdetb5z2bf6ce/fit_flow_abio_endo.rds?rlkey=0jguz7490al1tjvg2fn0v0dtz&dl=1"))
 post_flow_abiotic <- rstan::extract(fit_flow_abio_endo)
 pred_flow_abiotic <- post_flow_abiotic$pred
 phi_flow_abiotic <- post_flow_abiotic$phi
@@ -756,7 +762,7 @@ y_rep_flow_abiotic <- simulate_ppc(pred_flow_abiotic, phi = phi_flow_abiotic, fa
 p_flow_abiotic <- ppc_dens_overlay(y_flow_abiotic, y_rep_flow_abiotic[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model abiotic----
-fit_spik_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/kush5mhwj13omawtr85z2/fit_spik_abio_endo.rds?rlkey=n3q07t2hywazw5rnsg7x5avmi&dl=1"))
+fit_spik_abio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/tptiao1r1u5r19afk900q/fit_spik_abio_endo.rds?rlkey=rr1lakbip0466lpafdmhc76yf&dl=1"))
 post_spik_abiotic <- rstan::extract(fit_spik_abio_endo)
 pred_spik_abiotic <- post_spik_abiotic$pred
 phi_spik_abiotic <- post_spik_abiotic$phi
@@ -768,13 +774,14 @@ p_spik_abiotic <- ppc_dens_overlay(y_spik_abiotioc, y_rep_spik_abiotic[1:500, ])
 combined_plot_abiotic <- (p_surv_abiotic | p_grow_abiotic) / (p_flow_abiotic | p_spik_abiotic) +
   plot_annotation(title = "")+
   plot_layout(guides = "collect") &
+  theme_light()+
   theme(legend.position = "bottom")
 print(combined_plot_abiotic)
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_abiotic.pdf", plot = combined_plot_abiotic, width = 7, height = 6)
 
 
 ## Survival Model biotic----
-fit_sur_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/l0bmf9512cm98tumuc6fy/fit_sur_bio_endo.rds?rlkey=3kb1tpd41laz8vudbvsjyzxw0&dl=1"))
+fit_sur_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/2gvllqlxysvekypaypgy1/fit_sur_bio_endo.rds?rlkey=oschob3ulx1wxj34zbvbnxhhq&dl=1"))
 post_surv_biotic <- rstan::extract(fit_sur_bio_endo)
 pred_surv_biotic <- post_surv_biotic$predS
 y_surv_biotic <- demography_surv_ppt$y
@@ -782,7 +789,7 @@ y_rep_surv_biotic <- simulate_ppc(pred_surv_biotic, family = "bernoulli")
 p_surv_biotic <- ppc_dens_overlay(y_surv_biotic, y_rep_surv_biotic[1:500, ]) + ggtitle("Survival")
 
 ## Growth Model biotic----
-fit_grow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/6qc83mk3ae32ia1tgi291/fit_grow_bio_endo.rds?rlkey=pnc951w8ihuhfhcuuj1q5c80h&dl=1"))
+fit_grow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/gs66jcces3ewh2r01x82l/fit_grow_bio_endo.rds?rlkey=bzzyplha44bms2f27wq0m5w4a&dl=1"))
 post_grow_biotic <- rstan::extract(fit_grow_bio_endo)
 pred_grow_biotic <- post_grow_biotic$pred
 sigma_grow_biotic <- post_grow_biotic$sigma
@@ -791,7 +798,7 @@ y_rep_grow_biotic <- simulate_ppc(pred_grow_biotic, phi = sigma_grow_biotic, fam
 p_grow_biotic <- ppc_dens_overlay(y_grow_biotic, y_rep_grow_biotic[1:500, ]) + ggtitle("Growth")
 
 ## Flowering Model biotic ----
-fit_flow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/ysef9wgrl5ni4dnbc8mzv/fit_flow_bio_endo.rds?rlkey=5bz8uu080785dey8apaappnl0&dl=1"))
+fit_flow_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/xbk71qr975f34ov19nrjz/fit_flow_bio_endo.rds?rlkey=pony5q4oapxas0t1cep801y9h&dl=1"))
 post_flow_biotic <- rstan::extract(fit_flow_bio_endo)
 pred_flow_biotic <- post_flow_biotic$pred
 phi_flow_biotic <- post_flow_biotic$phi
@@ -800,7 +807,7 @@ y_rep_flow_biotic <- simulate_ppc(pred_flow_biotic, phi = phi_flow_biotic, famil
 p_flow_biotic <- ppc_dens_overlay(y_flow_biotic, y_rep_flow_biotic[1:500, ]) + ggtitle("Inflorescence")
 
 ## Spikelet Model biotic----
-fit_spik_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/zvsyek57kiofs9udz15tx/fit_spik_bio_endo.rds?rlkey=be7fupcq0e2t39miz855cv6p8&dl=1"))
+fit_spik_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/zsor3y3zcaoilabp7c3fw/fit_spik_bio_endo.rds?rlkey=n50ucdquto5i7li31cumq2uft&dl=1"))
 post_spik_biotic <- rstan::extract(fit_spik_bio_endo)
 pred_spik_biotic <- post_spik_biotic$pred
 phi_spik_biotic <- post_spik_biotic$phi
@@ -812,6 +819,7 @@ p_spik_biotic <- ppc_dens_overlay(y_spik_abiotioc, y_rep_spik_biotic[1:500, ]) +
 combined_plot_biotic <- (p_surv_biotic | p_grow_biotic) / (p_flow_biotic | p_spik_biotic) +
   plot_annotation(title = "")+
   plot_layout(guides = "collect") &
+  theme_light()+
   theme(legend.position = "bottom")
 print(combined_plot_biotic)
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_biotic.pdf", plot = combined_plot_biotic, width = 7, height = 6)

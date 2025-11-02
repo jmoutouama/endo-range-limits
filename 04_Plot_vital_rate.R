@@ -66,7 +66,6 @@ yearly_prism_max_avg <- yearly_prism_max %>%
   ) %>%
   ungroup()
 
-yearly_prism_avg
 
 # Survival----
 ## Read and format survival data to build the model
@@ -492,6 +491,7 @@ ggplot(delta_long_surv, aes(x = clim_exp, y = value, color = herb, group = herb)
   )
 
 dev.off()
+
 
 # Growth----
 ## Read and format survival data to build the model

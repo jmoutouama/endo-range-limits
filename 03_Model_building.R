@@ -324,6 +324,30 @@ demography_surv_ppt <- list(
   N          = nrow(demography_climate_surv)
 )
 
+
+fit_surv_abio_bio_endo_linear <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_l.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  seed = 13
+)
+
+posterior_surv_abio_bio_endo_linear <- as.array(fit_surv_abio_bio_endo_linear) # Converts to an array
+bayesplot::mcmc_trace(posterior_surv_abio_bio_endo_linear,
+                      pars = quote_bare(
+                        b0[1], b0[2], b0[3],
+                        bendo[1], bendo[2], bendo[3],
+                        bherb[1], bherb[2], bherb[3],
+                        bclim[1], bclim[2], bclim[3],
+                        bendoclim[1], bendoclim[2], bendoclim[3],
+                        bendoherb[1], bendoherb[2], bendoherb[3],
+                        bendoherbclim[1], bendoherbclim[2], bendoherbclim[3]
+                      )
+) + theme_bw()
+
 fit_surv_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
   data = demography_surv_ppt,
@@ -374,6 +398,7 @@ fit_sur_bio_endo <- stan(
 # saveRDS(fit_surv_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_endo.rds')
 # saveRDS(fit_sur_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_sur_bio_endo.rds')
 # saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
 
 # Growth----
 ## Read and format survival data to build the model
@@ -420,6 +445,28 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
+fit_grow_abio_bio_endo_linear <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_l.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+posterior_grow_abio_bio_endo_linear <- as.array(fit_grow_abio_bio_endo_linear) # Converts to an array
+bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
+                      pars = quote_bare(
+                        b0[1], b0[2], b0[3],
+                        bendo[1], bendo[2], bendo[3],
+                        bherb[1], bherb[2], bherb[3],
+                        bclim[1], bclim[2], bclim[3],
+                        bendoclim[1], bendoclim[2], bendoclim[3],
+                        bendoherb[1], bendoherb[2], bendoherb[3]
+                      )
+) + theme_bw()
+
+
 fit_grow_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
   data = demography_grow_ppt,
@@ -428,6 +475,20 @@ fit_grow_abio_bio_endo <- stan(
   chains = sim_pars$chains,
   control = sim_pars$control,
   seed = 13)
+
+posterior_grow_abio_bio_endo <- as.array(fit_grow_abio_bio_endo) # Converts to an array
+bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
+                      pars = quote_bare(
+                        b0[1], b0[2], b0[3],
+                        bendo[1], bendo[2], bendo[3],
+                        bherb[1], bherb[2], bherb[3],
+                        bclim[1], bclim[2], bclim[3],
+                        bendoclim[1], bendoclim[2], bendoclim[3],
+                        bendoherb[1], bendoherb[2], bendoherb[3],
+                        bclim2[1], bclim2[2], bclim2[3]
+                      )
+) + theme_bw()
+
 
 # summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_grow_abio_bio_endo <- as.array(fit_grow_abio_bio_endo) # Converts to an array
@@ -462,9 +523,10 @@ fit_grow_bio_endo <- stan(
   seed = 13)
 
 ## Save RDS file for further use
-saveRDS(fit_grow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_endo.rds')
-saveRDS(fit_grow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_bio_endo.rds')
-saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
+# saveRDS(fit_grow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_endo.rds')
+# saveRDS(fit_grow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_bio_endo.rds')
+# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
+# saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
 
 # Flowering----
 demography_climate %>%
@@ -509,6 +571,29 @@ demography_flow_ppt <- list(
   y = demography_climate_flow$flow_t1,
   N = nrow(demography_climate_flow)
 )
+
+fit_flow_abio_bio_endo_linear <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_l.stan",
+  data = demography_flow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+posterior_flow_abio_bio_endo_linear <- as.array(fit_flow_abio_bio_endo_linear) # Converts to an array
+bayesplot::mcmc_trace(posterior_flow_abio_bio_endo_linear,
+                      pars = quote_bare(
+                        b0[1], b0[2], b0[3],
+                        bendo[1], bendo[2], bendo[3],
+                        bherb[1], bherb[2], bherb[3],
+                        bclim[1], bclim[2], bclim[3],
+                        bendoclim[1], bendoclim[2], bendoclim[3],
+                        bendoherb[1], bendoherb[2], bendoherb[3]
+                       
+                      )
+) + theme_bw()
+
 
 fit_flow_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
@@ -555,6 +640,7 @@ fit_flow_bio_endo <- stan(
 
 
 ## Save RDS file for further use
+saveRDS(fit_flow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo_linear.rds')
 saveRDS(fit_flow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo.rds')
 saveRDS(fit_flow_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_endo.rds')
 saveRDS(fit_flow_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_bio_endo.rds')
@@ -603,6 +689,28 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_spik)
 )
 
+fit_spik_abio_bio_endo_linear <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_l.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control =sim_pars$control,
+  seed = 13)
+
+posterior_spik_abio_bio_endo_linear <- as.array(fit_spik_abio_bio_endo_linear) # Converts to an array
+bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
+                      pars = quote_bare(
+                        b0[1], b0[2],
+                        bendo[1], bendo[2],
+                        bherb[1], bherb[2],
+                        bclim[1], bclim[2],
+                        bendoclim[1], bendoclim[2],
+                        bendoherb[1], bendoherb[2],
+                        bendoherbclim[1],bendoherbclim[2]
+                      )
+) + theme_bw()
+
 fit_spik_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
   data = demography_spik_ppt,
@@ -649,11 +757,13 @@ fit_spik_bio_endo <- stan(
 
 
 ## Save RDS file for further use
+saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
 saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
 saveRDS(fit_spik_abio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_endo.rds')
 saveRDS(fit_spik_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_bio_endo.rds')
 
 # Posterior predictive check----
+# Quadratic models
 ## Helper functions
 inv_logit <- function(x) 1 / (1 + exp(-x))
 
@@ -825,4 +935,56 @@ combined_plot_biotic <- (p_surv_biotic | p_grow_biotic) / (p_flow_biotic | p_spi
 print(combined_plot_biotic)
 ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_biotic.pdf", plot = combined_plot_biotic, width = 7, height = 6)
 
+# Monotonic models
+## Survival Model linear ----
+fit_surv_linear <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+post_surv_linear <- rstan::extract(fit_surv_linear)
+pred_surv_linear <- post_surv_linear$predS
+y_surv_linear <- demography_surv_ppt$y
+y_rep_surv_linear <- simulate_ppc(pred_surv_linear, family = "bernoulli")
+p_surv_linear <- ppc_dens_overlay(y_surv_linear, y_rep_surv_linear[1:500, ]) + ggtitle("Survival")
+
+## Growth Model linear ----
+fit_grow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+post_grow_linear <- rstan::extract(fit_grow_linear)
+pred_grow_linear <- post_grow_linear$predG
+sigma_grow_linear <- post_grow_linear$sigma
+y_grow_linear <- demography_grow_ppt$y
+y_rep_grow_linear <- simulate_ppc(pred_grow_linear, phi = sigma_grow_linear, family = "normal")
+p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear[1:500, ]) + ggtitle("Growth")
+
+## Flowering Model linear ----
+fit_flow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
+post_flow_linear <- rstan::extract(fit_flow_linear)
+pred_flow_linear <- post_flow_linear$predF
+phi_flow_linear <- post_flow_linear$phi
+y_flow_linear <- demography_flow_ppt$y
+y_rep_flow_linear <- simulate_ppc(pred_flow_linear, phi = phi_flow_linear, family = "negbinomial")
+p_flow_linear <- ppc_dens_overlay(y_flow_linear, y_rep_flow_linear[1:500, ]) + ggtitle("Inflorescence")
+
+## Spikelet Model linear ----
+fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+post_spik_linear <- rstan::extract(fit_spik_linear)
+pred_spik_linear <- post_spik_linear$predF
+phi_spik_linear <- post_spik_linear$phi
+y_spik_linear <- demography_spik_ppt$y
+y_rep_spik_linear <- simulate_ppc(pred_spik_linear, phi = phi_spik_linear, family = "negbinomial")
+p_spik_linear <- ppc_dens_overlay(y_spik_linear, y_rep_spik_linear[1:500, ]) + ggtitle("Spikelet")
+
+## Combine all PPC plots linear ----
+combined_plot_linear <- (p_surv_linear | p_grow_linear) / (p_flow_linear | p_spik_linear) +
+  plot_annotation(title = "") +
+  plot_layout(guides = "collect") &
+  theme_light() +
+  theme(legend.position = "bottom")
+
+print(combined_plot_linear)
+
+## Save to PDF linear ----
+ggsave(
+  filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/combined_ppc_plots_linear.pdf",
+  plot = combined_plot_linear,
+  width = 7,
+  height = 6
+)
 

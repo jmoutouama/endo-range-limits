@@ -65,6 +65,7 @@ climate_site_scaled <- climate_site %>%
     # Standardize across all rows: mean = 0, SD = 1
     ppt_scaled = (ppt_log - mean(ppt_log, na.rm = TRUE)) / sd(ppt_log, na.rm = TRUE)
   )
+#saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
 
 # calculate the average spikelet and inflorescence number for each census
 dat23 %>%

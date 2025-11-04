@@ -35,7 +35,9 @@ parameters {
   vector<lower=0>[nSpp] site_year_tau; 
   matrix[nSpp, nsite_year] site_year_rfx; 
 
+  // NB overdispersion and zero-inflation
   real<lower=0> phi; 
+  real<lower=0, upper=1> zi; // probability of structural zeros
 }
 
 transformed parameters {
@@ -57,7 +59,7 @@ transformed parameters {
 }
 
 model {
-  // Priors for fixed effects
+  // Priors
   b0 ~ normal(0, 5);    
   bendo ~ normal(0, 5);   
   bherb ~ normal(0, 5); 
@@ -66,24 +68,40 @@ model {
   bendoherb ~ normal(0, 5); 
   bendoherbclim ~ normal(0, 5);
   phi ~ normal(0, 5); 
+  zi ~ beta(1, 1);  // weak prior for zero inflation
 
-  // Priors for random effects
   plot_tau ~ normal(0, 1);
   plot_rfx ~ normal(0, plot_tau);  
+
   pop_tau ~ normal(0, 1);
   pop_rfx ~ normal(0, pop_tau);    
+
   site_year_tau ~ normal(0, 1);     
   for (f in 1:nSpp)
     site_year_rfx[f] ~ normal(0, site_year_tau[f]);
 
-  // Likelihood
-  y ~ neg_binomial_2_log(predF, phi);
+  // Zero-inflated negative binomial likelihood
+  for (i in 1:N) {
+    if (y[i] == 0)
+      target += log_sum_exp(
+        bernoulli_lpmf(1 | zi), // structural zero
+        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi) // NB zero
+      );
+    else
+      target += bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
+  }
 }
 
 generated quantities {
   vector[N] log_lik;
 
   for (i in 1:N) {
-    log_lik[i] = neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
+    if (y[i] == 0)
+      log_lik[i] = log_sum_exp(
+        bernoulli_lpmf(1 | zi),
+        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi)
+      );
+    else
+      log_lik[i] = bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
   }
 }

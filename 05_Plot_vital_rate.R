@@ -117,7 +117,7 @@ demography_surv_ppt <- list(
 )
 
 # Load model and data
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/tsyih2vbg04zf9odu2goe/fit_surv_abio_bio_endo.rds?rlkey=tp4no6tfv5mb6f85jwtkqfuyg&dl=1"))
+fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
 
 # Prediction grid
 climate_range <- seq(min(demography_surv_ppt$clim),
@@ -142,8 +142,7 @@ get_predictions_survival <- function(clim, endo, herb, species_index, posterior_
       bclim[, species_index] * clim +
       bendoclim[, species_index] * clim * endo +
       bendoherb[, species_index] * endo * herb +
-      bendoherbclim[, species_index] * endo * herb * clim +
-      bclim2[, species_index] * clim^2
+      bendoherbclim[, species_index] * endo * herb * clim 
     1 / (1 + exp(-logit_preds))
   })
 }
@@ -261,7 +260,7 @@ panel_labels <- data.frame(
 plot_data_survival$panel <- trimws(as.character(plot_data_survival$panel))
 observed_data_survival$panel <- trimws(as.character(observed_data_survival$panel))
 
-# 9. Plot
+# Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.pdf",
   width = 6, height = 7
@@ -341,7 +340,6 @@ ggplot(plot_data_survival) +
     inherit.aes = FALSE
   )
 
-
 dev.off()
 
 # Quantiles of climate for survival
@@ -362,8 +360,7 @@ compute_delta_surv <- function(clim_val, posterior_samples_surv, herb_values = c
           posterior_samples_surv$bclim[, sp] * clim_val +
           posterior_samples_surv$bendoclim[, sp] * clim_val * 1 +
           posterior_samples_surv$bendoherb[, sp] * 1 * h +
-          posterior_samples_surv$bendoherbclim[, sp] * 1 * h * clim_val +
-          posterior_samples_surv$bclim2[, sp] * clim_val^2
+          posterior_samples_surv$bendoherbclim[, sp] * 1 * h * clim_val 
       )))
       
       pred_Eminus <- 1 / (1 + exp(-(
@@ -373,8 +370,7 @@ compute_delta_surv <- function(clim_val, posterior_samples_surv, herb_values = c
           posterior_samples_surv$bclim[, sp] * clim_val +
           posterior_samples_surv$bendoclim[, sp] * clim_val * 0 +
           posterior_samples_surv$bendoherb[, sp] * 0 * h +
-          posterior_samples_surv$bendoherbclim[, sp] * 0 * h * clim_val +
-          posterior_samples_surv$bclim2[, sp] * clim_val^2
+          posterior_samples_surv$bendoherbclim[, sp] * 0 * h * clim_val 
       )))
       
       delta <- pred_Eplus - pred_Eminus
@@ -505,7 +501,6 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
 
 dev.off()
 
-
 # Growth----
 ## Read and format survival data to build the model
 demography_climate%>%
@@ -551,7 +546,7 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/4r5062xbfc66gqh5l6xbz/fit_grow_abio_bio_endo.rds?rlkey=spnn4nj0zvzfsss1kn3qsnocj&dl=1"))
+fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_grow_ppt$clim),
@@ -573,9 +568,8 @@ get_predictions_grow <- function(clim, endo, herb, species_index, posterior_samp
       bclim[, species_index] * clim +
       bendoclim[, species_index] * clim * endo +
       bendoherb[, species_index] * endo * herb +
-      bendoherbclim[, species_index] * endo * herb * clim +
-      bclim2[, species_index] * clim^2
-    mu_preds  # assuming Gaussian model, not logistic
+      bendoherbclim[, species_index] * endo * herb * clim
+    mu_preds  
   })
 }
 
@@ -693,9 +687,8 @@ panel_labels_grow <- data.frame(
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 10, height = 8
+  width = 7.5, height = 11
 )
-
 ggplot(plot_data_grow) +
   # Upper panel: predicted growth
   geom_line(
@@ -795,138 +788,137 @@ ggplot(plot_data_grow) +
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 14, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )+
   geom_text(
     data = panel_labels_grow,
-    aes(x = 490, y = 0.9, label = label),
+    aes(x = 490, y = 1.8, label = label),
     fontface = "plain", size = 3.5, hjust = 0,
     inherit.aes = FALSE
   )
-
 
 dev.off()
 
 
 # Plot
-Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff_h.pdf",
-  width = 11, height = 6.5
-)
-
-ggplot(plot_data_grow) +
-  # Upper panel: predicted growth
-  geom_line(
-    data = subset(plot_data_grow, panel == "Growth"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    size = 0.5
-  ) +
-  geom_ribbon(
-    data = subset(plot_data_grow, panel == "Growth"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
-  ) +
-  # Observed points
-  geom_point(
-    data = subset(observed_data_grow, panel == "Growth"),
-    aes(x =climate_mm, y = y, color = factor(endo)),
-    size = 0.75,
-    position = position_jitter(width = 0, height = 0.01)
-  ) +
-  # Lower panel: Δ(E+ − E−) differences
-  geom_line(
-    data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
-    aes(x =climate_mm, y = mean), color = "black", size = 0.5
-  ) +
-  geom_ribbon(
-    data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
-  ) +
-  geom_hline(
-    data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
-    aes(yintercept = 0), linetype = "dashed", color = "black"
-  ) +
-  # Facets
-  ggh4x::facet_nested(
-    panel ~ species + herb,
-    scales = "free_y",
-    space = "free_y",
-    labeller = labeller(
-      species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
-    )
-  ) +
-  ggh4x::facetted_pos_scales(
-    y = list(
-      # Lower panels – Δ(E+ − E−)
-      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0,
-          limits = c(
-            y_limits$ymin[y_limits$species == "italic('Agrostis hyemalis')"],
-            y_limits$ymax[y_limits$species == "italic('Agrostis hyemalis')"]
-          ),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0,
-          limits = c(
-            y_limits$ymin[y_limits$species == "italic('Elymus virginicus')"],
-            y_limits$ymax[y_limits$species == "italic('Elymus virginicus')"]
-          ),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0,
-          limits = c(
-            y_limits$ymin[y_limits$species == "italic('Poa autumnalis')"],
-            y_limits$ymax[y_limits$species == "italic('Poa autumnalis')"]
-          ),
-          expand = c(0, 0)
-        ),
-      
-      # Upper panels – Growth
-      panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(-4, 3), expand = c(0, 0)),
-      panel == "Growth" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(-4, 3), expand = c(0, 0)),
-      panel == "Growth" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(-13, 7), expand = c(0, 0))
-    )
-  )+
-  # Labels and theme
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  theme_light() +
-  theme(
-    legend.position = c(0.05, 0.85),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 14),
-    axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
-    text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 14, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 14, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-  )+
-  geom_text(
-    data = panel_labels_grow,
-    aes(x = 490, y = 2.75, label = label),
-    fontface = "plain", size = 3.5, hjust = 0,
-    inherit.aes = FALSE
-  )
-
-
-dev.off()
+# Cairo::CairoPDF(
+#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff_h.pdf",
+#   width = 11, height = 6.5
+# )
+# 
+# ggplot(plot_data_grow) +
+#   # Upper panel: predicted growth
+#   geom_line(
+#     data = subset(plot_data_grow, panel == "Growth"),
+#     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
+#     size = 0.5
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data_grow, panel == "Growth"),
+#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+#     alpha = 0.3, color = NA
+#   ) +
+#   # Observed points
+#   geom_point(
+#     data = subset(observed_data_grow, panel == "Growth"),
+#     aes(x =climate_mm, y = y, color = factor(endo)),
+#     size = 0.75,
+#     position = position_jitter(width = 0, height = 0.01)
+#   ) +
+#   # Lower panel: Δ(E+ − E−) differences
+#   geom_line(
+#     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
+#     aes(x =climate_mm, y = mean), color = "black", size = 0.5
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
+#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
+#     fill = "#9B6B96", alpha = 0.5
+#   ) +
+#   geom_hline(
+#     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+#     aes(yintercept = 0), linetype = "dashed", color = "black"
+#   ) +
+#   # Facets
+#   ggh4x::facet_nested(
+#     panel ~ species + herb,
+#     scales = "free_y",
+#     space = "free_y",
+#     labeller = labeller(
+#       species = label_parsed,
+#       herb = c("0" = "Unfenced", "1" = "Fenced")
+#     )
+#   ) +
+#   ggh4x::facetted_pos_scales(
+#     y = list(
+#       # Lower panels – Δ(E+ − E−)
+#       panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0,
+#           limits = c(
+#             y_limits$ymin[y_limits$species == "italic('Agrostis hyemalis')"],
+#             y_limits$ymax[y_limits$species == "italic('Agrostis hyemalis')"]
+#           ),
+#           expand = c(0, 0)
+#         ),
+#       panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0,
+#           limits = c(
+#             y_limits$ymin[y_limits$species == "italic('Elymus virginicus')"],
+#             y_limits$ymax[y_limits$species == "italic('Elymus virginicus')"]
+#           ),
+#           expand = c(0, 0)
+#         ),
+#       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0,
+#           limits = c(
+#             y_limits$ymin[y_limits$species == "italic('Poa autumnalis')"],
+#             y_limits$ymax[y_limits$species == "italic('Poa autumnalis')"]
+#           ),
+#           expand = c(0, 0)
+#         ),
+#       
+#       # Upper panels – Growth
+#       panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
+#         scale_y_continuous(limits = c(-4, 3), expand = c(0, 0)),
+#       panel == "Growth" & species == "italic('Elymus virginicus')" ~
+#         scale_y_continuous(limits = c(-4, 3), expand = c(0, 0)),
+#       panel == "Growth" & species == "italic('Poa autumnalis')" ~
+#         scale_y_continuous(limits = c(-13, 7), expand = c(0, 0))
+#     )
+#   )+
+#   # Labels and theme
+#   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+#   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+#   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+#   theme_light() +
+#   theme(
+#     legend.position = c(0.05, 0.85),
+#     legend.title = element_text(size = 8),
+#     legend.text = element_text(size = 8),
+#     panel.spacing.y = unit(0.0, "cm"),
+#     axis.title = element_text(size = 14),
+#     axis.text = element_text(size = 6),
+#     axis.line.y = element_line(color = "black", size = 0.1),
+#     axis.line.x = element_line(color = "black", size = 0.1),
+#     text = element_text(family = "Arial"),
+#     strip.text.x = element_text(size = 14, color = "black", face = "plain"),
+#     strip.text.y = element_text(size = 14, color = "black", face = "plain"),
+#     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+#   )+
+#   geom_text(
+#     data = panel_labels_grow,
+#     aes(x = 490, y = 2.75, label = label),
+#     fontface = "plain", size = 3.5, hjust = 0,
+#     inherit.aes = FALSE
+#   )
+# 
+# 
+# dev.off()
 
 # Climate quantiles for grow 
 clim_quantiles_grow <- quantile(demography_grow_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
@@ -945,8 +937,8 @@ compute_delta_grow <- function(clim_val, posterior_samples_grow, herb_values = c
         posterior_samples_grow$bclim[, sp] * clim_val +
         posterior_samples_grow$bendoclim[, sp] * clim_val * 1 +
         posterior_samples_grow$bendoherb[, sp] * 1 * h +
-        posterior_samples_grow$bendoherbclim[, sp] * 1 * h * clim_val +
-        posterior_samples_grow$bclim2[, sp] * clim_val^2
+        posterior_samples_grow$bendoherbclim[, sp] * 1 * h * clim_val 
+      
       
       # Predicted mean growth for E− (endophyte absent)
       pred_Eminus <- posterior_samples_grow$b0[, sp] +
@@ -955,8 +947,8 @@ compute_delta_grow <- function(clim_val, posterior_samples_grow, herb_values = c
         posterior_samples_grow$bclim[, sp] * clim_val +
         posterior_samples_grow$bendoclim[, sp] * clim_val * 0 +
         posterior_samples_grow$bendoherb[, sp] * 0 * h +
-        posterior_samples_grow$bendoherbclim[, sp] * 0 * h * clim_val +
-        posterior_samples_grow$bclim2[, sp] * clim_val^2
+        posterior_samples_grow$bendoherbclim[, sp] * 0 * h * clim_val 
+
       
       # Δ(E+ − E−)
       delta <- pred_Eplus - pred_Eminus
@@ -1029,7 +1021,7 @@ Cairo::CairoPDF(
   width = 7, height = 6
 )
 ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(size = 1) +
+  geom_line(size = 0.5) +
   # Horizontal dashed line at y = 0 for Median Δ
   geom_hline(
     data = delta_long_grow %>% filter(metric == "Median Δ (E+ − E−)"),
@@ -1131,7 +1123,7 @@ demography_flow_ppt <- list(
   N = nrow(demography_climate_flow)
 )
 
-fit_flow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/5717xz8nt6sph3neq6jj9/fit_flow_abio_bio_endo.rds?rlkey=p4s7391sdqgepd89x53tbgw82&dl=1"))
+fit_flow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_flow_ppt$clim),
@@ -1147,18 +1139,19 @@ posterior_samples_flow <- rstan::extract(fit_flow_ppt)
 # Prediction function for flowering
 get_predictions_flow <- function(clim, endo, herb, species_index, posterior_samples_flow) {
   with(posterior_samples_flow, {
-    # Linear predictor (log link)
+    # Linear predictor
     eta <- b0[, species_index] +
       bendo[, species_index] * endo +
       bherb[, species_index] * herb +
       bclim[, species_index] * clim +
       bendoclim[, species_index] * clim * endo +
       bendoherb[, species_index] * endo * herb +
-      bendoherbclim[, species_index] * endo * herb * clim +
-      bclim2[, species_index] * clim^2
+      bendoherbclim[, species_index] * endo * herb * clim
     
-    mu <- exp(eta)  # inverse log link for negative binomial
-    mu
+    mu <- exp(eta)   # negative binomial mean on response scale
+    
+    # Apply zero-inflation (global parameter, not species-specific)
+    (1 - zi) * mu
   })
 }
 
@@ -1293,106 +1286,106 @@ panel_labels_flow <- data.frame(
 )
 
 # Plot with updated panel labels
-Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff.pdf",
-  width = 6, height = 12
-)
-
-ggplot(plot_data_flow) +
-  # Upper panel: predicted flowering counts (#Inflorescences)
-  geom_line(
-    data = subset(plot_data_flow, panel == "#Inflorescences"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    size = 0.5
-  ) +
-  geom_ribbon(
-    data = subset(plot_data_flow, panel == "#Inflorescences"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
-  ) +
-  geom_point(
-    data = subset(observed_data_flow, panel == "#Inflorescences"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 0, height = 0.01)
-  ) +
-  
-  # Lower panel: Δ (E+ - E-) differences
-  geom_line(
-    data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
-    aes(x = climate_mm, y = mean), color = "black", size = 0.5
-  ) +
-  geom_ribbon(
-    data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
-  ) +
-  
-  # Facets: species vertically, herb horizontally
-  ggh4x::facet_nested(
-    species + panel ~ herb,
-    scales = "free_y",
-    space = "free_y",
-    labeller = labeller(
-      species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
-    )
-  ) +
-  
-  # Facetted scales
-  ggh4x::facetted_pos_scales(
-    y = list(
-      # Lower panels – Δ (E+ - E-) only
-      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0, minor_breaks = NULL,
-          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Agrostis hyemalis')"],
-                     y_limits_flow$ymax[y_limits_flow$species == "italic('Agrostis hyemalis')"]),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0, minor_breaks = NULL,
-          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Elymus virginicus')"],
-                     y_limits_flow$ymax[y_limits_flow$species == "italic('Elymus virginicus')"]),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          breaks = 0, labels = 0, minor_breaks = NULL,
-          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"], 50),
-          expand = c(0, 0)
-        ),
-      
-      # Upper panels – #Inflorescences custom limits per species
-      panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
-      panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
-      panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 100), expand = c(0, 0))
-    )
-  ) +
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  theme_light() +
-  theme(
-    legend.position = c(0.075, 0.4),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
-    panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
-    axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
-    text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-  )
-
-dev.off()
-
+# Cairo::CairoPDF(
+#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff.pdf",
+#   width = 6, height = 12
+# )
+# 
+# ggplot(plot_data_flow) +
+#   # Upper panel: predicted flowering counts (#Inflorescences)
+#   geom_line(
+#     data = subset(plot_data_flow, panel == "#Inflorescences"),
+#     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
+#     size = 0.5
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data_flow, panel == "#Inflorescences"),
+#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+#     alpha = 0.3, color = NA
+#   ) +
+#   geom_point(
+#     data = subset(observed_data_flow, panel == "#Inflorescences"),
+#     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
+#     size = 0.75, position = position_jitter(width = 0, height = 0.01)
+#   ) +
+#   
+#   # Lower panel: Δ (E+ - E-) differences
+#   geom_line(
+#     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
+#     aes(x = climate_mm, y = mean), color = "black", size = 0.5
+#   ) +
+#   geom_ribbon(
+#     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
+#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
+#     fill = "#9B6B96", alpha = 0.5
+#   ) +
+#   
+#   # Facets: species vertically, herb horizontally
+#   ggh4x::facet_nested(
+#     species + panel ~ herb,
+#     scales = "free_y",
+#     space = "free_y",
+#     labeller = labeller(
+#       species = label_parsed,
+#       herb = c("0" = "Unfenced", "1" = "Fenced")
+#     )
+#   ) +
+#   
+#   # Facetted scales
+#   ggh4x::facetted_pos_scales(
+#     y = list(
+#       # Lower panels – Δ (E+ - E-) only
+#       panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0, minor_breaks = NULL,
+#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Agrostis hyemalis')"],
+#                      y_limits_flow$ymax[y_limits_flow$species == "italic('Agrostis hyemalis')"]),
+#           expand = c(0, 0)
+#         ),
+#       panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0, minor_breaks = NULL,
+#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Elymus virginicus')"],
+#                      y_limits_flow$ymax[y_limits_flow$species == "italic('Elymus virginicus')"]),
+#           expand = c(0, 0)
+#         ),
+#       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
+#         scale_y_continuous(
+#           breaks = 0, labels = 0, minor_breaks = NULL,
+#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"], 50),
+#           expand = c(0, 0)
+#         ),
+#       
+#       # Upper panels – #Inflorescences custom limits per species
+#       panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
+#         scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
+#       panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
+#         scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
+#       panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
+#         scale_y_continuous(limits = c(0, 100), expand = c(0, 0))
+#     )
+#   ) +
+#   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+#   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+#   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+#   theme_light() +
+#   theme(
+#     legend.position = c(0.075, 0.4),
+#     legend.title = element_text(size = 6),
+#     legend.text = element_text(size = 6),
+#     panel.spacing.y = unit(0.0, "cm"),
+#     axis.title = element_text(size = 8),
+#     axis.text = element_text(size = 6),
+#     axis.line.y = element_line(color = "black", size = 0.1),
+#     axis.line.x = element_line(color = "black", size = 0.1),
+#     text = element_text(family = "Arial"),
+#     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+#     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+#     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+#   )
+# 
+# dev.off()
+# 
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff_h.pdf",
@@ -1511,8 +1504,8 @@ compute_delta_flow <- function(clim_val, posterior_samples_flow, herb_values = c
         posterior_samples_flow$bclim[, sp] * clim_val +
         posterior_samples_flow$bendoclim[, sp] * clim_val * 1 +
         posterior_samples_flow$bendoherb[, sp] * 1 * h +
-        posterior_samples_flow$bendoherbclim[, sp] * 1 * h * clim_val +
-        posterior_samples_flow$bclim2[, sp] * clim_val^2
+        posterior_samples_flow$bendoherbclim[, sp] * 1 * h * clim_val 
+        #posterior_samples_flow$bclim2[, sp] * clim_val^2
       
       # Linear predictor for E−
       eta_Eminus <- posterior_samples_flow$b0[, sp] +
@@ -1521,8 +1514,8 @@ compute_delta_flow <- function(clim_val, posterior_samples_flow, herb_values = c
         posterior_samples_flow$bclim[, sp] * clim_val +
         posterior_samples_flow$bendoclim[, sp] * clim_val * 0 +
         posterior_samples_flow$bendoherb[, sp] * 0 * h +
-        posterior_samples_flow$bendoherbclim[, sp] * 0 * h * clim_val +
-        posterior_samples_flow$bclim2[, sp] * clim_val^2
+        posterior_samples_flow$bendoherbclim[, sp] * 0 * h * clim_val 
+        #posterior_samples_flow$bclim2[, sp] * clim_val^2
       
       # Predicted mean flowering counts (log link → exp)
       pred_Eplus  <- exp(eta_Eplus)
@@ -1570,12 +1563,14 @@ delta_flow_summary$herb <- factor(delta_flow_summary$herb, levels = c(0,1),
                                   labels = c("Unfenced", "Fenced"))
 
 # Add exponentiated climate for plotting
+# Add exponentiated climate for plotting 
 delta_flow_summary <- delta_flow_summary %>%
-  mutate(clim_exp = exp(clim))
+  mutate(clim_mm = exp(clim * ppt_sd + ppt_mean))
+
 
 # Prepare long-format data for flowering
 delta_long_flow <- delta_flow_summary %>%
-  dplyr::select(species, herb, clim_exp, median_delta, prob_delta_gt0) %>%
+  dplyr::select(species, herb, clim_mm, median_delta, prob_delta_gt0) %>%
   tidyr::pivot_longer(
     cols = c(median_delta, prob_delta_gt0),
     names_to = "metric",
@@ -1597,8 +1592,8 @@ Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff_stat.pdf",
   width = 7, height = 5
 )
-ggplot(delta_long_flow, aes(x = clim_exp, y = value, color = herb, group = herb)) +
-  geom_line(size = 1) +
+ggplot(delta_long_flow, aes(x = clim_mm, y = value, color = herb, group = herb)) +
+  geom_line(size = 0.5) +
   # Horizontal dashed line at y = 0 for Median Δ
   geom_hline(
     data = delta_long_flow %>% filter(metric == "Median Δ (E+ − E−)"),
@@ -1662,7 +1657,7 @@ demography_climate %>%
   filter(tiller_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site,site_year, Plot, site_species_plot, Endo, Herbivory,
-    tiller_t, spikelet_t1, cum_ppt
+    tiller_t, spikelet_t1, cum_ppt,ppt_scaled
   ) %>%
   na.omit() %>%
   mutate(
@@ -1677,7 +1672,7 @@ demography_climate %>%
   mutate(
     log_size_t0 = log(tiller_t),
     spi_t1 = spikelet_t1,
-    ppt = log(cum_ppt)
+    ppt = ppt_scaled
   ) -> demography_climate_spik
 
 ### Precipitation
@@ -1701,7 +1696,7 @@ demography_spik_ppt <- list(
 )
 
 
-fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/dyr574ub0zv4rfcbla7ov/fit_spik_abio_bio_endo.rds?rlkey=agw1q5xilj21z8wmzyziqsg6u&dl=1"))
+fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 predictions <- expand.grid(
   clim = seq(
@@ -1723,8 +1718,7 @@ get_predictions_spik <- function(clim, endo, herb, species_index, posterior_samp
       bclim[, species_index] * clim +
       bendoclim[, species_index] * clim * endo +
       bendoherb[, species_index] * endo * herb +
-      bendoherbclim[, species_index] * endo * herb * clim +
-      bclim2[, species_index] * clim^2
+      bendoherbclim[, species_index] * endo * herb * clim 
     
     mu <- exp(eta)
     mu
@@ -1800,7 +1794,8 @@ observed_data_spik <- demography_spik_ppt %>%
     y_plot_mean = mean(y, na.rm = TRUE),
     .groups = "drop"
   ) %>%
-  mutate(panel = "#Spikelets")
+  mutate(panel = "#Spikelets",
+         climate_mm = exp(clim * ppt_sd + ppt_mean))
 
 # Relabel species
 observed_data_spik$species <- factor(
@@ -1812,6 +1807,9 @@ observed_data_spik$species <- factor(
   )
 )
 
+# Back-transform climate for plotting
+plot_data_spik <- plot_data_spik %>%
+  mutate(climate_mm = exp(clim * ppt_sd + ppt_mean))
 
 # y-limits for Δ panels 
 y_limits_spik <- plot_data_spik %>%
@@ -1842,12 +1840,12 @@ ggplot(plot_data_spik) +
   # Upper panel: predicted spikelets
   geom_line(
     data = subset(plot_data_spik, panel == "#Spikelets"),
-    aes(x = exp(clim), y = mean, color = factor(endo), group = endo),
+    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
     size = 0.5
   ) +
   geom_ribbon(
     data = subset(plot_data_spik, panel == "#Spikelets"),
-    aes(x = exp(clim), ymin = lower_90, ymax = upper_90,
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90,
         fill = factor(endo), group = endo),
     alpha = 0.3, color = NA
   ) +
@@ -1855,7 +1853,7 @@ ggplot(plot_data_spik) +
   # Lower panel: Δ (E+ - E-)
   geom_line(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
-    aes(x = exp(clim), y = mean),
+    aes(x = climate_mm, y = mean),
     color = "black", size = 0.5
   ) +
   geom_hline(
@@ -1866,12 +1864,12 @@ ggplot(plot_data_spik) +
   ) +
   geom_point(
     data = subset(observed_data_spik, panel == "#Spikelets"),
-    aes(x = exp(clim), y = y_plot_mean, color = factor(endo)),
+    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
     size = 0.75, position = position_jitter(width = 0, height = 0.01)
   ) +
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
-    aes(x = exp(clim), ymin = lower_90, ymax = upper_90),
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
     fill = "#9B6B96", alpha = 0.5
   ) +
   
@@ -1917,7 +1915,7 @@ ggplot(plot_data_spik) +
                     labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.12, 0.475),
+    legend.position = c(0.12, 0.47),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -1926,8 +1924,8 @@ ggplot(plot_data_spik) +
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )+
   geom_text(
@@ -1956,8 +1954,7 @@ compute_delta_spik <- function(clim_val, posterior_samples_spik, herb_values = c
         posterior_samples_spik$bclim[, sp] * clim_val +
         posterior_samples_spik$bendoclim[, sp] * clim_val * 1 +
         posterior_samples_spik$bendoherb[, sp] * 1 * h +
-        posterior_samples_spik$bendoherbclim[, sp] * 1 * h * clim_val +
-        posterior_samples_spik$bclim2[, sp] * clim_val^2
+        posterior_samples_spik$bendoherbclim[, sp] * 1 * h * clim_val 
       
       # Linear predictor for E−
       eta_Eminus <- posterior_samples_spik$b0[, sp] +
@@ -1966,8 +1963,7 @@ compute_delta_spik <- function(clim_val, posterior_samples_spik, herb_values = c
         posterior_samples_spik$bclim[, sp] * clim_val +
         posterior_samples_spik$bendoclim[, sp] * clim_val * 0 +
         posterior_samples_spik$bendoherb[, sp] * 0 * h +
-        posterior_samples_spik$bendoherbclim[, sp] * 0 * h * clim_val +
-        posterior_samples_spik$bclim2[, sp] * clim_val^2
+        posterior_samples_spik$bendoherbclim[, sp] * 0 * h * clim_val 
       
       # Predicted mean spike counts (log link → exp)
       pred_Eplus  <- exp(eta_Eplus)
@@ -2015,11 +2011,11 @@ delta_spik_summary$herb <- factor(delta_spik_summary$herb, levels = c(0,1),
 
 # Add exponentiated climate for plotting
 delta_spik_summary <- delta_spik_summary %>%
-  mutate(clim_exp = exp(clim))
+  mutate(clim_mm = exp(clim * ppt_sd + ppt_mean))
 
 # Prepare long-format data for plotting
 delta_long_spik <- delta_spik_summary %>%
-  dplyr::select(species, herb, clim_exp, median_delta, prob_delta_gt0) %>%
+  dplyr::select(species, herb, clim_mm, median_delta, prob_delta_gt0) %>%
   tidyr::pivot_longer(
     cols = c(median_delta, prob_delta_gt0),
     names_to = "metric",
@@ -2044,9 +2040,9 @@ Cairo::CairoPDF(
 ggplot(
   delta_long_spik %>%
     filter(!is.na(species_label)),  # ✅ remove NA panels
-  aes(x = clim_exp, y = value, color = herb, group = herb)
+  aes(x = clim_mm, y = value, color = herb, group = herb)
 ) +
-  geom_line(size = 1) +
+  geom_line(size = 0.5) +
   geom_hline(
     data = delta_long_spik %>%
       filter(metric == "Median Δ (E+ − E−)", !is.na(species_label)),

@@ -1,20 +1,20 @@
 data {
   // Indices
-  int<lower=1> nSpp;         // Number of species
-  int<lower=1> nsite_year;   // Number of site_years
-  int<lower=1> nPop;         // Number of source populations
-  int<lower=1> N;            // Number of observations for flowering model
-  int<lower=1> nPlot;        // Number of plots
+  int<lower=1> nSpp;         
+  int<lower=1> nsite_year;   
+  int<lower=1> nPop;         
+  int<lower=1> N;            
+  int<lower=1> nPlot;        
 
   // Observation-level data
-  int<lower=1> Spp[N];       // Species index
-  int<lower=1> site_year[N]; // Site-year index
-  int<lower=1> plot[N];      // Plot index
-  int<lower=1> pop[N];       // Population index
-  int<lower=0> y[N];         // Flowering counts at t+1
-  int<lower=0,upper=1> endo[N];  // Endophyte status (1 = positive)
-  int<lower=0,upper=1> herb[N];  // Herbivory status (1 = present)
-  vector[N] clim;            // Climate covariate
+  int<lower=1> Spp[N];       
+  int<lower=1> site_year[N]; 
+  int<lower=1> plot[N];      
+  int<lower=1> pop[N];       
+  int<lower=0> y[N];         
+  int<lower=0,upper=1> endo[N];  
+  int<lower=0,upper=1> herb[N];  
+  vector[N] clim;            
 }
 
 parameters {
@@ -36,7 +36,9 @@ parameters {
   vector<lower=0>[nSpp] site_year_tau; 
   matrix[nSpp, nsite_year] site_year_rfx; 
 
+  // NB overdispersion and zero-inflation
   real<lower=0> phi; 
+  real<lower=0, upper=1> zi; // probability of structural zeros
 }
 
 transformed parameters {
@@ -45,17 +47,13 @@ transformed parameters {
   for (i in 1:N) {
     predF[i] =
       b0[Spp[i]] +                              
-      // Main effects
       bendo[Spp[i]] * endo[i] +
       bclim[Spp[i]] * clim[i] +
       bherb[Spp[i]] * herb[i] +
-      // Interactions
       bendoclim[Spp[i]] * clim[i] * endo[i] +
       bendoherb[Spp[i]] * endo[i] * herb[i] +
       bendoherbclim[Spp[i]] * endo[i] * herb[i] * clim[i] +
-      // Quadratic effects
       bclim2[Spp[i]] * square(clim[i]) +
-      // Random effects
       plot_rfx[plot[i]] +
       pop_rfx[pop[i]] +
       site_year_rfx[Spp[i], site_year[i]];
@@ -63,7 +61,7 @@ transformed parameters {
 }
 
 model {
-  // Priors for fixed effects
+  // Priors
   b0 ~ normal(0, 5);    
   bendo ~ normal(0, 5);   
   bherb ~ normal(0, 5); 
@@ -73,8 +71,8 @@ model {
   bendoherbclim ~ normal(0, 5);
   bclim2 ~ normal(0, 5);  
   phi ~ normal(0, 5); 
+  zi ~ beta(1, 1);  // weak prior for zero inflation
 
-  // Priors for random effects
   plot_tau ~ normal(0, 1);
   plot_rfx ~ normal(0, plot_tau);  
 
@@ -85,14 +83,28 @@ model {
   for (f in 1:nSpp)
     site_year_rfx[f] ~ normal(0, site_year_tau[f]);
 
-  // Likelihood
-  y ~ neg_binomial_2_log(predF, phi);
+  // Zero-inflated negative binomial likelihood
+  for (i in 1:N) {
+    if (y[i] == 0)
+      target += log_sum_exp(
+        bernoulli_lpmf(1 | zi), // structural zero
+        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi) // NB zero
+      );
+    else
+      target += bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
+  }
 }
 
 generated quantities {
   vector[N] log_lik;
 
   for (i in 1:N) {
-    log_lik[i] = neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
+    if (y[i] == 0)
+      log_lik[i] = log_sum_exp(
+        bernoulli_lpmf(1 | zi),
+        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi)
+      );
+    else
+      log_lik[i] = bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
   }
 }

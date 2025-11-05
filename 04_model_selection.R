@@ -107,5 +107,5 @@ comp_table <- bind_rows(
 print(comp_table)
 
 # Export to CSV
-write_csv(comp_table, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Dataloo_comparison_summary_linear_vs_original.csv")
+write_csv(comp_table, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/loo_comparison_summary_linear_vs_original.csv")
 

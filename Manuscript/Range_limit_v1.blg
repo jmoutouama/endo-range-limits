@@ -3,57 +3,53 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v1.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 269 of file References.bib
+Repeated entry---line 274 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 291 of file References.bib
- : @article{donald2021context
- :                           ,
-I'm skipping whatever remains of this entry
-Repeated entry---line 770 of file References.bib
+Repeated entry---line 775 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-You've used 46 entries,
+You've used 42 entries,
             1935 wiz_defined-function locations,
-            765 strings with 12503 characters,
-and the built_in function-call counts, 18782 in all, are:
-= -- 1864
-> -- 784
-< -- 21
-+ -- 277
-- -- 264
-* -- 1718
-:= -- 3287
-add.period$ -- 136
-call.type$ -- 46
-change.case$ -- 360
-chr.to.int$ -- 43
-cite$ -- 46
-duplicate$ -- 622
-empty$ -- 1292
-format.name$ -- 324
-if$ -- 3576
+            742 strings with 11689 characters,
+and the built_in function-call counts, 17024 in all, are:
+= -- 1696
+> -- 694
+< -- 20
++ -- 243
+- -- 232
+* -- 1550
+:= -- 2974
+add.period$ -- 126
+call.type$ -- 42
+change.case$ -- 323
+chr.to.int$ -- 39
+cite$ -- 42
+duplicate$ -- 569
+empty$ -- 1180
+format.name$ -- 290
+if$ -- 3247
 int.to.chr$ -- 4
 int.to.str$ -- 0
-missing$ -- 41
-newline$ -- 231
-num.names$ -- 138
-pop$ -- 258
+missing$ -- 37
+newline$ -- 213
+num.names$ -- 126
+pop$ -- 231
 preamble$ -- 1
-purify$ -- 362
+purify$ -- 326
 quote$ -- 0
-skip$ -- 468
+skip$ -- 429
 stack$ -- 0
-substring$ -- 1548
-swap$ -- 42
+substring$ -- 1408
+swap$ -- 40
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 274
+type$ -- 250
 warning$ -- 0
-while$ -- 165
+while$ -- 150
 width$ -- 0
-write$ -- 590
-(There were 3 error messages)
+write$ -- 542
+(There were 2 error messages)

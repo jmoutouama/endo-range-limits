@@ -269,8 +269,10 @@ Leaf tissues were stained with aniline blue lactic acid and viewed under a compo
 The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of \emph{Epichloë} spp. and a chromagen to visually indicate presence or absence.
 Both methods yield similar detection rates.
 
-\subsection*{Common garden experimental design}
+\subsection*{Common garden experimental design and climate data}
 We conducted our common experiment across spanning the precipitation gradient from Louisiana to central Texas, USA (Fig.~\ref{fig:site}, Table~\ref{tab:exp_sites}). 
+To characterize the abiotic stress gradient, we collected daily temperature and precipitation data from PRISM \citep{PRISM2024}. 
+These daily values were used to calculate the mean temperature (\textdegree C) and cumulative precipitation (mm) for each year, spanning from the time plants were transplanted to when demographic data were collected.
 During our study period (2023-2025) realized precipitation at these sites corresponded well to 30-year normals, with wetter eastern sites and drier western sites. 
 %Louisiana represents mesic conditions, whereas Texas experiences increasingly arid conditions, making this gradient an ideal natural laboratory to study the effects of precipitation and aridity on plant–microbe interactions.  
 Mean annual temperature did not differ significantly across sites (Fig.~\ref{Sup:temp}), so we focus on precipitation as the primary abiotic factor that varied across sites.  
@@ -293,14 +295,18 @@ D) Cumulative precipitation during the study period (May 2023 – June 2025) at 
 \subsection*{Demographic data collection}
 We collected demographic data, including survival, growth, and reproduction, during the flowering season of each species: \emph{Agrostis hyemalis} and \emph{Poa autumnalis} were censused in May, and \emph{Elymus virginicus} was censused in June of 2023, 2024, and 2025.
 For each individual, plant survival was recorded as alive or dead and, for surviving plants, size was measured as the number of tillers.  
+Growth was quantified as the log ratio of the number of tillers between consecutive censuses (i.e., $\log(\text{tiller}_{t+1}/\text{tiller}_{t})$) for plants that were alive in both years.
 We recorded the number of inflorescences per plant for all three species and counted the number of spikelets on up to three inflorescences from reproducing individuals of \emph{Poa autumnalis} and \emph{Elymus virginicus}.
 %Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 
 \subsection*{Assessing whether endophytes confer benefits or impose costs under abiotic and biotic stress}
-To assess whether endophytes confer benefits or impose costs under abiotic and biotic stress, we first developed hierarchical models for survival, growth, and fertility.
-Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, and fertility with the number of inflorescences per plant, and for \textit{E. virginicus} and \textit{P. autumnalis}, the number of spikelets with negative binomial distributions. 
-Growth was quantified as the log ratio of the number of tillers between consecutive censuses (i.e., $\log(\text{tiller}_{t+1}/\text{tiller}_{t})$) for plants that were alive in both years.
-We modeled all vital rates (survival, growth, and fertility) using species-specific fixed effects for symbiosis (endophyte presence), precipitation, and herbivore access, including all relevant two- and three-way interactions. Each observation $i$ corresponds to a plant in a given year; individuals can appear in multiple years. For simplicity, we omit the full subscript notation for species, plot, population, and site-year in the following equation, which is explicitly included in the Stan model:
+To assess whether endophytes confer benefits or impose costs under abiotic and biotic stress, we first developed two candidate models for each vital rate: one quadratic and one monotonic.
+All models shared the same hierarchical structure and were applied to survival, growth, and fertility.
+Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, the number of inflorescences with a zero-inflated negative binomial distribution, and the number of spikelets with a negative binomial distribution.
+We modeled all vital rates (survival, growth, and fertility) using species-specific fixed effects for symbiosis (endophyte presence), precipitation, and herbivore access, including all relevant two- and three-way interactions. 
+Each observation $i$ corresponds to a plant in a given year; individuals can appear in multiple years. 
+For simplicity, we omit the full subscript notation for species, plot, population, and site-year, which is explicitly included in the Stan model. 
+We present the quadratic model here (Eq.~\ref{eq:full_model}) because it encompasses the linear model as a special case.
 \begin{equation}\label{eq:full_model}
 \begin{aligned}
 \mu_i &= \beta_0[Sp_i] + \beta_P[Sp_i] P_i + \beta_{P^2}[Sp_i] P_i^2 + \beta_{endo}[Sp_i]\, endo_i + \beta_{herb}[Sp_i]\, herb_i \\
@@ -319,16 +325,26 @@ Each species has its own random effect for each site, source, and plot, while th
 This hierarchical structure allows the model to ``borrow strength'' across species, improving estimates of fixed effects and background variation, while still capturing species-specific responses to environmental heterogeneity.
 We confirmed that models effectively captured key aspects of the grass demography data, including means, standard deviations, and quantiles  using a posterior predictive check (Fig.~\ref{sup:ppc_vital}).
 
-Secondly, for each vital rate, precipitation was summarized at key quantiles (10th, 25th, 50th, 75th, and 90th percentiles) to represent the range of site-level abiotic stress. 
-For each species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, \textit{Poa autumnalis}) and herbivory treatment (Fenced or Unfenced), we computed posterior predictions of survival probability for individuals with endophytes (E$^+$) and without endophytes (E$^-$) using the Bayesian model outputs (Equation~\ref{eq:full_model}). 
+Secondly, to determine the best-supported model for each vital rate, we compared candidate models (quadratic and  monotonic) using leave-one-out cross-validation (LOOCV) \citep{vehtari2017practical}. 
+LOOCV combines validation and training by iteratively holding out one observation as a test set while fitting the model on the remaining $n-1$ observations. 
+This process is repeated $n$ times, once for each observation, resulting in $n$ fitted models \citep{silva2024robust}. 
+The overall test error estimate is then obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}) for each vital rate.
+\begin{align}\label{eq:Loo}
+CV_{n} = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \hat{y}_{i})^2
+\end{align}
+Although we evaluated quadratic models, LOOCV showed that they provided minimal improvement over monotonic models (Table~\ref{tab:model_comparison}). 
+Therefore, all subsequent analyses used the monotonic model, which captures the observed patterns while maintaining model simplicity.
+
+Finnaly, for each vital rate, precipitation was summarized at key quantiles (10th, 25th, 50th, 75th, and 90th percentiles) to represent the range of site-level abiotic stress. 
+For each species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, \textit{Poa autumnalis}) and herbivory treatment (Fenced or Unfenced), we computed posterior predictions of survival probability for individuals with endophytes (E$^+$) and without endophytes (E$^-$) using the best Bayesian model outputs (Eq.~\ref{eq:full_model}). 
 The difference ($\Delta = E^+ - E^-$) was calculated for each posterior sample to estimate median effects and 90\% credible intervals. 
 We also computed the posterior probability that $\Delta > 0$, representing the likelihood that endophytes confer benefits on vital rates under the given climate and herbivory conditions.
 
+\subsection*{Drivers of endophyte effects on on cool-season grass demography}
+To determine the primary drivers of endophyte-mediated effects on grass performance, we focused on interactions with climate and herbivory to identify when endophytes confer benefits or costs under multiple stressors (abiotic and biotic).
+The endophyte $\times$ climate and endophyte $\times$ herbivory $\times$ climate interactions summarize how the benefits of endophyte presence on survival, growth, or reproduction change across precipitation gradients and herbivory treatments. The endophyte $\times$ herbivory interaction indicates whether endophytes mitigate or exacerbate herbivore impacts, and together these interactions highlight the environmental and biotic contexts that enhance or reduce symbiotic benefits.
 
-\subsection*{Disentangling abiotic and biotic drivers on cool-season grass demography}
-To identify the conditions under which endophytes are more mutualistic, we focused on key interaction effects that capture context-dependent responses. The endophyte $\times$ climate and endophyte $\times$ herbivory $\times$ climate interactions summarize how the benefits of endophyte presence on survival, growth, or reproduction change across precipitation gradients and herbivory treatments. The endophyte $\times$ herbivory interaction indicates whether endophytes mitigate or exacerbate herbivore impacts, and together these interactions highlight the environmental and biotic contexts that enhance or reduce symbiotic benefits.
-
-Effect sizes were quantified using the posterior distributions from the hierarchical Bayesian models (Equation~\ref{eq:full_model}).
+Effect sizes were quantified using the posterior distributions from the hierarchical Bayesian models (Eq. ~\ref{eq:full_model}).
 For survival, coefficients on the logit scale were exponentiated to obtain odds ratios (OR), representing the multiplicative change in the probability of survival associated with endophyte presence under different conditions. For flowering and spikelet production, coefficients were exponentiated to obtain incidence rate ratios (IRR), representing the proportional change in reproductive output. Growth was modeled with a Gaussian distribution, and effect sizes were expressed as the expected change in log-transformed growth per unit change in the predictor. For each species and vital rate, we summarized effects as mean OR, IRR, or growth change with 95\% credible intervals. We also computed the posterior probability that OR or IRR exceeded 1, or that growth effects were positive, providing a direct measure of the likelihood that endophytes confer benefits under specific combinations of climate and herbivory. This approach allows comparison of the magnitude and certainty of abiotic, biotic, and interactive drivers on grass demography in biologically interpretable units.
 
 All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.
@@ -497,6 +513,7 @@ ELVI & JLP  & 29.785105 & -90.114933 & Jean Lafitte Park, outside of New Orleans
 \bottomrule
 \end{tabular}
 \end{table}
+\clearpage  % forces the next figure to start on a new page
 
 \begin{table}[ht]
 \centering
@@ -513,6 +530,28 @@ UT Stengl Lost Pines Field Station & BAS & 30.092343 & -97.172442 \\
 1335 Medina Hwy, Kerrville, TX & KER & 30.028437 & -99.142888 \\
 Brackenridge Field Laboratory & BFL & 30.284866 & -97.780675 \\
 TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage  % forces the next figure to start on a new page
+
+\begin{table}[ht]
+\centering
+\caption{Comparison of candidate models (quadratic vs. monotonic) for each vital rate based on leave-one-out cross-validation (LOOCV). 
+ELPD difference is relative to the best model.}
+\label{tab:model_comparison}
+\begin{tabular}{l l r r}
+\hline
+Vital rate & Model type & ELPD difference & SE difference \\
+\hline
+Survival   & Quadratic  & 0       & 0.000 \\
+Survival   & Monotonic  & -0.653  & 0.997 \\
+Growth     & Quadratic  & 0       & 0.000 \\
+Growth     & Monotonic  & -0.310  & 1.040 \\
+Flowering  & Quadratic  & 0       & 0.000 \\
+Flowering  & Monotonic  & -0.562  & 1.010 \\
+Spikelet   & Quadratic  & 0       & 0.078 \\
+Spikelet   & Monotonic  & -0.078  & 1.300 \\
 \hline
 \end{tabular}
 \end{table}
@@ -734,38 +773,6 @@ Spikelet & \textit{Poa autumnalis} & bendoherbclim & 0.873 & 0.682 & 1.119 & 0.1
 \end{tabular}
 \end{table}
 \end{landscape}
-
-
-
-\begin{table}[H]
-\caption{Differences in expected log predictive density (ELPD) between models for each vital rate. The top model for each response (bold) has the highest ELPD. Standard errors of the differences are shown in the \texttt{se\_diff} column.}
-\centering
-\begin{tabular}{|l|l|r|r|}
-\hline
-\textbf{Vital rate} & \textbf{Model} & \textbf{elpd\_diff} & \textbf{se\_diff} \\
-\hline
-Survival   & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
-           & abiotic\_biotic        & -2.1          & 3.7          \\
-           & biotic                 & -5.2          & 2.0          \\
-\hline
-Growth     & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
-           & abiotic\_biotic        & -2.1          & 3.7          \\
-           & biotic                 & -5.2          & 2.0          \\
-\hline
-Inflorescence & \textbf{abiotic}     & \textbf{0.0}  & \textbf{0.0} \\
-              & abiotic\_biotic      & -2.1          & 3.7          \\
-              & biotic               & -5.2          & 2.0          \\
-\hline
-Spikelet   & \textbf{abiotic}       & \textbf{0.0}  & \textbf{0.0} \\
-           & abiotic\_biotic        & -2.1          & 3.7          \\
-           & biotic                 & -5.2          & 2.0          \\
-\hline
-\end{tabular}
-\label{tab:elpd_vital_rates}
-\end{table}
-\clearpage  % forces the next figure to start on a new page
-
-
 
 
 \section {Supporting Figures}

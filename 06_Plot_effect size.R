@@ -104,8 +104,8 @@ param_labels <- c(
 summary_stats_surv_ppt$parameter_label <- recode(summary_stats_surv_ppt$parameter, !!!param_labels)
 panel_labels <- data.frame(
   label = c("(a)", "(b)", "(c)", "(d)"),
-  x = c(-1, -0.9, 0.5, 0.5),  # x positions for each label
-  y = c(3.5, 3.5, 1.2, 0.48)       # y positions for each label
+  x = c(-1, -0.9, 0, 0.55),  # x positions for each label
+  y = c(3.45, 3.45, 3.5, 2.45)       # y positions for each label
 )
 
 # Add probability that OR > 1
@@ -124,7 +124,7 @@ summary_stats_surv_ppt <- summary_stats_surv_ppt %>%
   ungroup()
 
 # Create the forest + density plot
-Fig6a_ridge <- ggplot() +
+Fig6a <- ggplot() +
   # Median points
   geom_point(
     data = summary_stats_surv_ppt,
@@ -133,11 +133,11 @@ Fig6a_ridge <- ggplot() +
     size = 2
   ) +
   # Horizontal error bars (95% CI)
-  geom_errorbarh(
+  geom_errorbar(
     data = summary_stats_surv_ppt,
     aes(y = species, xmin = OR_lower, xmax = OR_upper, color = parameter_label),
     position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 0.8
+    height = 0.2, linewidth = 1
   ) +
   # Limitation of x axis
   xlim(-1.5,7) +
@@ -155,12 +155,12 @@ Fig6a_ridge <- ggplot() +
     "Endophyte × Herbivory × Climate" = "#7570b3"
   )) +
   labs(
-    x = "Odds ratio (effect size)",
+    x = "Effect size (odds ratio)",
     y = NULL,
     fill = "Drivers",
     color = "Drivers"
   ) +
-  theme_light(base_size = 12) +
+  theme_bw(base_size = 12) +
   geom_text(
     data = panel_labels[1, ],  # first label "a"
     aes(x = x, y = y, label = label),
@@ -171,9 +171,6 @@ Fig6a_ridge <- ggplot() +
     legend.position = "bottom",
     panel.grid.minor = element_blank()
   )
-
-library(ggridges)
-library(dplyr)
 
 # selected_params <- c("bendoclim", "bendoherb", "bendoherbclim")
 # 
@@ -290,7 +287,7 @@ param_labels <- c(
   "bendoherbclim" = "Endophyte × Herbivory × Climate"
 )
 summary_stats_grow_ppt$parameter_label <- recode(summary_stats_grow_ppt$parameter, !!!param_labels)
-view(summary_stats_grow_ppt)
+#view(summary_stats_grow_ppt)
 # Plot
 Fig6b <- ggplot() +
   # Median points
@@ -305,7 +302,7 @@ Fig6b <- ggplot() +
     data = summary_stats_grow_ppt,
     aes(y = species, xmin = lower_CI, xmax = upper_CI, color = parameter_label),
     position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 0.8
+    height = 0.2, linewidth = 1
   ) +
   # Limitation of x axis
   xlim(-1,1) +
@@ -323,12 +320,12 @@ Fig6b <- ggplot() +
     "Endophyte × Herbivory × Climate" = "#7570b3"
   )) +
   labs(
-    x = "Odds ratio (effect size)",
+    x = "Effect size (regression coefficient)",
     y = NULL,
     fill = "Drivers",
     color = "Drivers"
   ) +
-  theme_light(base_size = 12) +
+  theme_bw(base_size = 12) +
   geom_text(
     data = panel_labels[2, ],  # first label "a"
     aes(x = x, y = y, label = label),
@@ -412,7 +409,6 @@ summary_stats_flow_ppt$species <- recode(
   "2" = "ELVI",
   "3" = "PAOU"
 )
-
 summary_stats_flow_ppt$parameter_label <- recode(summary_stats_flow_ppt$parameter, !!!param_labels)
 
 # Plot standardized effect sizes (Cohen's d) for flowering
@@ -429,7 +425,7 @@ Fig6c <- ggplot() +
     data = summary_stats_flow_ppt,
     aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter_label),
     position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 0.8
+    height = 0.2, linewidth = 1
   ) +
   # Limitation of x axis
   xlim(0,5) +
@@ -447,14 +443,14 @@ Fig6c <- ggplot() +
     "Endophyte × Herbivory × Climate" = "#7570b3"
   )) +
   labs(
-    x = "Odds ratio (effect size)",
+    x = "Effect size (incidence rate ratios)",
     y = NULL,
     fill = "Drivers",
     color = "Drivers"
   ) +
-  theme_light(base_size = 12) +
+  theme_bw(base_size = 12) +
   geom_text(
-    data = panel_labels[2, ],  # first label "a"
+    data = panel_labels[3, ],  # first label "a"
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
@@ -553,7 +549,7 @@ Fig6d <- ggplot() +
     data = summary_stats_spik_ppt,
     aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter_label),
     position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 0.8
+    height = 0.2, linewidth = 1
   ) +
   # Limitation of x axis
   xlim(0.5,2) +
@@ -571,14 +567,14 @@ Fig6d <- ggplot() +
     "Endophyte × Herbivory × Climate" = "#7570b3"
   )) +
   labs(
-    x = "Odds ratio (effect size)",
+    x = "Effect size (incidence rate ratios)",
     y = NULL,
     fill = "Drivers",
     color = "Drivers"
   ) +
-  theme_light(base_size = 12) +
+  theme_bw(base_size = 12) +
   geom_text(
-    data = panel_labels[4, ],  # first label "a"
+    data = panel_labels[4, ],  
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
@@ -607,23 +603,23 @@ ggsave("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure
 # Add a new column for each data frame
 surv_df <- summary_stats_surv_ppt %>%
   mutate(Fitness_component = "Survival") %>%
-  rename(Parameter = parameter_label, Estimate =OR_median , Lower_CI = OR_lower, Upper_CI = OR_upper)
+  rename(Parameter = parameter_label, Estimate =OR_median , Lower_CI = OR_lower, Upper_CI = OR_upper, Pr=prob_1)
 
 grow_df <- summary_stats_grow_ppt %>%
   mutate(Fitness_component = "Growth") %>%
-  rename(Parameter = parameter_label, Estimate = median_estimate, Lower_CI = lower_CI, Upper_CI = upper_CI)
+  rename(Parameter = parameter_label, Estimate = median_estimate, Lower_CI = lower_CI, Upper_CI = upper_CI,Pr=prob_gt0)
 
 flow_df <- summary_stats_flow_ppt %>%
   mutate(Fitness_component = "Flowering") %>%
-  rename(Parameter = parameter, Estimate = IRR_median, Lower_CI = IRR_lower, Upper_CI = IRR_upper)
+  rename(Parameter = parameter, Estimate = IRR_median, Lower_CI = IRR_lower, Upper_CI = IRR_upper,Pr=prob_gt1)
 
 spike_df <- summary_stats_spik_ppt %>%
   mutate(Fitness_component = "Spikelet") %>%
-  rename(Parameter = parameter, Estimate = IRR_median, Lower_CI = IRR_lower, Upper_CI = IRR_upper)
+  rename(Parameter = parameter, Estimate = IRR_median, Lower_CI = IRR_lower, Upper_CI = IRR_upper, Pr=prob_gt1)
 
 # Combine all data frames
 combined_summary <- bind_rows(surv_df, grow_df, flow_df, spike_df) %>%
-  dplyr::select(Fitness_component, species, Parameter, Estimate, Lower_CI, Upper_CI)
+  dplyr::select(Fitness_component, species, Parameter, Estimate, Lower_CI, Upper_CI,Pr)
 
 # Export to CSV
 write_csv(combined_summary, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/combined_summary_table_drivers.csv")

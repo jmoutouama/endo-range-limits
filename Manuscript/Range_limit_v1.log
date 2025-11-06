@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 NOV 2025 13:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  6 NOV 2025 11:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1148,10 +1148,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 [5]
 
 [6]
-<../Figure/clim_map.pdf, id=207, 650.43pt x 758.835pt>
+<../Figure/clim_map.pdf, id=175, 650.43pt x 758.835pt>
 File: ../Figure/clim_map.pdf Graphic file (type pdf)
 <use ../Figure/clim_map.pdf>
-Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 287.
+Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 281.
 (pdftex.def)             Requested size: 469.75502pt x 548.06288pt.
 
 
@@ -1164,46 +1164,46 @@ Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 287.
 [10]
 
 [11]
-<../Figure/PrSurvival_diff.pdf, id=304, 433.62pt x 505.89pt>
+<../Figure/PrSurvival_diff.pdf, id=271, 433.62pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 376.
+Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 370.
 
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
 
 
 [12]
-<../Figure/Growth_diff.pdf, id=316, 542.025pt x 794.97pt>
+<../Figure/Growth_diff.pdf, id=282, 542.025pt x 794.97pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 387.
+Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 381.
 (pdftex.def)             Requested size: 375.80544pt x 551.19855pt.
 
 
 [13 <../Figure/PrSurvival_diff.pdf>]
-<../Figure/Flowering_diff_h.pdf, id=349, 722.7pt x 361.35pt>
+<../Figure/Flowering_diff_h.pdf, id=316, 722.7pt x 361.35pt>
 File: ../Figure/Flowering_diff_h.pdf Graphic file (type pdf)
 <use ../Figure/Flowering_diff_h.pdf>
-Package pdftex.def Info: ../Figure/Flowering_diff_h.pdf  used on input line 398
+Package pdftex.def Info: ../Figure/Flowering_diff_h.pdf  used on input line 392
 .
 (pdftex.def)             Requested size: 469.75502pt x 234.88023pt.
 
 
 [14 <../Figure/Growth_diff.pdf>]
-<../Figure/Spikelet_diff.pdf, id=382, 433.62pt x 433.62pt>
+<../Figure/Spikelet_diff.pdf, id=349, 433.62pt x 433.62pt>
 File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 412.
+Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 406.
 (pdftex.def)             Requested size: 469.75502pt x 469.7781pt.
 
 
 [15 <../Figure/Flowering_diff_h.pdf>]
 
 [16 <../Figure/Spikelet_diff.pdf>]
-<../Figure/Figure6.pdf, id=453, 722.7pt x 578.16pt>
+<../Figure/Figure6.pdf, id=420, 722.7pt x 578.16pt>
 File: ../Figure/Figure6.pdf Graphic file (type pdf)
 <use ../Figure/Figure6.pdf>
-Package pdftex.def Info: ../Figure/Figure6.pdf  used on input line 430.
+Package pdftex.def Info: ../Figure/Figure6.pdf  used on input line 424.
 (pdftex.def)             Requested size: 469.75502pt x 375.80836pt.
 
 
@@ -1218,12 +1218,12 @@ Package pdftex.def Info: ../Figure/Figure6.pdf  used on input line 430.
 [21])
 
 [22]
-Overfull \hbox (38.45683pt too wide) detected at line 465
+Overfull \hbox (38.45683pt too wide) detected at line 459
 []
  []
 
 
-Overfull \hbox (36.59242pt too wide) detected at line 483
+Overfull \hbox (36.59242pt too wide) detected at line 477
 []
  []
 
@@ -1232,7 +1232,7 @@ Overfull \hbox (36.59242pt too wide) detected at line 483
 [23
 
 ]
-Overfull \hbox (42.68626pt too wide) in paragraph at lines 496--515
+Overfull \hbox (42.68626pt too wide) in paragraph at lines 490--509
  [][] 
  []
 
@@ -1252,7 +1252,7 @@ Overfull \hbox (42.68626pt too wide) in paragraph at lines 496--515
 
 [28]
 
-LaTeX Warning: Float too large for page by 14.94449pt on input line 690.
+LaTeX Warning: Float too large for page by 14.94449pt on input line 684.
 
 
 
@@ -1268,16 +1268,16 @@ LaTeX Warning: Float too large for page by 14.94449pt on input line 690.
 
 ]
 
-LaTeX Warning: Float too large for page by 27.84465pt on input line 774.
+LaTeX Warning: Float too large for page by 27.84465pt on input line 768.
 
 
 
 [31]
-<../Figure/Climate_prism_2023_2025.pdf, id=529, 867.24pt x 361.35pt>
+<../Figure/Climate_prism_2023_2025.pdf, id=503, 867.24pt x 361.35pt>
 File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use ../Figure/Climate_prism_2023_2025.pdf>
 Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
-ine 782.
+ine 776.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
 
@@ -1286,45 +1286,45 @@ ine 782.
 
 
  <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/combined_ppc_plots.pdf, id=539, 505.89pt x 433.62pt>
+<../Figure/combined_ppc_plots.pdf, id=513, 505.89pt x 433.62pt>
 File: ../Figure/combined_ppc_plots.pdf Graphic file (type pdf)
 <use ../Figure/combined_ppc_plots.pdf>
 Package pdftex.def Info: ../Figure/combined_ppc_plots.pdf  used on input line 7
-93.
+87.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
-<../Figure/PrSurvival_diff_stat.pdf, id=540, 505.89pt x 433.62pt>
+<../Figure/PrSurvival_diff_stat.pdf, id=514, 505.89pt x 433.62pt>
 File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
- 804.
+ 798.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [33
 
  <../Figure/combined_ppc_plots.pdf>]
-<../Figure/Growth_diff_stat.pdf, id=554, 505.89pt x 433.62pt>
+<../Figure/Growth_diff_stat.pdf, id=529, 505.89pt x 433.62pt>
 File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 812
+Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 806
 .
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [34 <../Figure/PrSurvival_diff_stat.pdf>]
-<../Figure/Flowering_diff_stat.pdf, id=580, 505.89pt x 361.35pt>
+<../Figure/Flowering_diff_stat.pdf, id=555, 505.89pt x 361.35pt>
 File: ../Figure/Flowering_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Flowering_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Flowering_diff_stat.pdf  used on input line 
-820.
+814.
 (pdftex.def)             Requested size: 469.75502pt x 335.54477pt.
 
 
 [35 <../Figure/Growth_diff_stat.pdf>]
-<../Figure/Spike_diff_stat.pdf, id=607, 433.62pt x 361.35pt>
+<../Figure/Spike_diff_stat.pdf, id=582, 433.62pt x 361.35pt>
 File: ../Figure/Spike_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spike_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 828.
+Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 822.
 
 (pdftex.def)             Requested size: 469.75502pt x 391.48175pt.
 
@@ -1344,11 +1344,11 @@ Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 ### semi simple group (level 1) entered at line 171 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30081 strings out of 473190
- 551375 string characters out of 5715801
- 953024 words of memory out of 5000000
- 51709 multiletter control sequences out of 15000+600000
- 687090 words of font info for 856 fonts, out of 8000000 for 9000
+ 30069 strings out of 473190
+ 551371 string characters out of 5715801
+ 953094 words of memory out of 5000000
+ 51716 multiletter control sequences out of 15000+600000
+ 686250 words of font info for 844 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,11n,101p,1183b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1361,10 +1361,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (37 pages, 6458593 bytes).
+Output written on Range_limit_v1.pdf (37 pages, 6456364 bytes).
 PDF statistics:
- 735 PDF objects out of 1000 (max. 8388607)
- 584 compressed objects within 6 object streams
- 123 named destinations out of 1000 (max. 500000)
+ 709 PDF objects out of 1000 (max. 8388607)
+ 558 compressed objects within 6 object streams
+ 119 named destinations out of 1000 (max. 500000)
  201313 words of extra memory for PDF output out of 221844 (max. 10000000)
 

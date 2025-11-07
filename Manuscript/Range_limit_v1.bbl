@@ -1,15 +1,10 @@
 \begin{thebibliography}{}
 
-\bibitem[Afkhami et~al., 2014]{afkhami2014mutualist}
-Afkhami, M.~E., McIntyre, P.~J., and Strauss, S.~Y. (2014).
-\newblock Mutualist-mediated effects on species' range limits across large
-  geographic scales.
-\newblock {\em Ecology letters}, 17(10):1265--1273.
-
-\bibitem[Agrawal et~al., 1999]{agrawal1999transgenerational}
-Agrawal, A.~A., Laforsch, C., and Tollrian, R. (1999).
-\newblock Transgenerational induction of defences in animals and plants.
-\newblock {\em Nature}, 401(6748):60--63.
+\bibitem[Afkhami and Rudgers, 2008]{afkhami2008symbiosis}
+Afkhami, M.~E. and Rudgers, J.~A. (2008).
+\newblock Symbiosis lost: imperfect vertical transmission of fungal endophytes
+  in grasses.
+\newblock {\em The American Naturalist}, 172(3):405--416.
 
 \bibitem[Ahlholm et~al., 2002]{ahlholm2002vertically}
 Ahlholm, J.~U., Helander, M., Lehtim{\"a}ki, S., W{\"a}li, P., and Saikkonen,
@@ -17,12 +12,6 @@ Ahlholm, J.~U., Helander, M., Lehtim{\"a}ki, S., W{\"a}li, P., and Saikkonen,
 \newblock Vertically transmitted fungal endophytes: different responses of
   host-parasite systems to environmental conditions.
 \newblock {\em Oikos}, 99(1):173--183.
-
-\bibitem[Allsup et~al., 2023]{allsup2023shifting}
-Allsup, C.~M., George, I., and Lankau, R.~A. (2023).
-\newblock Shifting microbial communities can enhance tree tolerance to changing
-  climates.
-\newblock {\em Science}, 380(6647):835--840.
 
 \bibitem[Amijee et~al., 1989]{amijee1989development}
 Amijee, F., Tinker, P., and Stribley, D. (1989).
@@ -44,31 +33,6 @@ Bastias, D.~A., Mart{\'\i}nez-Ghersa, M.~A., Ballar{\'e}, C.~L., and Gundel,
   alkaloids.
 \newblock {\em Trends in Plant Science}, 22(11):939--948.
 
-\bibitem[Bennett and Groten, 2022]{bennett2022costs}
-Bennett, A.~E. and Groten, K. (2022).
-\newblock The costs and benefits of plant--arbuscular mycorrhizal fungal
-  interactions.
-\newblock {\em Annual Review of Plant Biology}, 73(1):649--672.
-
-\bibitem[Benning et~al., 2019]{benning2019biotic}
-Benning, J.~W., Eckhart, V.~M., Geber, M.~A., and Moeller, D.~A. (2019).
-\newblock Biotic interactions contribute to the geographic range limit of an
-  annual plant: herbivory and phenology mediate fitness beyond a range margin.
-\newblock {\em The American Naturalist}, 193(6):786--797.
-
-\bibitem[Benning and Moeller, 2021a]{benning2021microbes}
-Benning, J.~W. and Moeller, D.~A. (2021a).
-\newblock Microbes, mutualism, and range margins: testing the fitness
-  consequences of soil microbial communities across and beyond a native plant's
-  range.
-\newblock {\em New Phytologist}, 229(5):2886--2900.
-
-\bibitem[Benning and Moeller, 2021b]{benning2021plant}
-Benning, J.~W. and Moeller, D.~A. (2021b).
-\newblock Plant--soil interactions limit lifetime fitness outside a native
-  plant’s geographic range margin.
-\newblock {\em Ecology}, 102(3):e03254.
-
 \bibitem[Bronstein, 1994]{bronstein1994conditional}
 Bronstein, J.~L. (1994).
 \newblock Conditional outcomes in mutualistic interactions.
@@ -79,31 +43,29 @@ Bronstein, J.~L. (2001).
 \newblock The exploitation of mutualisms.
 \newblock {\em Ecology letters}, 4(3):277--287.
 
-\bibitem[Clay et~al., 2005]{clay2005herbivores}
-Clay, K., Holah, J., and Rudgers, J.~A. (2005).
-\newblock Herbivores cause a rapid increase in hereditary symbiosis and alter
-  plant community composition.
-\newblock {\em Proceedings of the National Academy of Sciences},
-  102(35):12465--12470.
-
 \bibitem[Clay and Schardl, 2002]{clay2002evolutionary}
 Clay, K. and Schardl, C. (2002).
 \newblock Evolutionary origins and ecological consequences of endophyte
   symbiosis with grasses.
 \newblock {\em the american naturalist}, 160(S4):S99--S127.
 
-\bibitem[David et~al., 2019]{david2019soil}
-David, A.~S., Quintana-Ascencio, P.~F., Menges, E.~S., Thapa-Magar, K.~B.,
-  Afkhami, M.~E., and Searcy, C.~A. (2019).
-\newblock Soil microbiomes underlie population persistence of an endangered
-  plant species.
-\newblock {\em The American Naturalist}, 194(4):488--494.
+\bibitem[Emery et~al., 2010]{emery2010variation}
+Emery, S.~M., Thompson, D., and Rudgers, J.~A. (2010).
+\newblock Variation in endophyte symbiosis, herbivory and drought tolerance of
+  ammophila breviligulata populations in the great lakes region.
+\newblock {\em The American Midland Naturalist}, 163(1):186--196.
 
 \bibitem[Fowler et~al., 2023]{fowler2023geographic}
 Fowler, J.~C., Donald, M.~L., Bronstein, J.~L., and Miller, T.~E. (2023).
 \newblock The geographic footprint of mutualism: How mutualists influence
   species' range limits.
 \newblock {\em Ecological Monographs}, 93(1):e1558.
+
+\bibitem[Fowler et~al., 2025]{fowler2025increasing}
+Fowler, J.~C., Moutouama, J., and Miller, T.~E. (2025).
+\newblock Increasing prevalence of plant-fungal symbiosis across two centuries
+  of environmental change.
+\newblock {\em Global Change Biology}, 31(11):e70577.
 
 \bibitem[GBIF, 2025a]{gbif2025_aghy}
 GBIF (2025a).
@@ -173,30 +135,10 @@ Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
 \newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
 
-\bibitem[Maron and Crone, 2006]{maron2006herbivory}
-Maron, J.~L. and Crone, E. (2006).
-\newblock Herbivory: effects on plant abundance, distribution and population
-  growth.
-\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
-  273(1601):2575--2584.
-
-\bibitem[Miller et~al., 2008]{miller2008herbivore}
-Miller, T. E.~X., Tenhumberg, B., and Louda, S.~M. (2008).
-\newblock Herbivore-mediated ecological costs of reproduction shape the life
-  history of an iteroparous plant.
-\newblock {\em The American Naturalist}, 171(2):141--149.
-
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria.
-
-\bibitem[Rudgers et~al., 2020]{rudgers2020climate}
-Rudgers, J.~A., Afkhami, M.~E., Bell-Dereske, L., Chung, Y.~A., Crawford,
-  K.~M., Kivlin, S.~N., Mann, M.~A., and Nu{\~n}ez, M.~A. (2020).
-\newblock Climate disruption of plant-microbe interactions.
-\newblock {\em Annual review of ecology, evolution, and systematics},
-  51:561--586.
 
 \bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
 Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).

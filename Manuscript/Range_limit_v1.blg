@@ -3,57 +3,58 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v1.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 295 of file References.bib
+Repeated entry---line 317 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 597 of file References.bib
+Repeated entry---line 619 of file References.bib
  : @article{ahlholm2002vertically
  :                               ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 796 of file References.bib
+Repeated entry---line 818 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-You've used 44 entries,
+Warning--I didn't find a database entry for "kaly2010herbivory"
+You've used 35 entries,
             1935 wiz_defined-function locations,
-            753 strings with 12109 characters,
-and the built_in function-call counts, 17975 in all, are:
-= -- 1788
-> -- 745
-< -- 20
-+ -- 261
-- -- 250
-* -- 1644
-:= -- 3140
-add.period$ -- 132
-call.type$ -- 44
-change.case$ -- 342
-chr.to.int$ -- 41
-cite$ -- 44
-duplicate$ -- 597
-empty$ -- 1240
-format.name$ -- 310
-if$ -- 3426
-int.to.chr$ -- 4
+            694 strings with 10092 characters,
+and the built_in function-call counts, 13839 in all, are:
+= -- 1378
+> -- 553
+< -- 17
++ -- 192
+- -- 184
+* -- 1246
+:= -- 2430
+add.period$ -- 105
+call.type$ -- 35
+change.case$ -- 264
+chr.to.int$ -- 33
+cite$ -- 35
+duplicate$ -- 471
+empty$ -- 963
+format.name$ -- 229
+if$ -- 2637
+int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 39
-newline$ -- 223
-num.names$ -- 132
-pop$ -- 246
+missing$ -- 30
+newline$ -- 178
+num.names$ -- 105
+pop$ -- 189
 preamble$ -- 1
-purify$ -- 345
+purify$ -- 267
 quote$ -- 0
-skip$ -- 449
+skip$ -- 357
 stack$ -- 0
-substring$ -- 1482
-swap$ -- 42
+substring$ -- 1123
+swap$ -- 33
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 262
+type$ -- 208
 warning$ -- 0
-while$ -- 158
+while$ -- 122
 width$ -- 0
-write$ -- 568
+write$ -- 451
 (There were 3 error messages)

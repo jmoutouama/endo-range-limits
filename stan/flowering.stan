@@ -62,24 +62,24 @@ transformed parameters {
 
 model {
   // Priors
-  b0 ~ normal(0, 5);    
-  bendo ~ normal(0, 5);   
-  bherb ~ normal(0, 5); 
-  bclim ~ normal(0, 5);  
-  bendoclim ~ normal(0, 5);  
-  bendoherb ~ normal(0, 5); 
-  bendoherbclim ~ normal(0, 5);
-  bclim2 ~ normal(0, 5);  
-  phi ~ normal(0, 5); 
+  b0 ~ normal(0, 1);    
+  bendo ~ normal(0, 1);   
+  bherb ~ normal(0, 1); 
+  bclim ~ normal(0, 1);  
+  bendoclim ~ normal(0, 1);  
+  bendoherb ~ normal(0, 1); 
+  bendoherbclim ~ normal(0, 1);
+  bclim2 ~ normal(0, 1);  
+  phi ~ gamma(2,0.1); ; 
   zi ~ beta(1, 1);  // weak prior for zero inflation
 
-  plot_tau ~ normal(0, 1);
+  plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);  
 
-  pop_tau ~ normal(0, 1);
+  pop_tau ~ inv_gamma(0.1,0.1);
   pop_rfx ~ normal(0, pop_tau);    
 
-  site_year_tau ~ normal(0, 1);     
+  site_year_tau ~ inv_gamma(0.1,0.1);     
   for (f in 1:nSpp)
     site_year_rfx[f] ~ normal(0, site_year_tau[f]);
 

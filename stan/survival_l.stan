@@ -59,11 +59,11 @@ model {
   bendoherb ~ normal(0, 5);       
   bendoherbclim ~ normal(0, 5);   
 
-  plot_tau ~ normal(0, 1);
+  plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);
-  pop_tau ~ normal(0, 1);
+  pop_tau ~ inv_gamma(0.1,0.1);
   pop_rfx ~ normal(0, pop_tau);
-  site_year_tau ~ normal(0, 1);
+  site_year_tau ~ inv_gamma(0.1,0.1);
   for (s in 1:nSpp)
     site_year_rfx[s] ~ normal(0, site_year_tau[s]);
 

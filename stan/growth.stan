@@ -67,22 +67,22 @@ transformed parameters {
 
 model {
   // Priors for fixed effects
-  b0 ~ normal(0, 5);
-  bendo ~ normal(0, 5);
-  bherb ~ normal(0, 5);
-  bclim ~ normal(0, 5);
-  bendoclim ~ normal(0, 5);
-  bendoherb ~ normal(0, 5);
-  bendoherbclim ~ normal(0, 5);
-  bclim2 ~ normal(0, 5);
-  sigma ~ normal(0, 5);
+  b0 ~ normal(0, 1);
+  bendo ~ normal(0, 1);
+  bherb ~ normal(0, 1);
+  bclim ~ normal(0, 1);
+  bendoclim ~ normal(0, 1);
+  bendoherb ~ normal(0, 1);
+  bendoherbclim ~ normal(0, 1);
+  bclim2 ~ normal(0, 1);
+  sigma ~ normal(0, 1);
 
   // Priors for random effects to capture variation across plots, populations, and site-years
-  plot_tau ~ normal(0, 1);
+  plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);
-  pop_tau ~ normal(0, 1);
+  pop_tau ~ inv_gamma(0.1,0.1);
   pop_rfx ~ normal(0, pop_tau);
-  site_year_tau ~ normal(0, 1);
+  site_year_tau ~ inv_gamma(0.1,0.1);
   for (s in 1:nSpp)
     site_year_rfx[s] ~ normal(0, site_year_tau[s]);
 

@@ -546,7 +546,7 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
+fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_grow_ppt$clim),
@@ -687,7 +687,7 @@ panel_labels_grow <- data.frame(
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 7.5, height = 11
+  width = 6.5, height = 8.5
 )
 ggplot(plot_data_grow) +
   # Upper panel: predicted growth
@@ -719,7 +719,7 @@ ggplot(plot_data_grow) +
     fill = "#9B6B96", alpha = 0.5
   ) +
   geom_hline(
-    data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
+    data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
     aes(yintercept = 0), linetype = "dashed", color = "black"
   ) +
   # Facets
@@ -735,7 +735,7 @@ ggplot(plot_data_grow) +
   # Dynamic y-axis scales
   ggh4x::facetted_pos_scales(
     y = list(
-      # Lower panels (Δ(Growth)) – only 0 tick, no labels
+      # Lower panels (Δ(E+ − E−)) – only 0 tick, no labels
       panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
         scale_y_continuous(
           breaks = 0,
@@ -769,8 +769,14 @@ ggplot(plot_data_grow) +
           ),
           expand = c(0, 0)
         ),
-      # Upper panels (Growth) – regular y-axis
-      panel == "Growth" ~ scale_y_continuous(expand = c(0, 0))
+      
+      # Upper panels (Growth) – manually reduced per species
+      panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(limits = c(-3.5, 1), expand = c(0, 0)),
+      panel == "Growth" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(limits = c(-2, 1.5), expand = c(0, 0)),
+      panel == "Growth" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(limits = c(-4, 2), expand = c(0, 0))
     )
   ) +
   # Labels and theme
@@ -788,13 +794,13 @@ ggplot(plot_data_grow) +
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 14, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 8.5, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )+
   geom_text(
     data = panel_labels_grow,
-    aes(x = 490, y = 1.8, label = label),
+    aes(x = 490, y = 0.8, label = label),
     fontface = "plain", size = 3.5, hjust = 0,
     inherit.aes = FALSE
   )
@@ -1237,11 +1243,11 @@ observed_data_flow <- demography_flow_ppt %>%  # or your dataset for flowering
     plot = .$plot,
     y = .$y
   ) %>%
-  group_by(plot, species, herb, clim, endo) %>%
-  summarise(
-    y_plot_mean = mean(y, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
+  # group_by(plot, species, herb, clim, endo) %>%
+  # summarise(
+  #   y_plot_mean = mean(y, na.rm = TRUE),
+  #   .groups = "drop"
+  # ) %>%
   mutate(panel = "#Inflorescences",
          climate_mm = exp(clim * ppt_sd + ppt_mean))
 
@@ -1256,6 +1262,15 @@ observed_data_flow$species <- factor(
   )
 )
 
+# species_levels <- c(
+#   "italic('Agrostis hyemalis')",
+#   "italic('Elymus virginicus')",
+#   "italic('Poa autumnalis')"
+# )
+
+# plot_data_flow$species <- factor(plot_data_flow$species, levels = species_levels)
+# observed_data_flow$species <- factor(observed_data_flow$species, levels = species_levels)
+# panel_labels_flow$species <- factor(panel_labels_flow$species, levels = species_levels)
 
 
 # observed_data_flow <- observed_data_flow %>%
@@ -1285,111 +1300,111 @@ panel_labels_flow <- data.frame(
   panel = "#Inflorescences"   # only place labels on upper panels
 )
 
-# Plot with updated panel labels
+#Plot with updated panel labels
 # Cairo::CairoPDF(
 #   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff.pdf",
 #   width = 6, height = 12
 # )
 # 
-# ggplot(plot_data_flow) +
-#   # Upper panel: predicted flowering counts (#Inflorescences)
-#   geom_line(
-#     data = subset(plot_data_flow, panel == "#Inflorescences"),
-#     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-#     size = 0.5
-#   ) +
-#   geom_ribbon(
-#     data = subset(plot_data_flow, panel == "#Inflorescences"),
-#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-#     alpha = 0.3, color = NA
-#   ) +
-#   geom_point(
-#     data = subset(observed_data_flow, panel == "#Inflorescences"),
-#     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-#     size = 0.75, position = position_jitter(width = 0, height = 0.01)
-#   ) +
-#   
-#   # Lower panel: Δ (E+ - E-) differences
-#   geom_line(
-#     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
-#     aes(x = climate_mm, y = mean), color = "black", size = 0.5
-#   ) +
-#   geom_ribbon(
-#     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
-#     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-#     fill = "#9B6B96", alpha = 0.5
-#   ) +
-#   
-#   # Facets: species vertically, herb horizontally
-#   ggh4x::facet_nested(
-#     species + panel ~ herb,
-#     scales = "free_y",
-#     space = "free_y",
-#     labeller = labeller(
-#       species = label_parsed,
-#       herb = c("0" = "Unfenced", "1" = "Fenced")
-#     )
-#   ) +
-#   
-#   # Facetted scales
-#   ggh4x::facetted_pos_scales(
-#     y = list(
-#       # Lower panels – Δ (E+ - E-) only
-#       panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Agrostis hyemalis')"],
-#                      y_limits_flow$ymax[y_limits_flow$species == "italic('Agrostis hyemalis')"]),
-#           expand = c(0, 0)
-#         ),
-#       panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Elymus virginicus')"],
-#                      y_limits_flow$ymax[y_limits_flow$species == "italic('Elymus virginicus')"]),
-#           expand = c(0, 0)
-#         ),
-#       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"], 50),
-#           expand = c(0, 0)
-#         ),
-#       
-#       # Upper panels – #Inflorescences custom limits per species
-#       panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-#         scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
-#       panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
-#         scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
-#       panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
-#         scale_y_continuous(limits = c(0, 100), expand = c(0, 0))
-#     )
-#   ) +
-#   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-#   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-#   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-#   theme_light() +
-#   theme(
-#     legend.position = c(0.075, 0.4),
-#     legend.title = element_text(size = 6),
-#     legend.text = element_text(size = 6),
-#     panel.spacing.y = unit(0.0, "cm"),
-#     axis.title = element_text(size = 8),
-#     axis.text = element_text(size = 6),
-#     axis.line.y = element_line(color = "black", size = 0.1),
-#     axis.line.x = element_line(color = "black", size = 0.1),
-#     text = element_text(family = "Arial"),
-#     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-#     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
-#     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-#   )
-# 
+ggplot(plot_data_flow) +
+  # Upper panel: predicted flowering counts (#Inflorescences)
+  geom_line(
+    data = subset(plot_data_flow, panel == "#Inflorescences"),
+    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
+    size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_flow, panel == "#Inflorescences"),
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+    alpha = 0.3, color = NA
+  ) +
+  geom_point(
+    data = subset(observed_data_flow, panel == "#Inflorescences"),
+    aes(x = climate_mm, y = y, color = factor(endo)),
+    size = 0.75, position = position_jitter(width = 0, height = 0.01)
+  ) +
+
+  # Lower panel: Δ (E+ - E-) differences
+  geom_line(
+    data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
+    aes(x = climate_mm, y = mean), color = "black", size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
+    fill = "#9B6B96", alpha = 0.5
+  ) +
+
+  # Facets: species vertically, herb horizontally
+  ggh4x::facet_nested(
+    species + panel ~ herb,
+    scales = "free_y",
+    space = "free_y",
+    labeller = labeller(
+      species = label_parsed,
+      herb = c("0" = "Unfenced", "1" = "Fenced")
+    )
+  ) +
+
+  # Facetted scales
+  ggh4x::facetted_pos_scales(
+    y = list(
+      # Lower panels – Δ (E+ - E-) only
+      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Agrostis hyemalis')"],
+                     y_limits_flow$ymax[y_limits_flow$species == "italic('Agrostis hyemalis')"]),
+          expand = c(0, 0)
+        ),
+      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Elymus virginicus')"],
+                     y_limits_flow$ymax[y_limits_flow$species == "italic('Elymus virginicus')"]),
+          expand = c(0, 0)
+        ),
+      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"], 50),
+          expand = c(0, 0)
+        ),
+
+      # Upper panels – #Inflorescences custom limits per species
+      panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
+      panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
+      panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(limits = c(0, 50), expand = c(0, 0))
+    )
+  ) +
+  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+  theme_light() +
+  theme(
+    legend.position = c(0.075, 0.4),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.0, "cm"),
+    axis.title = element_text(size = 8),
+    axis.text = element_text(size = 6),
+    axis.line.y = element_line(color = "black", size = 0.1),
+    axis.line.x = element_line(color = "black", size = 0.1),
+    text = element_text(family = "Arial"),
+    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+  )
+
 # dev.off()
 # 
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff_h.pdf",
-  width = 10, height = 5
+  width = 9, height = 5
 )
 
 ggplot(plot_data_flow) +
@@ -1405,7 +1420,7 @@ ggplot(plot_data_flow) +
   ) +
   geom_point(
     data = subset(observed_data_flow, panel == "#Inflorescences"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
+    aes(x = climate_mm, y = y, color = factor(endo)),
     size = 0.75, position = position_jitter(width = 0, height = 0.01)
   ) +
   geom_line(
@@ -1418,8 +1433,7 @@ ggplot(plot_data_flow) +
     aes(yintercept = 0),
     color = "black",
     linetype = "dashed",
-    size = 0.3,
-    inherit.aes = FALSE
+    size = 0.3
   )+
   geom_ribbon(
     data = subset(plot_data_flow, panel == "Δ (E+ - E-)"),
@@ -1453,11 +1467,11 @@ ggplot(plot_data_flow) +
           50
         ), expand = c(0, 0)),
       panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
+        scale_y_continuous(limits = c(0, 30), expand = c(0, 0)),
       panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
+        scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
       panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 100), expand = c(0, 0))
+        scale_y_continuous(limits = c(0, 70), expand = c(0, 0))
     )
   ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -1790,10 +1804,10 @@ observed_data_spik <- demography_spik_ppt %>%
     y = .$y
   ) %>%
   group_by(plot, species, herb, clim, endo) %>%
-  summarise(
-    y_plot_mean = mean(y, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
+  # summarise(
+  #   y_plot_mean = mean(y, na.rm = TRUE),
+  #   .groups = "drop"
+  # ) %>%
   mutate(panel = "#Spikelets",
          climate_mm = exp(clim * ppt_sd + ppt_mean))
 
@@ -1859,12 +1873,11 @@ ggplot(plot_data_spik) +
   geom_hline(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
     aes(yintercept = 0),
-    color = "black", linetype = "dashed", size = 0.3,
-    inherit.aes = FALSE
+    color = "black", linetype = "dashed", size = 0.3
   ) +
   geom_point(
     data = subset(observed_data_spik, panel == "#Spikelets"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
+    aes(x = climate_mm, y = y, color = factor(endo)),
     size = 0.75, position = position_jitter(width = 0, height = 0.01)
   ) +
   geom_ribbon(

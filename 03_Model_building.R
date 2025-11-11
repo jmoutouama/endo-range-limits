@@ -68,12 +68,40 @@ climate_site_scaled <- climate_site %>%
 #saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
 
 # calculate the average spikelet and inflorescence number for each census
-dat23 %>%
-  mutate(spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T)), digit = 0) -> dat23_spike
-dat24 %>%
-  mutate(spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = T), digit = 0)) -> dat24_spike
-dat25 %>%
-  mutate(spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = T), digit = 0), Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = T), digit = 0)) -> dat25_spike
+dat23_spike <- dat23 %>%
+  mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
+    spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
+dat24_spike <- dat24 %>%
+  mutate(
+    spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+    Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
+    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
+  )
+dat25_spike <- dat25 %>%
+  mutate(
+    spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+    Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
+    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
+  )
+# calculate the total spikelet and inflorescence number for each census
+# dat23_spike <- dat23 %>%
+#   mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
+#     spikelet_23 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE))
+# 
+# dat24_spike <- dat24 %>%
+#   mutate(
+#     spikelet_24 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
+#     Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE),
+#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#   )
+# 
+# dat25_spike <- dat25 %>%
+#   mutate(
+#     spikelet_25 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
+#     Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE),
+#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#   )
+
 
 # Check for duplicate Tag_IDs
 datini$Tag_ID <- as.character(datini$Tag_ID)
@@ -82,8 +110,8 @@ dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
 dat24_spike$Tag_ID <- as.character(dat24_spike$Tag_ID)
 dat25_spike$Tag_ID <- as.character(dat25_spike$Tag_ID)
 #view(dat24_spike)
-#dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
-#dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
+# dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
+# dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
 
 ## Merge the initial data to the 23 to get the Tag ID for each elements -----
 datini23_spike <- dat23_spike %>%
@@ -114,20 +142,14 @@ dat25_spike_sp_site_tag<- dat25_spike %>%
 dat2324 <- datini23_spike %>%
   left_join(
     dat24_spike_sp_site_tag %>%
-      dplyr::select(Tag_ID, Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
+      dplyr::select(Tag_ID, Flowered_24,Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
     by = "Tag_ID"
   ) 
-
-#dat2324 %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
-# dat2324 %>%
-#   group_by(Tag_ID,census_year) %>%
-#   summarise(tag_rep = n()) %>%
-#   filter(tag_rep>1)
 
 dat2425 <- dat24_spike_sp_site_tag %>%
   left_join(
     dat25_spike_sp_site_tag %>%
-      dplyr::select(Tag_ID, Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
+      dplyr::select(Tag_ID, Flowered_25,Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
     by = "Tag_ID"
   )
 
@@ -136,6 +158,8 @@ dat2324%>%
   mutate(
     tiller_t = Tiller_23,
     tiller_t1 = Tiller_24,
+    Flowered_t=Flowered_23,
+    Flowered_t1=Flowered_24,
     inf_t = Inf_23,
     inf_t1 = Inf_24,
     spikelet_t = spikelet_23,
@@ -155,6 +179,8 @@ dat2324%>%
     Endo,
     tiller_t,
     tiller_t1,
+    Flowered_t,
+    Flowered_t1,
     inf_t,
     inf_t1,
     spikelet_t,
@@ -173,6 +199,8 @@ dat2425 %>%
   mutate(
     tiller_t = Tiller_24,
     tiller_t1 = Tiller_25,
+    Flowered_t=Flowered_24,
+    Flowered_t1=Flowered_25,
     inf_t = Inf_24,
     inf_t1 = Inf_25,
     spikelet_t = spikelet_24,
@@ -192,6 +220,8 @@ dat2425 %>%
     Endo,
     tiller_t,
     tiller_t1,
+    Flowered_t,
+    Flowered_t1,
     inf_t,
     inf_t1,
     spikelet_t,
@@ -507,7 +537,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 # saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 # saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
 
-# Flowering----
+# Inflorescence----
 demography_climate %>%
   filter(tiller_t1 > 0) %>%
   dplyr::select(
@@ -598,16 +628,16 @@ bayesplot::mcmc_trace(posterior_flow_abio_bio_endo,
 ) + theme_bw()
 
 ## Save RDS file for further use
-saveRDS(fit_flow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo_linear.rds')
-saveRDS(fit_flow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo.rds')
+# saveRDS(fit_flow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo_linear.rds')
+# saveRDS(fit_flow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo.rds')
 
 # Spikelet----
 demography_climate %>%
   filter(Species %in% c("ELVI", "POAU")) %>%
-  filter(tiller_t1 > 0) %>%
+  filter(tiller_t1 > 0,inf_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site,site_year, Plot, site_species_plot, Endo, Herbivory,
-    tiller_t, spikelet_t1, cum_ppt,ppt_scaled
+    tiller_t, spikelet_t1, cum_ppt,ppt_scaled,inf_t1
   ) %>%
   na.omit() %>%
   mutate(
@@ -625,6 +655,7 @@ demography_climate %>%
     ppt = ppt_scaled
   ) -> demography_climate_spik
 
+#sum(demography_climate_spik$spikelet_t1 == 0)
 ### Precipitation
 demography_spik_ppt <- list(
   nSpp = demography_climate_spik$Species %>% n_distinct(),
@@ -692,8 +723,8 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 ) + theme_bw()
 
 ## Save RDS file for further use
-saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
-saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
+# saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
+# saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
 
 # Posterior predictive check----
 # Quadratic models
@@ -701,7 +732,9 @@ saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range 
 inv_logit <- function(x) 1 / (1 + exp(-x))
 
 # Function to simulate posterior predictive samples for each vital rate
-simulate_ppc <- function(pred_matrix, phi = NULL, family = c("bernoulli", "normal", "negbinomial")) {
+# Function to simulate posterior predictive samples for each vital rate
+simulate_ppc <- function(pred_matrix, phi = NULL, zi = NULL,
+                         family = c("bernoulli", "normal", "negbinomial", "zinb")) {
   family <- match.arg(family)
   n_iter <- nrow(pred_matrix)
   N <- ncol(pred_matrix)
@@ -710,24 +743,34 @@ simulate_ppc <- function(pred_matrix, phi = NULL, family = c("bernoulli", "norma
   if (family == "bernoulli") {
     probs <- inv_logit(pred_matrix)
     for (i in 1:n_iter) {
-      y_rep[i, ] <- rbinom(n = N, size = 1, prob = probs[i, ])
+      y_rep[i, ] <- rbinom(N, size = 1, prob = probs[i, ])
     }
+    
   } else if (family == "normal") {
-    # phi is sd here
     for (i in 1:n_iter) {
       y_rep[i, ] <- rnorm(N, mean = pred_matrix[i, ], sd = phi[i])
     }
+    
   } else if (family == "negbinomial") {
-    # phi is size parameter
     for (i in 1:n_iter) {
       mu_i <- exp(pred_matrix[i, ])
       size_i <- phi[i]
-      y_rep[i, ] <- rnbinom(n = N, size = size_i, mu = mu_i)
+      y_rep[i, ] <- rnbinom(N, size = size_i, mu = mu_i)
+    }
+    
+  } else if (family == "zinb") {
+    for (i in 1:n_iter) {
+      mu_i <- exp(pred_matrix[i, ])
+      size_i <- phi[i]
+      # zi is scalar: same zero-inflation probability for all observations
+      is_zero <- rbinom(N, size = 1, prob = zi)
+      y_nb <- rnbinom(N, size = size_i, mu = mu_i)
+      y_rep[i, ] <- ifelse(is_zero == 1, 0, y_nb)
     }
   }
+  
   return(y_rep)
 }
-
 bayesplot::color_scheme_set("blue")
 ## Survival Model full model----
 fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/tsyih2vbg04zf9odu2goe/fit_surv_abio_bio_endo.rds?rlkey=tp4no6tfv5mb6f85jwtkqfuyg&dl=1"))
@@ -735,7 +778,7 @@ post_surv <- rstan::extract(fit_surv_abio_bio_endo)
 pred_surv <- post_surv$predS
 y_surv <- demography_surv_ppt$y
 y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
-p_surv <- ppc_dens_overlay(y_surv, y_rep_surv[1:500, ]) + ggtitle("Survival")
+p_surv <- ppc_dens_overlay(y_surv, y_rep_surv) + ggtitle("Survival")
 
 ## Growth Model full model----
 fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/4r5062xbfc66gqh5l6xbz/fit_grow_abio_bio_endo.rds?rlkey=spnn4nj0zvzfsss1kn3qsnocj&dl=1"))
@@ -744,25 +787,27 @@ pred_grow <- post_grow$predG
 sigma_grow <- post_grow$sigma
 y_grow <- demography_grow_ppt$y
 y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
-p_grow <- ppc_dens_overlay(y_grow, y_rep_grow[1:500, ]) + ggtitle("Growth")
+p_grow <- ppc_dens_overlay(y_grow, y_rep_grow) + ggtitle("Growth")
 
 ## Flowering Model full model ----
 fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/5717xz8nt6sph3neq6jj9/fit_flow_abio_bio_endo.rds?rlkey=p4s7391sdqgepd89x53tbgw82&dl=1"))
 post_flow <- rstan::extract(fit_flow_abio_bio_endo)
-pred_flow <- post_flow$predF
-phi_flow <- post_flow$phi
+pred_flow <- post_flow$predF      # linear predictor
+phi_flow <- post_flow$phi         # dispersion
+zi_flow <- post_flow$zi           # scalar zero-inflation
 y_flow <- demography_flow_ppt$y
-y_rep_flow <- simulate_ppc(pred_flow, phi = phi_flow, family = "negbinomial")
-p_flow <- ppc_dens_overlay(y_flow, y_rep_flow[1:500, ]) + ggtitle("Inflorescence")
+y_rep_flow <- simulate_ppc(pred_flow, phi = phi_flow, zi = zi_flow, family = "zinb")
+p_flow <- ppc_dens_overlay(y_flow, y_rep_flow) + ggtitle("Inflorescence")+xlim(0, 75) 
 
 ## Spikelet Model full model ----
 fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pebuc3ysvv9rrr2dvihl2/fit_spik_abio_bio_endo.rds?rlkey=f1l4q9ucvk4h4236600zoyjci&dl=1"))
 post_spik <- rstan::extract(fit_spik_abio_bio_endo)
 pred_spik <- post_spik$predF
+#zi_spik <- post_spik$zi           # scalar zero-inflation
 phi_spik <- post_spik$phi
 y_spik <- demography_spik_ppt$y
-y_rep_spik <- simulate_ppc(pred_spik, phi = phi_spik, family = "negbinomial")
-p_spik <- ppc_dens_overlay(y_spik, y_rep_spik[1:500, ]) + ggtitle("Spikelet")
+y_rep_spik <- simulate_ppc(pred_spik, phi = phi_spik,family = "negbinomial")
+p_spik <- ppc_dens_overlay(y_spik, y_rep_spik) + ggtitle("Spikelet")
 
 # Combine all PPC plots full model ----
 combined_plot <- (p_surv | p_grow) / (p_flow | p_spik) +
@@ -798,18 +843,20 @@ p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear[1:500, ]) + g
 fit_flow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
 post_flow_linear <- rstan::extract(fit_flow_linear)
 pred_flow_linear <- post_flow_linear$predF
+zi_flow_linear <- post_flow_linear$zi           # scalar zero-inflation
 phi_flow_linear <- post_flow_linear$phi
 y_flow_linear <- demography_flow_ppt$y
-y_rep_flow_linear <- simulate_ppc(pred_flow_linear, phi = phi_flow_linear, family = "negbinomial")
-p_flow_linear <- ppc_dens_overlay(y_flow_linear, y_rep_flow_linear[1:500, ]) + ggtitle("Inflorescence")
+y_rep_flow_linear <- simulate_ppc(pred_flow_linear, zi =zi_flow_linear,phi = phi_flow_linear, family = "zinb")
+p_flow_linear <- ppc_dens_overlay(y_flow_linear, y_rep_flow_linear[1:500, ]) + ggtitle("Inflorescence")+xlim(0,100)
 
 ## Spikelet Model linear ----
 fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
 post_spik_linear <- rstan::extract(fit_spik_linear)
 pred_spik_linear <- post_spik_linear$predF
+zi_spik_linear <- post_spik_linear$zi           # scalar zero-inflation
 phi_spik_linear <- post_spik_linear$phi
 y_spik_linear <- demography_spik_ppt$y
-y_rep_spik_linear <- simulate_ppc(pred_spik_linear, phi = phi_spik_linear, family = "negbinomial")
+y_rep_spik_linear <- simulate_ppc(pred_spik_linear,zi =y_spik_linear, phi = phi_spik_linear, family = "negbinomial")
 p_spik_linear <- ppc_dens_overlay(y_spik_linear, y_rep_spik_linear[1:500, ]) + ggtitle("Spikelet")
 
 ## Combine all PPC plots linear ----

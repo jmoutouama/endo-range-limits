@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  9 NOV 2025 10:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  10 NOV 2025 17:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1289,13 +1289,12 @@ ine 788.
 
 
  <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/combined_ppc_plots.pdf, id=477, 505.89pt x 433.62pt>
-File: ../Figure/combined_ppc_plots.pdf Graphic file (type pdf)
-<use ../Figure/combined_ppc_plots.pdf>
-Package pdftex.def Info: ../Figure/combined_ppc_plots.pdf  used on input line 7
-99.
-(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
-<../Figure/PrSurvival_diff_stat.pdf, id=478, 505.89pt x 433.62pt>
+<../Figure/PPC_linear.png, id=477, 573.14125pt x 485.815pt>
+File: ../Figure/PPC_linear.png Graphic file (type png)
+<use ../Figure/PPC_linear.png>
+Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 799.
+(pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
+<../Figure/PrSurvival_diff_stat.pdf, id=479, 505.89pt x 433.62pt>
 File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
@@ -1305,8 +1304,8 @@ Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
 
 [31
 
- <../Figure/combined_ppc_plots.pdf>]
-<../Figure/Growth_diff_stat.pdf, id=493, 505.89pt x 433.62pt>
+ <../Figure/PPC_linear.png>]
+<../Figure/Growth_diff_stat.pdf, id=486, 505.89pt x 433.62pt>
 File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 818
@@ -1315,7 +1314,7 @@ Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 818
 
 
 [32 <../Figure/PrSurvival_diff_stat.pdf>]
-<../Figure/Flowering_diff_stat.pdf, id=519, 505.89pt x 361.35pt>
+<../Figure/Flowering_diff_stat.pdf, id=512, 505.89pt x 361.35pt>
 File: ../Figure/Flowering_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Flowering_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Flowering_diff_stat.pdf  used on input line 
@@ -1324,7 +1323,7 @@ Package pdftex.def Info: ../Figure/Flowering_diff_stat.pdf  used on input line
 
 
 [33 <../Figure/Growth_diff_stat.pdf>]
-<../Figure/Spike_diff_stat.pdf, id=547, 433.62pt x 361.35pt>
+<../Figure/Spike_diff_stat.pdf, id=540, 433.62pt x 361.35pt>
 File: ../Figure/Spike_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spike_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 834.
@@ -1343,6 +1342,10 @@ Package natbib Warning: There were undefined citations.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 3D7480E781F3C04A6D4CB741C9BD1508;687.
  )
@@ -1352,7 +1355,7 @@ Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 ### bottom level 
 Here is how much of TeX's memory you used:
  30000 strings out of 473190
- 550100 string characters out of 5715801
+ 550020 string characters out of 5715801
  954441 words of memory out of 5000000
  51689 multiletter control sequences out of 15000+600000
  685085 words of font info for 827 fonts, out of 8000000 for 9000
@@ -1368,10 +1371,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (35 pages, 6458429 bytes).
+Output written on Range_limit_v1.pdf (35 pages, 818134 bytes).
 PDF statistics:
- 667 PDF objects out of 1000 (max. 8388607)
- 518 compressed objects within 6 object streams
+ 660 PDF objects out of 1000 (max. 8388607)
+ 511 compressed objects within 6 object streams
  99 named destinations out of 1000 (max. 500000)
  201313 words of extra memory for PDF output out of 221844 (max. 10000000)
 

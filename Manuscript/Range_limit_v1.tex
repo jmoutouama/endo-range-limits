@@ -543,21 +543,21 @@ TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
 
 \begin{table}[ht]
 \centering
-\caption{Comparison of candidate models (quadratic vs. monotonic) for each vital rate based on leave-one-out cross-validation (LOOCV). 
+\caption{Comparison of candidate models (quadratic vs. linear) for each vital rate based on leave-one-out cross-validation (LOOCV). 
 ELPD difference is relative to the best model.}
 \label{tab:model_comparison}
 \begin{tabular}{l l r r}
 \hline
 Vital rate & Model type & ELPD difference & SE difference \\
 \hline
-Survival   & Quadratic  & 0       & 0.000 \\
-Survival   & Monotonic  & -0.653  & 0.997 \\
-Growth     & Quadratic  & 0       & 0.000 \\
-Growth     & Monotonic  & -0.310  & 1.040 \\
-Flowering  & Quadratic  & 0       & 0.000 \\
-Flowering  & Monotonic  & -0.562  & 1.010 \\
-Spikelet   & Quadratic  & 0       & 0.078 \\
-Spikelet   & Monotonic  & -0.078  & 1.300 \\
+Survival   & Quadratic & 0       & 0.000 \\
+Survival   & Linear    & -1.230  & 0.947 \\
+Growth     & Quadratic & 0       & 0.000 \\
+Growth     & Linear    & -0.544  & 0.924 \\
+Flowering  & Quadratic & 0       & 0.000 \\
+Flowering  & Linear    & -0.763  & 0.956 \\
+Spikelet   & Quadratic & 0       & 0.000 \\
+Spikelet   & Linear    & -0.097  & 0.957 \\
 \hline
 \end{tabular}
 \end{table}
@@ -796,7 +796,7 @@ Spikelet & \textit{Poa autumnalis} & bendoherbclim & 0.873 & 0.682 & 1.119 & 0.1
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/combined_ppc_plots.pdf}
+\includegraphics[width=1\textwidth]{../Figure/PPC_linear.png}
 \caption{
 Posterior predictive checks for the full demographic model. 
 Dark blue lines show observed data ($y$), and light blue lines show replicated datasets generated from posterior predictions ($y_{\text{rep}}$). 

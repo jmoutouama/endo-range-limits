@@ -468,7 +468,7 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
     aes(xintercept = ppt_avg),
     linetype = "dotted",
     color = "#0072B2",
-    size = 0.6
+    size = 0.8
   ) +
   # Facets
   facet_grid(metric ~ species_label, scales = "free_y",
@@ -687,7 +687,7 @@ panel_labels_grow <- data.frame(
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 6.5, height = 8.5
+  width = 7, height = 8.75
 )
 ggplot(plot_data_grow) +
   # Upper panel: predicted growth
@@ -789,12 +789,12 @@ ggplot(plot_data_grow) +
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 8),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
     strip.text.y = element_text(size = 8.5, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )+
@@ -1053,7 +1053,7 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
     aes(xintercept = ppt_avg),
     linetype = "dotted",
     color = "#0072B2",
-    size = 0.6
+    size = 0.8
   ) +
   facet_grid(metric ~ species_label, scales = "free_y",
              labeller = labeller(
@@ -1085,7 +1085,7 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
 
 dev.off()
 
-# Flowering----
+# Inflorescence----
 demography_climate %>%
   filter(tiller_t1 > 0) %>%
   dplyr::select(
@@ -1301,11 +1301,10 @@ panel_labels_flow <- data.frame(
 )
 
 #Plot with updated panel labels
-# Cairo::CairoPDF(
-#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff.pdf",
-#   width = 6, height = 12
-# )
-# 
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff.pdf",
+  width = 7, height = 10
+)
 ggplot(plot_data_flow) +
   # Upper panel: predicted flowering counts (#Inflorescences)
   geom_line(
@@ -1367,17 +1366,18 @@ ggplot(plot_data_flow) +
       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(
           breaks = 0, labels = 0, minor_breaks = NULL,
-          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"], 50),
+          limits = c(y_limits_flow$ymin[y_limits_flow$species == "italic('Poa autumnalis')"],
+                     y_limits_flow$ymax[y_limits_flow$species == "italic('Poa autumnalis')"]),
           expand = c(0, 0)
         ),
 
       # Upper panels – #Inflorescences custom limits per species
       panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 20), expand = c(0, 0)),
+        scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
       panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
       panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 50), expand = c(0, 0))
+        scale_y_continuous(limits = c(0, 25), expand = c(0, 0))
     )
   ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -1399,8 +1399,8 @@ ggplot(plot_data_flow) +
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )
 
-# dev.off()
-# 
+dev.off()
+
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Flowering_diff_h.pdf",
@@ -1668,7 +1668,7 @@ dev.off()
 # Spikelet----
 demography_climate %>%
   filter(Species %in% c("ELVI", "POAU")) %>%
-  filter(tiller_t1 > 0) %>%
+  filter(tiller_t1 > 0,inf_t1 > 0) %>%
   dplyr::select(
     Species, Population, Site,site_year, Plot, site_species_plot, Endo, Herbivory,
     tiller_t, spikelet_t1, cum_ppt,ppt_scaled
@@ -2078,7 +2078,7 @@ ggplot(
     aes(xintercept = ppt_avg),
     linetype = "dotted",
     color = "#0072B2",
-    size = 0.6
+    size = 0.8
   ) +
   facet_grid(
     metric ~ species_label,

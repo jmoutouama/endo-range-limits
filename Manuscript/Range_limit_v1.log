@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  10 NOV 2025 17:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  10 NOV 2025 17:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1176,15 +1176,15 @@ Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 382.
 
 
 [11]
-<../Figure/Growth_diff.pdf, id=259, 469.755pt x 614.295pt>
+<../Figure/Growth_diff.pdf, id=259, 505.89pt x 632.3625pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
 Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 393.
-(pdftex.def)             Requested size: 469.75502pt x 614.29349pt.
+(pdftex.def)             Requested size: 469.75502pt x 587.20334pt.
 
 
 [12 <../Figure/PrSurvival_diff.pdf>]
-Overfull \vbox (33.86348pt too high) has occurred while \output is active []
+Overfull \vbox (6.77333pt too high) has occurred while \output is active []
 
 
 
@@ -1255,7 +1255,7 @@ Overfull \hbox (42.68626pt too wide) in paragraph at lines 502--521
 
 [26]
 
-LaTeX Warning: Float too large for page by 14.94449pt on input line 696.
+LaTeX Warning: Float too large for page by 14.94449pt on input line 697.
 
 
 
@@ -1271,7 +1271,7 @@ LaTeX Warning: Float too large for page by 14.94449pt on input line 696.
 
 ]
 
-LaTeX Warning: Float too large for page by 27.84465pt on input line 780.
+LaTeX Warning: Float too large for page by 27.84465pt on input line 782.
 
 
 
@@ -1280,7 +1280,7 @@ LaTeX Warning: Float too large for page by 27.84465pt on input line 780.
 File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use ../Figure/Climate_prism_2023_2025.pdf>
 Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
-ine 788.
+ine 790.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
 
 
@@ -1292,13 +1292,13 @@ ine 788.
 <../Figure/PPC_linear.png, id=477, 573.14125pt x 485.815pt>
 File: ../Figure/PPC_linear.png Graphic file (type png)
 <use ../Figure/PPC_linear.png>
-Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 799.
+Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 801.
 (pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
 <../Figure/PrSurvival_diff_stat.pdf, id=479, 505.89pt x 433.62pt>
 File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
- 810.
+ 812.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1308,7 +1308,7 @@ Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
 <../Figure/Growth_diff_stat.pdf, id=486, 505.89pt x 433.62pt>
 File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 818
+Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 820
 .
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
@@ -1318,7 +1318,7 @@ Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 818
 File: ../Figure/Flowering_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Flowering_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Flowering_diff_stat.pdf  used on input line 
-826.
+828.
 (pdftex.def)             Requested size: 469.75502pt x 335.54477pt.
 
 
@@ -1326,7 +1326,7 @@ Package pdftex.def Info: ../Figure/Flowering_diff_stat.pdf  used on input line
 <../Figure/Spike_diff_stat.pdf, id=540, 433.62pt x 361.35pt>
 File: ../Figure/Spike_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spike_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 834.
+Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 836.
 
 (pdftex.def)             Requested size: 469.75502pt x 391.48175pt.
 
@@ -1342,10 +1342,6 @@ Package natbib Warning: There were undefined citations.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 (rerunfilecheck)             Checksum: 3D7480E781F3C04A6D4CB741C9BD1508;687.
  )
@@ -1356,7 +1352,7 @@ Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
 Here is how much of TeX's memory you used:
  30000 strings out of 473190
  550020 string characters out of 5715801
- 954441 words of memory out of 5000000
+ 954438 words of memory out of 5000000
  51689 multiletter control sequences out of 15000+600000
  685085 words of font info for 827 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1371,7 +1367,7 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (35 pages, 818134 bytes).
+Output written on Range_limit_v1.pdf (35 pages, 818256 bytes).
 PDF statistics:
  660 PDF objects out of 1000 (max. 8388607)
  511 compressed objects within 6 object streams

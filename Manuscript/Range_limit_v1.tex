@@ -422,18 +422,37 @@ Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
 \end{figure}
 
 \subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
-Endophytes were most mutualistic under wet conditions or when hosts were exposed to herbivores, but they reduced growth or survival under dry conditions with low herbivory (Fig.~\ref{fig:bestdriver}). 
-Survival increased under wetter conditions due to the Endophyte $\times$ Climate interaction (OR = 1.21--1.36; Pr(OR $>$ 1) = 0.68--0.81;Table~\ref{tab:interactions}). Herbivory modified these benefits in a species-specific manner: \textit{Poa autumnalis} showed strongly enhanced survival when herbivores were present (OR = 1.94; Pr = 0.88;Table~\ref{tab:interactions}), whereas responses in \textit{Agrostis hyemalis} and \textit{Elymus virginicus} were weak or uncertain. The three-way interaction further boosted survival in \textit{A. hyemalis} and \textit{E. virginicus} under herbivore exclusion in wet climates (OR = 1.15--1.45; Pr = 0.63--0.77;Table~\ref{tab:interactions}), but had little effect on \textit{P. autumnalis}.  
-Growth responses were modest. Endophyte $\times$ Climate effects were near zero in \textit{A. hyemalis} and \textit{E. virginicus} (Pr($>$0) $\approx$ 0.46--0.49;Table~\ref{tab:interactions}), but moderately positive in \textit{P. autumnalis} (Pr = 0.87). Herbivory tended to reduce growth in the first two species (Pr $\approx$ 0.10--0.17) while increasing it in \textit{P. autumnalis} (Pr = 0.93). The three-way interaction was only strongly negative in \textit{P. autumnalis} (mean = --0.55; Pr $<$ 0.01;Table~\ref{tab:interactions}).  
-Reproduction was enhanced under combined endophyte and climate or herbivory effects. Flowering and spikelet output increased with Endophyte $\times$ Climate (IRR = 1.09--1.18; Pr(IRR $>$ 1) $>$ 0.66;Table~\ref{tab:interactions}) and Endophyte $\times$ Herbivory in \textit{P. autumnalis} (IRR = 1.31--1.96; Pr $>$ 0.96;Table~\ref{tab:interactions}), whereas three-way interactions were negligible. 
+Grass-endophyte symbiosis, whether mutualistic or parasitic, was primarily modulated by climatic variation rather than by herbivore pressure. 
+Across all vital rates (survival, growth, inflorescence, and spikelet production), models comparing different drivers of the endophyte--host interaction consistently identified the \textit{Endophyte~$\times$~Climate} model as the best predictor of host demography, based on expected log predictive density (ELPD; higher values indicate better fit; Table~\ref{tab:comp_table_driver}). 
+For instance, for survival, the \textit{Endophyte~$\times$~Climate} model outperformed the \textit{Endophyte~$\times$~Herbivory} model ($\Delta \mathrm{ELPD} = -2.1$, SE = 2.8), and including the three-way \textit{Endophyte~$\times$~Climate~$\times$~Herbivory} interaction further decreased predictive performance ($\Delta \mathrm{ELPD} = -5.0$, SE = 1.9). 
+Similar patterns were observed for growth, inflorescence, and spikelet production, indicating that climatic context is the primary driver of variation in the demographic consequences of endophyte symbiosis, whereas herbivory has weaker or context-dependent effects.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{../Figure/Figure6.pdf}
-    \caption{Standardized coefficients from Bayesian models showing how endophytes interact with climate and herbivore access to influence demographic rates of host grasses. Panels correspond to (a) survival, (b) growth, (c) flowering (inflorescence production), and (d) spikelet production. 
-    Coefficients represent standardized effect sizes for interaction terms: Endophyte~$\times$~Climate, Endophyte~$\times$~Herbivory, and Endophyte~$\times$~Herbivory~$\times$~Climate for the three species shown in the plot: \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (POAU).}
-    \label{fig:bestdriver}
-\end{figure}
+\begin{table}[ht]
+\centering
+\caption{Model comparison of drivers of grass- endophyte symbiosis across four fitness components (vital rates). 
+$\Delta$ELPD indicates the difference in expected log predictive density relative to the best-fitting model; 
+SE is the standard error of the difference.}
+\begin{tabular}{lllrr}
+\toprule
+\textbf{Vital rate} & \textbf{Model type} & & \textbf{$\Delta$ELPD} & \textbf{SE} \\
+\midrule
+Survival      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.11$ & 2.81 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-4.98$ & 1.89 \\
+Growth        & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-0.19$ & 2.81 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-1.81$ & 2.75 \\
+Inflorescence & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.62$ & 3.53 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.78$ & 2.63 \\
+Spikelet      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.01$ & 3.82 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.16$ & 2.43 \\
+\bottomrule
+\end{tabular}
+\label{tab:comp_table_driver}
+\end{table}
+
 
 \section*{Acknowledgements}
 This research was supported by National Science Foundation Division of Environmental Biology awards.

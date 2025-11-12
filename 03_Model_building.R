@@ -1,4 +1,4 @@
-# Purpose: Fit vital rate models to test the effect of grass-endophyte symbiosis on  vital rate models (survival, growth, flowering and spikelet).
+# Model building to compare linear vs quadratic effects and identify drivers of grass-endophyte symbiosis outcomes
 # Authors: Jacob Moutouama
 # Date last modified (Y-M-D):
 rm(list = ls())
@@ -424,9 +424,30 @@ fit_sur_bio_endo <- stan(
   seed = 13
 )
 
+fit_surv_endo_clim <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_clim.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  seed = 13
+)
+
+fit_surv_endo_herb <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_herb.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  seed = 13
+)
 ## Save RDS file for further use
 # saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
 # saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
+# saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
+# saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
 
 # Growth----
 ## Read and format survival data to build the model
@@ -532,10 +553,29 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
                       )
 ) + theme_bw()
 
+fit_grow_endo_clim <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_clim.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+fit_grow_endo_herb <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_herb.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
 
 ## Save RDS file for further use
 # saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 # saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
+# saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
+# saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
 
 # Flowering----
 demography_climate %>%
@@ -721,9 +761,29 @@ bayesplot::mcmc_trace(posterior_flow_abio_bio_endo,
                       )
 ) + theme_bw()
 
+fit_inf_endo_clim <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_clim.stan",
+  data = demography_inf_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+fit_inf_endo_herb <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_herb.stan",
+  data = demography_inf_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
 ## Save RDS file for further use
 # saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
 # saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
+saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
+saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
 
 # Spikelet----
 demography_climate %>%
@@ -816,9 +876,27 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
                       )
 ) + theme_bw()
 
+fit_spik_endo_clim <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_clim.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control =sim_pars$control,
+  seed = 13)
+fit_spik_endo_herb <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_herb.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control =sim_pars$control,
+  seed = 13)
 ## Save RDS file for further use
 # saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
 # saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
+saveRDS(fit_spik_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_clim.rds')
+saveRDS(fit_spik_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_herb.rds')
 
 # Posterior predictive check----
 # Quadratic models

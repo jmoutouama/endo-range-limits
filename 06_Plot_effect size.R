@@ -75,18 +75,22 @@ summary_stats_surv_ppt <- plot_data_surv_ppt %>%
   summarize(
     mean_estimate = mean(estimate),
     median_estimate = median(estimate),
+    prob_gt0 = mean(estimate > 0),   # probability effect is positive
+    prob_lt0 = mean(estimate < 0),   # probability effect is negative
     lower_CI = quantile(estimate, 0.025),
-    upper_CI = quantile(estimate, 0.975)
+    upper_CI = quantile(estimate, 0.975),
+    .groups = "drop"
   ) %>%
-  ungroup()
-#Add odds ratio and credible intervals
-summary_stats_surv_ppt <- summary_stats_surv_ppt %>%
   mutate(
     OR_mean   = exp(mean_estimate),
     OR_median = exp(median_estimate),
     OR_lower  = exp(lower_CI),
-    OR_upper  = exp(upper_CI)
+    OR_upper  = exp(upper_CI),
+    strong_effect = (prob_gt0 > 0.8 | prob_lt0 > 0.8),
+    # Fill color: use driver color if strong, else white
+    fill_color = ifelse(strong_effect, parameter, "empty")
   )
+
 # Change species names
 # Convert species numeric IDs to abbreviations
 summary_stats_surv_ppt$species <- factor(
@@ -105,71 +109,75 @@ summary_stats_surv_ppt$parameter_label <- recode(summary_stats_surv_ppt$paramete
 panel_labels <- data.frame(
   label = c("(a)", "(b)", "(c)", "(d)"),
   x = c(-1, -0.9, 0, 0.55),  # x positions for each label
-  y = c(3.45, 3.45, 3.5, 2.45)       # y positions for each label
+  y = c(3.35, 3.38, 3.34, 2.38)       # y positions for each label
 )
-
-# Add probability that OR > 1
-summary_stats_surv_ppt <- summary_stats_surv_ppt %>%
-  rowwise() %>%
-  mutate(
-    prob_1 = {
-      # extract posterior for the parameter
-      posterior <- posterior_samples_surv_ppt[[parameter]]
-      # species index in posterior
-      sp_idx <- as.numeric(species)
-      # probability that exp(posterior) > 1
-      mean(exp(posterior[, sp_idx]) > 1)
-    }
-  ) %>%
-  ungroup()
 
 # Create the forest + density plot
 Fig6a <- ggplot() +
-  # Median points
-  geom_point(
-    data = summary_stats_surv_ppt,
-    aes(x = OR_mean, y = species, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    size = 2
+  geom_tile(
+    data = summary_stats_surv_ppt %>%
+      distinct(species) %>%
+      mutate(
+        y_id = as.numeric(factor(species)),
+        fill_col = rep(c("gray90", "gray90","gray90"), length.out = n())
+      ),
+    aes(y = species, x = 0, fill = fill_col),
+    width = Inf,
+    height = 0.98,
+    inherit.aes = FALSE,
+    alpha = 0.1
   ) +
   # Horizontal error bars (95% CI)
   geom_errorbar(
     data = summary_stats_surv_ppt,
     aes(y = species, xmin = OR_lower, xmax = OR_upper, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 1
+    position = position_dodge(width = 0.4),
+    height = 0.4, linewidth = 0.8
   ) +
-  # Limitation of x axis
-  xlim(-1.5,7) +
-  # Reference line at OR = 1
+  # Median points with fill reflecting strong effect
+  geom_point(
+    data = summary_stats_surv_ppt,
+    aes(x = OR_mean, y = species, color = parameter_label, fill = fill_color),
+    shape = 21,  # circle with border
+    position = position_dodge(width = 0.4),
+    size = 5,
+    stroke = 1.2
+  ) +
+  xlim(-1,7) +
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray30") +
-  # Manual colors
-  scale_fill_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
+  # Border color
   scale_color_manual(values = c(
     "Endophyte × Climate" = "#1b9e77",
     "Endophyte × Herbivory" = "#d95f02",
     "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
-  labs(
-    x = "Effect size (odds ratio)",
-    y = NULL,
-    fill = "Drivers",
-    color = "Drivers"
+  ), 
+  guide = "none") +
+  # Fill color
+  scale_fill_manual(
+    values = c(
+      "bendoclim" = "#1b9e77",
+      "bendoherb" = "#d95f02",
+      "bendoherbclim" = "#7570b3",
+      "empty" = "white"
+    )
   ) +
+  labs(
+    x = "Effect size (Odds Ratio)",
+    y = NULL
+  ) +
+  scale_y_discrete(expand = c(0,0)) +
   theme_bw(base_size = 12) +
   geom_text(
-    data = panel_labels[1, ],  # first label "a"
+    data = panel_labels[1, ],
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
-  )+
+  ) +
   theme(
-    legend.position = "bottom",
-    panel.grid.minor = element_blank()
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.spacing = unit(0, "lines")
   )
 
 # selected_params <- c("bendoclim", "bendoherb", "bendoherbclim")
@@ -260,18 +268,25 @@ plot_data_grow_ppt <- bind_rows(grow_ppt_long_data)
 plot_data_grow_ppt$species <- as.numeric(gsub("V", "", plot_data_grow_ppt$species))
 
 # Summarize posterior: mean, median, 95% credible intervals
+# Update summary stats with strong/weak effect
 summary_stats_grow_ppt <- plot_data_grow_ppt %>%
   group_by(parameter, species) %>%
   summarize(
     mean_estimate = mean(estimate),
     median_estimate = median(estimate),
-    prob_gt0=mean(estimate > 0),
+    prob_gt0 = mean(estimate > 0),
+    prob_lt0 = mean(estimate < 0),
     lower_CI = quantile(estimate, 0.025),
     upper_CI = quantile(estimate, 0.975),
     .groups = "drop"
+  ) %>%
+  mutate(
+    strong_effect = (prob_gt0 > 0.8 | prob_lt0 > 0.8),
+    # Fill color: if strong, use driver color; else white
+    fill_color = ifelse(strong_effect, parameter, "empty")
   )
 
-
+# Update summary stats with strong/weak effect
 
 # Map species numeric IDs to abbreviations
 summary_stats_grow_ppt$species <- factor(
@@ -289,177 +304,183 @@ param_labels <- c(
 summary_stats_grow_ppt$parameter_label <- recode(summary_stats_grow_ppt$parameter, !!!param_labels)
 #view(summary_stats_grow_ppt)
 # Plot
+
+# # Define fill colors (driver colors + white for weak effect)
+# fill_values <- c(
+#   "bendoclim" = "#1b9e77",
+#   "bendoherb" = "#d95f02",
+#   "bendoherbclim" = "#7570b3",
+#   "empty" = "white"
+# )
+
+# Plot
 Fig6b <- ggplot() +
-  # Median points
+  geom_tile(
+    data = summary_stats_grow_ppt %>%
+      distinct(species) %>%
+      mutate(
+        y_id = as.numeric(factor(species)),
+        fill_col = rep(c("gray90", "gray90","gray90"), length.out = n())
+      ),
+    aes(y = species, x = 0, fill = fill_col),
+    width = Inf,
+    height = 0.98,  # slightly less than 1 to leave gaps
+    inherit.aes = FALSE,
+    alpha = 0.1
+  ) +
+  geom_errorbar(
+    data = summary_stats_grow_ppt,
+    aes(y = species, xmin = lower_CI, xmax = upper_CI, color = parameter),
+    position = position_dodge(width = 0.4), height = 0.4, linewidth = 1
+  ) +
   geom_point(
     data = summary_stats_grow_ppt,
-    aes(x = mean_estimate, y = species, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    size = 2
+    aes(x = mean_estimate, y = species, color = parameter, fill = fill_color),
+    shape = 21, size = 5, stroke = 1.2, position = position_dodge(width = 0.4)
   ) +
-  # Horizontal error bars (95% CI)
-  geom_errorbarh(
-    data = summary_stats_grow_ppt,
-    aes(y = species, xmin = lower_CI, xmax = upper_CI, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 1
-  ) +
-  # Limitation of x axis
-  xlim(-1,1) +
-  # Reference line at OR = 1
-  geom_vline(xintercept = 0, linetype = "dashed", color = "gray30") +
-  # Manual colors
-  scale_fill_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
   scale_color_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
-  labs(
-    x = "Effect size (regression coefficient)",
-    y = NULL,
-    fill = "Drivers",
-    color = "Drivers"
-  ) +
-  theme_bw(base_size = 12) +
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3"
+  ), guide = "none") +
+  scale_fill_manual(values = c(
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3",
+    "empty" = "white")) +  # hide fill legend
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray30") +
+  xlim(-1,1) +
+  scale_y_discrete(expand = c(0,0)) +
+  labs(x = "Effect size (regression coefficient)", y = NULL) +
   geom_text(
-    data = panel_labels[2, ],  # first label "a"
+    data = panel_labels[2, ],
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
-  )+
+  ) +
+  theme_bw(base_size = 12) +
   theme(
-    legend.position = "bottom",
-    panel.grid.minor = element_blank()
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
   )
 
 
 
-## Flowering----
-fit_flow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
-posterior_samples_flow_ppt <- rstan::extract(fit_flow_ppt)
+## Inflorescence----
+fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+posterior_samples_inf_ppt <- rstan::extract(fit_inf_ppt)
 # Convert to data frame
-posterior_samples_flow_ppt_df <- as.data.frame(posterior_samples_flow_ppt)
+posterior_samples_inf_ppt_df <- as.data.frame(posterior_samples_inf_ppt)
 # Get the number of species
-n_species <- length(posterior_samples_flow_ppt$bendo[1, ])
+n_species <- length(posterior_samples_inf_ppt$bendo[1, ])
 # Convert each coefficient into a long-format data frame
-flow_ppt_coef_list <- c(
+inf_ppt_coef_list <- c(
                         "bendoclim",
                         "bendoherb",
                         "bendoherbclim")
-flow_ppt_long_data <- list()
-for (coef in flow_ppt_coef_list) {
+inf_ppt_long_data <- list()
+for (coef in inf_ppt_coef_list) {
   # Extract the coefficient matrix for the current parameter
-  flow_ppt_coef_matrix <- posterior_samples_flow_ppt[[coef]]
+  inf_ppt_coef_matrix <- posterior_samples_inf_ppt[[coef]]
   # Convert to long format
-  flow_ppt_long_data[[coef]] <- as.data.frame(flow_ppt_coef_matrix) %>%
+  inf_ppt_long_data[[coef]] <- as.data.frame(inf_ppt_coef_matrix) %>%
     pivot_longer(cols = everything(),
                  names_to = "species",
                  values_to = "estimate") %>%
-    mutate(parameter = coef) # Use 'coef' instead of 'flow_ppt_coef_list'
+    mutate(parameter = coef) # Use 'coef' instead of 'inf_ppt_coef_list'
 }
 
 # Combine all into one dataframe
-plot_data_flow_ppt <- bind_rows(flow_ppt_long_data)
+plot_data_inf_ppt <- bind_rows(inf_ppt_long_data)
 # Convert species index to numeric
-plot_data_flow_ppt$species <- as.numeric(gsub("V", "", plot_data_flow_ppt$species))
+plot_data_inf_ppt$species <- as.numeric(gsub("V", "", plot_data_inf_ppt$species))
 # Calculate the mean, median, and 95% credible intervals for each species and coefficient
-summary_stats_flow_ppt <- plot_data_flow_ppt %>%
+summary_stats_inf_ppt <- plot_data_inf_ppt %>%
   group_by(parameter, species) %>%
   summarize(
-    mean_estimate = mean(estimate),
     median_estimate = median(estimate),
-    lower_CI = quantile(estimate, 0.025),
-    upper_CI = quantile(estimate, 0.975)
+    prob_gt0 = mean(estimate > 0),
+    prob_lt0 = mean(estimate < 0),
+    # Compute IRR percentiles directly from posterior draws
+    IRR_lower = quantile(exp(estimate), 0.025),
+    IRR_median = quantile(exp(estimate), 0.5),
+    IRR_upper = quantile(exp(estimate), 0.975),
+    .groups = "drop"
   ) %>%
-  ungroup()
-#Converting to IRR
-summary_stats_flow_ppt <- summary_stats_flow_ppt %>%
+  ungroup() %>%
   mutate(
-    IRR_mean   = exp(mean_estimate),
-    IRR_median = exp(median_estimate),
-    IRR_lower  = exp(lower_CI),
-    IRR_upper  = exp(upper_CI)
+    # Flag strong effects
+    strong_effect = (prob_gt0 > 0.8 | prob_lt0 > 0.8),
+    # Fill color: use parameter color if strong, else white
+    fill_color = ifelse(strong_effect, parameter, "empty")
   )
 
-# Add probability that IRR > 1
-summary_stats_flow_ppt <- summary_stats_flow_ppt %>%
-  rowwise() %>%
-  mutate(
-    prob_gt1 = {
-      # extract posterior for the parameter
-      posterior <- posterior_samples_flow_ppt[[parameter]]
-      # species index in posterior (columns)
-      sp_idx <- as.numeric(species)
-      # probability that exp(posterior) > 1
-      mean(exp(posterior[, sp_idx]) > 1)
-    }
-  ) %>%
-  ungroup()
-
-
 # Change species names
-summary_stats_flow_ppt$species <- recode(
-  summary_stats_flow_ppt$species,
+summary_stats_inf_ppt$species <- recode(
+  summary_stats_inf_ppt$species,
   "1" = "AGHY",
   "2" = "ELVI",
   "3" = "PAOU"
 )
-summary_stats_flow_ppt$parameter_label <- recode(summary_stats_flow_ppt$parameter, !!!param_labels)
+param_labels <- c(
+  "bendoclim" = "Endophyte × Climate",
+  "bendoherb" = "Endophyte × Herbivory",
+  "bendoherbclim" = "Endophyte × Herbivory × Climate"
+)
+summary_stats_inf_ppt$parameter_label <- recode(summary_stats_inf_ppt$parameter, !!!param_labels)
 
-# Plot standardized effect sizes (Cohen's d) for flowering
+# Plot standardized effect sizes (Cohen's d) for infering
 Fig6c <- ggplot() +
-  # Median points
-  geom_point(
-    data = summary_stats_flow_ppt,
-    aes(x = IRR_mean, y = species, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    size = 2
+  geom_tile(
+    data = summary_stats_inf_ppt %>%
+      distinct(species) %>%
+      mutate(
+        y_id = as.numeric(factor(species)),
+        fill_col = rep(c("gray90", "gray90","gray90"), length.out = n())
+      ),
+    aes(y = species, x = 0, fill = fill_col),
+    width = Inf,
+    height = 0.98,  # slightly less than 1 to leave gaps
+    inherit.aes = FALSE,
+    alpha = 0.1
   ) +
-  # Horizontal error bars (95% CI)
   geom_errorbarh(
-    data = summary_stats_flow_ppt,
-    aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 1
+    data = summary_stats_inf_ppt,
+    aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter),
+    position = position_dodge(width = 0.4), height = 0.4, linewidth = 1
   ) +
-  # Limitation of x axis
-  xlim(0,5) +
-  # Reference line at OR = 1
-  geom_vline(xintercept = 1, linetype = "dashed", color = "gray30") +
-  # Manual colors
-  scale_fill_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
+  geom_point(
+    data = summary_stats_inf_ppt,
+    aes(x = IRR_median, y = species, color = parameter, fill = fill_color),
+    shape = 21, size = 5, stroke = 1.2, position = position_dodge(width = 0.4)
+  ) +
   scale_color_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
-  labs(
-    x = "Effect size (incidence rate ratios)",
-    y = NULL,
-    fill = "Drivers",
-    color = "Drivers"
-  ) +
-  theme_bw(base_size = 12) +
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3"
+  ), guide = "none") +
+  scale_fill_manual(values = c(
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3",
+    "empty" = "white")) +  # hide fill legend
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray30") +
+  xlim(-0.15,4) +
+  scale_y_discrete(expand = c(0,0)) +
+  labs(x = "Effect size (Incidence Rate Ratios)", y = NULL) +
   geom_text(
-    data = panel_labels[3, ],  # first label "a"
+    data = panel_labels[3, ],
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
-  )+
+  ) +
+  theme_bw(base_size = 12) +
   theme(
-    legend.position = "bottom",
-    panel.grid.minor = element_blank()
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
   )
-
 
 
 
@@ -467,64 +488,39 @@ Fig6c <- ggplot() +
 fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
 
 posterior_samples_spik_ppt <- rstan::extract(fit_spik_ppt)
-# Convert to data frame
-posterior_samples_spik_ppt_df <- as.data.frame(posterior_samples_spik_ppt)
-# Get the number of species
-n_species <- length(posterior_samples_spik_ppt$bendo[1, ])
-# Convert each coefficient into a long-format data frame
-spik_ppt_coef_list <- c(
-                        "bendoclim",
-                        "bendoherb",
-                        "bendoherbclim")
+
+spik_ppt_coef_list <- c("bendoclim", "bendoherb", "bendoherbclim")
 spik_ppt_long_data <- list()
+
 for (coef in spik_ppt_coef_list) {
-  # Extract the coefficient matrix for the current parameter
-  spik_ppt_coef_matrix <- posterior_samples_spik_ppt[[coef]]
-  # Convert to long format
-  spik_ppt_long_data[[coef]] <- as.data.frame(spik_ppt_coef_matrix) %>%
+  coef_matrix <- posterior_samples_spik_ppt[[coef]]
+  spik_ppt_long_data[[coef]] <- as.data.frame(coef_matrix) %>%
     pivot_longer(cols = everything(),
                  names_to = "species",
                  values_to = "estimate") %>%
-    mutate(parameter = coef) # Use 'coef' instead of 'spik_ppt_coef_list'
+    mutate(parameter = coef)
 }
 
-# Combine all into one dataframe
 plot_data_spik_ppt <- bind_rows(spik_ppt_long_data)
-# Convert species index to numeric
 plot_data_spik_ppt$species <- as.numeric(gsub("V", "", plot_data_spik_ppt$species))
-# Calculate the mean, median, and 95% credible intervals for each species and coefficient
+
+# Compute summary statistics and IRRs
 summary_stats_spik_ppt <- plot_data_spik_ppt %>%
   group_by(parameter, species) %>%
   summarize(
-    mean_estimate = mean(estimate),
     median_estimate = median(estimate),
-    lower_CI = quantile(estimate, 0.025),
-    upper_CI = quantile(estimate, 0.975)
+    prob_gt0 = mean(estimate > 0),
+    prob_lt0 = mean(estimate < 0),
+    IRR_lower = quantile(exp(estimate), 0.025),
+    IRR_median = quantile(exp(estimate), 0.5),
+    IRR_upper = quantile(exp(estimate), 0.975),
+    .groups = "drop"
   ) %>%
-  ungroup()
-# Add IRR to  summary table
-summary_stats_spik_ppt <- summary_stats_spik_ppt %>%
+  ungroup() %>%
   mutate(
-    IRR_mean   = exp(mean_estimate),
-    IRR_median = exp(median_estimate),
-    IRR_lower  = exp(lower_CI),
-    IRR_upper  = exp(upper_CI)
+    strong_effect = (prob_gt0 > 0.8 | prob_lt0 > 0.8),
+    fill_color = ifelse(strong_effect, parameter, "empty")
   )
-
-# Add probability that IRR > 1
-summary_stats_spik_ppt <- summary_stats_spik_ppt %>%
-  rowwise() %>%
-  mutate(
-    prob_gt1 = {
-      # extract posterior samples for this parameter
-      posterior <- posterior_samples_spik_ppt[[parameter]]
-      # species index in posterior matrix
-      sp_idx <- as.numeric(species)
-      # probability that exp(posterior) > 1
-      mean(exp(posterior[, sp_idx]) > 1)
-    }
-  ) %>%
-  ungroup()
 
 # Change species names
 summary_stats_spik_ppt$species <- recode(
@@ -532,58 +528,66 @@ summary_stats_spik_ppt$species <- recode(
   "1" = "ELVI",
   "2" = "PAOU"
 )
-# Select only the interaction terms you want to highlight
-#Drivers <- c("bendoclim", "bendoherb", "bendoherbclim")  # example
+
+# Parameter labels
+param_labels <- c(
+  "bendoclim" = "Endophyte × Climate",
+  "bendoherb" = "Endophyte × Herbivory",
+  "bendoherbclim" = "Endophyte × Herbivory × Climate"
+)
 summary_stats_spik_ppt$parameter_label <- recode(summary_stats_spik_ppt$parameter, !!!param_labels)
 
+# Plot
 Fig6d <- ggplot() +
-  # Median points
-  geom_point(
-    data = summary_stats_spik_ppt,
-    aes(x = IRR_mean, y = species, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    size = 2
+  geom_tile(
+    data = summary_stats_spik_ppt %>%
+      distinct(species) %>%
+      mutate(
+        y_id = as.numeric(factor(species)),
+        fill_col = rep(c("gray90", "gray90"), length.out = n())
+      ),
+    aes(y = species, x = 0.5, fill = fill_col),
+    width = Inf,
+    height = 0.98,  # slightly less than 1 to leave gaps
+    inherit.aes = FALSE,
+    alpha = 0.1
   ) +
-  # Horizontal error bars (95% CI)
   geom_errorbarh(
     data = summary_stats_spik_ppt,
-    aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter_label),
-    position = position_dodge(width = 0.8),
-    height = 0.2, linewidth = 1
+    aes(y = species, xmin = IRR_lower, xmax = IRR_upper, color = parameter),
+    position = position_dodge(width = 0.4), height = 0.4, linewidth = 1
   ) +
-  # Limitation of x axis
-  xlim(0.5,2) +
-  # Reference line at OR = 1
-  geom_vline(xintercept = 1, linetype = "dashed", color = "gray30") +
-  # Manual colors
-  scale_fill_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
+  geom_point(
+    data = summary_stats_spik_ppt,
+    aes(x = IRR_median, y = species, color = parameter, fill = fill_color),
+    shape = 21, size = 5, stroke = 1.2, position = position_dodge(width = 0.4)
+  ) +
   scale_color_manual(values = c(
-    "Endophyte × Climate" = "#1b9e77",
-    "Endophyte × Herbivory" = "#d95f02",
-    "Endophyte × Herbivory × Climate" = "#7570b3"
-  )) +
-  labs(
-    x = "Effect size (incidence rate ratios)",
-    y = NULL,
-    fill = "Drivers",
-    color = "Drivers"
-  ) +
-  theme_bw(base_size = 12) +
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3"
+  ),guide = "none") +
+  scale_fill_manual(values = c(
+    "bendoclim" = "#1b9e77",
+    "bendoherb" = "#d95f02",
+    "bendoherbclim" = "#7570b3",
+    "empty" = "white")) +  # hide fill legend
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray30") +
+  xlim(0.5, 2) +
+  scale_y_discrete(expand = c(0,0)) +
+  labs(x = "Effect size (Incidence Rate Ratios)", y = NULL) +
   geom_text(
-    data = panel_labels[4, ],  
+    data = panel_labels[4, ],
     aes(x = x, y = y, label = label),
     fontface = "plain", size = 4.5, hjust = 0,
     inherit.aes = FALSE
-  )+
+  ) +
+  theme_bw(base_size = 12) +
   theme(
-    legend.position = "bottom",
-    panel.grid.minor = element_blank()
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.y = element_blank()
   )
-
 
 #Combine with a shared legend
 
@@ -592,10 +596,10 @@ Figure6 <- ggarrange(
   Fig6a, Fig6b, Fig6c, Fig6d,
   ncol = 2, nrow = 2,       # 2x2 layout
   #labels = c("a", "b", "c", "d"),
-  label.x = 0.02,            # optional: adjust label position
-  label.y = 0.95,
+  # label.x = 0.02,            # optional: adjust label position
+  # label.y = 0.95,
   common.legend = TRUE,      # share a single legend
-  legend = "bottom"          # legend position
+  legend = "top"          # legend position
 )
 ggsave("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Figure6.pdf", Figure6, width = 10, height = 8)
 

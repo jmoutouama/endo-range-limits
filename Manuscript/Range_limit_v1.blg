@@ -3,58 +3,65 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v1.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 317 of file References.bib
+Repeated entry---line 87 of file References.bib
+ : @article{emery2010variation
+ :                            ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 391 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 619 of file References.bib
+Repeated entry---line 693 of file References.bib
  : @article{ahlholm2002vertically
  :                               ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 818 of file References.bib
+Repeated entry---line 704 of file References.bib
+ : @article{saikkonen1998fungal
+ :                             ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 892 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "kaly2010herbivory"
-You've used 35 entries,
+You've used 42 entries,
             1935 wiz_defined-function locations,
-            694 strings with 10092 characters,
-and the built_in function-call counts, 13839 in all, are:
-= -- 1378
-> -- 553
-< -- 17
-+ -- 192
-- -- 184
-* -- 1246
-:= -- 2430
-add.period$ -- 105
-call.type$ -- 35
-change.case$ -- 264
-chr.to.int$ -- 33
-cite$ -- 35
-duplicate$ -- 471
-empty$ -- 963
-format.name$ -- 229
-if$ -- 2637
+            742 strings with 11658 characters,
+and the built_in function-call counts, 17266 in all, are:
+= -- 1715
+> -- 724
+< -- 18
++ -- 252
+- -- 244
+* -- 1572
+:= -- 3014
+add.period$ -- 126
+call.type$ -- 42
+change.case$ -- 329
+chr.to.int$ -- 40
+cite$ -- 42
+duplicate$ -- 578
+empty$ -- 1184
+format.name$ -- 296
+if$ -- 3297
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 30
-newline$ -- 178
-num.names$ -- 105
-pop$ -- 189
+missing$ -- 37
+newline$ -- 213
+num.names$ -- 126
+pop$ -- 242
 preamble$ -- 1
-purify$ -- 267
+purify$ -- 332
 quote$ -- 0
-skip$ -- 357
+skip$ -- 439
 stack$ -- 0
-substring$ -- 1123
-swap$ -- 33
-text.length$ -- 0
+substring$ -- 1407
+swap$ -- 49
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 208
+type$ -- 250
 warning$ -- 0
-while$ -- 122
+while$ -- 151
 width$ -- 0
-write$ -- 451
-(There were 3 error messages)
+write$ -- 542
+(There were 5 error messages)

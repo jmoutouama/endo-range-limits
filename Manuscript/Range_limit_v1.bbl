@@ -43,6 +43,13 @@ Bronstein, J.~L. (2001).
 \newblock The exploitation of mutualisms.
 \newblock {\em Ecology letters}, 4(3):277--287.
 
+\bibitem[Clay et~al., 2005]{clay2005herbivores}
+Clay, K., Holah, J., and Rudgers, J.~A. (2005).
+\newblock Herbivores cause a rapid increase in hereditary symbiosis and alter
+  plant community composition.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  102(35):12465--12470.
+
 \bibitem[Clay and Schardl, 2002]{clay2002evolutionary}
 Clay, K. and Schardl, C. (2002).
 \newblock Evolutionary origins and ecological consequences of endophyte
@@ -118,6 +125,13 @@ Klironomos, J.~N. (2003).
   mycorrhizal fungi.
 \newblock {\em Ecology}, 84(9):2292--2301.
 
+\bibitem[Koh et~al., 2006]{koh2006rapid}
+Koh, S., Vicari, M., Ball, J., Rakocevic, T., Zaheer, S., Hik, D., and Bazely,
+  D. (2006).
+\newblock Rapid detection of fungal endophytes in grasses for large-scale
+  studies.
+\newblock {\em Functional Ecology}, pages 736--742.
+
 \bibitem[Leuchtmann et~al., 2014]{leuchtmann2014nomenclatural}
 Leuchtmann, A., Bacon, C.~W., Schardl, C.~L., White~Jr, J.~F., and Tadych, M.
   (2014).
@@ -135,10 +149,23 @@ Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
 \newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
 
+\bibitem[Oberhofer et~al., 2014]{oberhofer2014effects}
+Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
+\newblock Effects of natural hybrid and non-hybrid epichlo{\"e} endophytes on
+  the response of hordelymus europaeus to drought stress.
+\newblock {\em New Phytologist}, 201(1):242--253.
+
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[Rudgers et~al., 2016]{rudgers2016long}
+Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,
+  Pearson, D.~E., and Maron, J.~L. (2016).
+\newblock Long-term ungulate exclusion reduces fungal symbiont prevalence in
+  native grasslands.
+\newblock {\em Oecologia}, 181(4):1151--1161.
 
 \bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
 Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).
@@ -146,10 +173,25 @@ Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).
   sativa plants subjected to drought stress.
 \newblock {\em New Phytologist}, 134(2):327--333.
 
+\bibitem[Saikkonen et~al., 1998]{saikkonen1998fungal}
+Saikkonen, K., Faeth, S.~H., Helander, M., and Sullivan, T. (1998).
+\newblock Fungal endophytes: a continuum of interactions with host plants.
+\newblock {\em Annual review of Ecology and Systematics}, 29(1):319--343.
+
+\bibitem[Saikkonen et~al., 2010]{saikkonen2010defensive}
+Saikkonen, K., Saari, S., and Helander, M. (2010).
+\newblock Defensive mutualism between plants and endophytic fungi?
+\newblock {\em Fungal Diversity}, 41(1):101--113.
+
 \bibitem[Saikkonen et~al., 2004]{saikkonen2004evolution}
 Saikkonen, K., W{\"a}li, P., Helander, M., and Faeth, S.~H. (2004).
 \newblock Evolution of endophyte--plant symbioses.
 \newblock {\em Trends in plant science}, 9(6):275--280.
+
+\bibitem[Schardl et~al., 2004]{schardl2004symbioses}
+Schardl, C.~L., Leuchtmann, A., and Spiering, M.~J. (2004).
+\newblock Symbioses of grasses with seedborne fungal endophytes.
+\newblock {\em Annu. Rev. Plant Biol.}, 55(1):315--340.
 
 \bibitem[Shaw, 2011]{shaw2011guide}
 Shaw, R.~B. (2011).

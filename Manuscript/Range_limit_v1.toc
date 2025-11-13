@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {A}Additional Figures and Tables}{21}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Candidate models for abiotic and biotic drivers of cool-grass species}{21}{subsection.A.1}%
+\contentsline {section}{\numberline {B}Supporting Tables}{22}{appendix.B}%
+\contentsline {section}{\numberline {C}Supporting Figures}{30}{appendix.C}%

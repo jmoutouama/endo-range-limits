@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  12 NOV 2025 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  13 NOV 2025 15:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -850,6 +850,56 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@loff=\dimen336
 \@vwid@roff=\dimen337
 ))
+(/usr/local/texlive/2025/texmf-dist/tex/latex/newfloat/newfloat.sty
+Package: newfloat 2023/10/01 v1.2 Defining new floating environments (AR)
+Package newfloat Info: Unsupported document class, or \@chapter 
+(newfloat)             was already redefined by another package.
+Package newfloat Info: \@chapter = macro:->\def \Hy@next {\Hy@MakeCurrentHrefAu
+to {\Hy@chapapp *}\Hy@raisedlink {\hyper@anchorstart {\@currentHref }\hyper@anc
+horend }}\ifnum \c@secnumdepth >\m@ne \@ifundefined {if@mainmatter}\iftrue {\cs
+name if@mainmatter\endcsname }\let \Hy@next \relax \fi \fi \Hy@next \Hy@org@cha
+pter .
+Package newfloat Info: \Hy@org@chapter = macro:[#1]#2->\NR@gettitle {#1}\NR@cha
+pter [{#1}]{#2}.
+Package newfloat Info: \algocf@original@chapter = undefined.
+)
+(/usr/local/texlive/2025/texmf-dist/tex/latex/tocloft/tocloft.sty
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has section divisions on input line 51.
+\cftparskip=\skip66
+\cftbeforetoctitleskip=\skip67
+\cftaftertoctitleskip=\skip68
+\cftbeforepartskip=\skip69
+\cftpartnumwidth=\skip70
+\cftpartindent=\skip71
+\cftbeforesecskip=\skip72
+\cftsecindent=\skip73
+\cftsecnumwidth=\skip74
+\cftbeforesubsecskip=\skip75
+\cftsubsecindent=\skip76
+\cftsubsecnumwidth=\skip77
+\cftbeforesubsubsecskip=\skip78
+\cftsubsubsecindent=\skip79
+\cftsubsubsecnumwidth=\skip80
+\cftbeforeparaskip=\skip81
+\cftparaindent=\skip82
+\cftparanumwidth=\skip83
+\cftbeforesubparaskip=\skip84
+\cftsubparaindent=\skip85
+\cftsubparanumwidth=\skip86
+\cftbeforeloftitleskip=\skip87
+\cftafterloftitleskip=\skip88
+\cftbeforefigskip=\skip89
+\cftfigindent=\skip90
+\cftfignumwidth=\skip91
+\c@lofdepth=\count349
+\c@lotdepth=\count350
+\cftbeforelottitleskip=\skip92
+\cftafterlottitleskip=\skip93
+\cftbeforetabskip=\skip94
+\cfttabindent=\skip95
+\cfttabnumwidth=\skip96
+)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/mathpazo.sty
 Package: mathpazo 2020/03/25 PSNFSS-v9.3 Palatino w/ Pazo Math (D.Puga, WaS) 
 \symupright=\mathgroup9
@@ -870,7 +920,7 @@ Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 Package: microtype 2025/02/11 v3.2a Micro-typographical refinements (RS)
 \MT@toks=\toks48
 \MT@tempbox=\box80
-\MT@count=\count349
+\MT@count=\count351
 LaTeX Info: Redefining \noprotrusionifhmode on input line 1087.
 LaTeX Info: Redefining \leftprotrusion on input line 1088.
 \MT@prot@toks=\toks49
@@ -879,14 +929,14 @@ LaTeX Info: Redefining \textls on input line 1449.
 \MT@outer@kern=\dimen338
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count350
+\MT@listname@count=\count352
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 File: microtype-pdftex.def 2025/02/11 v3.2a Definitions specific to pdftex (RS)
 
 LaTeX Info: Redefining \lsstyle on input line 944.
 LaTeX Info: Redefining \lslig on input line 944.
-\MT@outer@space=\skip66
+\MT@outer@space=\skip97
 )
 Package microtype Info: Loading configuration file microtype.cfg.
 
@@ -895,6 +945,17 @@ File: microtype.cfg 2025/02/11 v3.2a microtype main configuration file (RS)
 )
 LaTeX Info: Redefining \microtypesetup on input line 3065.
 )
+Package newfloat Info: New float `suppfigure' with options `fileext=losf, listn
+ame={List of Supplementary Figures}' on input line 94.
+\c@suppfigure=\count353
+Package newfloat Info: float type `suppfigure'=4 on input line 94.
+\c@losfdepth=\count354
+Package newfloat Info: New float `supptable' with options `fileext=lost, listna
+me={List of Supplementary Tables}' on input line 95.
+\c@supptable=\count355
+Package newfloat Info: float type `supptable'=8 on input line 95.
+\c@lostdepth=\count356
+
 (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf.sty
 Package: epstopdf 2020-01-24 v2.11 Conversion with epstopdf on the fly (HO)
 
@@ -918,50 +979,50 @@ Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 )
 LaTeX Font Info:    Trying to load font information for OT1+pplx on input line 
-131.
+141.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pplx.fd
 File: ot1pplx.fd 2004/09/06 font definitions for OT1/pplx.
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count351
+\l__color_backend_stack_int=\count357
 \l__pdf_internal_box=\box81
 )
 (./Range_limit_v1.aux)
 \openout1 = `Range_limit_v1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count352
+\scratchcounter=\count358
 \scratchdimen=\dimen339
 \scratchbox=\box82
-\nofMPsegments=\count353
-\nofMParguments=\count354
+\nofMPsegments=\count359
+\nofMParguments=\count360
 \everyMPshowfont=\toks50
-\MPscratchCnt=\count355
+\MPscratchCnt=\count361
 \MPscratchDim=\dimen340
-\MPnumerator=\count356
-\makeMPintoPDFobject=\count357
+\MPnumerator=\count362
+\makeMPintoPDFobject=\count363
 \everyMPtoPDFconversion=\toks51
 )
 Package caption Info: Begin \AtBeginDocument code.
@@ -1003,40 +1064,42 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 131.
+Package hyperref Info: Link coloring OFF on input line 141.
 (./Range_limit_v1.out) (./Range_limit_v1.out)
 \@outlinefile=\write4
 \openout4 = `Range_limit_v1.out'.
 
-LaTeX Info: Redefining \celsius on input line 131.
-Package gensymb Info: Faking symbols for \degree and \celsius on input line 131
+LaTeX Info: Redefining \celsius on input line 141.
+Package gensymb Info: Faking symbols for \degree and \celsius on input line 141
 .
 
 
 Package gensymb Warning: Not defining \perthousand.
 
-LaTeX Info: Redefining \ohm on input line 131.
-Package gensymb Info: Using \upOmega for \ohm on input line 131.
+LaTeX Info: Redefining \ohm on input line 141.
+Package gensymb Info: Using \upOmega for \ohm on input line 141.
 
 Package gensymb Warning: Not defining \micro.
 
+Package newfloat Info: Trying Plan B...
+Package newfloat Info: `float' package detected.
 Package microtype Info: Patching varwidth to enable character protrusion.
 \MT@vwid@leftmargin=\dimen341
 \MT@vwid@rightmargin=\dimen342
-LaTeX Info: Redefining \microtypecontext on input line 131.
-Package microtype Info: Applying patch `item' on input line 131.
-Package microtype Info: Applying patch `toc' on input line 131.
-Package microtype Info: Applying patch `eqnum' on input line 131.
-Package microtype Info: Applying patch `footnote' on input line 131.
-Package microtype Info: Applying patch `verbatim' on input line 131.
-LaTeX Info: Redefining \microtypesetup on input line 131.
+LaTeX Info: Redefining \microtypecontext on input line 141.
+Package microtype Info: Applying patch `item' on input line 141.
+Package microtype Info: Applying patch `toc' on input line 141.
+Package microtype Info: Applying patch `eqnum' on input line 141.
+Package microtype Info: Applying patch `footnote' on input line 141.
+Package microtype Info: Applying patch `verbatim' on input line 141.
+LaTeX Info: Redefining \microtypesetup on input line 141.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 131.
+LaTeX Info: Redefining \showhyphens on input line 141.
 Package microtype Info: Tracking enabled.
 Package microtype Info: Using tracking set `all'.
 Package microtype Info: No adjustment of interword spacing.
@@ -1045,50 +1108,50 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-137.
+147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-137.
+147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-137.
+147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 137.
+(Font)              scaled to size 12.50409pt on input line 147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 137.
+(Font)              scaled to size 9.37807pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 137.
+(Font)              scaled to size 7.29405pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 137.
+(Font)              scaled to size 12.50409pt on input line 147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 137.
+(Font)              scaled to size 9.37807pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 137.
+(Font)              scaled to size 7.29405pt on input line 147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-137.
+147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
@@ -1098,31 +1161,31 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 
-137.
+147.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 137.
+(Font)              scaled to size 11.40997pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 137.
+(Font)              scaled to size 8.33606pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 137.
+(Font)              scaled to size 6.25204pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 137.
+(Font)              scaled to size 11.40997pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 137.
+(Font)              scaled to size 8.33606pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 137.
+(Font)              scaled to size 6.25204pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 137.
+(Font)              scaled to size 10.42007pt on input line 147.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 137.
+(Font)              scaled to size 7.91925pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 137.
+(Font)              scaled to size 10.42007pt on input line 147.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 137.
+(Font)              scaled to size 7.91925pt on input line 147.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1143,226 +1206,263 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [3]
 
-Package natbib Warning: Citation `kaly2010herbivory' on page 4 undefined on inp
-ut line 237.
-
-
-
 [4]
 
 [5]
-<../Figure/clim_map.pdf, id=148, 650.43pt x 758.835pt>
-File: ../Figure/clim_map.pdf Graphic file (type pdf)
-<use ../Figure/clim_map.pdf>
-Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 293.
-(pdftex.def)             Requested size: 469.75502pt x 548.06288pt.
-
 
 [6]
 
-[7 <../Figure/clim_map.pdf>]
+[7]
 
 [8]
 
 [9]
 
 [10]
-<../Figure/PrSurvival_diff.pdf, id=246, 433.62pt x 505.89pt>
+
+[11] (./Range_limit_v1.bbl
+
+[12]
+
+[13]
+
+[14])
+
+[15]
+<../Figure/clim_map.pdf, id=280, 650.43pt x 758.835pt>
+File: ../Figure/clim_map.pdf Graphic file (type pdf)
+<use ../Figure/clim_map.pdf>
+Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 423.
+(pdftex.def)             Requested size: 375.80544pt x 438.44568pt.
+
+
+[16
+
+ <../Figure/clim_map.pdf>]
+<../Figure/PrSurvival_diff.pdf, id=315, 433.62pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 378.
+Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 434.
 
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
-
-
-[11]
-<../Figure/Growth_diff.pdf, id=257, 505.89pt x 632.3625pt>
+<../Figure/Growth_diff.pdf, id=316, 505.89pt x 632.3625pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 389.
+Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 445.
 (pdftex.def)             Requested size: 469.75502pt x 587.20334pt.
 
 
-[12 <../Figure/PrSurvival_diff.pdf>]
+[17
+
+ <../Figure/PrSurvival_diff.pdf>]
 Overfull \vbox (6.77333pt too high) has occurred while \output is active []
 
 
 
-[13 <../Figure/Growth_diff.pdf>]
-<../Figure/Inflorescence_diff.pdf, id=323, 650.43pt x 361.35pt>
+[18 <../Figure/Growth_diff.pdf>]
+<../Figure/Inflorescence_diff.pdf, id=380, 650.43pt x 361.35pt>
 File: ../Figure/Inflorescence_diff.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff.pdf  used on input line 4
-00.
+56.
 (pdftex.def)             Requested size: 469.75502pt x 260.98232pt.
-<../Figure/Spikelet_diff.pdf, id=324, 433.62pt x 433.62pt>
-File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
-<use ../Figure/Spikelet_diff.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 414.
-(pdftex.def)             Requested size: 469.75502pt x 469.7781pt.
 
 
-[14 <../Figure/Inflorescence_diff.pdf>]
-
-[15 <../Figure/Spikelet_diff.pdf>]
-
-[16] (./Range_limit_v1.bbl
-
-[17]
-
-[18])
-
-[19]
-Overfull \hbox (38.45683pt too wide) detected at line 486
-[]
- []
-
-
-Overfull \hbox (36.59242pt too wide) detected at line 504
-[]
- []
+[19 <../Figure/Inflorescence_diff.pdf>] (./Range_limit_v1.losf)
+\tf@losf=\write5
+\openout5 = `Range_limit_v1.losf'.
 
 
 
 [20
 
+
+] (./Range_limit_v1.lost)
+\tf@lost=\write6
+\openout6 = `Range_limit_v1.lost'.
+
+
+
+[21
+
 ]
-Overfull \hbox (42.68626pt too wide) in paragraph at lines 517--536
+
+[22
+
+]
+Package hyperref Info: bookmark level for unknown supptable defaults to 0 on in
+put line 537.
+
+Overfull \hbox (42.68626pt too wide) in paragraph at lines 539--558
  [][] 
  []
 
 
 
-[21]
-
-[22
-
-]
-
 [23
 
 ]
 
-[24]
-
-[25]
-
-LaTeX Warning: Float too large for page by 14.94449pt on input line 711.
-
-
-
-[26]
-
-[27
-
-
-
-
-
-
+[24
 
 ]
 
-LaTeX Warning: Float too large for page by 27.84465pt on input line 794.
+[25
+
+]
+
+[26]
+
+[27]
+
+LaTeX Warning: Float too large for page by 14.94449pt on input line 733.
 
 
 
 [28]
-<../Figure/Climate_prism_2023_2025.pdf, id=448, 867.24pt x 361.35pt>
-File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
-<use ../Figure/Climate_prism_2023_2025.pdf>
-Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
-ine 802.
-(pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
-
 
 [29
 
 
 
+
+
+
+
+]
+
+LaTeX Warning: Float too large for page by 27.84465pt on input line 816.
+
+
+
+[30]
+<../Figure/Climate_prism_2023_2025.pdf, id=470, 867.24pt x 361.35pt>
+File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
+<use ../Figure/Climate_prism_2023_2025.pdf>
+Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
+ine 823.
+(pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
+Package hyperref Info: bookmark level for unknown suppfigure defaults to 0 on i
+nput line 827.
+
+
+[31
+
+
+
  <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/PPC_linear.png, id=458, 573.14125pt x 485.815pt>
+<../Figure/PPC_linear.png, id=482, 573.14125pt x 485.815pt>
 File: ../Figure/PPC_linear.png Graphic file (type png)
 <use ../Figure/PPC_linear.png>
-Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 813.
+Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 834.
 (pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
-<../Figure/PrSurvival_diff_stat.pdf, id=460, 505.89pt x 433.62pt>
+<../Figure/PrSurvival_diff_stat.pdf, id=484, 505.89pt x 433.62pt>
 File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
- 824.
+ 845.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[30
+[32
 
  <../Figure/PPC_linear.png>]
-<../Figure/Growth_diff_stat.pdf, id=466, 505.89pt x 433.62pt>
+<../Figure/Growth_diff_stat.pdf, id=490, 505.89pt x 433.62pt>
 File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 832
+Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 853
 .
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[31 <../Figure/PrSurvival_diff_stat.pdf>]
-<../Figure/Inflorescence_diff_stat.pdf, id=493, 505.89pt x 361.35pt>
+[33 <../Figure/PrSurvival_diff_stat.pdf>]
+<../Figure/Inflorescence_diff_stat.pdf, id=516, 505.89pt x 361.35pt>
 File: ../Figure/Inflorescence_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff_stat.pdf  used on input l
-ine 840.
+ine 861.
 (pdftex.def)             Requested size: 469.75502pt x 335.54477pt.
 
 
-[32 <../Figure/Growth_diff_stat.pdf>]
-<../Figure/Spike_diff_stat.pdf, id=520, 433.62pt x 361.35pt>
+[34 <../Figure/Growth_diff_stat.pdf>]
+<../Figure/Spikelet_diff.pdf, id=544, 433.62pt x 433.62pt>
+File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
+<use ../Figure/Spikelet_diff.pdf>
+Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 868.
+(pdftex.def)             Requested size: 469.75502pt x 469.7781pt.
+
+
+[35 <../Figure/Inflorescence_diff_stat.pdf>]
+<../Figure/Spike_diff_stat.pdf, id=571, 433.62pt x 361.35pt>
 File: ../Figure/Spike_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spike_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 848.
+Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 880.
 
 (pdftex.def)             Requested size: 469.75502pt x 391.48175pt.
 
 
-[33 <../Figure/Inflorescence_diff_stat.pdf>]
+[36 <../Figure/Spikelet_diff.pdf>]
 
-Package natbib Warning: There were undefined citations.
-
-
-
-[34 <../Figure/Spike_diff_stat.pdf>] (./Range_limit_v1.aux)
+[37 <../Figure/Spike_diff_stat.pdf>] (./Range_limit_v1.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `Range_limit_v1.out' has not changed.
-(rerunfilecheck)             Checksum: 3D7480E781F3C04A6D4CB741C9BD1508;687.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `Range_limit_v1.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Range_limit_v1.out':
+(rerunfilecheck)             Before: DDB5F75CFD596BF7E7B1979469FFF504;892
+(rerunfilecheck)             After:  8035AB8BA5BAB0FBB2E62F85C50A82D5;1073.
  )
 (\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 171 (\begingroup)
+### semi simple group (level 1) entered at line 181 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 29977 strings out of 473190
- 549680 string characters out of 5715801
- 954121 words of memory out of 5000000
- 51682 multiletter control sequences out of 15000+600000
- 684278 words of font info for 815 fonts, out of 8000000 for 9000
+ 30551 strings out of 473190
+ 559631 string characters out of 5715801
+ 963476 words of memory out of 5000000
+ 52218 multiletter control sequences out of 15000+600000
+ 685197 words of font info for 819 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,101p,1103b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
-msy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-tt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.
-pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
-</usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
-ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
-xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v1.pdf (34 pages, 777505 bytes).
+ 99i,11n,101p,1068b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{subsection.Alph0.4} has been referenced but does no
+t exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.Alph0.3} has been referenced but does no
+t exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.Alph0.2} has been referenced but does no
+t exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.Alph0.1} has been referenced but does no
+t exist, replaced by a fixed one
+
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr
+/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/l
+ocal/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local/
+texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texl
+ive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/202
+5/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf
+-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on Range_limit_v1.pdf (37 pages, 780205 bytes).
 PDF statistics:
- 640 PDF objects out of 1000 (max. 8388607)
- 495 compressed objects within 5 object streams
- 98 named destinations out of 1000 (max. 500000)
- 201308 words of extra memory for PDF output out of 221844 (max. 10000000)
+ 702 PDF objects out of 1000 (max. 8388607)
+ 553 compressed objects within 6 object streams
+ 114 named destinations out of 1000 (max. 500000)
+ 207460 words of extra memory for PDF output out of 221844 (max. 10000000)
 

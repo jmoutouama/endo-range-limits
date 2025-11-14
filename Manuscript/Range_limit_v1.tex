@@ -252,7 +252,7 @@ This region provides an ideal system to study biologically realistic stress grad
 At each site along the gradient we also tested herbivory as a biotic stressor to evaluate its potential interactive effects with abiotic conditions. 
 Specifically, we studied the symbiotic association between three native cool-season grass species (\emph{Agrostis hyemalis}, \emph{Elymus virginicus}, and \emph{Poa autumnalis}) and their vertically transmitted fungal symbionts (\emph{Epichloë} spp.). 
 Here we  address two questions : (i) under combined abiotic  and biotic stress, do endophytes provide fitness benefits or impose costs on their host plants? (ii) which factors ( abiotic vs. biotic) influence whether the grass-endophyte interaction benefits or harms the host plant?
-We predicted that endophytes will enhance host performance under low precipitation by mitigating drought stress. 
+We predicted that endophytes will enhance host performance under low precipitation by mitigating drought stress (Fig.~\ref{fig:predcition}. 
 These benefits are expected to be smaller in fenced plots with reduced herbivory, where the contribution of symbionts to host performance is less critical. 
 We further predicted that the grass–endophyte symbiosis will be less mutualistic under high stress conditions, particularly when herbivores presence adds biotic stress.
 While both types of stress are expected to influence the outcome, we anticipated that abiotic stress will be the primary driver of mutualistic benefits, with biotic stress modulating the magnitude of those benefits.
@@ -349,12 +349,13 @@ The difference ($\Delta = E^+ - E^-$) was calculated for each posterior sample t
 We also computed the posterior probability that $\Delta > 0$, representing the likelihood that endophytes confer benefits on vital rates under the given climate and herbivory conditions.
 
 \subsection*{Drivers of endophyte effects on cool-season grass demography}
-To identify the main drivers of endophyte-mediated effects, we fitted three hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production(Supplementary Methods \ref {sec:models}).  
-All models included endophyte status as a baseline predictor and differed in whether they incorporated interactions with precipitation (Endophyte~$\times$~Climate), herbivory (Endophyte~$\times$~Herbivory), or both factors including the three-way interaction (Endophyte~$\times$~Climate~$\times$~Herbivory).  
-Random effects for site-year ($\phi_{\text{site}[i],\text{Sp}_i}$), source population ($\omega_{\text{source}[i],\text{Sp}_i}$), and plot ($\rho_{\text{plot}[i],\text{Sp}_i}$) captured hierarchical variation while allowing species-specific responses, as described in the previous section.  
-Candidate models were compared using leave-one-out cross-validation (LOO-CV) \citep{vehtari2017practical}, which estimates predictive accuracy by iteratively holding out each observation. Differences in expected log predictive density ($\Delta$ELPD) were used to rank models, with standard errors quantifying uncertainty.  
+To identify the main drivers of endophyte-mediated effects, we fitted three hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production; Supplementary Methods \ref{sec:models}).
+Each model included endophyte status as a baseline predictor and differed in whether it incorporated interactions with precipitation (Endophyte~$\times$~Climate), herbivory (Endophyte~$\times$~Herbivory), or both factors, including the three-way interaction (Endophyte~$\times$~Climate~$\times$~Herbivory).
+Random effects for site-year ($\phi_{\text{site}[i],\text{Sp}_i}$), source population ($\omega_{\text{source}[i],\text{Sp}_i}$), and plot ($\rho_{\text{plot}[i],\text{Sp}_i}$) captured hierarchical variation while accommodating species-specific responses.
+We compared candidate models using leave-one-out cross-validation (LOO-CV) \citep{vehtari2017practical}, which estimates predictive accuracy by iteratively holding out each observation. Differences in expected log predictive density ($\Delta$ELPD), along with associated standard errors, were used to rank model performance.
 
 All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.
+
 
 %%%%%%%%%%%%%%%%%%%%%
 % Acknowledgments
@@ -365,13 +366,24 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rs
 % final files after acceptance.
 \section*{Results}
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
-Across fitness components, \textit{Epichloë} endophytes generally enhanced host performance under wetter conditions, while their effects were neutral or occasionally costly under drier conditions or in the presence of herbivores. Benefits were most apparent when herbivores were excluded.
+Across fitness components, \textit{Epichloë} endophytes generally enhanced host performance under wetter conditions, while their effects were costly or occasionally neutral  under drier conditions. 
+Benefits were not most apparent when herbivores were excluded.
 
-For survival, endophyte effects were mostly neutral or slightly negative at low precipitation, but became increasingly positive with wetter conditions, particularly in unfenced plots (Fig.~\ref{fig:Surv}; Fig.~\ref{sup:survival_delta}). In \textit{Agrostis hyemalis} and \textit{Elymus virginicus}, median $\Delta(E^{+} - E^{-})$ ranged from approximately $-0.03$ to $0.04$ under low precipitation in unfenced plots ($\mathrm{Pr}(\Delta>0)=0.37$--0.42) and increased to $0.02$--$0.11$ under high precipitation ($\mathrm{Pr}(\Delta>0)=0.70$--0.84; Table~\ref{tab:delta_summary_surv}). In fenced plots, positive effects appeared only at the highest precipitation and were weaker. \textit{Poa autumnalis} showed little survival benefit in unfenced plots across the gradient (median $\Delta=-0.018$ to $-0.002$, $\mathrm{Pr}(\Delta>0)=0.14$--0.43), but weakly positive effects emerged when herbivores were excluded (median $\Delta=0.002$--0.002, $\mathrm{Pr}(\Delta>0)=0.57$--0.67).
+Grass–\textit{Epichloë} symbiosis had mostly negative or neutral effects on survival at low precipitation, but increasingly enhanced survival under wetter conditions (Fig.~\ref{fig:Surv}; Fig.~\ref{sup:survival_delta}).
+In \textit{Agrostis hyemalis} and \textit{Elymus virginicus}, median $\Delta(E^{+} - E^{-})$ ranged from approximately $-0.026$ to $0.019$ under low precipitation in unfenced plots ($\mathrm{Pr}(\Delta>0)=0.37$--0.61) and increased to $0.022$--$0.106$ under high precipitation ($\mathrm{Pr}(\Delta>0)=0.70$--0.85; Table~\ref{tab:delta_summary_surv}). 
+In fenced plots, positive effects appeared only at the highest precipitation for \textit{Agrostis} (median $\Delta=0.011$--$0.038$, $\mathrm{Pr}(\Delta>0)=0.59$--0.72), while for \textit{Elymus}, strong positive effects were evident at high precipitation (median $\Delta=0.089$--$0.113$, $\mathrm{Pr}(\Delta>0)=0.91$--0.95).
+\textit{Poa autumnalis} showed little survival benefit in unfenced plots across the gradient (median $\Delta=-0.056$ to $-0.002$, $\mathrm{Pr}(\Delta>0)=0.14$--0.43), but weakly positive effects emerged when herbivores were excluded (median $\Delta=0.002$--$0.026$, $\mathrm{Pr}(\Delta>0)=0.57$--0.71).
 
-Growth responses increased with precipitation across species, with the magnitude and certainty modulated by herbivory (Table~\ref{tab:delta_summary_grow}). In \textit{A.~hyemalis}, effects were strongly positive even at moderate precipitation in unfenced plots (median $\Delta=0.37$--0.39; $\mathrm{Pr}(\Delta>0)=0.95$--0.99), and similar trends were observed in fenced plots though slightly weaker ($\Delta=0.08$--0.26; $\mathrm{Pr}(\Delta>0)=0.66$--0.87). \textit{E.~virginicus} showed small positive or neutral effects under dry conditions (median $\Delta=0.23$--0.26; $\mathrm{Pr}(\Delta>0)=0.87$--0.95), which became more pronounced at higher precipitation. In \textit{P.~autumnalis}, growth was context-dependent: unfenced plots shifted from negative to positive effects across the precipitation gradient (median $\Delta=-0.28$ to 0.14; $\mathrm{Pr}(\Delta>0)=0.17$--0.77), while fencing generally amplified benefits at all precipitation levels (median $\Delta=0.02$--0.39; $\mathrm{Pr}(\Delta>0)=0.56$--0.99).
+\textit{Epichloë} endophyte presence generally enhanced relative growth of individuals across the precipitation gradient, with benefits increasing under wetter conditions and modulated by herbivory (Table~\ref{tab:delta_summary_grow}).
+In \textit{A.~hyemalis}, effects were strongly positive even at moderate precipitation in unfenced plots (median $\Delta=0.370$--0.385; $\mathrm{Pr}(\Delta>0)=0.946$--0.992), and similar trends were observed in fenced plots though slightly weaker (median $\Delta=0.080$--0.262; $\mathrm{Pr}(\Delta>0)=0.661$--0.878). \textit{E.~virginicus} showed small positive or neutral effects under dry conditions (median $\Delta=0.232$--0.259; $\mathrm{Pr}(\Delta>0)=0.869$--0.953), which became more pronounced at higher precipitation (median $\Delta=0.124$--0.134; $\mathrm{Pr}(\Delta>0)=0.779$--0.790).
+In \textit{P.~autumnalis}, growth was context-dependent: unfenced plots shifted from negative to positive effects across the precipitation gradient (median $\Delta=-0.275$ to 0.144; $\mathrm{Pr}(\Delta>0)=0.169$--0.775), while fencing generally amplified benefits at low to moderate precipitation (median $\Delta=0.020$--0.390; $\mathrm{Pr}(\Delta>0)=0.559$--0.927), but became negative at higher precipitation (median $\Delta=-0.262$ to $-0.322$; $\mathrm{Pr}(\Delta>0)=0.056$--0.072).
 
-\textit{Epichloë} endophytes also increased flowering and spikelet production under wetter conditions, though effects were species- and herbivore-dependent (Figs.~\ref{fig:flowering}, \ref{sup:spikelet}; Figs.~\ref{sup:spike_delta}). Flowering benefits in \textit{A.~hyemalis} and \textit{E.~virginicus} were minimal under dry conditions but increased with precipitation, with minor influence from herbivore exclusion. In contrast, \textit{P.~autumnalis} showed strong flowering benefits under fencing at moderate-to-high precipitation (median $\Delta=0.47$--1.54; $\mathrm{Pr}(\Delta>0)=0.99$; Table~\ref{tab:delta_summary_flow}). Spikelet production followed a similar pattern: \textit{E.~virginicus} and \textit{P.~autumnalis} showed weak or negative effects under low precipitation, shifting to positive effects with higher precipitation, and fencing amplified these benefits across the gradient (median $\Delta=0.10$--1.56; $\mathrm{Pr}(\Delta>0)=0.77$--0.99; Table~\ref{tab:delta_summary_spike}).
+\textit{Epichloë} endophytes consistently increased inflorescence production across the precipitation gradient (Figs.~\ref{fig:flowering}). 
+By contrast, spikelet production was negatively affected by \textit{Epichloë} under low precipitation but increased under wetter conditions, with effects varying among species and depending on herbivore exclusion (\ref{sup:spikelet}; Figs.~\ref{sup:spike_delta}). 
+Inflorescence benefits in \textit{A.~hyemalis} and \textit{E.~virginicus} were minimal under dry conditions but increased with precipitation, with only minor influence from herbivore exclusion. 
+In \textit{P.~autumnalis}, strong inflorescence benefits occurred under fencing at moderate-to-high precipitation (median $\Delta=0.47$--1.54; $\mathrm{Pr}(\Delta>0)=0.96$--1.00; Table~\ref{tab:delta_summary_flow}). 
+Spikelet production showed a similar pattern: \textit{E.~virginicus} and \textit{P.~autumnalis} experienced weak or negative effects under low precipitation (median $\Delta=0.10$--0.40; $\mathrm{Pr}(\Delta>0)=0.23$--0.40), shifting to positive effects at higher precipitation, with fencing amplifying these benefits across the gradient (median $\Delta=0.95$--1.56; $\mathrm{Pr}(\Delta>0)=0.79$--0.99; Table~\ref{tab:delta_summary_spike}).
+
 
 \subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
 Grass-endophyte symbiosis, whether mutualistic or parasitic, was primarily modulated by climatic variation rather than by herbivore pressure. 
@@ -379,32 +391,16 @@ Across all vital rates (survival, growth, inflorescence, and spikelet production
 For instance, for survival, the \textit{Endophyte~$\times$~Climate} model outperformed the \textit{Endophyte~$\times$~Herbivory} model ($\Delta \mathrm{ELPD} = -2.1$, SE = 2.8), and including the three-way \textit{Endophyte~$\times$~Climate~$\times$~Herbivory} interaction further decreased predictive performance ($\Delta \mathrm{ELPD} = -5.0$, SE = 1.9). 
 Similar patterns were observed for growth, inflorescence, and spikelet production, indicating that climatic context is the primary driver of variation in the demographic consequences of endophyte symbiosis, whereas herbivory has weaker or context-dependent effects.
 
-\begin{table}[ht]
-\centering
-\caption{Model comparison of drivers of grass- endophyte symbiosis across four fitness components (vital rates). 
-$\Delta$ELPD indicates the difference in expected log predictive density relative to the best-fitting model; 
-SE is the standard error of the difference.}
-\begin{tabular}{lllrr}
-\toprule
-\textbf{Vital rate} & \textbf{Model type} & & \textbf{$\Delta$ELPD} & \textbf{SE} \\
-\midrule
-Survival      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory         & & $-2.11$ & 2.81 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory & & $-4.98$ & 1.89 \\
-Growth        & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory         & & $-0.19$ & 2.81 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory & & $-1.81$ & 2.75 \\
-Inflorescence & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory         & & $-2.62$ & 3.53 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.78$ & 2.63 \\
-Spikelet      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory         & & $-2.01$ & 3.82 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.16$ & 2.43 \\
-\bottomrule
-\end{tabular}
-\label{tab:comp_table_driver}
-\end{table}
+\section*{Discussion}
+Our results demonstrate that grass–endophytes symbioses generally enhance host performance under favorable, wetter conditions, whereas their effects can be neutral or even detrimental under high abiotic stress. 
+Across species and fitness components, climatic variation emerged as the dominant driver of endophyte-mediated effects, while herbivory had a secondary or context-dependent influence.
+These results underscore that the outcome of grass–\textit{Epichloë} symbiosis shifts along abiotic stress gradients, providing empirical support for environmentally contingent mutualism in a broadly distributed host–symbiont system.  
 
+Endophyte presence consistently enhances host performance under favorable, wetter conditions, a pattern widely documented across grass–\textit{Epichloë} systems.
+
+Conversely, under high abiotic stress, endophyte effects can be neutral or even detrimental, reflecting the costs of symbiosis under challenging environmental conditions.
+
+Across species and fitness components, climatic variation emerges as the dominant driver of endophyte-mediated effects, while herbivory plays a secondary or context-dependent role.
 
 \section*{Acknowledgements}
 This research was supported by National Science Foundation Division of Environmental Biology awards.
@@ -418,6 +414,14 @@ This research was supported by National Science Foundation Division of Environme
 \clearpage
 
 \section*{Figures}
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{../Figure/Prediction.png}
+\caption{XX}
+\label{fig:predcition}
+\end{figure}
+\clearpage
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{../Figure/clim_map.pdf}
@@ -463,6 +467,33 @@ Points indicate observed means,jittered  for visualization.
 Panels are grouped by species and herbivory treatment (unfenced = with herbivory; fenced = herbivory excluded).}
 \label{fig:flowering}
 \end{figure}
+\clearpage
+\section*{Tables}
+\begin{table}[h]
+\centering
+\caption{Model comparison of drivers of grass- endophyte symbiosis across four fitness components (vital rates). 
+$\Delta$ELPD indicates the difference in expected log predictive density relative to the best-fitting model; 
+SE is the standard error of the difference.}
+\begin{tabular}{lllrr}
+\toprule
+\textbf{Vital rate} & \textbf{Model type} & & \textbf{$\Delta$ELPD} & \textbf{SE} \\
+\midrule
+Survival      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.11$ & 2.81 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-4.98$ & 1.89 \\
+Growth        & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-0.19$ & 2.81 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-1.81$ & 2.75 \\
+Inflorescence & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.62$ & 3.53 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.78$ & 2.63 \\
+Spikelet      & Endophyte $\times$ Climate           & & 0.00   & 0.00 \\
+              & Endophyte $\times$ Herbivory         & & $-2.01$ & 3.82 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory & & $-3.16$ & 2.43 \\
+\bottomrule
+\end{tabular}
+\label{tab:comp_table_driver}
+\end{table}
 
 %--------------------------------------------------------------------
 
@@ -768,54 +799,54 @@ Species & Herbivore exclusion & Precipitation (mm) & Median $\Delta$  & Lower 90
 \end{table}
 \end{landscape}
 
-\begin{landscape}
-\begin{table}[ht]
-\centering
-\small
-\caption{Posterior summaries of interaction effects (mean estimate, 95\% credible intervals, and posterior probability) for survival, growth, flowering, and spikelet production across three grass species.}
-\label{tab:interactions}
-\begin{tabular}{l l l r r r r}
-\hline
-Fitness component & Species & Parameter & Estimate & Lower CI & Upper CI & Probability \\
-\hline
-Survival & \textit{Agrostis hyemalis} & Endophyte × Climate & 1.213 & 0.658 & 2.354 & 0.730 \\
-Survival & \textit{Elymus virginicus} & Endophyte × Climate & 1.364 & 0.666 & 2.802 & 0.806 \\
-Survival & \textit{Poa autumnalis} & Endophyte × Climate & 1.255 & 0.483 & 3.344 & 0.681 \\
-Survival & \textit{Agrostis hyemalis} & Endophyte × Herbivory & 0.804 & 0.364 & 1.720 & 0.287 \\
-Survival & \textit{Elymus virginicus} & Endophyte × Herbivory & 0.868 & 0.347 & 2.119 & 0.376 \\
-Survival & \textit{Poa autumnalis} & Endophyte × Herbivory & 1.941 & 0.642 & 6.026 & 0.879 \\
-Survival & \textit{Agrostis hyemalis} & Endophyte × Herbivory × Climate & 1.149 & 0.503 & 2.525 & 0.630 \\
-Survival & \textit{Elymus virginicus} & Endophyte × Herbivory × Climate & 1.450 & 0.560 & 3.880 & 0.774 \\
-Survival & \textit{Poa autumnalis} & Endophyte × Herbivory × Climate & 0.737 & 0.229 & 2.394 & 0.303 \\
-Growth & \textit{Agrostis hyemalis} & Endophyte × Climate & -0.005 & -0.340 & 0.329 & 0.488 \\
-Growth & \textit{Elymus virginicus} & Endophyte × Climate & -0.013 & -0.290 & 0.268 & 0.461 \\
-Growth & \textit{Poa autumnalis} & Endophyte × Climate & 0.208 & -0.156 & 0.559 & 0.873 \\
-Growth & \textit{Agrostis hyemalis} & Endophyte × Herbivory & -0.283 & -0.734 & 0.158 & 0.107 \\
-Growth & \textit{Elymus virginicus} & Endophyte × Herbivory & -0.208 & -0.621 & 0.218 & 0.169 \\
-Growth & \textit{Poa autumnalis} & Endophyte × Herbivory & 0.365 & -0.135 & 0.862 & 0.929 \\
-Growth & \textit{Agrostis hyemalis} & Endophyte × Herbivory × Climate & 0.084 & -0.296 & 0.462 & 0.666 \\
-Growth & \textit{Elymus virginicus} & Endophyte × Herbivory × Climate & 0.060 & -0.296 & 0.405 & 0.634 \\
-Growth & \textit{Poa autumnalis} & Endophyte × Herbivory × Climate & -0.549 & -0.966 & -0.141 & 0.004 \\
-Flowering & \textit{Agrostis hyemalis} & bendoclim & 1.092 & 0.711 & 1.646 & 0.656 \\
-Flowering & \textit{Elymus virginicus} & bendoclim & 1.178 & 0.817 & 1.698 & 0.805 \\
-Flowering & \textit{Poa autumnalis} & bendoclim & 1.103 & 0.725 & 1.689 & 0.676 \\
-Flowering & \textit{Agrostis hyemalis} & bendoherb & 1.014 & 0.577 & 1.784 & 0.523 \\
-Flowering & \textit{Elymus virginicus} & bendoherb & 0.987 & 0.549 & 1.781 & 0.478 \\
-Flowering & \textit{Poa autumnalis} & bendoherb & 1.964 & 1.052 & 3.807 & 0.982 \\
-Flowering & \textit{Agrostis hyemalis} & bendoherbclim & 0.997 & 0.604 & 1.670 & 0.496 \\
-Flowering & \textit{Elymus virginicus} & bendoherbclim & 0.900 & 0.567 & 1.437 & 0.332 \\
-Flowering & \textit{Poa autumnalis} & bendoherbclim & 0.640 & 0.380 & 1.055 & 0.038 \\
-Spikelet & \textit{Elymus virginicus} & bendoclim & 1.100 & 0.930 & 1.310 & 0.866 \\
-Spikelet & \textit{Poa autumnalis} & bendoclim & 1.103 & 0.888 & 1.362 & 0.817 \\
-Spikelet & \textit{Elymus virginicus} & bendoherb & 1.029 & 0.760 & 1.395 & 0.573 \\
-Spikelet & \textit{Poa autumnalis} & bendoherb & 1.315 & 0.969 & 1.786 & 0.961 \\
-Spikelet & \textit{Elymus virginicus} & bendoherbclim & 1.023 & 0.806 & 1.293 & 0.573 \\
-Spikelet & \textit{Poa autumnalis} & bendoherbclim & 0.873 & 0.682 & 1.119 & 0.145 \\
-\hline
-\end{tabular}
-\end{table}
-\end{landscape}
-
+%\begin{landscape}
+%\begin{table}[ht]
+%\centering
+%\small
+%\caption{Posterior summaries of interaction effects (mean estimate, 95\% credible intervals, and posterior probability) for survival, growth, flowering, and spikelet production across three grass species.}
+%\label{tab:interactions}
+%\begin{tabular}{l l l r r r r}
+%\hline
+%Fitness component & Species & Parameter & Estimate & Lower CI & Upper CI & Probability \\
+%\hline
+%Survival & \textit{Agrostis hyemalis} & Endophyte × Climate & 1.213 & 0.658 & 2.354 & 0.730 \\
+%Survival & \textit{Elymus virginicus} & Endophyte × Climate & 1.364 & 0.666 & 2.802 & 0.806 \\
+%Survival & \textit{Poa autumnalis} & Endophyte × Climate & 1.255 & 0.483 & 3.344 & 0.681 \\
+%Survival & \textit{Agrostis hyemalis} & Endophyte × Herbivory & 0.804 & 0.364 & 1.720 & 0.287 \\
+%Survival & \textit{Elymus virginicus} & Endophyte × Herbivory & 0.868 & 0.347 & 2.119 & 0.376 \\
+%Survival & \textit{Poa autumnalis} & Endophyte × Herbivory & 1.941 & 0.642 & 6.026 & 0.879 \\
+%Survival & \textit{Agrostis hyemalis} & Endophyte × Herbivory × Climate & 1.149 & 0.503 & 2.525 & 0.630 \\
+%Survival & \textit{Elymus virginicus} & Endophyte × Herbivory × Climate & 1.450 & 0.560 & 3.880 & 0.774 \\
+%Survival & \textit{Poa autumnalis} & Endophyte × Herbivory × Climate & 0.737 & 0.229 & 2.394 & 0.303 \\
+%Growth & \textit{Agrostis hyemalis} & Endophyte × Climate & -0.005 & -0.340 & 0.329 & 0.488 \\
+%Growth & \textit{Elymus virginicus} & Endophyte × Climate & -0.013 & -0.290 & 0.268 & 0.461 \\
+%Growth & \textit{Poa autumnalis} & Endophyte × Climate & 0.208 & -0.156 & 0.559 & 0.873 \\
+%Growth & \textit{Agrostis hyemalis} & Endophyte × Herbivory & -0.283 & -0.734 & 0.158 & 0.107 \\
+%Growth & \textit{Elymus virginicus} & Endophyte × Herbivory & -0.208 & -0.621 & 0.218 & 0.169 \\
+%Growth & \textit{Poa autumnalis} & Endophyte × Herbivory & 0.365 & -0.135 & 0.862 & 0.929 \\
+%Growth & \textit{Agrostis hyemalis} & Endophyte × Herbivory × Climate & 0.084 & -0.296 & 0.462 & 0.666 \\
+%Growth & \textit{Elymus virginicus} & Endophyte × Herbivory × Climate & 0.060 & -0.296 & 0.405 & 0.634 \\
+%Growth & \textit{Poa autumnalis} & Endophyte × Herbivory × Climate & -0.549 & -0.966 & -0.141 & 0.004 \\
+%Flowering & \textit{Agrostis hyemalis} & bendoclim & 1.092 & 0.711 & 1.646 & 0.656 \\
+%Flowering & \textit{Elymus virginicus} & bendoclim & 1.178 & 0.817 & 1.698 & 0.805 \\
+%Flowering & \textit{Poa autumnalis} & bendoclim & 1.103 & 0.725 & 1.689 & 0.676 \\
+%Flowering & \textit{Agrostis hyemalis} & bendoherb & 1.014 & 0.577 & 1.784 & 0.523 \\
+%Flowering & \textit{Elymus virginicus} & bendoherb & 0.987 & 0.549 & 1.781 & 0.478 \\
+%Flowering & \textit{Poa autumnalis} & bendoherb & 1.964 & 1.052 & 3.807 & 0.982 \\
+%Flowering & \textit{Agrostis hyemalis} & bendoherbclim & 0.997 & 0.604 & 1.670 & 0.496 \\
+%Flowering & \textit{Elymus virginicus} & bendoherbclim & 0.900 & 0.567 & 1.437 & 0.332 \\
+%Flowering & \textit{Poa autumnalis} & bendoherbclim & 0.640 & 0.380 & 1.055 & 0.038 \\
+%Spikelet & \textit{Elymus virginicus} & bendoclim & 1.100 & 0.930 & 1.310 & 0.866 \\
+%Spikelet & \textit{Poa autumnalis} & bendoclim & 1.103 & 0.888 & 1.362 & 0.817 \\
+%Spikelet & \textit{Elymus virginicus} & bendoherb & 1.029 & 0.760 & 1.395 & 0.573 \\
+%Spikelet & \textit{Poa autumnalis} & bendoherb & 1.315 & 0.969 & 1.786 & 0.961 \\
+%Spikelet & \textit{Elymus virginicus} & bendoherbclim & 1.023 & 0.806 & 1.293 & 0.573 \\
+%Spikelet & \textit{Poa autumnalis} & bendoherbclim & 0.873 & 0.682 & 1.119 & 0.145 \\
+%\hline
+%\end{tabular}
+%\end{table}
+%\end{landscape}
+%
 
 \subsection{Supporting Figures}
 \begin{suppfigure}[ht]

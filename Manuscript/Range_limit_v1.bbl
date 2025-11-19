@@ -26,6 +26,12 @@ Atala, C., Acu{\~n}a-Rodr{\'\i}guez, I.~S., Torres-D{\'\i}az, C., and
   eliminate the growth/defence trade-off.
 \newblock {\em New Phytologist}, 235(2).
 
+\bibitem[Bast{\'\i}as and Gundel, 2023]{bastias2023plant}
+Bast{\'\i}as, D.~A. and Gundel, P.~E. (2023).
+\newblock Plant stress responses compromise mutualisms with epichlo{\"e}
+  endophytes.
+\newblock {\em Journal of Experimental Botany}, 74(1):19--23.
+
 \bibitem[Bastias et~al., 2017]{bastias2017epichloe}
 Bastias, D.~A., Mart{\'\i}nez-Ghersa, M.~A., Ballar{\'e}, C.~L., and Gundel,
   P.~E. (2017).
@@ -42,6 +48,16 @@ Bronstein, J.~L. (1994).
 Bronstein, J.~L. (2001).
 \newblock The exploitation of mutualisms.
 \newblock {\em Ecology letters}, 4(3):277--287.
+
+\bibitem[Chamberlain et~al., 2014]{chamberlain2014context}
+Chamberlain, S.~A., Bronstein, J.~L., and Rudgers, J.~A. (2014).
+\newblock How context dependent are species interactions?
+\newblock {\em Ecology letters}, 17(7):881--890.
+
+\bibitem[Clay, 1990]{clay1990fungal}
+Clay, K. (1990).
+\newblock Fungal endophytes of grasses.
+\newblock {\em Annual review of Ecology and Systematics}, pages 275--297.
 
 \bibitem[Clay et~al., 2005]{clay2005herbivores}
 Clay, K., Holah, J., and Rudgers, J.~A. (2005).
@@ -94,6 +110,12 @@ Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
 \newblock Endophyte traits relevant to stress tolerance, resource use and
   habitat of origin predict effects on host plants.
 \newblock {\em New Phytologist}, 221(4):2239--2249.
+
+\bibitem[Gibert et~al., 2012]{gibert2012fungal}
+Gibert, A., Volaire, F., Barre, P., and Hazard, L. (2012).
+\newblock A fungal endophyte reinforces population adaptive differentiation in
+  its host grass species.
+\newblock {\em New Phytologist}, 194(2):561--571.
 
 \bibitem[Gundel et~al., 2020]{gundel2020simulated}
 Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
@@ -161,10 +183,22 @@ Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
   the response of hordelymus europaeus to drought stress.
 \newblock {\em New Phytologist}, 201(1):242--253.
 
+\bibitem[Porter et~al., 2020]{porter2020beneficial}
+Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
+  K., Moore, B.~M., Shetty, P., Siler, E., and Friesen, M.~L. (2020).
+\newblock Beneficial microbes ameliorate abiotic and biotic sources of stress
+  on plants.
+\newblock {\em Functional Ecology}, 34(10):2075--2086.
+
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[Rodriguez et~al., 2009]{rodriguez2009fungal}
+Rodriguez, R., White~Jr, J., Arnold, A.~E., and Redman, a. R.~a. (2009).
+\newblock Fungal endophytes: diversity and functional roles.
+\newblock {\em New phytologist}, 182(2):314--330.
 
 \bibitem[Rudgers et~al., 2016]{rudgers2016long}
 Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,

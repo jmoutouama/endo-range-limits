@@ -3,70 +3,69 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v1.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 142 of file References.bib
+Repeated entry---line 204 of file References.bib
  : @article{emery2010variation
  :                            ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 287 of file References.bib
+Repeated entry---line 349 of file References.bib
  : @article{johnson1997functioning
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 446 of file References.bib
+Repeated entry---line 508 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 748 of file References.bib
+Repeated entry---line 810 of file References.bib
  : @article{ahlholm2002vertically
  :                               ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 759 of file References.bib
+Repeated entry---line 821 of file References.bib
  : @article{saikkonen1998fungal
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 977 of file References.bib
+Repeated entry---line 1039 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "ronstein2001exploitation"
-You've used 49 entries,
+You've used 55 entries,
             1935 wiz_defined-function locations,
-            786 strings with 12952 characters,
-and the built_in function-call counts, 20552 in all, are:
-= -- 2040
-> -- 879
-< -- 21
-+ -- 308
-- -- 298
-* -- 1878
-:= -- 3574
-add.period$ -- 147
-call.type$ -- 49
-change.case$ -- 391
-chr.to.int$ -- 47
-cite$ -- 49
-duplicate$ -- 685
-empty$ -- 1399
-format.name$ -- 359
-if$ -- 3931
+            815 strings with 13820 characters,
+and the built_in function-call counts, 23011 in all, are:
+= -- 2286
+> -- 971
+< -- 24
++ -- 340
+- -- 328
+* -- 2102
+:= -- 3995
+add.period$ -- 165
+call.type$ -- 55
+change.case$ -- 435
+chr.to.int$ -- 53
+cite$ -- 55
+duplicate$ -- 769
+empty$ -- 1578
+format.name$ -- 399
+if$ -- 4406
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 44
-newline$ -- 248
-num.names$ -- 147
-pop$ -- 290
+missing$ -- 51
+newline$ -- 278
+num.names$ -- 165
+pop$ -- 325
 preamble$ -- 1
-purify$ -- 394
+purify$ -- 439
 quote$ -- 0
-skip$ -- 523
+skip$ -- 585
 stack$ -- 0
-substring$ -- 1675
-swap$ -- 65
+substring$ -- 1892
+swap$ -- 71
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 292
+type$ -- 326
 warning$ -- 0
-while$ -- 180
+while$ -- 202
 width$ -- 0
-write$ -- 633
+write$ -- 710
 (There were 6 error messages)

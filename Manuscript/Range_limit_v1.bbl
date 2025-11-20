@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[Adams et~al., 2022]{adams2022case}
+Adams, A.~E., Besozzi, E.~M., Shahrokhi, G., and Patten, M.~A. (2022).
+\newblock A case for associational resistance: Apparent support for the stress
+  gradient hypothesis varies with study system.
+\newblock {\em Ecology Letters}, 25(1):202--217.
+
 \bibitem[Afkhami and Rudgers, 2008]{afkhami2008symbiosis}
 Afkhami, M.~E. and Rudgers, J.~A. (2008).
 \newblock Symbiosis lost: imperfect vertical transmission of fungal endophytes
@@ -54,6 +60,11 @@ Chamberlain, S.~A., Bronstein, J.~L., and Rudgers, J.~A. (2014).
 \newblock How context dependent are species interactions?
 \newblock {\em Ecology letters}, 17(7):881--890.
 
+\bibitem[Cheplick and Faeth, 2009]{cheplick2009ecology}
+Cheplick, G.~P. and Faeth, S.~H. (2009).
+\newblock {\em Ecology and evolution of the grass-endophyte symbiosis}.
+\newblock OUP USA.
+
 \bibitem[Clay, 1990]{clay1990fungal}
 Clay, K. (1990).
 \newblock Fungal endophytes of grasses.
@@ -72,11 +83,22 @@ Clay, K. and Schardl, C. (2002).
   symbiosis with grasses.
 \newblock {\em the american naturalist}, 160(S4):S99--S127.
 
+\bibitem[Eaton et~al., 2011]{eaton2011triggers}
+Eaton, C.~J., Cox, M.~P., and Scott, B. (2011).
+\newblock What triggers grass endophytes to switch from mutualism to
+  pathogenism?
+\newblock {\em Plant Science}, 180(2):190--195.
+
 \bibitem[Emery et~al., 2010]{emery2010variation}
 Emery, S.~M., Thompson, D., and Rudgers, J.~A. (2010).
 \newblock Variation in endophyte symbiosis, herbivory and drought tolerance of
   ammophila breviligulata populations in the great lakes region.
 \newblock {\em The American Midland Naturalist}, 163(1):186--196.
+
+\bibitem[Faeth, 2002]{faeth2002endophytic}
+Faeth, S.~H. (2002).
+\newblock Are endophytic fungi defensive plant mutualists?
+\newblock {\em Oikos}, 98(1):25--36.
 
 \bibitem[Fowler et~al., 2023]{fowler2023geographic}
 Fowler, J.~C., Donald, M.~L., Bronstein, J.~L., and Miller, T.~E. (2023).
@@ -124,6 +146,12 @@ Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   endophytes that deter herbivores and alter tolerance to herbivory in poa
   autumnalis.
 \newblock {\em Annals of Botany}, 125(6):981--991.
+
+\bibitem[Hammarlund and Harcombe, 2019]{hammarlund2019refining}
+Hammarlund, S.~P. and Harcombe, W.~R. (2019).
+\newblock Refining the stress gradient hypothesis in a microbial community.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(32):15760--15762.
 
 \bibitem[Hart and Bell, 2015]{PRISM2024}
 Hart, E.~M. and Bell, K. (2015).
@@ -182,6 +210,12 @@ Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
 \newblock Effects of natural hybrid and non-hybrid epichlo{\"e} endophytes on
   the response of hordelymus europaeus to drought stress.
 \newblock {\em New Phytologist}, 201(1):242--253.
+
+\bibitem[Piccardi et~al., 2019]{piccardi2019toxicity}
+Piccardi, P., Vessman, B., and Mitri, S. (2019).
+\newblock Toxicity drives facilitation between 4 bacterial species.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(32):15979--15984.
 
 \bibitem[Porter et~al., 2020]{porter2020beneficial}
 Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,

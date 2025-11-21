@@ -6,11 +6,23 @@ Adams, A.~E., Besozzi, E.~M., Shahrokhi, G., and Patten, M.~A. (2022).
   gradient hypothesis varies with study system.
 \newblock {\em Ecology Letters}, 25(1):202--217.
 
+\bibitem[Afkhami et~al., 2014]{afkhami2014mutualist}
+Afkhami, M.~E., McIntyre, P.~J., and Strauss, S.~Y. (2014).
+\newblock Mutualist-mediated effects on species' range limits across large
+  geographic scales.
+\newblock {\em Ecology letters}, 17(10):1265--1273.
+
 \bibitem[Afkhami and Rudgers, 2008]{afkhami2008symbiosis}
 Afkhami, M.~E. and Rudgers, J.~A. (2008).
 \newblock Symbiosis lost: imperfect vertical transmission of fungal endophytes
   in grasses.
 \newblock {\em The American Naturalist}, 172(3):405--416.
+
+\bibitem[Afkhami and Rudgers, 2009]{afkhami2009endophyte}
+Afkhami, M.~E. and Rudgers, J.~A. (2009).
+\newblock Endophyte-mediated resistance to herbivores depends on herbivore
+  identity in the wild grass festuca subverticillata.
+\newblock {\em Environmental Entomology}, 38(4):1086--1095.
 
 \bibitem[Ahlholm et~al., 2002]{ahlholm2002vertically}
 Ahlholm, J.~U., Helander, M., Lehtim{\"a}ki, S., W{\"a}li, P., and Saikkonen,
@@ -45,6 +57,11 @@ Bastias, D.~A., Mart{\'\i}nez-Ghersa, M.~A., Ballar{\'e}, C.~L., and Gundel,
   alkaloids.
 \newblock {\em Trends in Plant Science}, 22(11):939--948.
 
+\bibitem[Bertness and Callaway, 1994]{bertness1994positive}
+Bertness, M.~D. and Callaway, R. (1994).
+\newblock Positive interactions in communities.
+\newblock {\em Trends in ecology \& evolution}, 9(5):191--193.
+
 \bibitem[Bronstein, 1994]{bronstein1994conditional}
 Bronstein, J.~L. (1994).
 \newblock Conditional outcomes in mutualistic interactions.
@@ -60,10 +77,22 @@ Chamberlain, S.~A., Bronstein, J.~L., and Rudgers, J.~A. (2014).
 \newblock How context dependent are species interactions?
 \newblock {\em Ecology letters}, 17(7):881--890.
 
+\bibitem[Cheplick et~al., 1989]{cheplick1989interactions}
+Cheplick, G., Clay, K., and Marks, S. (1989).
+\newblock Interactions between infection by endophytic fungi and nutrient
+  limitation in the grasses lolium perenne and festuca arundinacea.
+\newblock {\em New Phytologist}, 111(1):89--97.
+
 \bibitem[Cheplick and Faeth, 2009]{cheplick2009ecology}
 Cheplick, G.~P. and Faeth, S.~H. (2009).
 \newblock {\em Ecology and evolution of the grass-endophyte symbiosis}.
 \newblock OUP USA.
+
+\bibitem[Clay, 1988]{clay1988fungal}
+Clay, K. (1988).
+\newblock Fungal endophytes of grasses: a defensive mutualism between plants
+  and fungi.
+\newblock {\em Ecology}, 69(1):10--16.
 
 \bibitem[Clay, 1990]{clay1990fungal}
 Clay, K. (1990).
@@ -194,16 +223,16 @@ Liu, M. (2023).
 \newblock Fungi canadenses no. 351: Epichloe elymi.
 \newblock {\em Canadian Journal of Plant Pathology}, 45(3):300--303.
 
+\bibitem[Lortie and Callaway, 2006]{lortie2006re}
+Lortie, C.~J. and Callaway, R.~M. (2006).
+\newblock Re-analysis of meta-analysis: support for the stress-gradient
+  hypothesis.
+\newblock {\em Journal of Ecology}, 94(1):7--16.
+
 \bibitem[Louthan et~al., 2015]{louthan2015and}
 Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
 \newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
-
-\bibitem[Malinowski et~al., 2000]{malinowski2000leaf}
-Malinowski, D.~P., Alloush, G.~A., and Belesky, D.~P. (2000).
-\newblock Leaf endophyte neotyphodium coenophialum modifies mineral uptake in
-  tall fescue.
-\newblock {\em Plant and Soil}, 227(1):115--126.
 
 \bibitem[Oberhofer et~al., 2014]{oberhofer2014effects}
 Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
@@ -233,6 +262,13 @@ Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
 Rodriguez, R., White~Jr, J., Arnold, A.~E., and Redman, a. R.~a. (2009).
 \newblock Fungal endophytes: diversity and functional roles.
 \newblock {\em New phytologist}, 182(2):314--330.
+
+\bibitem[Rudgers et~al., 2020]{rudgers2020climate}
+Rudgers, J.~A., Afkhami, M.~E., Bell-Dereske, L., Chung, Y.~A., Crawford,
+  K.~M., Kivlin, S.~N., Mann, M.~A., and Nu{\~n}ez, M.~A. (2020).
+\newblock Climate disruption of plant-microbe interactions.
+\newblock {\em Annual review of ecology, evolution, and systematics},
+  51:561--586.
 
 \bibitem[Rudgers et~al., 2016]{rudgers2016long}
 Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,

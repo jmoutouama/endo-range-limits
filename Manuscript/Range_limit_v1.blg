@@ -1,33 +1,35 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99d
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v1.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: References.bib
-Repeated entry---line 270 of file References.bib
+Repeated entry---line 539 of file References.bib
  : @article{emery2010variation
  :                            ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 415 of file References.bib
+Repeated entry---line 829 of file References.bib
  : @article{johnson1997functioning
  :                                ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 574 of file References.bib
+Repeated entry---line 1147 of file References.bib
  : @article{gundel2020simulated
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 736 of file References.bib
+Repeated entry---line 1471 of file References.bib
  : @article{bastias2017epichloe
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 876 of file References.bib
+Repeated entry---line 1751 of file References.bib
  : @article{ahlholm2002vertically
  :                               ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 887 of file References.bib
+Repeated entry---line 1773 of file References.bib
  : @article{saikkonen1998fungal
  :                             ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 1105 of file References.bib
+Repeated entry---line 2209 of file References.bib
  : @article{yule2013costs
  :                       ,
 I'm skipping whatever remains of this entry

@@ -331,54 +331,65 @@ We recorded the number of inflorescences per plant for all three species and cou
 In \emph{A. hyemalis}, one spikelet yields one seed, while in \emph{P. autumnalis} and \emph{E. virginicus} a single spikelet can produce 2-6 seeds. 
 %Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 
-\subsection*{Assessing whether endophytes confer benefits or impose costs under abiotic and biotic stress}
-To assess whether endophytes confer benefits or impose costs under abiotic and biotic stress, we first developed two candidate models for each vital rate: one quadratic and one monotonic.
-All models shared the same hierarchical structure and were applied to survival, growth, and fertility.
-Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, the number of inflorescences with a zero-inflated negative binomial distribution, and the number of spikelets with a negative binomial distribution.
-We modeled all vital rates (survival, growth, and fertility) using species-specific fixed effects for symbiosis (endophyte presence), precipitation, and herbivore access, including all relevant two and three-way interactions. 
-Each observation $i$ corresponds to a plant in a given year; individuals can appear in multiple years. 
-For simplicity, we omit the full subscript notation for species, plot, population, and site-year, which is explicitly included in the Stan model. 
-We present the quadratic model here (Eq.~\ref{eq:full_model}) because it encompasses the linear model as a special case.
+\subsection*{Statistical modeling}
+To assess whether endophytes confer benefits or impose costs under abiotic and biotic stress, we fit generalized linear mixed models for each vital rate response in a hierarchical Bayesian statistical framework. %first developed two candidate models for each vital rate: one quadratic and one monotonic.
+All models shared the same hierarchical structure for their expected values and were applied to survival, growth, and fertility.
+Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, inflorescence count with a zero-inflated negative binomial distribution, and spikelet count with a negative binomial distribution.
+All models included species-specific fixed effects for symbiosis (endophyte presence/absence), precipitation, and herbivory (herbivore access/exlusion), including all relevant two and three-way interactions. 
+We considered models with linear and quadratic forms for the influence of precipitation, to account for the possibility of non-monotonic responses. 
+We present the quadratic model here (Eq.~\ref{eq:full_model}) because it encompasses the linear model as a special case. 
+
+For each vital rate model, the expected value for the $i^{th}$ observation ($\mu_{i}$) was given by:
+%Each observation $i$ corresponds to a plant in a given year; individuals can appear in multiple years. 
+%For simplicity, we omit the full subscript notation for species, plot, population, and site-year, which is explicitly included in the Stan model. 
 \begin{equation}\label{eq:full_model}
 \begin{aligned}
-\mu_i &= \beta_0[Sp_i] + \beta_P[Sp_i] P_i + \beta_{P^2}[Sp_i] P_i^2 + \beta_{endo}[Sp_i]\, endo_i + \beta_{herb}[Sp_i]\, herb_i \\
-&\quad + \beta_{endo \times P}[Sp_i]\, endo_i P_i 
+\mu_i &= \beta_0[Sp_i] + \beta_P[Sp_i] precip_i + \beta_{P^2}[Sp_i] precip_i^2 + \beta_{E}[Sp_i]\, endo_i + \beta_{H}[Sp_i]\, herb_i \\
+&\quad + \beta_{EP}[Sp_i]\, endo_i precip_i 
        %+ \beta_{endo \times P^2}[Sp_i]\, endo_i P_i^2 
-       + \beta_{herb \times P}[Sp_i]\, herb_i P_i \\
-&\quad + \beta_{herb \times endo}[Sp_i]\, herb_i endo_i + \beta_{endo \times herb \times P}[Sp_i]\, endo_i herb_i P_i \\
+       + \beta_{HP}[Sp_i]\, herb_i precip_i \\
+&\quad + \beta_{HE}[Sp_i]\, herb_i endo_i + \beta_{HEP}[Sp_i]\, endo_i herb_i precip_i \\
 &\quad  + \phi_{\text{site}[i],Sp_i} 
        + \omega_{\text{source}[i],Sp_i} 
-       + \rho_{\text{plot}[i],Sp_i} .
+       + \rho_{\text{plot}[i],Sp_i}
+       \\
+\phi_{\text{site}[i],Sp_i} \sim N(0,\sigma^2_{site})\\
+\rho_{\text{plot}[i],Sp_i} \sim N(0,\sigma^2_{plot})\\
+\omega_{\text{source}[i],Sp_i} \sim N(0,\sigma^2_{source})
 \end{aligned}
 \end{equation}
-\noindent Here, $P_i$ is total precipitation (mm) cumulated over the 12 months preceding the census, $endo_i$ indicates endophyte presence, and $herb_i$ indicates herbivore access.
-Random effects account for background variation at multiple hierarchical levels: $\phi_{\text{site}[i],Sp_i}$ captures site-to-site heterogeneity, $\omega_{\text{source}[i],Sp_i}$ captures variation associated with the provenance of transplants, and $\rho_{\text{plot}[i],Sp_i}$ captures plot-to-plot variation.
-Each species has its own random effect for each site, source, and plot, while the variance parameters ($\sigma_{\text{site}}$, $\sigma_{\text{source}}$, $\sigma_{\text{plot}}$) are shared across species. 
-This hierarchical structure allows the model to "borrow strength'' across species, improving estimates of fixed effects while still capturing species-specific responses to environmental gradient.
+\noindent Here, $precip_i$ is \tom{total precipitation (mm)}{I think we should update FIgure 2 so that it shows precipitation of both years, since the combined effects of site and year is what gives us greater ppt coverage. Also, was ppt scaled to mean zero for analysis?} accumulated over the 12 months preceding the census, $endo_i$ indicates endophyte presence ($endo_i=1$) or absence ($endo_i=0$), and $herb_i$ indicates \tom{herbivore access ($herb_i=1$) or exclusion ($herb_i=0$)}{Is this right? We need to make sure we interest the fence effects correctly.}.
+The model includes random effects account for background variation at multiple hierarchical levels: $\phi_{\text{site}[i],Sp_i}$ captures site-to-site heterogeneity that is not explained by precipitation, $\rho_{\text{plot}[i],Sp_i}$ captures plot-to-plot variation within sites, and $\omega_{\text{source}[i],Sp_i}$ captures variation associated with the provenance of transplants.
+Random effect for site, plot, and source are host species-specific but the variance parameters ($\sigma_{\text{site}}$, $\sigma_{\text{source}}$, $\sigma_{\text{plot}}$) are shared across species; this assumes, for example, that site-to-site heterogeneity is of a similar magnitude across species, even as the model allows for ``better'' and ``worse'' sites to differ by species. 
+This hierarchical structure allows the model to``borrow strength'' across species, improving estimates of fixed effects while still capturing species-specific responses to environmental gradient.
+
+\tom{All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.}{Need to say more about priors, chains, thinning, etc.}
 We confirmed that models effectively captured key aspects of the grass demography data, including means, standard deviations, and quantiles  using a posterior predictive check (Fig.~\ref{sup:ppc_vital}).
 
-Secondly, we compared quadratic and monotonic candidate models using leave-one-out cross-validation (LOOCV) to identify the best-supported model for each vital rate \citep{vehtari2017practical}.
+Next, for each vital rate, we compared candidate models with a linear or quadratic influence of precipitation using leave-one-out cross-validation (LOOCV) to identify the best-supported model \citep{vehtari2017practical}.
 LOOCV combines validation and training by iteratively holding out one observation as a test set while fitting the model on the remaining $n-1$ observations. 
 This process is repeated $n$ times, once for each observation, resulting in $n$ fitted models \citep{silva2024robust}. 
-The overall test error estimate is then obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}) for each vital rate.
+The overall test error estimate is then obtained by averaging the prediction errors across all $n$ models (Eq.~\ref{eq:Loo}) for each vital rate:\tom{}{In Eq 2, should $CV_n$ instead be $LOOCV_n$? Also, you have not defined the y's in this equation, and I think it might be simpler to describe the method but not show the equation, since this is a standard model selection method and is not unique to our study.}
 \begin{align}\label{eq:Loo}
 CV_{n} = \frac{1}{n} \sum_{i=1}^{n} (y_{i} - \hat{y}_{i})^2
 \end{align}
-Although we evaluated quadratic models, LOOCV showed that they provided minimal improvement over monotonic models (Table~\ref{tab:model_comparison}). 
-Therefore, all subsequent analyses used the monotonic model, which captures the observed patterns while maintaining model simplicity.
+\tom{Although we evaluated quadratic models, LOOCV showed that they provided minimal improvement over monotonic models (Table~\ref{tab:model_comparison}). 
+Therefore, all subsequent analyses used the monotonic model, which captures the observed patterns while maintaining model simplicity.}{I think this is very rigorous. But it will be simpler for readers if we say from the beginning, where you first introduce the linear-quadratic contrast, that we tested both and found little support for quadratic effects (and reference supplement table), and then we can just show the linear model.}
 
-Finally, for each vital rate, precipitation was summarized at key quantiles (10th, 25th, 50th, 75th, and 90th percentiles) to represent the range of site-level abiotic stress. 
-For each species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, \textit{Poa autumnalis}) and herbivory treatment (Fenced or Unfenced), we computed posterior predictions of survival probability for individuals with endophytes (E$^+$) and without endophytes (E$^-$) using the best Bayesian model outputs (Eq.~\ref{eq:full_model}). 
+\subsection*{Drivers of endophyte effects on host demography}
+We used posterior parameter estimates to visualize predictions for how effects of symbiosis varied across abiotic and biotic contexts. 
+\tom{For each vital rate, precipitation was summarized at key quantiles (10th, 25th, 50th, 75th, and 90th percentiles) to represent the range of site-level abiotic stress. }{I do not follow the significance or value of considering quantiles. Why not treat precipitation continuously? We an indicate quantiles on the x axis of a figure, if your idea is to represent the realistic range of ppt variation. Note that species would differ in their quantiles because only ELVI is at Sonora.}
+For each herbivory treatment (Access or Exclusion) at each level of precipitation, we computed posterior predictions of survival probability E$^+$ and E$^-$ hosts \tom{using the best Bayesian model outputs (Eq.~\ref{eq:full_model}). }{I don't know what you mean by ``best''.}
 The difference ($\Delta = E^+ - E^-$) was calculated for each posterior sample to estimate median effects and 90\% credible intervals. 
-We also computed the posterior probability that $\Delta > 0$, representing the likelihood that endophytes confer benefits on vital rates under the given climate and herbivory conditions.
+We also computed the posterior probability that $\Delta > 0$, representing the likelihood that endophytes confer benefits on vital rates under the given precipitation and herbivory conditions.
 
-\subsection*{Drivers of endophyte effects on cool-season grass demography}
-To identify the main drivers of endophyte-mediated effects, we fitted three hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production; Supplementary Methods \ref{sec:models}).
-Each model included endophyte status as a baseline predictor and differed in whether it incorporated interactions with precipitation (Endophyte~$\times$~Climate), herbivory (Endophyte~$\times$~Herbivory), or both factors, including the three-way interaction (Endophyte~$\times$~Climate~$\times$~Herbivory).
-Random effects for site-year ($\phi_{\text{site}[i],\text{Sp}_i}$), source population ($\omega_{\text{source}[i],\text{Sp}_i}$), and plot ($\rho_{\text{plot}[i],\text{Sp}_i}$) captured hierarchical variation while accommodating species-specific responses.
-We compared candidate models using leave-one-out cross-validation (LOO-CV) \citep{vehtari2017practical}, which estimates predictive accuracy by iteratively holding out each observation. Differences in expected log predictive density ($\Delta$ELPD), along with associated standard errors, were used to rank model performance.
+To quantify statistical support for abiotic and/or biotic contexts as modifiers of grass-enodphyte symbiosis, we fitted three hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production; Supplementary Methods \ref{sec:models}).
+All models included endophyte status as a baseline predictor but differed in whether they incorporated interactions with precipitation (Endophyte~$\times$~Climate), herbivory (Endophyte~$\times$~Herbivory), or \tom{both factors, including the three-way interaction (Endophyte~$\times$~Climate~$\times$~Herbivory).}{This is the same as Eq 1, yes?}
+Random effects for \tom{site-year}{Here you say site-year and above you say site. WHich is it?} ($\phi_{\text{site}[i],\text{Sp}_i}$), source population ($\omega_{\text{source}[i],\text{Sp}_i}$), and plot ($\rho_{\text{plot}[i],\text{Sp}_i}$) captured hierarchical variation while accommodating species-specific responses, as above.
+We compared candidate models using leave-one-out cross-validation (LOO-CV) \citep{vehtari2017practical}, which estimates predictive accuracy by iteratively holding out each observation. 
+Differences in expected log predictive density ($\Delta$ELPD), along with associated standard errors, were used to rank model performance.
 
-All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -390,64 +401,70 @@ All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rs
 % final files after acceptance.
 \section*{Results}
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
-Across fitness components, \textit{Epichloë} endophytes generally enhanced host performance under wetter conditions, whereas their effects were costly or occasionally neutral under drier conditions, consistent with the inhibition scenario (Fig.~\ref{fig:prediction}). 
-Endophyte-mediated benefits were consistent regardless of herbivore access.
 
+Wetter conditions promoted grass host survival for all species, and abiotic stress modified endophyte effects on survival for two of three host species. 
 Grass-\textit{Epichloë} symbiosis had mostly negative or neutral effects on survival at low precipitation, but increasingly enhanced survival under wetter conditions (Fig.~\ref{fig:Surv}; Fig.~\ref{sup:survival_delta}).
-In \textit{Agrostis hyemalis} and \textit{Elymus virginicus}, median $\Delta(E^{+} - E^{-})$ ranged from approximately $-0.026$ to $0.019$ under low precipitation in unfenced plots ($\mathrm{Pr}(\Delta>0)=0.37$--0.61) and increased to $0.022$--$0.106$ under high precipitation ($\mathrm{Pr}(\Delta>0)=0.70$--0.85; Table~\ref{tab:delta_summary_surv}). 
+tom{}{Could you change the figures so that they say `herbivore access' and `herbivore exclusion' rather than fenced/unfences? Also, the legend says points are jittered but I don't think they are. The points get a little cutt off near the margins - could you add some space between panels? }
+In \textit{Agrostis hyemalis} and \textit{Elymus virginicus} populations exposed to herbivores, median $\Delta(E^{+} - E^{-})$ ranged from approximately $-0.026$ to $0.019$ under low precipitation ($\mathrm{Pr}(\Delta>0)=0.37$--0.61) and increased to $0.022$--$0.106$ under high precipitation ($\mathrm{Pr}(\Delta>0)=0.70$--0.85; Table~\ref{tab:delta_summary_surv}). 
 In fenced plots, positive effects appeared only at the highest precipitation for \textit{Agrostis} (median $\Delta=0.011$--$0.038$, $\mathrm{Pr}(\Delta>0)=0.59$--0.72), while for \textit{Elymus}, strong positive effects were evident at high precipitation (median $\Delta=0.089$--$0.113$, $\mathrm{Pr}(\Delta>0)=0.91$--0.95).
 \textit{Poa autumnalis} showed little survival benefit in unfenced plots across the gradient (median $\Delta=-0.056$ to $-0.002$, $\mathrm{Pr}(\Delta>0)=0.14$--0.43), but weakly positive effects emerged when herbivores were excluded (median $\Delta=0.002$--$0.026$, $\mathrm{Pr}(\Delta>0)=0.57$--0.71).
+\tom{}{I am working quickly through the results so that I can get this back to you, but I think we need to be a little more careful in describing costs and benefits since the credible intervals for delta mostly overlap zero. I can help with this on the next edit.}
 
-\textit{Epichloë} endophyte presence generally enhanced relative growth of individuals across the precipitation gradient, with benefits increasing under wetter conditions and not modulated by herbivory (Table~\ref{tab:delta_summary_grow}).
+\textit{Epichloë} endophyte presence generally enhanced relative growth of individuals across the precipitation gradient, \tom{with benefits increasing under wetter conditions and not modulated by herbivory (Table~\ref{tab:delta_summary_grow}).}{This is not what I see in the figure. For AGHY and ELVI, it looks like benefits were stronger under herbivore access (the direction I would have expected) and not affected by precipitation.}
 In \textit{A.~hyemalis}, effects were strongly positive even at moderate precipitation in unfenced plots (median $\Delta=0.370$--0.385; $\mathrm{Pr}(\Delta>0)=0.946$--0.992), and similar trends were observed in fenced plots though slightly weaker (median $\Delta=0.080$--0.262; $\mathrm{Pr}(\Delta>0)=0.661$--0.878). \textit{E.~virginicus} showed small positive or neutral effects under dry conditions (median $\Delta=0.232$--0.259; $\mathrm{Pr}(\Delta>0)=0.869$--0.953), which became more pronounced at higher precipitation (median $\Delta=0.124$--0.134; $\mathrm{Pr}(\Delta>0)=0.779$--0.790).
-In \textit{P.~autumnalis}, growth was context-dependent: unfenced plots shifted from negative to positive effects across the precipitation gradient (median $\Delta=-0.275$ to 0.144; $\mathrm{Pr}(\Delta>0)=0.169$--0.775), while fencing generally amplified benefits at low to moderate precipitation (median $\Delta=0.020$--0.390; $\mathrm{Pr}(\Delta>0)=0.559$--0.927), but became negative at higher precipitation (median $\Delta=-0.262$ to $-0.322$; $\mathrm{Pr}(\Delta>0)=0.056$--0.072).
+\tom{In \textit{P.~autumnalis}, growth was context-dependent: unfenced plots shifted from negative to positive effects across the precipitation gradient (median $\Delta=-0.275$ to 0.144; $\mathrm{Pr}(\Delta>0)=0.169$--0.775), while fencing generally amplified benefits at low to moderate precipitation (median $\Delta=0.020$--0.390; $\mathrm{Pr}(\Delta>0)=0.559$--0.927), but became negative at higher precipitation (median $\Delta=-0.262$ to $-0.322$; $\mathrm{Pr}(\Delta>0)=0.056$--0.072).}{I would be careful here because you have extrapolated the Delta functions beyond the observed ppt range.}
 
-\textit{Epichloë} endophytes consistently increased inflorescence production across the precipitation gradient (Fig.~\ref{fig:flowering}). 
+\tom{\textit{Epichloë} endophytes consistently increased inflorescence production across the precipitation gradient (Fig.~\ref{fig:flowering}).}{The figure suggests this was only true for POAU.} 
 By contrast, spikelet production was negatively affected by \textit{Epichloë} under low precipitation but increased under wetter conditions, with effects varying among species and depending on herbivore exclusion (Fig.~\ref{sup:spikelet}; Fig.~\ref{sup:spike_delta}). 
-Inflorescence benefits in \textit{A.~hyemalis} and \textit{E.~virginicus} were minimal under dry conditions but increased with precipitation, with only minor influence from herbivore exclusion. 
+\tom{Inflorescence benefits in \textit{A.~hyemalis} and \textit{E.~virginicus} were minimal under dry conditions but increased with precipitation, with only minor influence from herbivore exclusion. }{I don't think we can have much confidence that ELVI experienced stronger benefits under wetter conditions. Also, I would free the scales on the y-axes since different species produce different numbers of infs as a basline.}
 In \textit{P.~autumnalis}, strong inflorescence benefits occurred under fencing at moderate-to-high precipitation (median $\Delta=0.47$--1.54; $\mathrm{Pr}(\Delta>0)=0.96$--1.00; Table~\ref{tab:delta_summary_flow}). 
 Spikelet production showed a similar pattern: \textit{E.~virginicus} and \textit{P.~autumnalis} experienced weak or negative effects under low precipitation (median $\Delta=0.10$--0.40; $\mathrm{Pr}(\Delta>0)=0.23$--0.40), shifting to positive effects at higher precipitation, with fencing amplifying these benefits across the gradient (median $\Delta=0.95$--1.56; $\mathrm{Pr}(\Delta>0)=0.79$--0.99; Table~\ref{tab:delta_summary_spike}).
 
+\tom{Across fitness components, \textit{Epichloë} endophytes generally enhanced host performance under wetter conditions, whereas their effects were costly or occasionally neutral under drier conditions, consistent with the inhibition scenario (Fig.~\ref{fig:prediction}). 
+Endophyte-mediated benefits were consistent regardless of herbivore access.
+}{I moved this sentence for now. This is probably not the best place for it, and I wonder if we should use a sentence like this to lead off the discussion, rather than using it in the results section. My other concern with this sentence, and with parts of the results, is that this sounds really straightforward, whereas I think the results are actually more complex than this.}
 
 \subsection*{Abiotic factors as the primary drivers of fitness components across the stress gradient}
-Grass-endophyte symbiosis, whether mutualistic or parasitic, was primarily modulated by climatic variation rather than by herbivore pressure. 
-Across all vital rates (survival, growth, inflorescence, and spikelet production), models comparing different drivers of the endophyte--host interaction consistently identified the \textit{Endophyte~$\times$~Climate} model as the best predictor of host demography (Table~\ref{tab:comp_table_driver}). 
+The outcomes of grass-endophyte symbioses -- whether beneficial, costly, or neutral -- was primarily modulated by climatic variation rather than by herbivore pressure. 
+\tom{Across all vital rates (survival, growth, inflorescence, and spikelet production), models comparing different drivers of the endophyte--host interaction consistently identified the \textit{Endophyte~$\times$~Climate} model as the best predictor of host demography (Table~\ref{tab:comp_table_driver}).}{I think the Methods section needs to provide more guidance on how readers should interpret ELPD and its SE. As I read it, these model rankings seem quite close.} 
 For instance, for survival, the \textit{Endophyte~$\times$~Climate} model outperformed the \textit{Endophyte~$\times$~Herbivory} model ($\Delta \mathrm{ELPD} = -2.1$, SE = 2.8), and including the three-way \textit{Endophyte~$\times$~Climate~$\times$~Herbivory} interaction further decreased predictive performance ($\Delta \mathrm{ELPD} = -5.0$, SE = 1.9). 
 Similar patterns were observed for growth, inflorescence, and spikelet production, indicating that climatic context is the primary driver of variation in the demographic consequences of endophyte symbiosis, whereas herbivory has weaker or context-dependent effects.
 
 \section*{Discussion}
-Drawing on three years of field experiments that crossed endophyte infection (infected vs. free) with herbivory exclusion, and using Bayesian statistical models, we evaluated how biotic and  abiotic stressors jointly shape the demographic effects of vertically transmitted Epichloë endophytes in three cool-season perennial grasses across a natural climatic gradient in the United States.
+Drawing on three years of field experiments and using Bayesian statistical models, we evaluated how biotic and  abiotic stressors jointly shape the demographic effects of vertically transmitted \textit{Epichloë} endophytes in three cool-season perennial grasses across a natural climatic gradient in the United States.
 Our results indicate that grass–endophyte symbioses generally enhance host performance under favorable (e.g. wetter) conditions, whereas their effects can be neutral or even detrimental under high abiotic stress, consistent with the inhibition scenario.
 Across species and fitness components, climatic variation emerged as the dominant driver of endophyte-mediated effects, while herbivory had a secondary or context-dependent influence.
-These results underscore that the outcome of grass–\textit{Epichloë} symbiosis shifts along abiotic stress gradients \citep{chamberlain2014context,bronstein1994conditional,saikkonen1998fungal}, providing empirical support for environmentally contingent mutualism in a broadly distributed host–symbiont system.  
+These results underscore that the outcome of grass–\textit{Epichloë} symbiosis shifts along abiotic stress gradients \citep{chamberlain2014context,bronstein1994conditional,saikkonen1998fungal}, providing empirical support for environmentally contingent mutualism in a broadly distributed host–symbiont system.
+\tom{}{This paragraph is good but I think it needs to further emphasize that the influence of abiotic conditions is the opposite of what we predicted, and of what is expected under the SGH.}  
 
-Endophyte presence often enhances host performance under favorable or moderately stressful conditions, a pattern widely documented across grass–\textit{Epichloë} systems \citep{clay1990fungal}.
+Endophyte presence often enhances host performance under \tom{favorable or moderately stressful}{unsure what point you are trying to make by combining favorable and `moderately stressful' here. Also, I think it is important in the Discussion to distinguish between biotic and abiotic stress, since that is a theme of the paper.} conditions, a pattern widely documented across grass–\textit{Epichloë} systems \citep{clay1990fungal}.
 Endophytes can increase host growth, reproduction, and resistance to herbivores \citep{rodriguez2009fungal}, but these benefits are most apparent when the host has sufficient resources, such as water and nutrients, to support the fungus \citep{gibert2012fungal,clay1988fungal}. 
 Mechanistically, the host must allocate carbon and nutrients to maintain the endophyte, so under resource-rich conditions, the costs of symbiosis are outweighed by the benefits, resulting in a net positive effect. 
-In our field experiment, we observed higher growth and survival of endophyte-infected grasses in wetter sites, consistent with previously documented positive effects of endophytes under favorable conditions \citep{afkhami2014mutualist,rudgers2020climate}.
+\tom{In our field experiment, we observed higher growth and survival of endophyte-infected grasses in wetter sites, consistent with previously documented positive effects of endophytes under favorable conditions \citep{afkhami2014mutualist,rudgers2020climate}.}{I am a little confused here because I thought the Intro was meant to set up the idea that stress can strengthen benefits of the symbiosis.}
 %Other potential consequences of endophyte symbiosis, including enhanced nutrient acquisition \citep{malinowski2000leaf}, have yet to be explored in this system.
 %Current work is assessing host fitness responses to endophytes, a critical step toward understanding how abiotic and biotic stressors interact to shape these symbiotic relationships.
 
-While endophyte infection enhanced host performance under favorable or moderately stressful conditions, its effects diminished and ultimately became costly under high abiotic stress, even in fenced plots where herbivores were excluded. 
+While endophyte infection enhanced host performance under favorable or \tom{moderately stressful conditions}{Unclear what you mean by this.}, its effects diminished and ultimately became costly under high abiotic stress, \tom{even in fenced plots where herbivores were excluded.}{what's the relevance of this emphasis?} 
 This pattern indicates that drought-driven resource limitation can impose costs on the symbiosis independent of biotic stress \citep{johnson1997functioning,bronstein2001exploitation,cheplick1989interactions}.
 By contrast, other studies show that the context-dependent benefits of endophytes are often mediated by herbivore pressure \citep{bastias2017epichloe,afkhami2009endophyte}.
 For instance, in \emph{Bromus setifolia}, endophyte infection is favored under high herbivore pressure, when defensive benefits outweigh the costs, but is selected against when herbivory is low or other costs are elevated \citep{rodriguez2009fungal}.
 Our results suggest that similar context dependence can arise from abiotic factors, such as drought, independent of herbivory.
-Under low-precipitation conditions, reduced water availability constrains nutrient uptake and increases the relative metabolic burden of maintaining the endophyte, potentially tipping the cost–benefit balance against endophyte infected plants \citep{ahlholm2002vertically,bronstein2001exploitation,faeth2002endophytic}. 
+Under low-precipitation conditions, reduced water availability constrains nutrient uptake and increases the relative metabolic burden of maintaining the endophyte, potentially tipping the cost–benefit balance against endophyte-symbiotic plants \citep{ahlholm2002vertically,bronstein2001exploitation,faeth2002endophytic}. 
 In addition, severe environmental stress can activate plant defense pathways-such as elevated phytohormone production and reactive oxygen species (ROS) that may inhibit endophyte growth or reduce its functional contributions to the host \citep{bastias2023plant,eaton2011triggers}. 
 Consequently, even in the absence of herbivores, endophyte-mediated benefits may become negative in resource-limited environments, consistent with the reduced performance of infected plants at the driest sites in our study.
-Although we found no evidence of infection-related costs for inflorescences across the precipitation gradient, spikelet production showed a small but consistent cost at the driest sites. 
-This indicates that drought-driven resource limitation disproportionately affects certain reproductive components in infected plants, with different traits varying in their sensitivity to shifts in host–endophyte interactions \citep{cheplick2009ecology}.
+\tom{Although we found no evidence of symbiosis-related costs for inflorescences across the precipitation gradient, spikelet production showed a small but consistent cost at the driest sites. }{Unclear what result this refers to.}
+\tom{This indicates that drought-driven resource limitation disproportionately affects certain reproductive components in infected plants, with different traits varying in their sensitivity to shifts in host–endophyte interactions \citep{cheplick2009ecology}.}{This also relates to the idea of demographic compensation, ie different vital rates responding differently to abiotic drivers - this may be worth bringing up in the Intro as a motivation for considering multiple vital rates side by side.}
 
-Across species and fitness components, climatic variation was the primary driver of endophyte-mediated effects, whereas herbivory played a secondary or context-dependent role. 
+Across species and fitness components, climatic variation was the primary driver of endophyte-mediated effects, whereas herbivory played a secondary or \tom{context-dependent role. }{Invoking context dependence here is a little ``meta'' since herbivory is itself context. So you are saying that the context dependence is context dependent! Also, I think we need to address the difference between fencing and herbivory. The herbivore effects was not consistent across sites because herbivore pressure varied, so the fence effect is dependent on baseline herbivory.}
 Precipitation strongly shaped host demography in our system, with drier sites constraining survival, growth and fertility. 
-Contrary to the predictions of the stress gradient hypothesis (SGH), which suggests that biotic interactions should become more positive under stressful conditions, endophyte-mediated benefits were reduced under high abiotic stress \citep{louthan2015and,lortie2006re}. 
-Although most empirical tests of the SGH have focused on plant–plant interactions and have been developed and tested mainly by community ecologists \citep{bertness1994positive}, recent syntheses show that support for the SGH is actually strongest among microbial interactions \citep{piccardi2019toxicity,hammarlund2019refining}, with bacterial systems showing greater conformity to SGH predictions than any other kingdom \citep{adams2022case}. 
-This contrast highlights that plant–microbe mutualisms, including fungal endophytes, may not follow the same stress-dependency patterns documented in plant community ecology, and that endophyte benefits can decline rather than intensify under severe environmental stress.
+\tom{Contrary to the predictions of the stress gradient hypothesis (SGH), which suggests that biotic interactions should become more positive under stressful conditions, endophyte-mediated benefits were reduced under high abiotic stress \citep{louthan2015and,lortie2006re}. }{This seems to me like the most important result that I expected would be more central to the first paragraph of the Intro.}
+Although most empirical tests of the SGH have focused on plant–plant interactions and have been developed and tested mainly by community ecologists \citep{bertness1994positive}, recent syntheses show that support for the SGH is actually strongest among microbial interactions \citep{piccardi2019toxicity,hammarlund2019refining}, with \tom{bacterial systems}{Does this mean bacterial symbionts of plants?} showing greater conformity to SGH predictions than any other \tom{kingdom}{Hard to know how to interpret this since interactions can involved multiple kingdoms.} \citep{adams2022case}. 
+\tom{This contrast highlights that plant–microbe mutualisms, including fungal endophytes, may not follow the same stress-dependency patterns documented in plant community ecology, and that endophyte benefits can decline rather than intensify under severe environmental stress.}{Important point, and I think you should bring in more of the literature documenting that E+ advantage increases in drier in environments, since our results show the opposite -- we will then need to interpret why we get the opposite.}
 A possible explanation for this opposite pattern is that the benefits of fungal endophytes are closely tied to host resource availability. 
 Under high abiotic stress, host plants have limited resources for survival, growth, and reproduction, which can reduce the capacity of endophytes to confer benefits. 
 Unlike plant–plant interactions, where neighbors can alleviate stress through mechanisms like shading or nutrient modification, endophytes depend on the host plant’s internal physiological condition, such as its nutrient and water status, energy reserves, and overall health.
-When host resources are constrained, the costs of maintaining the symbiosis may outweigh its benefits, leading to reduced endophyte-mediated effects under high abiotic stress.
+When host resources are constrained, the costs of maintaining the symbiosis may outweigh its benefits, leading to reduced endophyte-mediated effects under high abiotic stress.\tom{}{I like all the ideas you have here, just think we need to address more directly how our results fit with or contradict other results in the literature, including grass-endo systems that show E+ advantage in drought.\\
+It is also striking to me that the Discussion never returns to the predictions you establish in the conceptual figure. If you want to keep the conceptual figure then the Discussion needs to revisit it.}
 
 %\section*{Acknowledgements}
 %This research was supported by National Science Foundation Division of Environmental Biology awards.

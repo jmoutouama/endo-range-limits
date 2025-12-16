@@ -3,6 +3,10 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v2.aux
 The style file: apalike.bst
 Database file #1: References.bib
+Repeated entry---line 698 of file References.bib
+ : @article{rudgers2012there
+ :                          ,
+I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "koh2006rapid"
 Warning--I didn't find a database entry for "chamberlain2014context"
 Warning--I didn't find a database entry for "clay1990fungal"
@@ -20,45 +24,45 @@ Warning--I didn't find a database entry for "piccardi2019toxicity"
 Warning--I didn't find a database entry for "hammarlund2019refining"
 Warning--I didn't find a database entry for "adams2022case"
 Warning--I didn't find a database entry for "porter2020beneficial"
-You've used 44 entries,
+You've used 50 entries,
             1935 wiz_defined-function locations,
-            768 strings with 12331 characters,
-and the built_in function-call counts, 18052 in all, are:
-= -- 1792
-> -- 760
-< -- 18
-+ -- 264
-- -- 256
-* -- 1656
-:= -- 3158
-add.period$ -- 132
-call.type$ -- 44
-change.case$ -- 345
-chr.to.int$ -- 42
-cite$ -- 44
-duplicate$ -- 597
-empty$ -- 1240
-format.name$ -- 312
-if$ -- 3437
+            803 strings with 13726 characters,
+and the built_in function-call counts, 20884 in all, are:
+= -- 2066
+> -- 903
+< -- 19
++ -- 318
+- -- 306
+* -- 1931
+:= -- 3648
+add.period$ -- 150
+call.type$ -- 50
+change.case$ -- 400
+chr.to.int$ -- 48
+cite$ -- 50
+duplicate$ -- 681
+empty$ -- 1424
+format.name$ -- 370
+if$ -- 3973
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 39
-newline$ -- 223
-num.names$ -- 132
-pop$ -- 251
+missing$ -- 45
+newline$ -- 253
+num.names$ -- 150
+pop$ -- 293
 preamble$ -- 1
-purify$ -- 348
+purify$ -- 403
 quote$ -- 0
-skip$ -- 448
+skip$ -- 509
 stack$ -- 0
-substring$ -- 1480
-swap$ -- 42
+substring$ -- 1717
+swap$ -- 48
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 262
+type$ -- 298
 warning$ -- 0
-while$ -- 158
+while$ -- 181
 width$ -- 0
-write$ -- 568
-(There were 17 warnings)
+write$ -- 646
+(There was 1 error message)

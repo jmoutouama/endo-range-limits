@@ -67,6 +67,13 @@ Clay, K. and Schardl, C. (2002).
   symbiosis with grasses.
 \newblock {\em the american naturalist}, 160(S4):S99--S127.
 
+\bibitem[Decunta et~al., 2021]{decunta2021systematic}
+Decunta, F.~A., P{\'e}rez, L.~I., Malinowski, D.~P., Molina-Montenegro, M.~A.,
+  and Gundel, P.~E. (2021).
+\newblock A systematic review on the effects of epichlo{\"e} fungal endophytes
+  on drought tolerance in cool-season grasses.
+\newblock {\em Frontiers in Plant Science}, 12:644731.
+
 \bibitem[Emery et~al., 2010]{emery2010variation}
 Emery, S.~M., Thompson, D., and Rudgers, J.~A. (2010).
 \newblock Variation in endophyte symbiosis, herbivory and drought tolerance of
@@ -106,6 +113,12 @@ Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
   habitat of origin predict effects on host plants.
 \newblock {\em New Phytologist}, 221(4):2239--2249.
 
+\bibitem[Gundel et~al., 2011]{gundel2011incorporating}
+Gundel, P.~E., Rudgers, J.~A., and Ghersa, C.~M. (2011).
+\newblock Incorporating the process of vertical transmission into understanding
+  of host--symbiont dynamics.
+\newblock {\em Oikos}, 120(8):1121--1128.
+
 \bibitem[Gundel et~al., 2020]{gundel2020simulated}
 Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   Rudgers, J.~A. (2020).
@@ -114,15 +127,33 @@ Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   autumnalis.
 \newblock {\em Annals of Botany}, 125(6):981--991.
 
+\bibitem[Gundel et~al., 2024]{gundel2024temporal}
+Gundel, P.~E., Ueno, A.~C., Casas, C., Miller, T.~E., P{\'e}rez, L.~I., Cuyeu,
+  R., and Omacini, M. (2024).
+\newblock Temporal host-symbiont dynamics in community contexts: Impacts of
+  host fitness and vertical transmission efficiency on symbiosis prevalence.
+\newblock {\em Functional Ecology}, 38(12):2610--2622.
+
 \bibitem[Hart and Bell, 2015]{PRISM2024}
 Hart, E.~M. and Bell, K. (2015).
 \newblock {\em prism: Download data from the Oregon prism project}.
 \newblock R package version 0.0.6.
 
+\bibitem[Hoang et~al., 2024]{hoang2024impacts}
+Hoang, K.~L., Salguero-G{\'o}mez, R., Pike, V.~L., and King, K.~C. (2024).
+\newblock The impacts of host association and perturbation on symbiont fitness.
+\newblock {\em Symbiosis}, 92(3):439--451.
+
 \bibitem[Hoeksema and Bruna, 2015]{hoeksema2015context}
 Hoeksema, J.~D. and Bruna, E.~M. (2015).
 \newblock Context-dependent outcomes of mutualistic interactions.
 \newblock {\em Mutualism}, 10:181--202.
+
+\bibitem[Holmgren and Scheffer, 2010]{holmgren2010strong}
+Holmgren, M. and Scheffer, M. (2010).
+\newblock Strong facilitation in mild environments: the stress gradient
+  hypothesis revisited.
+\newblock {\em Journal of Ecology}, 98(6):1269--1275.
 
 \bibitem[Johnson et~al., 1997]{johnson1997functioning}
 Johnson, N.~C., Graham, J.~H., and Smith, F.~A. (1997).
@@ -177,6 +208,12 @@ Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,
 \newblock Long-term ungulate exclusion reduces fungal symbiont prevalence in
   native grasslands.
 \newblock {\em Oecologia}, 181(4):1151--1161.
+
+\bibitem[Rudgers et~al., 2012]{rudgers2012there}
+Rudgers, J.~A., Miller, T.~E., Ziegler, S.~M., and Craven, K.~D. (2012).
+\newblock There are many ways to be a mutualist: endophytic fungus reduces
+  plant survival but increases population growth.
+\newblock {\em Ecology}, 93(3):565--574.
 
 \bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
 Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).

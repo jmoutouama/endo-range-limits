@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Range_limit_v2.aux
+The style file: apalike.bst
+Database file #1: References.bib
+Warning--I didn't find a database entry for "koh2006rapid"
+Warning--I didn't find a database entry for "chamberlain2014context"
+Warning--I didn't find a database entry for "clay1990fungal"
+Warning--I didn't find a database entry for "rodriguez2009fungal"
+Warning--I didn't find a database entry for "gibert2012fungal"
+Warning--I didn't find a database entry for "clay1988fungal"
+Warning--I didn't find a database entry for "cheplick1989interactions"
+Warning--I didn't find a database entry for "afkhami2009endophyte"
+Warning--I didn't find a database entry for "faeth2002endophytic"
+Warning--I didn't find a database entry for "bastias2023plant"
+Warning--I didn't find a database entry for "eaton2011triggers"
+Warning--I didn't find a database entry for "cheplick2009ecology"
+Warning--I didn't find a database entry for "lortie2006re"
+Warning--I didn't find a database entry for "piccardi2019toxicity"
+Warning--I didn't find a database entry for "hammarlund2019refining"
+Warning--I didn't find a database entry for "adams2022case"
+Warning--I didn't find a database entry for "porter2020beneficial"
+You've used 44 entries,
+            1935 wiz_defined-function locations,
+            768 strings with 12331 characters,
+and the built_in function-call counts, 18052 in all, are:
+= -- 1792
+> -- 760
+< -- 18
++ -- 264
+- -- 256
+* -- 1656
+:= -- 3158
+add.period$ -- 132
+call.type$ -- 44
+change.case$ -- 345
+chr.to.int$ -- 42
+cite$ -- 44
+duplicate$ -- 597
+empty$ -- 1240
+format.name$ -- 312
+if$ -- 3437
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 39
+newline$ -- 223
+num.names$ -- 132
+pop$ -- 251
+preamble$ -- 1
+purify$ -- 348
+quote$ -- 0
+skip$ -- 448
+stack$ -- 0
+substring$ -- 1480
+swap$ -- 42
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 262
+warning$ -- 0
+while$ -- 158
+width$ -- 0
+write$ -- 568
+(There were 17 warnings)

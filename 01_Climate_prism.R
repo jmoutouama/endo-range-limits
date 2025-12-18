@@ -17,14 +17,31 @@ library(ggsci)          # color palettes for ggplot2
 library(lubridate)      # date manipulation
 
 ## Load and compile PRISM raster data
-options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
-# Download PRISM data (commented out as already done)
-# get_prism_monthlys(type="ppt", years=1990:2025, mon=1:12, keepZip = TRUE)
-# get_prism_monthlys(type="tmean", years=1990:2025, mon=1:12, keepZip = TRUE)
+prism_set_dl_dir("/Users/jacobmoutouama/Documents/prism")
+# Download PRISM monthly precipitation (ppt) and mean temperature (tmean) at 800 m (commented out as already done)
+# years <- 1990:2025
+# months <- 1:12
+# 
+# # Precipitation
+# get_prism_monthlys(
+#   type = "ppt",
+#   years = years,
+#   mon = months,
+#   resolution = "800m",
+#   keepZip = TRUE
+# )
+# 
+# # Mean temperature
+# get_prism_monthlys(
+#   type = "tmean",
+#   years = years,
+#   mon = months,
+#   resolution = "800m",
+#   keepZip = TRUE
+# )
 
 climate_data <- prism_archive_ls() %>%
   pd_stack()
-climate_crs <- climate_data@crs@projargs
 
 ## Load and format garden site data
 read.csv(
@@ -35,7 +52,8 @@ read.csv(
 
 garden_sites <- as.data.frame(garden)
 coordinates(garden_sites) <- c("longitude", "latitude")
-proj4string(garden_sites) <- CRS(climate_crs)
+# Assign lon/lat CRS explicitly (matches PRISM)
+crs(garden_sites) <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 
 ##  Extract climate values at garden sites
 climate_garden <- data.frame(
@@ -49,22 +67,34 @@ climate_garden <- climate_garden %>%
   gather(date, value, 4:ncol(climate_garden))
 
 # Clean column headers
-climate_garden$date <- gsub("PRISM_", "", climate_garden$date) %>%
-  gsub("stable_4kmM3_", "", .) %>%
-  gsub("provisional_4kmM3_", "", .) %>%
-  gsub("_bil", "", .)
+climate_garden$layer <- gsub("^prism_|_us_30s_", "", climate_garden$date)
 
 # Split header into climate type, year, month
-climate_garden <- separate(climate_garden, "date", into = c("clim", "YearMonth"), sep = "_")
-climate_garden <- separate(climate_garden, "YearMonth", into = c("year", "month"), sep = 4)
-
+climate_garden <- climate_garden %>%
+  mutate(
+    variable = str_extract(layer, "^[a-zA-Z]+"),
+    ym       = str_extract(layer, "[0-9]{6}"),
+    year     = as.integer(substr(ym, 1, 4)),
+    month    = as.integer(substr(ym, 5, 6))
+  )
 # Reshape wide for each climate variable
 climate_garden_1995_2025 <- climate_garden %>%
-  unique() %>%
-  spread(clim, value) %>%
-  rename(lon = longitude, lat = latitude, site = garden_sites.site_code) %>%
-  mutate(year = as.numeric(year), month = as.numeric(month)) %>%
-  filter(year > 1994)
+  unique() %>%                                # remove duplicate rows
+  pivot_wider(
+    names_from = variable,                     # use the 'variable' column for new columns
+    values_from = value                        # fill with 'value'
+  ) %>%
+  rename(
+    lon = longitude,
+    lat = latitude,
+    site = garden_sites.site_code
+  ) %>%
+  mutate(
+    year = as.integer(year),
+    month = as.integer(month)
+  ) %>%
+  filter(year >= 1995, year <= 2025)
+
 
 ## Inspect climate data
 #summary(climate_garden_1995_2025)
@@ -139,7 +169,7 @@ census_dates_23_24 <- date_sp_site23_unique %>%
     end_year    = year(end_date),
     end_month   = month(end_date)
   )
-view(census_dates_23_24)
+#view(census_dates_23_24)
 # head(census_dates_23_24)
 
 ## Compute cumulative precipitation and mean temperature per species × site for 2023–2024
@@ -201,37 +231,61 @@ climate_census_years <- bind_rows(climate_2023_2024, climate_2024_2025)
 # view(climate_census_years)
 # saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
 
-#Load your species coordinates
-max_long_table <- readRDS("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
-max_sites <- max_long_table
-coordinates(max_sites) <- c("longitude", "latitude")
-proj4string(max_sites) <- CRS(climate_crs)
-
-# Extract climate data at site coordinates
-climate_sites_max <- data.frame(
-  coordinates(max_sites),
-  species = max_long_table$species,
-  extract(climate_data, max_sites)
+# Identify the 30-year easternmost point
+#Load species coordinates
+max_long_table <- readRDS(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds"
 )
 
-# Reshape and clean names
+max_long_30yr <- max_long_table %>%
+  group_by(species) %>%
+  slice_max(longitude, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+coordinates(max_long_30yr) <- c("longitude", "latitude")
+
+climate_sites_max <- data.frame(
+  coordinates(max_long_30yr),
+  species = max_long_30yr$species,
+  extract(climate_data, max_long_30yr)
+)
+
 climate_sites_max <- climate_sites_max %>%
-  gather(date, value, 4:ncol(climate_sites_max)) %>%
-  mutate(date = gsub("PRISM_", "", date),
-         date = gsub("stable_4kmM3_", "", date),
-         date = gsub("provisional_4kmM3_", "", date),
-         date = gsub("_bil", "", date))
+  gather(date, value, 4:ncol(.))
 
-# Split layer names into variable type and date (year-month)
-climate_sites_max <- separate(climate_sites_max, "date", into = c("clim", "YearMonth"), sep = "_") %>%
-  separate(YearMonth, into = c("year", "month"), sep = 4) %>%
-  mutate(year = as.numeric(year), month = as.numeric(month))
+climate_sites_max$layer <- gsub("^prism_|_us_30s_", "", climate_sites_max$date)
 
-# Reshape wide and filter to 2023–2025
 climate_sites_max <- climate_sites_max %>%
-  spread(clim, value) %>%
-  filter(year %in% 2023:2025)
+  mutate(
+    variable = str_extract(layer, "^[a-zA-Z]+"),
+    ym       = str_extract(layer, "[0-9]{6}"),
+    year     = as.integer(substr(ym, 1, 4)),
+    month    = as.integer(substr(ym, 5, 6))
+  )
+climate_sites_max_1996_2025 <- climate_sites_max %>%
+  distinct() %>%
+  pivot_wider(
+    names_from  = variable,
+    values_from = value
+  ) %>%
+  rename(
+    lon = longitude,
+    lat = latitude
+  ) %>%
+  mutate(
+    year  = as.integer(year),
+    month = as.integer(month)
+  ) %>%
+  filter(year >= 1996, year <= 2025)
 
-# Save output 
-saveRDS(climate_sites_max, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_max_2023_2025.rds")
+prism_edge_30yr_means <- climate_sites_max_1996_2025 %>%
+  group_by(species) %>%
+  summarise(
+    mean_temp = mean(tmean, na.rm = TRUE),   # °C, monthly mean averaged over 30 yrs
+    sum_ppt   = sum(ppt, na.rm = TRUE),      # total ppt over 30 yrs
+    mean_ppt  = mean(ppt, na.rm = TRUE),     # mean monthly ppt
+    .groups = "drop"
+  )
+
+saveRDS(prism_edge_30yr_means, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_edge_30yr_means.rds")
 

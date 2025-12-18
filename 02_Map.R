@@ -18,11 +18,6 @@ library(maps)
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
-options(prism.path = "/Users/jacobmoutouama/Documents/prism/")
-# getting monthly data for mean temp and precipitation
-# takes a long time the first time, but can skip when you have raster files saved on your computer.
-# get_prism_monthlys(type = "tmean", years = 1994:2024, mon = 1:12, keepZip = FALSE)
-# get_prism_monthlys(type = "ppt", years = 1994:2024, mon = 1:12, keepZip = FALSE)
 prism_set_dl_dir("/Users/jacobmoutouama/Documents/prism")
 prism_archive_ls()
 
@@ -110,18 +105,42 @@ poa_occ_raw %>%
 poa_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
   dplyr::rename(longitude=lon,latitude=lat) %>% 
-  filter(year %in% (1901:2024) & as.numeric(longitude >=-94) &  as.numeric(longitude <=-92) & as.numeric(latitude >=29.5) &  as.numeric(latitude <=32.5) & country=="United States") %>% 
+  filter(year %in% (1901:2024) & as.numeric(longitude >=-95) &  as.numeric(longitude <=-92) & as.numeric(latitude >=29.5) &  as.numeric(latitude <=32.5) & country=="United States") %>% 
   unique() %>% 
   arrange(latitude)->poa2
 
 poa_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
   dplyr::rename(longitude=lon,latitude=lat) %>% 
-  filter(year %in% (1901:2024) & as.numeric(longitude >=-92) &  as.numeric(longitude <=-89.5) & as.numeric(latitude >=29.5) &  as.numeric(latitude <=31) & country=="United States") %>% 
+  filter(year %in% (1901:2024) & as.numeric(longitude >=-96) &  as.numeric(longitude <=-90) & as.numeric(latitude >=29.5) &  as.numeric(latitude <=31) & country=="United States") %>% 
   unique() %>% 
   arrange(latitude)->poa3
 
 poau<-rbind(poa1,poa2,poa3)
+#class(poau)
+# Define the 30-year window (relative to 2025)
+start_year <- 2025 - 29  # 1996
+
+# Combine species into one table
+dat_all_species <- bind_rows(
+  mutate(aghy, species = "aghy"),
+  mutate(elvi, species = "elvi"),
+  mutate(poau, species = "poau")
+)
+
+# Annual eastern range edge for each species
+annual_east_range_edge_1996_2025 <- dat_all_species %>%
+  filter(year >= start_year, year <= 2025) %>%
+  group_by(species, year) %>%
+  slice_max(longitude, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+# Sanity checks
+# table(annual_east_range_edge_1996_2025$species)
+# range(annual_east_range_edge_1996_2025$year)
+
+# Save as RDS
+#saveRDS(annual_east_range_edge_1996_2025, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
 
 # Georeferencing the occurences -----
 garden %>% 
@@ -172,13 +191,13 @@ study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Fo
 study_area <- study_area[(study_area$State_Name %in% c("TEXAS","LOUISIANA")), ]
 #plot(study_area)
 # Clip the climatic rasters
-tmean_annual <- terra::mean(terra::rast(pd_stack(prism_archive_subset(type = "tmean", temp_period = "monthly", year = 1994:2024))))
+tmean_annual <- terra::mean(terra::rast(pd_stack(prism_archive_subset(type = "tmean", temp_period = "monthly", year = 1996:2025,resolution  = "800m"))))
 crs(tmean_annual)<-CRS1
 crop_tmean_annual <- terra::crop(tmean_annual, study_area,mask=TRUE)
 # calculating the cumulative precipitation for each year and for each season within the year
 ppt_annual <- list()
-for(y in 1993:2023){
-  ppt_annual[[y]] <- sum(terra::rast(pd_stack(prism_archive_subset(type = "ppt", temp_period = "monthly", year = y))))
+for(y in 1996:2025){
+  ppt_annual[[y]] <- sum(terra::rast(pd_stack(prism_archive_subset(type = "ppt", temp_period = "monthly", year = y,resolution  = "800m"))))
 }
 # Taking the mean of the cumulative precipitation values
 ppt_annual_norm <- terra::mean(terra::rast(unlist(ppt_annual)))
@@ -232,27 +251,49 @@ summary_23 <- dat23_herb_plot %>%
   )
 
 # Define colors
-herb_levels <- c(0, 1)  # 0 = Unfenced, 1 = Fenced
+# Extract site codes and longitudes
+site_order_df <- data.frame(
+  site = garden_aghy$site_code,
+  lon  = coordinates(garden_aghy)[,1]
+)
+
+# Order sites west → east
+site_order_df <- site_order_df[order(site_order_df$lon), ]
+ordered_sites <- site_order_df$site
+# Reorder columns of mean_matrix and se_matrix
+
+herb_levels <- c(0, 1)
 colors <- c("lightgreen", "salmon")
 names(colors) <- herb_levels
 
-# Create matrix for barplot (rows = Herbivory, columns = Site)
-site_ids <- unique(summary_23$Site)
-mean_matrix <- sapply(site_ids, function(s){
+mean_matrix <- sapply(ordered_sites, function(s){
   sapply(herb_levels, function(h){
     v <- summary_23$Mean[summary_23$Site == s & summary_23$Herbivory == h]
     if (length(v) == 0) NA else v
   })
 })
 
-# Create SE matrix
-se_matrix <- sapply(site_ids, function(s){
+se_matrix <- sapply(ordered_sites, function(s){
   sapply(herb_levels, function(h){
     v <- summary_23$SE[summary_23$Site == s & summary_23$Herbivory == h]
     if (length(v) == 0) NA else v
   })
 })
 
+
+# Combine site codes, longitude, and cumulative precipitation
+garden_sites_ppt <- data.frame(
+  site = garden_aghy$site_code,
+  lon  = coordinates(garden_aghy)[,1],
+  ppt  = prism_summary$sum_ppt[match(garden_aghy$site_code, prism_summary$site)]
+)
+
+# Order sites west → east
+garden_sites_ppt_west_east <- garden_sites_ppt[order(garden_sites_ppt$lon), ]
+
+# Prepare barplot values and labels
+cumulative_ppt_west_east <- garden_sites_ppt_west_east$ppt
+names(cumulative_ppt_west_east) <- garden_sites_ppt_west_east$site
 
 
 # Maps (Figure 1) ----
@@ -277,7 +318,7 @@ plot(garden_aghy, add=TRUE, pch=3, col="black", cex=2)
 plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
 mtext("A", side=3, adj=0, cex=1.25, line=0.2)
-mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
   y = 28,        # latitude position of scale bar
@@ -294,7 +335,7 @@ plot(garden_elvi, add=TRUE, pch=3, col="black", cex=2)
 plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
 mtext("B", side=3, adj=0, cex=1.25, line=0.2)
-mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
   y = 28,        # latitude position of scale bar
@@ -312,7 +353,7 @@ plot(garden_poau, add=TRUE, pch=3, col="black", cex=2)
 plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
 mtext("C", side=3, adj=0, cex=1.25, line=0.3)
-mtext("P(mm)", side=3, adj=1.17, cex=0.6, line=-1.2)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
   y = 28,        # latitude position of scale bar
@@ -322,27 +363,28 @@ map.scale(
   ratio = FALSE   # removes the 1:16 ratio label
 )
 legend(
-  -105, 28,          # longitude coordinate for legend
-  legend = c("Species", "Garden", "Source"),
-  pch = c(23, 3, 21),
-  pt.bg = c("grey", NA, "red"),  # fill color for points; NA for symbols without fill
-  col = c("grey50", "black", "black"),
+  -105, 28,
+  legend = c("GBIF occurrence", "Experimental site", "Source"),
+  pch    = c(23, 3, 21),
+  pt.bg  = c("grey", NA, "red"),
+  col    = c("grey50", "black", "black"),
   pt.cex = c(0.55, 2, 1),
-  bty = "n",                # no box around legend
-  cex = 0.9                 # text size
+  bty    = "n",
+  cex    = 0.9
 )
+
 ### Panel D (barplot ordered largest → smallest)
 par(mar=c(6,4,4,1))
-ordered_data <- prism_summary[order(prism_summary[,2], decreasing=FALSE), ]
-bar_vals <- as.numeric(ordered_data[,2])
-names(bar_vals) <- ordered_data[,1]
-barplot(bar_vals,
-        col="#E69F00",
-        xlab="Sites", ylab="Cumulative Precipitation (mm)",
-        ylim=c(0,3500),
-        las=2,
-        cex.lab=1.2,
-        cex.names=0.75)
+barplot(
+  cumulative_ppt_west_east,
+  col="#E69F00",
+  xlab="Sites",
+  ylab="Cumulative Precipitation (mm)",
+  ylim=c(0, max(cumulative_ppt_west_east)*1.1),
+  las=2,
+  cex.lab=1.2,
+  cex.names=0.75
+)
 mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
 
 ### Panel E
@@ -354,7 +396,7 @@ mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
 rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
 plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
 plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
-points(plants1_x+0.1, plants1_y+0.1, pch=19, col="salmon", cex=1.5)
+points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 mtext("Fenced", side=3, at=0.85, line=-4, cex=0.9)
 
 # unfenced
@@ -363,15 +405,8 @@ segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
 segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
 plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
 plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
-points(plants2_x-2+1.9, plants2_y+0.1, pch=19, col="lightgreen", cex=1.5)
+points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 mtext("Unfenced", side=3, at=2.65, line=-4, cex=0.9)
-# Match site order in Panel F to that in Panel D
-ordered_sites <- ordered_data[,1]
-# Reorder the data used for Panel F
-match_idx <- match(ordered_sites, site_ids)
-mean_matrix <- mean_matrix[, match_idx, drop=FALSE]
-se_matrix <- se_matrix[, match_idx, drop=FALSE]
-site_ids <- ordered_sites
 
 ### Panel F
 par(mar = c(8, 4, 2, 1))  # bottom, left, top, right
@@ -380,14 +415,14 @@ mtext("F", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
 bp <- barplot(
   height = mean_matrix,
   beside = TRUE,
-  names.arg = site_ids,
-  col = colors,
+  names.arg = ordered_sites,
+  col = colors,  # use herbivory colors
   ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
-  xlab="Sites",
+  xlab = "Sites",
   ylab = "Proportion of damaged plants",
   las = 2,
-  cex.lab=1.2,
-  cex.names=0.75
+  cex.lab = 1.2,
+  cex.names = 0.75
 )
 
 # Add error bars
@@ -399,8 +434,14 @@ arrows(
   angle = 90, code = 3, length = 0.07
 )
 
-# Add legend — shifted inside the plot for cleaner layout
-legend(12,0.98,"topleft", legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 1.2)
+# Add clear legend
+legend(
+  "topright",
+  legend = c("Unfenced", "Fenced"),
+  fill = c("lightgreen", "salmon"),
+  bty = "n",
+  cex = 1.2
+)
 
 dev.off()
 
@@ -591,18 +632,3 @@ barplot(
   las = 1
 )
 dev.off()
-
-# Find rows with maximum longitude for each dataset
-max_aghy <- aghy[which.max(aghy$longitude), ]
-max_elvi <- elvi[which.max(elvi$longitude), ]
-max_poau <- poau[which.max(poau$longitude), ]
-
-# Combine into a single table
-max_long_table <- rbind(max_aghy, max_elvi, max_poau)
-
-# Optionally, add a species column if not present
-max_long_table$species <- c("aghy", "elvi", "poau")
-
-# Save as RDS
-saveRDS(max_long_table, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
-

@@ -50,23 +50,23 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 demography_climate<-readRDS(url("https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"))
-climate_max<-readRDS(url("https://www.dropbox.com/scl/fi/v9lp1wvc2eeatgf0uf7ol/prism_max_2023_2025.rds?rlkey=debj1y03k9buxank3s5wadbcc&dl=1"))
+climate_max<-readRDS(url("https://www.dropbox.com/scl/fi/h8m15t64sxkkghgsnsypp/prism_edge_yr_means.rds?rlkey=ljjf16kqvvoe15qmhrqh8qfah&dl=1"))
 climate_scaled<-readRDS(url("https://www.dropbox.com/scl/fi/irecsnoh3xrq6g8d5cysa/climate_site_scaled.rds?rlkey=63r7ugrtkuo5ncmqfoywbidps&dl=1"))
 
-yearly_prism_max <- climate_max %>%
-  group_by(species, year) %>%
-  summarise(
-    ppt_sum = sum(ppt, na.rm = TRUE),
-    tmean_mean = mean(tmean, na.rm = TRUE)
-  ) %>%
-  ungroup()
-yearly_prism_max_avg <- yearly_prism_max %>%
-  group_by(species) %>%
-  summarise(
-    ppt_avg = mean(ppt_sum, na.rm = TRUE),
-    tmean_avg = mean(tmean_mean, na.rm = TRUE)
-  ) %>%
-  ungroup()
+# yearly_prism_max <- climate_max %>%
+#   group_by(species, year) %>%
+#   summarise(
+#     ppt_sum = sum(ppt, na.rm = TRUE),
+#     tmean_mean = mean(tmean, na.rm = TRUE)
+#   ) %>%
+#   ungroup()
+# yearly_prism_max_avg <- yearly_prism_max %>%
+#   group_by(species) %>%
+#   summarise(
+#     ppt_avg = mean(ppt_sum, na.rm = TRUE),
+#     tmean_avg = mean(tmean_mean, na.rm = TRUE)
+#   ) %>%
+#   ungroup()
 
 # Optional: also get corresponding real precipitation values for reference
 ppt_mean <- mean(climate_scaled$ppt_log)
@@ -343,7 +343,7 @@ ggplot(plot_data_survival) +
 dev.off()
 
 # Quantiles of climate for survival
-clim_quantiles_surv <- quantile(demography_surv_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
+#clim_quantiles_surv <- quantile(demography_surv_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 
 # Function to compute Δ(E+ − E−) for survival 
 compute_delta_surv <- function(clim_val, posterior_samples_surv, herb_values = c(0,1)) {
@@ -389,11 +389,27 @@ compute_delta_surv <- function(clim_val, posterior_samples_surv, herb_values = c
 }
 
 # Compute Δ for all climate quantiles ---
-delta_surv_quantiles <- lapply(clim_quantiles_surv, function(cl) compute_delta_surv(cl, posterior_samples_survival)) %>%
+# delta_surv_quantiles <- lapply(clim_quantiles_surv, function(cl) compute_delta_surv(cl, posterior_samples_survival)) %>%
+#   bind_rows()
+# Compute Δ across full climate range ---
+delta_surv_range <- lapply(climate_range, function(cl)
+  compute_delta_surv(cl, posterior_samples_survival)) %>%
   bind_rows()
 
+
 # Summarize Δ
-delta_surv_summary <- delta_surv_quantiles %>%
+# delta_surv_summary <- delta_surv_quantiles %>%
+#   group_by(species, herb, clim) %>%
+#   summarise(
+#     median_delta = median(delta),
+#     lower_90 = quantile(delta, 0.05),
+#     upper_90 = quantile(delta, 0.95),
+#     prob_delta_gt0 = mean(delta > 0),
+#     .groups = "drop"
+#   )
+
+# Summarize Δ
+delta_surv_summary <- delta_surv_range %>%
   group_by(species, herb, clim) %>%
   summarise(
     median_delta = median(delta),
@@ -402,6 +418,7 @@ delta_surv_summary <- delta_surv_quantiles %>%
     prob_delta_gt0 = mean(delta > 0),
     .groups = "drop"
   )
+
 
 # Relabel species and herbivore treatments
 delta_surv_summary$species <- factor(delta_surv_summary$species, levels = 1:3,
@@ -436,6 +453,32 @@ delta_long_surv <- delta_surv_summary %>%
     )
   )
 
+# Select 5 representative climate values (including min, quartiles, and max)
+delta_surv_filtered <- delta_surv_summary %>%
+  group_by(species, herb) %>%
+  slice(c(1, n() %/% 4, n() %/% 2, 3 * n() %/% 4, n())) %>%  # 5 points along climate gradient
+  ungroup() %>%
+  dplyr::select(
+    species, herb, clim_mm, median_delta, lower_90, upper_90, prob_delta_gt0
+  ) %>%
+  mutate(
+    clim_mm = round(clim_mm, 0),
+    median_delta = round(median_delta, 3),
+    lower_90 = round(lower_90, 3),
+    upper_90 = round(upper_90, 3),
+    prob_delta_gt0 = round(prob_delta_gt0, 3)
+  )
+
+#library(xtable)
+# Add LaTeX italics to species names
+# delta_surv_filtered_latex <- delta_surv_filtered %>%
+#   mutate(species = paste0("\\textit{", species, "}"))
+# 
+# # Create xtable
+# xt <- xtable(delta_surv_filtered_latex, label = "tab:delta_surv_filtered")
+
+
+
 # Plot for survival
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff_stat.pdf",
@@ -459,16 +502,16 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   # Vertical lines for species-specific average precipitation
   geom_vline(
-    data = yearly_prism_max_avg %>% 
+    data = climate_max %>%
       mutate(species_label = case_when(
         species == "aghy" ~ "italic('Agrostis hyemalis')",
         species == "elvi" ~ "italic('Elymus virginicus')",
         species == "poau" ~ "italic('Poa autumnalis')"
       )),
-    aes(xintercept = ppt_avg),
-    linetype = "dotted",
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
     color = "#0072B2",
-    size = 0.8
+    size = 0.5
   ) +
   # Facets
   facet_grid(metric ~ species_label, scales = "free_y",
@@ -689,7 +732,7 @@ panel_labels_grow <- data.frame(
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 7, height = 8.75
+  width = 7, height = 9
 )
 ggplot(plot_data_grow) +
   # Upper panel: predicted growth
@@ -774,9 +817,9 @@ ggplot(plot_data_grow) +
       
       # Upper panels (Growth) – manually reduced per species
       panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(-3.5, 1), expand = c(0, 0)),
+        scale_y_continuous(limits = c(-2.5, 1), expand = c(0, 0)),
       panel == "Growth" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(-2, 1.5), expand = c(0, 0)),
+        scale_y_continuous(limits = c(-1.1, 1.25), expand = c(0, 0)),
       panel == "Growth" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(limits = c(-4, 2), expand = c(0, 0))
     )
@@ -929,7 +972,7 @@ dev.off()
 # dev.off()
 
 # Climate quantiles for grow 
-clim_quantiles_grow <- quantile(demography_grow_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
+#clim_quantiles_grow <- quantile(demography_grow_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 
 #Function to compute Δ(E+ − E−) for grow 
 compute_delta_grow <- function(clim_val, posterior_samples_grow, herb_values = c(0, 1)) {
@@ -975,11 +1018,11 @@ compute_delta_grow <- function(clim_val, posterior_samples_grow, herb_values = c
 }
 
 #  Compute Δ for all climate quantiles
-delta_grow_quantiles <- lapply(clim_quantiles_grow, function(cl) compute_delta_grow(cl, posterior_samples_grow)) %>%
+delta_grow <- lapply(predictions$clim, function(cl) compute_delta_grow(cl, posterior_samples_grow)) %>%
   bind_rows()
 
 #  Summarize Δ 
-delta_grow_summary <- delta_grow_quantiles %>%
+delta_grow_summary <- delta_grow %>%
   group_by(species, herb, clim) %>%
   summarise(
     median_delta = median(delta),
@@ -1002,6 +1045,26 @@ delta_grow_summary$herb <- factor(delta_grow_summary$herb, levels = c(0,1),
 # Add exponentiated climate for plotting 
 delta_grow_summary <- delta_grow_summary %>%
   mutate(clim_mm = exp(clim * ppt_sd + ppt_mean))
+
+# Select 5 representative climate points for growth Δ
+delta_grow_filtered <- delta_grow_summary %>%
+  # Group by species × herbivore treatment
+  group_by(species, herb) %>%
+  # Take roughly 5 points along the climate gradient
+  slice(c(1, n() %/% 4, n() %/% 2, 3 * n() %/% 4, n())) %>%
+  ungroup() %>%
+  # Keep only relevant columns
+  dplyr::select(
+    species, herb, clim_mm, median_delta, lower_90, upper_90, prob_delta_gt0
+  ) %>%
+  # Round values for reporting / LaTeX
+  mutate(
+    clim_mm = round(clim_mm, 0),
+    median_delta = round(median_delta, 3),
+    lower_90 = round(lower_90, 3),
+    upper_90 = round(upper_90, 3),
+    prob_delta_gt0 = round(prob_delta_gt0, 3)
+  )
 
 
 # Prepare long-format data for growth
@@ -1046,16 +1109,16 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   # Vertical lines for species-specific average precipitation
   geom_vline(
-    data = yearly_prism_max_avg %>% 
+    data = climate_max %>% 
       mutate(species_label = case_when(
         species == "aghy" ~ "italic('Agrostis hyemalis')",
         species == "elvi" ~ "italic('Elymus virginicus')",
         species == "poau" ~ "italic('Poa autumnalis')"
       )),
-    aes(xintercept = ppt_avg),
-    linetype = "dotted",
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
     color = "#0072B2",
-    size = 0.8
+    size = 0.5
   ) +
   facet_grid(metric ~ species_label, scales = "free_y",
              labeller = labeller(
@@ -1376,7 +1439,7 @@ ggplot(plot_data_flowering) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.058, 0.27),
+    legend.position = c(0.058, 0.12),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -1392,15 +1455,13 @@ ggplot(plot_data_flowering) +
   # Add facet labels (a–f) only on top panels
   geom_text(
     data = panel_labels,
-    aes(x = 490, y = 0.93, label = label),
+    aes(x = 490, y = 0.91, label = label),
     fontface = "plain", size = 3.5, hjust = 0,
     inherit.aes = FALSE
   )
 
 dev.off()
 
-# Quantiles of climate for flowering
-clim_quantiles_flow <- quantile(demography_flow_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 
 # Function to compute Δ(E+ − E−) for flowering 
 compute_delta_flow <- function(clim_val, posterior_samples_flow, herb_values = c(0,1)) {
@@ -1446,11 +1507,11 @@ compute_delta_flow <- function(clim_val, posterior_samples_flow, herb_values = c
 }
 
 # Compute Δ for all climate quantiles ---
-delta_flow_quantiles <- lapply(clim_quantiles_flow, function(cl) compute_delta_flow(cl, posterior_samples_flowering)) %>%
+delta_flow <- lapply(predictions$clim, function(cl) compute_delta_flow(cl, posterior_samples_flowering)) %>%
   bind_rows()
 
 # Summarize Δ
-delta_flow_summary <- delta_flow_quantiles %>%
+delta_flow_summary <- delta_flow %>%
   group_by(species, herb, clim) %>%
   summarise(
     median_delta = median(delta),
@@ -1516,16 +1577,16 @@ ggplot(delta_long_flow, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   # Vertical lines for species-specific average precipitation
   geom_vline(
-    data = yearly_prism_max_avg %>% 
+    data = climate_max %>% 
       mutate(species_label = case_when(
         species == "aghy" ~ "italic('Agrostis hyemalis')",
         species == "elvi" ~ "italic('Elymus virginicus')",
         species == "poau" ~ "italic('Poa autumnalis')"
       )),
-    aes(xintercept = ppt_avg),
-    linetype = "dotted",
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
     color = "#0072B2",
-    size = 0.8
+    size = 0.5
   ) +
   # Facets
   facet_grid(metric ~ species_label, scales = "free_y",
@@ -1669,7 +1730,7 @@ cred_intervals_inf <- pred_inf_long %>%
     mean = mean(Pred_Inf),
     .groups = "drop"
   ) %>%
-  mutate(panel = "Inflorescence")
+  mutate(panel = "Inflorescences")
 
 # Compute Δ (E+ − E−) for infering
 diff_df_inf <- pred_inf_long %>%
@@ -1705,7 +1766,7 @@ plot_data_inf$species <- factor(
 
 # Change panel name for upper panel
 plot_data_inf <- plot_data_inf %>%
-  mutate(panel = ifelse(panel == "Inflorescence", "#Inflorescences", panel))
+  mutate(panel = ifelse(panel == "Inflorescences", "Inflorescences", panel))
 
 observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
   data.frame(
@@ -1721,7 +1782,7 @@ observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
     y_plot_mean = mean(y, na.rm = TRUE),
     .groups = "drop"
   ) %>%
-  mutate(panel = "#Inflorescences",
+  mutate(panel = "Inflorescences",
          climate_mm = exp(clim * ppt_sd + ppt_mean))
 
 # Relabel species (matching your plot_data_inf)
@@ -1770,32 +1831,32 @@ panel_labels_inf <- data.frame(
   ), each = 2),
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
-  panel = "#Inflorescences"   # only place labels on upper panels
+  panel = "Inflorescences"   # only place labels on upper panels
 )
 
 #Plot with updated panel labels
 # Cairo::CairoPDF(
-#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff.pdf",
-#   width = 7, height = 10
+#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_v.pdf",
+#   width = 8, height = 11.5
 # )
 # ggplot(plot_data_inf) +
 #   # Upper panel: predicted infering counts (#Inflorescences)
 #   geom_line(
-#     data = subset(plot_data_inf, panel == "#Inflorescences"),
+#     data = subset(plot_data_inf, panel == "Inflorescences"),
 #     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
 #     size = 0.5
 #   ) +
 #   geom_ribbon(
-#     data = subset(plot_data_inf, panel == "#Inflorescences"),
+#     data = subset(plot_data_inf, panel == "Inflorescences"),
 #     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
 #     alpha = 0.3, color = NA
 #   ) +
 #   geom_point(
-#     data = subset(observed_data_inf, panel == "#Inflorescences"),
+#     data = subset(observed_data_inf, panel == "Inflorescences"),
 #     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
 #     size = 0.75, position = position_jitter(width = 0, height = 0.01)
 #   ) +
-#   
+# 
 #   # Lower panel: Δ (E+ - E-) differences
 #   geom_line(
 #     data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
@@ -1806,7 +1867,7 @@ panel_labels_inf <- data.frame(
 #     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
 #     fill = "#9B6B96", alpha = 0.5
 #   ) +
-#   
+# 
 #   # Facets: species vertically, herb horizontally
 #   ggh4x::facet_nested(
 #     species + panel ~ herb,
@@ -1817,7 +1878,7 @@ panel_labels_inf <- data.frame(
 #       herb = c("0" = "Unfenced", "1" = "Fenced")
 #     )
 #   ) +
-#   
+# 
 #   # Facetted scales
 #   ggh4x::facetted_pos_scales(
 #     y = list(
@@ -1832,8 +1893,8 @@ panel_labels_inf <- data.frame(
 #       panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
 #         scale_y_continuous(
 #           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Elymus virginicus')"],
-#                      y_limits_inf$ymax[y_limits_inf$species == "italic('Elymus virginicus')"]),
+#           limits = c(-1.5,
+#                      1.8),
 #           expand = c(0, 0)
 #         ),
 #       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
@@ -1843,14 +1904,14 @@ panel_labels_inf <- data.frame(
 #                      y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]),
 #           expand = c(0, 0)
 #         ),
-#       
+# 
 #       # Upper panels – #Inflorescences custom limits per species
-#       panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
+#       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
 #         scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
-#       panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
-#         scale_y_continuous(limits = c(0, 7), expand = c(0, 0)),
-#       panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
-#         scale_y_continuous(limits = c(0, 25), expand = c(0, 0))
+#       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
+#         scale_y_continuous(limits = c(0, 5), expand = c(0, 0)),
+#       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
+#         scale_y_continuous(limits = c(0, 13), expand = c(0, 0))
 #     )
 #   ) +
 #   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -1858,7 +1919,7 @@ panel_labels_inf <- data.frame(
 #   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+"))+
 #   theme_light() +
 #   theme(
-#     legend.position = c(0.075, 0.4),
+#     legend.position = c(0.075, 0.40),
 #     legend.title = element_text(size = 6),
 #     legend.text = element_text(size = 6),
 #     panel.spacing.y = unit(0.0, "cm"),
@@ -1873,7 +1934,7 @@ panel_labels_inf <- data.frame(
 #   )
 # 
 # dev.off()
-# 
+
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff.pdf",
@@ -1882,17 +1943,17 @@ Cairo::CairoPDF(
 
 ggplot(plot_data_inf) +
   geom_line(
-    data = subset(plot_data_inf, panel == "#Inflorescences"),
+    data = subset(plot_data_inf, panel == "Inflorescences"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
     size = 0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_inf, panel == "#Inflorescences"),
+    data = subset(plot_data_inf, panel == "Inflorescences"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
     alpha = 0.3, color = NA
   ) +
   geom_point(
-    data = subset(observed_data_inf, panel == "#Inflorescences"),
+    data = subset(observed_data_inf, panel == "Inflorescences"),
     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
     size = 0.75, position = position_jitter(width = 0, height = 0.01)
   ) +
@@ -1937,13 +1998,13 @@ ggplot(plot_data_inf) +
       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(breaks = 0, labels = 0, limits = c(
           y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
-          50
+          y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]
         ), expand = c(0, 0)),
-      panel == "#Inflorescences" & species == "italic('Agrostis hyemalis')" ~
+      panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
         scale_y_continuous(limits = c(0, 30), expand = c(0, 0)),
-      panel == "#Inflorescences" & species == "italic('Elymus virginicus')" ~
+      panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
-      panel == "#Inflorescences" & species == "italic('Poa autumnalis')" ~
+      panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(limits = c(0, 70), expand = c(0, 0))
     )
   ) +
@@ -1952,7 +2013,7 @@ ggplot(plot_data_inf) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+"))+
   theme_light() +
   theme(
-    legend.position = c(0.05, 0.6),
+    legend.position = c(0.05, 0.7),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -1975,8 +2036,6 @@ ggplot(plot_data_inf) +
 dev.off()
 
 # Climate quantiles for infering
-clim_quantiles_inf <- quantile(demography_inf_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
-
 # Function to compute Δ(E+ − E−) for infering
 compute_delta_inf <- function(clim_val, posterior_samples_inf, herb_values = c(0, 1)) {
   n_species <- dim(posterior_samples_inf$b0)[2]
@@ -2025,11 +2084,11 @@ compute_delta_inf <- function(clim_val, posterior_samples_inf, herb_values = c(0
 }
 
 # Compute Δ for all climate quantiles (infering)
-delta_inf_quantiles <- lapply(clim_quantiles_inf, function(cl) compute_delta_inf(cl, posterior_samples_inf)) %>%
+delta_inf <- lapply(predictions$clim, function(cl) compute_delta_inf(cl, posterior_samples_inf)) %>%
   bind_rows()
 
 # Summarize Δ
-delta_inf_summary <- delta_inf_quantiles %>%
+delta_inf_summary <- delta_inf %>%
   group_by(species, herb, clim) %>%
   summarise(
     median_delta = median(delta),
@@ -2049,11 +2108,28 @@ delta_inf_summary$species <- factor(delta_inf_summary$species, levels = 1:3,
 delta_inf_summary$herb <- factor(delta_inf_summary$herb, levels = c(0,1),
                                   labels = c("Unfenced", "Fenced"))
 
-# Add exponentiated climate for plotting
 # Add exponentiated climate for plotting 
 delta_inf_summary <- delta_inf_summary %>%
   mutate(clim_mm = exp(clim * ppt_sd + ppt_mean))
 
+# Select 5 representative climate points for inference Δ
+delta_inf_filtered <- delta_inf_summary %>%
+  group_by(species, herb) %>%
+  # Take roughly 5 points along the climate gradient
+  slice(c(1, n() %/% 4, n() %/% 2, 3 * n() %/% 4, n())) %>%
+  ungroup() %>%
+  # Keep only relevant columns
+  dplyr::select(
+    species, herb, clim_mm, median_delta, lower_90, upper_90, prob_delta_gt0
+  ) %>%
+  # Round values for reporting / LaTeX
+  mutate(
+    clim_mm = round(clim_mm, 0),
+    median_delta = round(median_delta, 3),
+    lower_90 = round(lower_90, 3),
+    upper_90 = round(upper_90, 3),
+    prob_delta_gt0 = round(prob_delta_gt0, 3)
+  )
 
 # Prepare long-format data for infering
 delta_long_inf <- delta_inf_summary %>%
@@ -2077,7 +2153,7 @@ delta_long_inf <- delta_inf_summary %>%
 # Create the infering plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_stat.pdf",
-  width = 7, height = 5
+  width = 7, height = 6
 )
 ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) +
   geom_line(size = 0.5) +
@@ -2097,16 +2173,16 @@ ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) 
   ) +
   # Vertical lines for species-specific average precipitation
   geom_vline(
-    data = yearly_prism_max_avg %>% 
+    data = climate_max %>% 
       mutate(species_label = case_when(
         species == "aghy" ~ "italic('Agrostis hyemalis')",
         species == "elvi" ~ "italic('Elymus virginicus')",
         species == "poau" ~ "italic('Poa autumnalis')"
       )),
-    aes(xintercept = ppt_avg),
-    linetype = "dotted",
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
     color = "#0072B2",
-    size = 0.6
+    size = 0.5
   ) +
   facet_grid(metric ~ species_label, scales = "free_y", 
              labeller = labeller(
@@ -2256,7 +2332,7 @@ delta_spik <- plot_data_spik %>%
   dplyr::select(species, clim, herb, mean, lower_90, upper_90, panel)
 
 plot_data_spik <- plot_data_spik %>%
-  mutate(panel = "#Spikelets") %>%
+  mutate(panel = "Spikelets") %>%
   bind_rows(delta_spik)
 
 # Species labels
@@ -2282,7 +2358,7 @@ observed_data_spik <- demography_spik_ppt %>%
     y_plot_mean = mean(y, na.rm = TRUE),
     .groups = "drop"
   ) %>%
-  mutate(panel = "#Spikelets",
+  mutate(panel = "Spikelets",
          climate_mm = exp(clim * ppt_sd + ppt_mean))
 
 # Relabel species
@@ -2315,24 +2391,24 @@ panel_labels_spik <- data.frame(
   ), each = 2),
   herb = rep(c(0, 1), times = 2),
   label = c("(a)", "(b)", "(c)", "(d)"),
-  panel = "#Spikelets"   # only place labels on upper panels
+  panel = "Spikelets"   # only place labels on upper panels
 )
 
 # --- Plot (horizontal layout for paper figure) ---
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
-  width = 6, height = 6
+  width = 6, height = 7
 )
 
 ggplot(plot_data_spik) +
   # Upper panel: predicted spikelets
   geom_line(
-    data = subset(plot_data_spik, panel == "#Spikelets"),
+    data = subset(plot_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
     size = 0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_spik, panel == "#Spikelets"),
+    data = subset(plot_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90,
         fill = factor(endo), group = endo),
     alpha = 0.3, color = NA
@@ -2350,7 +2426,7 @@ ggplot(plot_data_spik) +
     color = "black", linetype = "dashed", size = 0.3
   ) +
   geom_point(
-    data = subset(observed_data_spik, panel == "#Spikelets"),
+    data = subset(observed_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
     size = 0.75, position = position_jitter(width = 0, height = 0.01)
   ) +
@@ -2384,9 +2460,9 @@ ggplot(plot_data_spik) +
           y_limits_spik$ymin[y_limits_spik$species == "italic('Poa autumnalis')"],
           y_limits_spik$ymax[y_limits_spik$species == "italic('Poa autumnalis')"]
         ), expand = c(0, 0)),
-      panel == "#Spikelets" & species == "italic('Elymus virginicus')" ~
+      panel == "Spikelets" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(0, 50), expand = c(0, 0)),
-      panel == "#Spikelets" & species == "italic('Poa autumnalis')" ~
+      panel == "Spikelets" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(limits = c(0, 60), expand = c(0, 0))
     )
   ) +
@@ -2423,9 +2499,6 @@ ggplot(plot_data_spik) +
   )
 
 dev.off()
-
-# Climate quantiles for spike
-clim_quantiles_spik <- quantile(demography_spik_ppt$clim, probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
 
 # Function to compute Δ(E+ − E−) for spike
 compute_delta_spik <- function(clim_val, posterior_samples_spik, herb_values = c(0, 1)) {
@@ -2473,11 +2546,11 @@ compute_delta_spik <- function(clim_val, posterior_samples_spik, herb_values = c
 }
 
 # Compute Δ for all climate quantiles
-delta_spik_quantiles <- lapply(clim_quantiles_spik, function(cl) compute_delta_spik(cl, posterior_samples_spik)) %>%
+delta_spik <- lapply(predictions$clim, function(cl) compute_delta_spik(cl, posterior_samples_spik)) %>%
   bind_rows()
 
 # Summarize Δ
-delta_spik_summary <- delta_spik_quantiles %>%
+delta_spik_summary <- delta_spik %>%
   group_by(species, herb, clim) %>%
   summarise(
     median_delta = median(delta),
@@ -2499,6 +2572,28 @@ delta_spik_summary$herb <- factor(delta_spik_summary$herb, levels = c(0,1),
 # Add exponentiated climate for plotting
 delta_spik_summary <- delta_spik_summary %>%
   mutate(clim_mm = exp(clim * ppt_sd + ppt_mean))
+
+# Select 5 representative climate points per species × herbivore for delta_spik
+delta_spik_filtered <- delta_spik_summary %>%
+  group_by(species, herb) %>%
+  # Take roughly 5 points along the climate gradient
+  slice(c(1, n() %/% 4, n() %/% 2, 3 * n() %/% 4, n())) %>%
+  ungroup() %>%
+  # Keep only relevant columns
+  dplyr::select(
+    species, herb, clim_mm, median_delta, lower_90, upper_90, prob_delta_gt0
+  ) %>%
+  # Round values for easier reporting
+  mutate(
+    clim_mm = round(clim_mm, 0),
+    median_delta = round(median_delta, 3),
+    lower_90 = round(lower_90, 3),
+    upper_90 = round(upper_90, 3),
+    prob_delta_gt0 = round(prob_delta_gt0, 3)
+  )
+
+# View the filtered summary
+delta_spik_filtered
 
 # Prepare long-format data for plotting
 delta_long_spik <- delta_spik_summary %>%
@@ -2543,16 +2638,16 @@ ggplot(
     linetype = "dashed", color = "black"
   ) +
   geom_vline(
-    data = yearly_prism_max_avg %>%
+    data = climate_max %>%
       filter(species!="aghy") %>% 
       mutate(species_label = case_when(
         species == "elvi" ~ "italic('Elymus virginicus')",
         species == "poau" ~ "italic('Poa autumnalis')"
       )),
-    aes(xintercept = ppt_avg),
-    linetype = "dotted",
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
     color = "#0072B2",
-    size = 0.8
+    size = 0.5
   ) +
   facet_grid(
     metric ~ species_label,

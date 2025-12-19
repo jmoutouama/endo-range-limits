@@ -65,15 +65,15 @@ loo_grow_linear <- compute_loo(fit_grow_abio_bio_endo_linear)
 comp_grow <- loo::loo_compare(loo_grow, loo_grow_linear)
 comp_grow
 
-# Flowering models ----
-fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/5717xz8nt6sph3neq6jj9/fit_flow_abio_bio_endo.rds?rlkey=p4s7391sdqgepd89x53tbgw82&dl=1"))
-fit_flow_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/1v4f4thyh826qcuiiyhub/fit_flow_abio_bio_endo_linear.rds?rlkey=raj4ls5dcqkeeexvcqj8b495m&dl=1"))
+# Inflorescence models ----
+fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/rnkijsri04jtrczshfmp6/fit_inf_abio_bio_endo.rds?rlkey=kyxj4f6mpwdp5m78wi0p6v64r&dl=1"))
+fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
 
-loo_flow <- compute_loo(fit_flow_abio_bio_endo)
-loo_flow_linear <- compute_loo(fit_flow_abio_bio_endo_linear)
+loo_inf <- compute_loo(fit_inf_abio_bio_endo)
+loo_inf_linear <- compute_loo(fit_inf_abio_bio_endo_linear)
 
-comp_flow <- loo::loo_compare(loo_flow, loo_flow_linear)
-comp_flow
+comp_inf <- loo::loo_compare(loo_inf, loo_inf_linear)
+comp_inf
 
 # Spikelet models ----
 fit_spik_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/pebuc3ysvv9rrr2dvihl2/fit_spik_abio_bio_endo.rds?rlkey=f1l4q9ucvk4h4236600zoyjci&dl=1"))
@@ -99,7 +99,7 @@ extract_loo_table <- function(comp_result, model_names, vital_rate) {
 comp_table <- bind_rows(
   extract_loo_table(comp_surv, c("Quadratic", "Linear"), "Survival"),
   extract_loo_table(comp_grow, c("Quadratic", "Linear"), "Growth"),
-  extract_loo_table(comp_flow, c("Quadratic", "Linear"), "Flowering"),
+  extract_loo_table(comp_inf, c("Quadratic", "Linear"), "Inflorescence"),
   extract_loo_table(comp_spik, c("Quadratic", "Linear"), "Spikelet")
 )
 
@@ -107,7 +107,7 @@ comp_table <- bind_rows(
 print(comp_table)
 
 # Export to CSV
-write_csv(comp_table, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/loo_comparison_summary_linear_vs_original.csv")
+#write_csv(comp_table, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/loo_comparison_summary_linear_vs_original.csv")
 
 # What drive the outcome of symbiosis ? 
 # Survival models ----

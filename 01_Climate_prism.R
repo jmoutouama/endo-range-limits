@@ -8,8 +8,8 @@ rm(list = ls())
 ## Load reauire package 
 library(tidyverse)      # data wrangling and plotting
 library(prism)          # download and process PRISM climate data
-library(raster)         # raster processing
 library(terra)          # raster processing alternative
+library(raster)         # raster processing
 library(stringr)        # string manipulation
 library(magrittr)       # pipes and functional programming
 library(readxl)         # read Excel files
@@ -59,7 +59,7 @@ crs(garden_sites) <- CRS("+proj=longlat +datum=WGS84 +no_defs")
 climate_garden <- data.frame(
   coordinates(garden_sites),
   garden_sites$site_code,
-  extract(climate_data, garden_sites)
+  raster::extract(climate_data, garden_sites)
 )
 
 ## Reshape climate data
@@ -95,7 +95,6 @@ climate_garden_1995_2025 <- climate_garden %>%
   ) %>%
   filter(year >= 1995, year <= 2025)
 
-
 ## Inspect climate data
 #summary(climate_garden_1995_2025)
 # table(climate_garden_1995_2025$year, climate_garden_1995_2025$month)
@@ -107,14 +106,17 @@ climate_garden_2023_2025 <- climate_garden_1995_2025 %>%
 
 ## Compute site-level summary
 climate_garden_2023_2025 %>%
-  group_by(site) %>%
+  # create a year column if not already present
+  mutate(year = year(date)) %>%
+  group_by(site, year) %>%
   summarise(
     sum_ppt = sum(ppt, na.rm = TRUE),
     mean_temp = mean(tmean, na.rm = TRUE),
-  ) -> prism_means
+    .groups = "drop"
+  ) -> prism_means_per_year
 
-prism_means <- as.data.frame(prism_means)
-# saveRDS(prism_means, "/Users/jacobmoutouama/Downloads/endo-range-limits/Data/prism_means.rds")
+prism_means <- as.data.frame(prism_means_per_year)
+#saveRDS(prism_means, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_means.rds")
 
 ## Load census data
 datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1")
@@ -229,7 +231,7 @@ climate_2024_2025 <- climate_garden_2024_2025 %>%
 ## Combine all census periods into a single dataset
 climate_census_years <- bind_rows(climate_2023_2024, climate_2024_2025)
 # view(climate_census_years)
-# saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
+#saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
 
 # Identify the 30-year easternmost point
 #Load species coordinates
@@ -237,17 +239,14 @@ max_long_table <- readRDS(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds"
 )
 
-max_long_30yr <- max_long_table %>%
-  group_by(species) %>%
-  slice_max(longitude, n = 1, with_ties = FALSE) %>%
-  ungroup()
+max_long_yr <- max_long_table 
 
-coordinates(max_long_30yr) <- c("longitude", "latitude")
+coordinates(max_long_yr) <- c("longitude", "latitude")
 
 climate_sites_max <- data.frame(
-  coordinates(max_long_30yr),
-  species = max_long_30yr$species,
-  extract(climate_data, max_long_30yr)
+  coordinates(max_long_yr),
+  species = max_long_yr$species,
+  extract(climate_data, max_long_yr)
 )
 
 climate_sites_max <- climate_sites_max %>%
@@ -262,7 +261,7 @@ climate_sites_max <- climate_sites_max %>%
     year     = as.integer(substr(ym, 1, 4)),
     month    = as.integer(substr(ym, 5, 6))
   )
-climate_sites_max_1996_2025 <- climate_sites_max %>%
+climate_sites_max <- climate_sites_max %>%
   distinct() %>%
   pivot_wider(
     names_from  = variable,
@@ -275,17 +274,20 @@ climate_sites_max_1996_2025 <- climate_sites_max %>%
   mutate(
     year  = as.integer(year),
     month = as.integer(month)
-  ) %>%
-  filter(year >= 1996, year <= 2025)
+  )
 
-prism_edge_30yr_means <- climate_sites_max_1996_2025 %>%
+prism_edge_yr_means <- climate_sites_max %>%
+  group_by(species, year) %>%
+  summarise(
+    annual_ppt = sum(ppt, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
   group_by(species) %>%
   summarise(
-    mean_temp = mean(tmean, na.rm = TRUE),   # °C, monthly mean averaged over 30 yrs
-    sum_ppt   = sum(ppt, na.rm = TRUE),      # total ppt over 30 yrs
-    mean_ppt  = mean(ppt, na.rm = TRUE),     # mean monthly ppt
+    mean_annual_ppt = mean(annual_ppt, na.rm = TRUE),
     .groups = "drop"
   )
 
-saveRDS(prism_edge_30yr_means, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_edge_30yr_means.rds")
+
+saveRDS(prism_edge_yr_means, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_edge_yr_means.rds")
 

@@ -119,7 +119,7 @@ poa_occ_raw %>%
 poau<-rbind(poa1,poa2,poa3)
 #class(poau)
 # Define the 30-year window (relative to 2025)
-start_year <- 2025 - 29  # 1996
+#start_year <- 2025 - 29  # 1996
 
 # Combine species into one table
 dat_all_species <- bind_rows(
@@ -128,19 +128,27 @@ dat_all_species <- bind_rows(
   mutate(poau, species = "poau")
 )
 
-# Annual eastern range edge for each species
-annual_east_range_edge_1996_2025 <- dat_all_species %>%
-  filter(year >= start_year, year <= 2025) %>%
-  group_by(species, year) %>%
-  slice_max(longitude, n = 1, with_ties = FALSE) %>%
-  ungroup()
+# # Annual eastern range edge for each species
+# annual_east_range_edge_1996_2025 <- dat_all_species %>%
+#   filter(year >= start_year, year <= 2025) %>%
+#   group_by(species, year) %>%
+#   slice_max(longitude, n = 1, with_ties = FALSE) %>%
+#   ungroup()
+# Find westernmost (most negative longitude) per species
+west_edge <- dat_all_species %>%
+  group_by(species) %>%                           # handle each species separately
+  slice_min(longitude, n = 1, with_ties = FALSE) %>%  # pick the minimum longitude
+  ungroup() %>%
+  dplyr::select(species, longitude, latitude)
 
-# Sanity checks
-# table(annual_east_range_edge_1996_2025$species)
-# range(annual_east_range_edge_1996_2025$year)
+# Check result
+west_edge
+
+# Check
+max_long_edge
 
 # Save as RDS
-#saveRDS(annual_east_range_edge_1996_2025, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
+#saveRDS(west_edge, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
 
 # Georeferencing the occurences -----
 garden %>% 
@@ -184,7 +192,7 @@ crs(source_elvi) <- CRS1
 crs(source_poau) <- CRS1
 
 # Climatic data----
-prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/rjwgk98idmdatk025g6st/prism_means.rds?rlkey=dfooohwn3j2d5pew0ryjpultl&dl=1"))
+prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x231nlm6rtm96uqffsv03/prism_means.rds?rlkey=w29usaquhd1u1w3u7guf1rgbp&dl=1"))
 
 # Study area shapefile ----
 study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
@@ -280,21 +288,24 @@ se_matrix <- sapply(ordered_sites, function(s){
   })
 })
 
+# Calculate mean annual precipitation per site
+mean_ppt_per_site <- prism_summary %>%
+  group_by(site) %>%
+  summarise(mean_ppt = mean(sum_ppt, na.rm = TRUE))
 
-# Combine site codes, longitude, and cumulative precipitation
+# Join with garden site coordinates
 garden_sites_ppt <- data.frame(
   site = garden_aghy$site_code,
   lon  = coordinates(garden_aghy)[,1],
-  ppt  = prism_summary$sum_ppt[match(garden_aghy$site_code, prism_summary$site)]
+  mean_ppt  = mean_ppt_per_site$mean_ppt[match(garden_aghy$site_code, mean_ppt_per_site$site)]
 )
 
 # Order sites west → east
 garden_sites_ppt_west_east <- garden_sites_ppt[order(garden_sites_ppt$lon), ]
 
 # Prepare barplot values and labels
-cumulative_ppt_west_east <- garden_sites_ppt_west_east$ppt
-names(cumulative_ppt_west_east) <- garden_sites_ppt_west_east$site
-
+mean_ppt_west_east <- garden_sites_ppt_west_east$mean_ppt
+names(mean_ppt_west_east) <- garden_sites_ppt_west_east$site
 
 # Maps (Figure 1) ----
 pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",
@@ -376,11 +387,11 @@ legend(
 ### Panel D (barplot ordered largest → smallest)
 par(mar=c(6,4,4,1))
 barplot(
-  cumulative_ppt_west_east,
+  mean_ppt_west_east,
   col="#E69F00",
   xlab="Sites",
   ylab="Cumulative Precipitation (mm)",
-  ylim=c(0, max(cumulative_ppt_west_east)*1.1),
+  ylim=c(0, max(mean_ppt_west_east)*1.1),
   las=2,
   cex.lab=1.2,
   cex.names=0.75

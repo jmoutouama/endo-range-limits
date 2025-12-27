@@ -2675,3 +2675,67 @@ ggplot(
 dev.off()
 
 
+# Add trait column
+delta_long_surv$trait <- "Survival"
+delta_long_grow$trait <- "Growth"
+delta_long_inf$trait <- "Inflorescence"
+
+# Combine all three datasets
+delta_long_all <- dplyr::bind_rows(delta_long_surv, delta_long_grow, delta_long_inf)
+delta_long_all <- delta_long_all %>%
+  mutate(
+    species_label = case_when(
+      species == "Agrostis hyemalis"   ~ "italic('A. hyemalis')",
+      species == "Elymus virginicus"   ~ "italic('E. virginicus')",
+      species == "Poa autumnalis"      ~ "italic('P. autumnalis')",
+      TRUE ~ as.character(species)
+    )
+  )
+
+climate_max <- climate_max %>%
+  mutate(species_label = case_when(
+    species == "aghy" ~ "italic('A. hyemalis')",
+    species == "elvi" ~ "italic('E. virginicus')",
+    species == "poau" ~ "italic('P. autumnalis')"
+  ))
+
+# Plot
+p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group = herb)) +
+  geom_line(size = 0.5) +
+  geom_hline(data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"), 
+             aes(yintercept = 0), linetype = "dashed", color = "black") +
+  geom_hline(data = delta_long_all %>% filter(metric == "Pr (Δ > 0)"), 
+             aes(yintercept = 0.5), linetype = "dashed", color = "black") +
+  geom_vline(
+    data = climate_max,
+    aes(xintercept = mean_annual_ppt),
+    linetype = "dashed",
+    color = "#0072B2",
+    size = 0.5
+  )+
+  facet_grid(
+    metric ~ species_label + trait,
+    scales = "free_y",
+    labeller = labeller(
+      species_label = label_parsed,
+      metric = label_value,
+      trait = label_value
+    )
+  )+
+  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
+  labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore exclusion") +
+  theme_light() +
+  theme(legend.position = "bottom", 
+        axis.text = element_text(size = 6), 
+        strip.text.x = element_text(size = 10, color = "black", face = "plain"),
+        strip.text.y = element_text(size = 10, color = "black", face = "plain"),
+        text = element_text(family = "Arial"),
+        strip.background = element_rect(color = "black", 
+                                        fill = "grey80", size = 0.1,
+                                        linetype = "solid"))
+
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 10, height = 5)
+print(p_all)
+dev.off()
+
+

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  19 DEC 2025 12:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  30 DEC 2025 16:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1220,90 +1220,86 @@ ne 300.
 [7]
 
 [8]
-Overfull \hbox (18.31267pt too wide) detected at line 365
-[][][][][]
- []
-
-
 
 [9]
 
+LaTeX Warning: Reference `tab:delta_summary_surv' on page 10 undefined on input
+ line 414.
+
+
+
 [10]
-
-LaTeX Warning: Reference `tab:delta_summary_surv' on page 11 undefined on input
- line 413.
-
-
 
 [11]
 
+Package natbib Warning: Citation `chamberlain2014context' on page 12 undefined 
+on input line 443.
+
+
+
 [12]
 
-Package natbib Warning: Citation `chamberlain2014context' on page 13 undefined 
-on input line 442.
-
-
 Package natbib Warning: Citation `clay1990fungal' on page 13 undefined on input
- line 445.
+ line 446.
 
 
 Package natbib Warning: Citation `rodriguez2009fungal' on page 13 undefined on 
-input line 446.
+input line 447.
 
 
 Package natbib Warning: Citation `gibert2012fungal' on page 13 undefined on inp
-ut line 446.
+ut line 447.
 
 
 Package natbib Warning: Citation `clay1988fungal' on page 13 undefined on input
- line 446.
+ line 447.
+
+
+Package natbib Warning: Citation `cheplick1989interactions' on page 13 undefine
+d on input line 454.
+
+
+Package natbib Warning: Citation `afkhami2009endophyte' on page 13 undefined on
+ input line 455.
+
+
+Package natbib Warning: Citation `rodriguez2009fungal' on page 13 undefined on 
+input line 456.
+
+
+Package natbib Warning: Citation `faeth2002endophytic' on page 13 undefined on 
+input line 458.
+
+
+Package natbib Warning: Citation `bastias2023plant' on page 13 undefined on inp
+ut line 459.
+
+
+Package natbib Warning: Citation `eaton2011triggers' on page 13 undefined on in
+put line 459.
+
+
+Package natbib Warning: Citation `cheplick2009ecology' on page 13 undefined on 
+input line 462.
 
 
 
 [13]
 
-Package natbib Warning: Citation `cheplick1989interactions' on page 14 undefine
-d on input line 453.
-
-
-Package natbib Warning: Citation `afkhami2009endophyte' on page 14 undefined on
- input line 454.
-
-
-Package natbib Warning: Citation `rodriguez2009fungal' on page 14 undefined on 
-input line 455.
-
-
-Package natbib Warning: Citation `faeth2002endophytic' on page 14 undefined on 
-input line 457.
-
-
-Package natbib Warning: Citation `bastias2023plant' on page 14 undefined on inp
-ut line 458.
-
-
-Package natbib Warning: Citation `eaton2011triggers' on page 14 undefined on in
-put line 458.
-
-
-Package natbib Warning: Citation `cheplick2009ecology' on page 14 undefined on 
-input line 461.
-
-
 Package natbib Warning: Citation `lortie2006re' on page 14 undefined on input l
-ine 465.
+ine 466.
 
 
 Package natbib Warning: Citation `piccardi2019toxicity' on page 14 undefined on
- input line 466.
+ input line 467.
 
 
 Package natbib Warning: Citation `hammarlund2019refining' on page 14 undefined 
-on input line 466.
+on input line 467.
 
 
 Package natbib Warning: Citation `adams2022case' on page 14 undefined on input 
-line 466.
+line 467.
 
 
 
@@ -1318,20 +1314,20 @@ line 466.
 [18])
 
 [19]
-<../Figure/Prediction.png, id=430, 1049.9225pt x 422.57875pt>
+<../Figure/Prediction.png, id=401, 1049.9225pt x 422.57875pt>
 File: ../Figure/Prediction.png Graphic file (type png)
 <use ../Figure/Prediction.png>
-Package pdftex.def Info: ../Figure/Prediction.png  used on input line 487.
+Package pdftex.def Info: ../Figure/Prediction.png  used on input line 488.
 (pdftex.def)             Requested size: 469.75502pt x 189.06895pt.
 
 
 [20
 
  <../Figure/Prediction.png>]
-<../Figure/clim_map.pdf, id=441, 650.43pt x 758.835pt>
+<../Figure/clim_map.pdf, id=412, 650.43pt x 758.835pt>
 File: ../Figure/clim_map.pdf Graphic file (type pdf)
 <use ../Figure/clim_map.pdf>
-Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 502.
+Package pdftex.def Info: ../Figure/clim_map.pdf  used on input line 503.
 (pdftex.def)             Requested size: 422.77664pt x 493.24849pt.
 
 
@@ -1340,16 +1336,16 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 [21 <../Figure/clim_map.pdf>]
-<../Figure/PrSurvival_diff.pdf, id=472, 433.62pt x 505.89pt>
+<../Figure/PrSurvival_diff.pdf, id=443, 433.62pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 522.
+Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 523.
 
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
-<../Figure/Growth_diff.pdf, id=473, 505.89pt x 650.43pt>
+<../Figure/Growth_diff.pdf, id=444, 505.89pt x 650.43pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 536.
+Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 537.
 (pdftex.def)             Requested size: 469.75502pt x 603.98058pt.
 
 
@@ -1362,42 +1358,49 @@ Overfull \vbox (23.55057pt too high) has occurred while \output is active []
 
 
 [23 <../Figure/Growth_diff.pdf>]
-<../Figure/Inflorescence_diff.pdf, id=538, 650.43pt x 361.35pt>
+<../Figure/Inflorescence_diff.pdf, id=509, 650.43pt x 361.35pt>
 File: ../Figure/Inflorescence_diff.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff.pdf  used on input line 5
-50.
-(pdftex.def)             Requested size: 422.77664pt x 234.88023pt.
+51.
+(pdftex.def)             Requested size: 469.75502pt x 260.98232pt.
 
 
 [24 <../Figure/Inflorescence_diff.pdf>]
+<../Figure/All_traits_diff_stat.pdf, id=541, 722.7pt x 361.35pt>
+File: ../Figure/All_traits_diff_stat.pdf Graphic file (type pdf)
+<use ../Figure/All_traits_diff_stat.pdf>
+Package pdftex.def Info: ../Figure/All_traits_diff_stat.pdf  used on input line
+ 567.
+(pdftex.def)             Requested size: 469.75502pt x 234.88023pt.
+
 
 [25
 
-]
+ <../Figure/All_traits_diff_stat.pdf>]
 
 [26
 
 ]
-Underfull \hbox (badness 1248) in paragraph at lines 676--677
-[]|\OT1/pplx/m/n/12/-25ls (+20) Sam Hous-ton State Uni-ver-sity
- []
-
-
-Underfull \hbox (badness 1248) in paragraph at lines 677--678
-[]|\OT1/pplx/m/n/12/-25ls (+20) Sam Hous-ton State Uni-ver-sity
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 678--679
-[]|\OT1/pplx/m/n/12/-25ls (+20) Texas Tech Uni-ver-sity Field
- []
-
-
 
 [27
 
 ]
+Underfull \hbox (badness 1248) in paragraph at lines 689--690
+[]|\OT1/pplx/m/n/12/-25ls (+20) Sam Hous-ton State Uni-ver-sity
+ []
+
+
+Underfull \hbox (badness 1248) in paragraph at lines 690--691
+[]|\OT1/pplx/m/n/12/-25ls (+20) Sam Hous-ton State Uni-ver-sity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 691--692
+[]|\OT1/pplx/m/n/12/-25ls (+20) Texas Tech Uni-ver-sity Field
+ []
+
+
 
 [28
 
@@ -1407,17 +1410,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 678--679
 
 ]
 
-[30]
+[30
+
+]
 
 [31]
 
-LaTeX Warning: Float too large for page by 14.94449pt on input line 867.
-
-
-
 [32]
 
-[33
+LaTeX Warning: Float too large for page by 14.94449pt on input line 880.
+
+
+
+[33]
+
+[34
 
 
 
@@ -1429,74 +1436,74 @@ LaTeX Warning: Float too large for page by 14.94449pt on input line 867.
 
 
 ]
-<../Figure/Climate_prism_2023_2025.pdf, id=617, 867.24pt x 361.35pt>
+<../Figure/Climate_prism_2023_2025.pdf, id=614, 867.24pt x 361.35pt>
 File: ../Figure/Climate_prism_2023_2025.pdf Graphic file (type pdf)
 <use ../Figure/Climate_prism_2023_2025.pdf>
 Package pdftex.def Info: ../Figure/Climate_prism_2023_2025.pdf  used on input l
-ine 959.
+ine 972.
 (pdftex.def)             Requested size: 469.75502pt x 195.7326pt.
-
-
-[34
-
- <../Figure/Climate_prism_2023_2025.pdf>]
-<../Figure/PPC_linear.png, id=627, 573.14125pt x 485.815pt>
-File: ../Figure/PPC_linear.png Graphic file (type png)
-<use ../Figure/PPC_linear.png>
-Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 970.
-(pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
-<../Figure/PrSurvival_diff_stat.pdf, id=628, 505.89pt x 433.62pt>
-File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
-<use ../Figure/PrSurvival_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
- 981.
-(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [35
 
- <../Figure/PPC_linear.png>]
-<../Figure/Growth_diff_stat.pdf, id=634, 505.89pt x 433.62pt>
-File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
-<use ../Figure/Growth_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 992
-.
+ <../Figure/Climate_prism_2023_2025.pdf>]
+<../Figure/PPC_linear.png, id=624, 573.14125pt x 485.815pt>
+File: ../Figure/PPC_linear.png Graphic file (type png)
+<use ../Figure/PPC_linear.png>
+Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 983.
+(pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
+<../Figure/PrSurvival_diff_stat.pdf, id=625, 505.89pt x 433.62pt>
+File: ../Figure/PrSurvival_diff_stat.pdf Graphic file (type pdf)
+<use ../Figure/PrSurvival_diff_stat.pdf>
+Package pdftex.def Info: ../Figure/PrSurvival_diff_stat.pdf  used on input line
+ 994.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[36 <../Figure/PrSurvival_diff_stat.pdf>]
-<../Figure/Inflorescence_diff_stat.pdf, id=660, 505.89pt x 433.62pt>
+[36
+
+ <../Figure/PPC_linear.png>]
+<../Figure/Growth_diff_stat.pdf, id=632, 505.89pt x 433.62pt>
+File: ../Figure/Growth_diff_stat.pdf Graphic file (type pdf)
+<use ../Figure/Growth_diff_stat.pdf>
+Package pdftex.def Info: ../Figure/Growth_diff_stat.pdf  used on input line 100
+5.
+(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
+
+
+[37 <../Figure/PrSurvival_diff_stat.pdf>]
+<../Figure/Inflorescence_diff_stat.pdf, id=659, 505.89pt x 433.62pt>
 File: ../Figure/Inflorescence_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff_stat.pdf  used on input l
-ine 1001.
+ine 1014.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
-[37 <../Figure/Growth_diff_stat.pdf>]
-<../Figure/Spikelet_diff.pdf, id=688, 433.62pt x 505.89pt>
+[38 <../Figure/Growth_diff_stat.pdf>]
+<../Figure/Spikelet_diff.pdf, id=686, 433.62pt x 505.89pt>
 File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 1009.
+Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 1022.
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
 
 
-[38 <../Figure/Inflorescence_diff_stat.pdf>]
-<../Figure/Spike_diff_stat.pdf, id=715, 433.62pt x 361.35pt>
+[39 <../Figure/Inflorescence_diff_stat.pdf>]
+<../Figure/Spike_diff_stat.pdf, id=713, 433.62pt x 361.35pt>
 File: ../Figure/Spike_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spike_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 1021
+Package pdftex.def Info: ../Figure/Spike_diff_stat.pdf  used on input line 1034
 .
 (pdftex.def)             Requested size: 469.75502pt x 391.48175pt.
 
 
-[39 <../Figure/Spikelet_diff.pdf>]
+[40 <../Figure/Spikelet_diff.pdf>]
 
 Package natbib Warning: There were undefined citations.
 
 
 
-[40 <../Figure/Spike_diff_stat.pdf>] (./Range_limit_v2.aux)
+[41 <../Figure/Spike_diff_stat.pdf>] (./Range_limit_v2.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -1508,26 +1515,25 @@ LaTeX Warning: There were undefined references.
 Package rerunfilecheck Info: File `Range_limit_v2.out' has not changed.
 (rerunfilecheck)             Checksum: AA9AE6FD2258D4688979943AE84ABE15;605.
  )
-(\end occurred inside a group at level 3)
+(\end occurred inside a group at level 2)
 
-### simple group (level 3) entered at line 564 ({)
-### simple group (level 2) entered at line 483 ({)
+### simple group (level 2) entered at line 577 ({)
 ### semi simple group (level 1) entered at line 183 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30746 strings out of 473190
- 562288 string characters out of 5715801
- 968358 words of memory out of 5000000
- 52240 multiletter control sequences out of 15000+600000
- 693928 words of font info for 919 fonts, out of 8000000 for 9000
+ 30722 strings out of 473190
+ 562261 string characters out of 5715801
+ 966805 words of memory out of 5000000
+ 52245 multiletter control sequences out of 15000+600000
+ 691133 words of font info for 905 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,18n,101p,1438b,932s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,18n,101p,1438b,909s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-pdfTeX warning (dest): name{Hfootnote.44} has been referenced but does not exis
+pdfTeX warning (dest): name{Hfootnote.30} has been referenced but does not exis
 t, replaced by a fixed one
 
 
-pdfTeX warning (dest): name{Hfootnote.43} has been referenced but does not exis
+pdfTeX warning (dest): name{Hfootnote.29} has been referenced but does not exis
 t, replaced by a fixed one
 
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -1540,10 +1546,10 @@ texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/texl
 ive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/202
 5/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texmf
 -dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v2.pdf (40 pages, 1040386 bytes).
+Output written on Range_limit_v2.pdf (41 pages, 1078811 bytes).
 PDF statistics:
- 855 PDF objects out of 1000 (max. 8388607)
- 700 compressed objects within 7 object streams
- 165 named destinations out of 1000 (max. 500000)
- 215657 words of extra memory for PDF output out of 221844 (max. 10000000)
+ 851 PDF objects out of 1000 (max. 8388607)
+ 688 compressed objects within 7 object streams
+ 152 named destinations out of 1000 (max. 500000)
+ 215662 words of extra memory for PDF output out of 221844 (max. 10000000)
 

@@ -243,6 +243,19 @@ dat_t_t1 <- rbind(dat2324_t_t1, dat2425_t_t1)
 #   filter(n > 1)
 # dup_tags_per_year
 
+# Number of populations (genotypes) per species
+# Unique populations and clones per species
+endo_counts <- dat_t_t1 %>%
+  group_by(Species, Population, Endo) %>%
+  summarise(n_individuals = n(), .groups = "drop") %>%
+  pivot_wider(names_from = Endo, values_from = n_individuals, 
+              names_prefix = "Endo_") %>%
+  replace(is.na(.), 0) %>%   # replace missing counts with 0
+  mutate(n_clones = Endo_0 + Endo_1)  # add total clones column
+
+endo_counts
+
+
 ## Merge the demographic data with the herbivory data -----
 dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 # head(dat_t_t1_herb)

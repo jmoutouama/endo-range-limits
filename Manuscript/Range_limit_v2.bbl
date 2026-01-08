@@ -96,6 +96,12 @@ Decunta, F.~A., P{\'e}rez, L.~I., Malinowski, D.~P., Molina-Montenegro, M.~A.,
   on drought tolerance in cool-season grasses.
 \newblock {\em Frontiers in Plant Science}, 12:644731.
 
+\bibitem[Dietze et~al., 2014]{dietze2014nonstructural}
+Dietze, M.~C., Sala, A., Carbone, M.~S., Czimczik, C.~I., Mantooth, J.~A.,
+  Richardson, A.~D., and Vargas, R. (2014).
+\newblock Nonstructural carbon in woody plants.
+\newblock {\em Annual review of plant biology}, 65(1):667--687.
+
 \bibitem[Eaton et~al., 2011]{eaton2011triggers}
 Eaton, C.~J., Cox, M.~P., and Scott, B. (2011).
 \newblock What triggers grass endophytes to switch from mutualism to
@@ -261,6 +267,11 @@ Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
   on plants.
 \newblock {\em Functional Ecology}, 34(10):2075--2086.
 
+\bibitem[Pringle, 2016]{pringle2016integrating}
+Pringle, E.~G. (2016).
+\newblock Integrating plant carbon dynamics with mutualism ecology.
+\newblock {\em New Phytologist}, 210(1):71--75.
+
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
@@ -310,13 +321,6 @@ Shaw, R.~B. (2011).
 \newblock {\em Guide to Texas grasses}.
 \newblock Texas A\&M University Press.
 
-\bibitem[Silva and Zanella, 2024]{silva2024robust}
-Silva, L.~A. and Zanella, G. (2024).
-\newblock Robust leave-one-out cross-validation for high-dimensional bayesian
-  models.
-\newblock {\em Journal of the American Statistical Association},
-  119(547):2369--2381.
-
 \bibitem[Soudzilovskaia et~al., 2015]{soudzilovskaia2015quantitative}
 Soudzilovskaia, N.~A., van~der Heijden, M.~G., Cornelissen, J.~H., Makarov,
   M.~I., Onipchenko, V.~G., Maslov, M.~N., Akhmetzhanova, A.~A., and van
@@ -337,6 +341,12 @@ Thirkell, T.~J., Pastok, D., and Field, K.~J. (2020).
   concentration.
 \newblock {\em Global change biology}, 26(3):1725--1738.
 
+\bibitem[Toby~Kiers et~al., 2010]{toby2010mutualisms}
+Toby~Kiers, E., Palmer, T.~M., Ives, A.~R., Bruno, J.~F., and Bronstein, J.~L.
+  (2010).
+\newblock Mutualisms in a changing world: an evolutionary perspective.
+\newblock {\em Ecology letters}, 13(12):1459--1474.
+
 \bibitem[Vega, 2008]{vega2008insect}
 Vega, F.~E. (2008).
 \newblock Insect pathology and fungal endophytes.
@@ -354,6 +364,17 @@ White~Jr, J.~F. (1994).
   reproductive studies of epichlo{\"e} amarillans sp. nov. and comparisons to
   e. typhina.
 \newblock {\em Mycologia}, 86(4):571--580.
+
+\bibitem[White~Jr and Torres, 2010]{white2010plant}
+White~Jr, J.~F. and Torres, M.~S. (2010).
+\newblock Is plant endophyte-mediated defensive mutualism the result of
+  oxidative stress protection?
+\newblock {\em Physiologia Plantarum}, 138(4):440--446.
+
+\bibitem[Wilson and Thompson, 1989]{wilson1989comparative}
+Wilson, A. and Thompson, K. (1989).
+\newblock A comparative study of reproductive allocation in 40 british grasses.
+\newblock {\em Functional Ecology}, pages 297--302.
 
 \bibitem[Yule et~al., 2013]{yule2013costs}
 Yule, K.~M., Miller, T.~E., and Rudgers, J.~A. (2013).

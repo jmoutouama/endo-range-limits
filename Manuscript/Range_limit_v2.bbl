@@ -1,16 +1,16 @@
 \begin{thebibliography}{}
 
-\bibitem[Afkhami et~al., 2014]{afkhami2014mutualist}
-Afkhami, M.~E., McIntyre, P.~J., and Strauss, S.~Y. (2014).
-\newblock Mutualist-mediated effects on species' range limits across large
-  geographic scales.
-\newblock {\em Ecology letters}, 17(10):1265--1273.
-
 \bibitem[Afkhami and Rudgers, 2008]{afkhami2008symbiosis}
 Afkhami, M.~E. and Rudgers, J.~A. (2008).
 \newblock Symbiosis lost: imperfect vertical transmission of fungal endophytes
   in grasses.
 \newblock {\em The American Naturalist}, 172(3):405--416.
+
+\bibitem[Afkhami and Rudgers, 2009]{afkhami2009endophyte}
+Afkhami, M.~E. and Rudgers, J.~A. (2009).
+\newblock Endophyte-mediated resistance to herbivores depends on herbivore
+  identity in the wild grass festuca subverticillata.
+\newblock {\em Environmental Entomology}, 38(4):1086--1095.
 
 \bibitem[Ahlholm et~al., 2002]{ahlholm2002vertically}
 Ahlholm, J.~U., Helander, M., Lehtim{\"a}ki, S., W{\"a}li, P., and Saikkonen,
@@ -31,6 +31,12 @@ Atala, C., Acu{\~n}a-Rodr{\'\i}guez, I.~S., Torres-D{\'\i}az, C., and
 \newblock Fungal endophytes improve the performance of host plants but do not
   eliminate the growth/defence trade-off.
 \newblock {\em New Phytologist}, 235(2).
+
+\bibitem[Bast{\'\i}as and Gundel, 2023]{bastias2023plant}
+Bast{\'\i}as, D.~A. and Gundel, P.~E. (2023).
+\newblock Plant stress responses compromise mutualisms with epichlo{\"e}
+  endophytes.
+\newblock {\em Journal of Experimental Botany}, 74(1):19--23.
 
 \bibitem[Bastias et~al., 2017]{bastias2017epichloe}
 Bastias, D.~A., Mart{\'\i}nez-Ghersa, M.~A., Ballar{\'e}, C.~L., and Gundel,
@@ -54,6 +60,22 @@ Bronstein, J.~L. (2001).
 \newblock The exploitation of mutualisms.
 \newblock {\em Ecology letters}, 4(3):277--287.
 
+\bibitem[Cheplick and Faeth, 2009]{cheplick2009ecology}
+Cheplick, G.~P. and Faeth, S.~H. (2009).
+\newblock {\em Ecology and evolution of the grass-endophyte symbiosis}.
+\newblock OUP USA.
+
+\bibitem[Clay, 1988]{clay1988fungal}
+Clay, K. (1988).
+\newblock Fungal endophytes of grasses: a defensive mutualism between plants
+  and fungi.
+\newblock {\em Ecology}, 69(1):10--16.
+
+\bibitem[Clay, 1990]{clay1990fungal}
+Clay, K. (1990).
+\newblock Fungal endophytes of grasses.
+\newblock {\em Annual review of Ecology and Systematics}, pages 275--297.
+
 \bibitem[Clay et~al., 2005]{clay2005herbivores}
 Clay, K., Holah, J., and Rudgers, J.~A. (2005).
 \newblock Herbivores cause a rapid increase in hereditary symbiosis and alter
@@ -74,11 +96,22 @@ Decunta, F.~A., P{\'e}rez, L.~I., Malinowski, D.~P., Molina-Montenegro, M.~A.,
   on drought tolerance in cool-season grasses.
 \newblock {\em Frontiers in Plant Science}, 12:644731.
 
+\bibitem[Eaton et~al., 2011]{eaton2011triggers}
+Eaton, C.~J., Cox, M.~P., and Scott, B. (2011).
+\newblock What triggers grass endophytes to switch from mutualism to
+  pathogenism?
+\newblock {\em Plant Science}, 180(2):190--195.
+
 \bibitem[Emery et~al., 2010]{emery2010variation}
 Emery, S.~M., Thompson, D., and Rudgers, J.~A. (2010).
 \newblock Variation in endophyte symbiosis, herbivory and drought tolerance of
   ammophila breviligulata populations in the great lakes region.
 \newblock {\em The American Midland Naturalist}, 163(1):186--196.
+
+\bibitem[Faeth, 2002]{faeth2002endophytic}
+Faeth, S.~H. (2002).
+\newblock Are endophytic fungi defensive plant mutualists?
+\newblock {\em Oikos}, 98(1):25--36.
 
 \bibitem[Fowler et~al., 2023]{fowler2023geographic}
 Fowler, J.~C., Donald, M.~L., Bronstein, J.~L., and Miller, T.~E. (2023).
@@ -113,6 +146,12 @@ Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
   habitat of origin predict effects on host plants.
 \newblock {\em New Phytologist}, 221(4):2239--2249.
 
+\bibitem[Gibert et~al., 2012]{gibert2012fungal}
+Gibert, A., Volaire, F., Barre, P., and Hazard, L. (2012).
+\newblock A fungal endophyte reinforces population adaptive differentiation in
+  its host grass species.
+\newblock {\em New Phytologist}, 194(2):561--571.
+
 \bibitem[Gundel et~al., 2011]{gundel2011incorporating}
 Gundel, P.~E., Rudgers, J.~A., and Ghersa, C.~M. (2011).
 \newblock Incorporating the process of vertical transmission into understanding
@@ -133,6 +172,12 @@ Gundel, P.~E., Ueno, A.~C., Casas, C., Miller, T.~E., P{\'e}rez, L.~I., Cuyeu,
 \newblock Temporal host-symbiont dynamics in community contexts: Impacts of
   host fitness and vertical transmission efficiency on symbiosis prevalence.
 \newblock {\em Functional Ecology}, 38(12):2610--2622.
+
+\bibitem[Hammarlund and Harcombe, 2019]{hammarlund2019refining}
+Hammarlund, S.~P. and Harcombe, W.~R. (2019).
+\newblock Refining the stress gradient hypothesis in a microbial community.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(32):15760--15762.
 
 \bibitem[Hart and Bell, 2015]{PRISM2024}
 Hart, E.~M. and Bell, K. (2015).
@@ -167,6 +212,13 @@ Klironomos, J.~N. (2003).
   mycorrhizal fungi.
 \newblock {\em Ecology}, 84(9):2292--2301.
 
+\bibitem[Koh et~al., 2006]{koh2006rapid}
+Koh, S., Vicari, M., Ball, J., Rakocevic, T., Zaheer, S., Hik, D., and Bazely,
+  D. (2006).
+\newblock Rapid detection of fungal endophytes in grasses for large-scale
+  studies.
+\newblock {\em Functional Ecology}, pages 736--742.
+
 \bibitem[Leuchtmann et~al., 2014]{leuchtmann2014nomenclatural}
 Leuchtmann, A., Bacon, C.~W., Schardl, C.~L., White~Jr, J.~F., and Tadych, M.
   (2014).
@@ -179,6 +231,12 @@ Liu, M. (2023).
 \newblock Fungi canadenses no. 351: Epichloe elymi.
 \newblock {\em Canadian Journal of Plant Pathology}, 45(3):300--303.
 
+\bibitem[Lortie and Callaway, 2006]{lortie2006re}
+Lortie, C.~J. and Callaway, R.~M. (2006).
+\newblock Re-analysis of meta-analysis: support for the stress-gradient
+  hypothesis.
+\newblock {\em Journal of Ecology}, 94(1):7--16.
+
 \bibitem[Louthan et~al., 2015]{louthan2015and}
 Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
@@ -189,6 +247,12 @@ Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
 \newblock Effects of natural hybrid and non-hybrid epichlo{\"e} endophytes on
   the response of hordelymus europaeus to drought stress.
 \newblock {\em New Phytologist}, 201(1):242--253.
+
+\bibitem[Piccardi et~al., 2019]{piccardi2019toxicity}
+Piccardi, P., Vessman, B., and Mitri, S. (2019).
+\newblock Toxicity drives facilitation between 4 bacterial species.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(32):15979--15984.
 
 \bibitem[Porter et~al., 2020]{porter2020beneficial}
 Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
@@ -202,12 +266,10 @@ Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria.
 
-\bibitem[Rudgers et~al., 2020]{rudgers2020climate}
-Rudgers, J.~A., Afkhami, M.~E., Bell-Dereske, L., Chung, Y.~A., Crawford,
-  K.~M., Kivlin, S.~N., Mann, M.~A., and Nu{\~n}ez, M.~A. (2020).
-\newblock Climate disruption of plant-microbe interactions.
-\newblock {\em Annual review of ecology, evolution, and systematics},
-  51:561--586.
+\bibitem[Rodriguez et~al., 2009]{rodriguez2009fungal}
+Rodriguez, R., White~Jr, J., Arnold, A.~E., and Redman, a. R.~a. (2009).
+\newblock Fungal endophytes: diversity and functional roles.
+\newblock {\em New phytologist}, 182(2):314--330.
 
 \bibitem[Rudgers et~al., 2016]{rudgers2016long}
 Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,
@@ -227,11 +289,6 @@ Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).
 \newblock Superoxide dismutase activity in arbuscular mycorrhizal lactuca
   sativa plants subjected to drought stress.
 \newblock {\em New Phytologist}, 134(2):327--333.
-
-\bibitem[Saikkonen et~al., 1998]{saikkonen1998fungal}
-Saikkonen, K., Faeth, S.~H., Helander, M., and Sullivan, T. (1998).
-\newblock Fungal endophytes: a continuum of interactions with host plants.
-\newblock {\em Annual review of Ecology and Systematics}, 29(1):319--343.
 
 \bibitem[Saikkonen et~al., 2010]{saikkonen2010defensive}
 Saikkonen, K., Saari, S., and Helander, M. (2010).

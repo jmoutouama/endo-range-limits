@@ -305,7 +305,7 @@ ggplot(plot_data_survival) +
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
     )
   ) +
   ggh4x::facetted_pos_scales(
@@ -428,7 +428,7 @@ delta_surv_summary$species <- factor(delta_surv_summary$species, levels = 1:3,
                                        "Poa autumnalis"
                                      ))
 delta_surv_summary$herb <- factor(delta_surv_summary$herb, levels = c(0,1),
-                                  labels = c("Unfenced", "Fenced"))
+                                  labels = c("Herbivory access", "Herbivory exclusion"))
 
 # Update delta_surv_summary with back-transformed climate in mm
 delta_surv_summary <- delta_surv_summary %>%
@@ -519,11 +519,14 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
                species_label = label_parsed,
                metric = label_value
              )) +
-  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
+  scale_color_manual(values = c("Herbivory access" = "#E69F00", 
+                                "Herbivory exclusion" = "#009E73")) +
+  scale_fill_manual(values = c("Herbivory access" = "#E69F00", 
+                               "Herbivory exclusion" = "#009E73"))+
   labs(
     x = "Precipitation (mm)",
     y = NULL,
-    color = "Herbivore exclusion",
+    color = "Herbivore treatment",
     title = ""
   ) +
   theme_light() +
@@ -774,7 +777,7 @@ ggplot(plot_data_grow) +
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
     )
   ) +
   # Dynamic y-axis scales
@@ -1040,7 +1043,7 @@ delta_grow_summary$species <- factor(delta_grow_summary$species, levels = 1:3,
                                        "Poa autumnalis"
                                      ))
 delta_grow_summary$herb <- factor(delta_grow_summary$herb, levels = c(0,1),
-                                  labels = c("Unfenced", "Fenced"))
+                                  labels = c("Herbivory access", "Herbivory exclusion"))
 
 # Add exponentiated climate for plotting 
 delta_grow_summary <- delta_grow_summary %>%
@@ -1125,11 +1128,14 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
                species_label = label_parsed,
                metric = label_value
              )) +
-  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
+  scale_color_manual(values = c("Herbivory access" = "#E69F00", 
+                                "Herbivory exclusion" = "#009E73")) +
+  scale_fill_manual(values = c("Herbivory access" = "#E69F00", 
+                               "Herbivory exclusion" = "#009E73"))+
   labs(
     x = "Precipitation (mm)",
     y = NULL,
-    color = "Herbivore exclusion",
+    color = "Herbivore treatment",
     title = ""
   ) +
   theme_light() +
@@ -1384,7 +1390,7 @@ ggplot(plot_data_flowering) +
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
     )
   ) +
   # Dynamic y-axis scales
@@ -1875,7 +1881,7 @@ panel_labels_inf <- data.frame(
 #     space = "free_y",
 #     labeller = labeller(
 #       species = label_parsed,
-#       herb = c("0" = "Unfenced", "1" = "Fenced")
+#       herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
 #     )
 #   ) +
 # 
@@ -1932,13 +1938,13 @@ panel_labels_inf <- data.frame(
 #     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
 #     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
 #   )
-# 
+
 # dev.off()
 
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff.pdf",
-  width = 9, height = 5
+  width = 13, height = 7
 )
 
 ggplot(plot_data_inf) +
@@ -1980,7 +1986,7 @@ ggplot(plot_data_inf) +
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
     )
   ) +
   ggh4x::facetted_pos_scales(
@@ -2014,16 +2020,16 @@ ggplot(plot_data_inf) +
   theme_light() +
   theme(
     legend.position = c(0.05, 0.7),
-    legend.title = element_text(size = 6),
-    legend.text = element_text(size = 6),
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 12),
     panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    axis.title = element_text(size = 16),
     axis.text = element_text(size = 6),
     axis.line.y = element_line(color = "black", size = 0.1),
     axis.line.x = element_line(color = "black", size = 0.1),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 12, color = "black", face = "plain"),
+    strip.text.x = element_text(size = 14, color = "black", face = "plain"),
+    strip.text.y = element_text(size = 14, color = "black", face = "plain"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
   )+
   geom_text(
@@ -2106,7 +2112,7 @@ delta_inf_summary$species <- factor(delta_inf_summary$species, levels = 1:3,
                                        "Poa autumnalis"
                                      ))
 delta_inf_summary$herb <- factor(delta_inf_summary$herb, levels = c(0,1),
-                                  labels = c("Unfenced", "Fenced"))
+                                 labels = c("Herbivory access", "Herbivory exclusion"))
 
 # Add exponentiated climate for plotting 
 delta_inf_summary <- delta_inf_summary %>%
@@ -2189,11 +2195,14 @@ ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) 
                species_label = label_parsed,
                metric = label_value
              )) +
-  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
+  scale_color_manual(values = c("Herbivory access" = "#E69F00", 
+                                "Herbivory exclusion" = "#009E73")) +
+  scale_fill_manual(values = c("Herbivory access" = "#E69F00", 
+                               "Herbivory exclusion" = "#009E73"))+
   labs(
     x = "Precipitation (mm)",
     y = NULL,
-    color = "Herbivore exclusion",
+    color = "Herbivore treatment",
     title = ""
   ) +
   theme_light() +
@@ -2394,10 +2403,10 @@ panel_labels_spik <- data.frame(
   panel = "Spikelets"   # only place labels on upper panels
 )
 
-# --- Plot (horizontal layout for paper figure) ---
+# Plot (horizontal layout for paper figure) 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
-  width = 6, height = 7
+  width = 9, height = 6
 )
 
 ggplot(plot_data_spik) +
@@ -2438,15 +2447,14 @@ ggplot(plot_data_spik) +
   
   # Facets
   ggh4x::facet_nested(
-    species + panel ~ herb,
+    panel ~ species + herb,
     scales = "free_y",
     space = "free_y",
     labeller = labeller(
       species = label_parsed,
-      herb = c("0" = "Unfenced", "1" = "Fenced")
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
     )
   ) +
-  
   # Facetted y-scales
   ggh4x::facetted_pos_scales(
     y = list(
@@ -2478,7 +2486,7 @@ ggplot(plot_data_spik) +
                     labels = c("E-", "E+")) +
   theme_light() +
   theme(
-    legend.position = c(0.12, 0.47),
+    legend.position = c(0.12, 0.41),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.0, "cm"),
@@ -2567,7 +2575,7 @@ delta_spik_summary$species <- factor(delta_spik_summary$species, levels = 1:2,
                                        "Poa autumnalis"
                                      ))
 delta_spik_summary$herb <- factor(delta_spik_summary$herb, levels = c(0,1),
-                                  labels = c("Unfenced", "Fenced"))
+                                  labels = c("Herbivory access", "Herbivory exclusion"))
 
 # Add exponentiated climate for plotting
 delta_spik_summary <- delta_spik_summary %>%
@@ -2654,8 +2662,11 @@ ggplot(
     scales = "free_y",
     labeller = labeller(species_label = label_parsed, metric = label_value)
   ) +
-  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
-  labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore exclusion") +
+  scale_color_manual(values = c("Herbivory access" = "#E69F00", 
+                                "Herbivory exclusion" = "#009E73")) +
+  scale_fill_manual(values = c("Herbivory access" = "#E69F00", 
+                               "Herbivory exclusion" = "#009E73"))+
+  labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore treatment") +
   theme_light() +
   theme(
     legend.position = "bottom",
@@ -2701,18 +2712,26 @@ climate_max <- climate_max %>%
 
 # Plot
 p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(size = 0.5) +
-  geom_hline(data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"), 
-             aes(yintercept = 0), linetype = "dashed", color = "black") +
-  geom_hline(data = delta_long_all %>% filter(metric == "Pr (Δ > 0)"), 
-             aes(yintercept = 0.5), linetype = "dashed", color = "black") +
+  geom_line(size = 1) +
+  geom_hline(
+    data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"), 
+    aes(yintercept = 0), 
+    linetype = "dashed", 
+    color = "black"
+  ) +
+  geom_hline(
+    data = delta_long_all %>% filter(metric == "Pr (Δ > 0)"), 
+    aes(yintercept = 0.5), 
+    linetype = "dashed", 
+    color = "black"
+  ) +
   geom_vline(
     data = climate_max,
     aes(xintercept = mean_annual_ppt),
     linetype = "dashed",
     color = "#0072B2",
-    size = 0.5
-  )+
+    size = 0.8
+  ) +
   facet_grid(
     metric ~ species_label + trait,
     scales = "free_y",
@@ -2721,20 +2740,38 @@ p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group 
       metric = label_value,
       trait = label_value
     )
-  )+
-  scale_color_manual(values = c("Unfenced" = "#E69F00", "Fenced" = "#009E73")) +
-  labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore exclusion") +
-  theme_light() +
-  theme(legend.position = "bottom", 
-        axis.text = element_text(size = 6), 
-        strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-        strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-        text = element_text(family = "Arial"),
-        strip.background = element_rect(color = "black", 
-                                        fill = "grey80", size = 0.1,
-                                        linetype = "solid"))
+  ) +
+  scale_color_manual(values = c(
+    "Herbivory access" = "#E69F00", 
+    "Herbivory exclusion" = "#009E73"
+  )) +
+  scale_fill_manual(values = c(
+    "Herbivory access" = "#E69F00", 
+    "Herbivory exclusion" = "#009E73"
+  )) +
+  labs(
+    x = "Precipitation (mm)", 
+    y = NULL, 
+    color = "Herbivore treatment"
+  ) +
+  theme_light(base_size = 18, base_family = "Arial") +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_text(size = 30),
+    legend.text  = element_text(size = 30),
+    axis.title.x = element_text(size = 28),
+    axis.text    = element_text(size = 20),
+    strip.text.x = element_text(size = 32, color = "black"),
+    strip.text.y = element_text(size = 32, color = "black"),
+    strip.background = element_rect(
+      color = "black",
+      fill = "grey80",
+      size = 0.3
+    )
+  )
 
-Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 10, height = 5)
+
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 30, height = 15)
 print(p_all)
 dev.off()
 

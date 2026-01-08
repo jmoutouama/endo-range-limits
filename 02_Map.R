@@ -144,9 +144,6 @@ west_edge <- dat_all_species %>%
 # Check result
 west_edge
 
-# Check
-max_long_edge
-
 # Save as RDS
 #saveRDS(west_edge, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
 
@@ -193,6 +190,9 @@ crs(source_poau) <- CRS1
 
 # Climatic data----
 prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x231nlm6rtm96uqffsv03/prism_means.rds?rlkey=w29usaquhd1u1w3u7guf1rgbp&dl=1"))
+
+# Order sites west-to-east
+ordered_sites <- garden_sites_ppt$site[order(garden_sites_ppt$lon)]
 
 # Study area shapefile ----
 study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
@@ -642,4 +642,48 @@ barplot(
   ylab = "Cumulative Precipitation (mm)",
   las = 1
 )
+dev.off()
+
+# Order sites west-to-east
+ordered_sites <- garden_sites_ppt$site[order(garden_sites_ppt$lon)]
+
+# Years
+years <- sort(unique(prism_summary$year))
+
+# Create matrices for barplot (years as rows, sites as columns) in west-east order
+ppt_mat <- sapply(ordered_sites, function(s) prism_summary$sum_ppt[prism_summary$site==s])
+temp_mat <- sapply(ordered_sites, function(s) prism_summary$mean_temp[prism_summary$site==s])
+rownames(ppt_mat) <- years
+rownames(temp_mat) <- years
+colnames(ppt_mat) <- ordered_sites
+colnames(temp_mat) <- ordered_sites
+
+# Colors for years (color-blind friendly)
+cols <- c("#0072B2", "#D55E00", "#009E73")
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/temp_pppt_site_year.pdf",
+    width=10, height=12)
+
+# Layout with custom heights (ppt taller, temp shorter)
+layout(matrix(1:2, ncol=1), heights=c(2.5, 1))  # 2.5:1 ratio
+
+# Increase label sizes
+par(mar=c(5,6,2,2), cex.lab=1.5, cex.axis=1.3)  # margins, axis and label sizes
+
+# --- Precipitation ---
+barplot(ppt_mat, beside=TRUE, col=cols,
+        ylim=c(0,max(ppt_mat)*1.2),
+        names.arg=ordered_sites,
+        xlab="Site", ylab="Annual Precipitation (mm)")
+legend("topleft", legend=years, fill=cols, title="Year", cex=1.2)
+box()
+mtext("A", side=3, adj=0, line=0.25, cex=2)
+
+# --- Temperature ---
+barplot(temp_mat, beside=TRUE, col=cols,
+        ylim=c(0,max(temp_mat)*1.2),
+        names.arg=ordered_sites,
+        xlab="Site", ylab="Mean Temperature (°C)")
+box()
+mtext("B", side=3, adj=0, line=0.25, cex=2)
+
 dev.off()

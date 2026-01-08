@@ -116,7 +116,7 @@
 %-------------------------------------------------------------------------
 \title{\Large When mutualism weakens: stress alters endophyte benefits in cool-season grasses}
 \author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
-\author[2]{Josh Fowler}
+\author[2]{Josh C. Fowler}
 \author[3]{Akiem Gough}
 \author[3]{Julia Martin}
 \author[3]{Chris Oxley}
@@ -125,7 +125,7 @@
 \author[3]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
 
 \affil[1]{Department of Botany, University of British Columbia, Vancouver, BC, Canada}
-\affil[2]{Josh has a new CU affiliation}
+\affil[2]{Department of Environmental Studies, University of Colorado Boulder}
 \affil[3]{Program in Ecology and Evolutionary Biology, Department of BioSciences, Rice University, Houston, TX USA}
 \date{} % clear date
 
@@ -187,7 +187,7 @@ This research was supported by National Science Foundation Division of Environme
 Benefits of plant-microbe symbioses are predicted to increase under environmental stress, but the relative roles of abiotic and biotic factors as modifiers of symbiotic interaction outcomes remain unclear.
 We studied how the independent and combined effects of aridity and herbivory modify the demographic effects of seed-transmitted fungal endophytes on three native grass host species using geographically distributed field experiments along a precipitation gradient, crossed with herbivore exclusion. 
 Host fitness declined under increasing abiotic stress, and \tom{endophyte-symbiotic grasses often fared worse than non-symbiotic ones}{I know space is tight but can we make this a more specific or quantitative summary of the results?}, suggesting that interactions that are beneficial under benign conditions can become costly under stress. 
-\tom{Herbivory had no detectable effect on host demography or endophyte-mediated outcomes.}{I think this is not true in the new results...?}
+Herbivory modified some endophyte effects on growth and reproduction in a species-specific manner but did not consistently override climatic effects.
 Overall, abiotic stress was the primary driver of  mutualism outcomes between plants and fungal symbionts, but in the opposite direction as predicted by theory and prior work. 
 These results highlight that symbiotic fungi can become liabilities under stress, with implications for the dynamics of plant-fungal mutualisms under global change.
 
@@ -294,8 +294,9 @@ For \emph{Agrostis hyemalis}, seeds were heat-treated in a water bath at 60°C f
 All seeds, both heat-treated and non-heat-treated, were surface-sterilized with 10\% bleach solution then germinated on agar plates.
 Seedlings were transferred to potting soil and grown in the Rice University greenhouse. 
 Once these plants were sufficiently large in size they were vegetatively propagated, with clonal identities tracked across individuals. 
-\tom{}{Add a sentence giving basic descriptive statistics of how many genotypes and clones were used for each species.}
-\tom{Before transfer to the field experiment, we confirmed endophyte status ($E^+$ or $E^-$) of all seedlings using either microscopy or an immunoblot assay. }{Realized numbers of E+ and E- per species per population should be provided in a suppl table.}
+Once these plants were sufficiently large, they were vegetatively propagated, with clonal identities tracked across individuals. 
+In total, we used 3, 5, and 4 populations (genotypes) for \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}, respectively, with 840, 840, and 720 clones in total across all populations (see Supplementary Table~\ref{tab:endo_counts} for details). 
+Before transfer to the field experiment, we confirmed endophyte status (E$^+$ or E$^-$) of all seedlings using either microscopy or an immunoblot assay; realized numbers of E$^+$ and E$^-$ individuals per species and population are provided in Supplementary Table~\ref{tab:endo_counts}.
 For microscopy, peels of the inner leaf sheaths were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify fungal hyphae \tom{}{cite}. 
 The immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) uses monoclonal antibodies that target proteins of \emph{Epichloë} spp. and a chromagen to visually indicate presence or absence \citep{koh2006rapid}.
 %\tom{Both methods yield similar detection rates.}{What is the evidence for this statement?}
@@ -439,40 +440,47 @@ Although differences in expected log predictive density (ELPD) were modest relat
 For survival, the \textit{Endophyte~$\times$~Climate} model showed slightly higher predictive performance than the \textit{Endophyte~$\times$~Herbivory} model ($\Delta \mathrm{ELPD} = -2.1$, SE = 2.8), whereas inclusion of the three-way \textit{Endophyte~$\times$~Climate~$\times$~Herbivory} interaction reduced predictive performance ($\Delta \mathrm{ELPD} = -5.0$, SE = 1.9). 
 
 \section*{Discussion}
-Drawing on three years of field experiments and using Bayesian statistical models, we evaluated how biotic and  abiotic stressors jointly shape the demographic effects of vertically transmitted \textit{Epichloë} endophytes in three cool-season perennial grasses across a natural climatic gradient in the United States.
-Our results indicate that grass–endophyte symbioses generally enhance host performance under favorable (e.g. wetter) conditions, whereas their effects can be neutral or even detrimental under high abiotic stress, consistent with the inhibition scenario.
-Across species and fitness components, climatic variation emerged as the dominant driver of endophyte-mediated effects, while herbivory had a secondary or context-dependent influence.
-These results underscore that the outcome of grass–\textit{Epichloë} symbiosis shifts along abiotic stress gradients \citep{chamberlain2014context,bronstein1994conditional,saikkonen1998fungal}, providing empirical support for environmentally contingent mutualism in a broadly distributed host–symbiont system.
-\tom{}{This paragraph is good but I think it needs to further emphasize that the influence of abiotic conditions is the opposite of what we predicted, and of what is expected under the SGH.}  
 
-Endophyte presence often enhances host performance under \tom{favorable or moderately stressful}{unsure what point you are trying to make by combining favorable and `moderately stressful' here. Also, I think it is important in the Discussion to distinguish between biotic and abiotic stress, since that is a theme of the paper.} conditions, a pattern widely documented across grass–\textit{Epichloë} systems \citep{clay1990fungal}.
-Endophytes can increase host growth, reproduction, and resistance to herbivores \citep{rodriguez2009fungal}, but these benefits are most apparent when the host has sufficient resources, such as water and nutrients, to support the fungus \citep{gibert2012fungal,clay1988fungal}. 
-Mechanistically, the host must allocate carbon and nutrients to maintain the endophyte, so under resource-rich conditions, the costs of symbiosis are outweighed by the benefits, resulting in a net positive effect. 
-\tom{In our field experiment, we observed higher growth and survival of endophyte-infected grasses in wetter sites, consistent with previously documented positive effects of endophytes under favorable conditions \citep{afkhami2014mutualist,rudgers2020climate}.}{I am a little confused here because I thought the Intro was meant to set up the idea that stress can strengthen benefits of the symbiosis.}
-%Other potential consequences of endophyte symbiosis, including enhanced nutrient acquisition \citep{malinowski2000leaf}, have yet to be explored in this system.
-%Current work is assessing host fitness responses to endophytes, a critical step toward understanding how abiotic and biotic stressors interact to shape these symbiotic relationships.
+Drawing on three years of field experiments and Bayesian demographic models, we evaluated how biotic and abiotic stressors jointly shape the demographic effects of vertically transmitted \textit{Epichloë} endophytes in three cool-season perennial grasses across a natural climatic gradient in the United States. 
+Our results allow us to directly evaluate the predictions outlined in our conceptual framework (Fig.~\ref{fig:prediction}). 
+We predicted that endophytes would enhance host fitness under moderate drought in the absence of herbivores, representing an endophyte-driven stress amelioration scenario (Fig.~\ref{fig:prediction}A), and that the addition of herbivory under more extreme drought would reduce or reverse these benefits due to compounded metabolic costs (Fig.~\ref{fig:prediction}B). 
+Contrary to these expectations, we found little evidence that endophytes buffered hosts against declining precipitation, even when herbivores were excluded. 
+Instead, endophyte-mediated benefits were strongest under relatively benign conditions and weakened as abiotic stress intensified, while herbivory played a secondary and inconsistent role. 
+These patterns do not support SGH-based predictions and instead indicate that increasing abiotic stress constrains both host performance and the capacity of endophytes to provide demographic benefits.
+%Contrary to our predictions and to expectations under the stress-gradient hypothesis (SGH), grass–endophyte symbioses did not confer stronger benefits under high abiotic stress.
+% Instead, endophyte effects generally enhanced host performance under more favorable (e.g., wetter) conditions, but became neutral or negative as abiotic stress increased. 
+% These patterns support an environmentally contingent mutualism in which endophyte benefits erode under increasing stress, consistent with our "inhibition scenario".
 
-While endophyte infection enhanced host performance under favorable or \tom{moderately stressful conditions}{Unclear what you mean by this.}, its effects diminished and ultimately became costly under high abiotic stress, \tom{even in fenced plots where herbivores were excluded.}{what's the relevance of this emphasis?} 
-This pattern indicates that drought-driven resource limitation can impose costs on the symbiosis independent of biotic stress \citep{johnson1997functioning,bronstein2001exploitation,cheplick1989interactions}.
-By contrast, other studies show that the context-dependent benefits of endophytes are often mediated by herbivore pressure \citep{bastias2017epichloe,afkhami2009endophyte}.
-For instance, in \emph{Bromus setifolia}, endophyte infection is favored under high herbivore pressure, when defensive benefits outweigh the costs, but is selected against when herbivory is low or other costs are elevated \citep{rodriguez2009fungal}.
-Our results suggest that similar context dependence can arise from abiotic factors, such as drought, independent of herbivory.
-Under low-precipitation conditions, reduced water availability constrains nutrient uptake and increases the relative metabolic burden of maintaining the endophyte, potentially tipping the cost–benefit balance against endophyte-symbiotic plants \citep{ahlholm2002vertically,bronstein2001exploitation,faeth2002endophytic}. 
-In addition, severe environmental stress can activate plant defense pathways-such as elevated phytohormone production and reactive oxygen species (ROS) that may inhibit endophyte growth or reduce its functional contributions to the host \citep{bastias2023plant,eaton2011triggers}. 
-Consequently, even in the absence of herbivores, endophyte-mediated benefits may become negative in resource-limited environments, consistent with the reduced performance of infected plants at the driest sites in our study.
-\tom{Although we found no evidence of symbiosis-related costs for inflorescences across the precipitation gradient, spikelet production showed a small but consistent cost at the driest sites. }{Unclear what result this refers to.}
-\tom{This indicates that drought-driven resource limitation disproportionately affects certain reproductive components in infected plants, with different traits varying in their sensitivity to shifts in host–endophyte interactions \citep{cheplick2009ecology}.}{This also relates to the idea of demographic compensation, ie different vital rates responding differently to abiotic drivers - this may be worth bringing up in the Intro as a motivation for considering multiple vital rates side by side.}
+Endophyte presence often enhances host performance when abiotic resources, such as water, are sufficient to support both host and fungus.  
+These benefits are widely documented across grass-\textit{Epichloë} systems \citep{clay1990fungal}.  
+Endophytes can increase host growth, reproduction, and survival \citep{rodriguez2009fungal}, but benefits are strongest under low abiotic stress, such as wetter conditions \citep{gibert2012fungal,clay1988fungal}.  
+Mechanistically, hosts must allocate carbon to maintain the endophyte, so under water-rich conditions, the costs of symbiosis are outweighed by the benefits, resulting in net positive effects.  
+In our system, endophytes consistently enhanced host performance under wet conditions, whereas herbivore access only occasionally modified these outcomes.
+When present, herbivory sometimes amplified endophyte benefits, consistent with endophyte-mediated resistance or tolerance to damage, but these effects were neither strong nor consistent across sites or fitness components, indicating that herbivory was not the dominant driver of endophyte-mediated demography.
 
-Across species and fitness components, climatic variation was the primary driver of endophyte-mediated effects, whereas herbivory played a secondary or \tom{context-dependent role. }{Invoking context dependence here is a little ``meta'' since herbivory is itself context. So you are saying that the context dependence is context dependent! Also, I think we need to address the difference between fencing and herbivory. The herbivore effects was not consistent across sites because herbivore pressure varied, so the fence effect is dependent on baseline herbivory.}
-Precipitation strongly shaped host demography in our system, with drier sites constraining survival, growth and fertility. 
-\tom{Contrary to the predictions of the stress gradient hypothesis (SGH), which suggests that biotic interactions should become more positive under stressful conditions, endophyte-mediated benefits were reduced under high abiotic stress \citep{louthan2015and,lortie2006re}. }{This seems to me like the most important result that I expected would be more central to the first paragraph of the Intro.}
-Although most empirical tests of the SGH have focused on plant–plant interactions and have been developed and tested mainly by community ecologists \citep{bertness1994positive}, recent syntheses show that support for the SGH is actually strongest among microbial interactions \citep{piccardi2019toxicity,hammarlund2019refining}, with \tom{bacterial systems}{Does this mean bacterial symbionts of plants?} showing greater conformity to SGH predictions than any other \tom{kingdom}{Hard to know how to interpret this since interactions can involved multiple kingdoms.} \citep{adams2022case}. 
-\tom{This contrast highlights that plant–microbe mutualisms, including fungal endophytes, may not follow the same stress-dependency patterns documented in plant community ecology, and that endophyte benefits can decline rather than intensify under severe environmental stress.}{Important point, and I think you should bring in more of the literature documenting that E+ advantage increases in drier in environments, since our results show the opposite -- we will then need to interpret why we get the opposite.}
-A possible explanation for this opposite pattern is that the benefits of fungal endophytes are closely tied to host resource availability. 
-Under high abiotic stress, host plants have limited resources for survival, growth, and reproduction, which can reduce the capacity of endophytes to confer benefits. 
-Unlike plant–plant interactions, where neighbors can alleviate stress through mechanisms like shading or nutrient modification, endophytes depend on the host plant’s internal physiological condition, such as its nutrient and water status, energy reserves, and overall health.
-When host resources are constrained, the costs of maintaining the symbiosis may outweigh its benefits, leading to reduced endophyte-mediated effects under high abiotic stress.\tom{}{I like all the ideas you have here, just think we need to address more directly how our results fit with or contradict other results in the literature, including grass-endo systems that show E+ advantage in drought.\\
-It is also striking to me that the Discussion never returns to the predictions you establish in the conceptual figure. If you want to keep the conceptual figure then the Discussion needs to revisit it.}
+While endophyte presence tended to enhance host performance under moderate abiotic conditions, these benefits weakened under severe drought stress.
+Under low-precipitation conditions, reduced water availability may constrain nutrient uptake and increase the metabolic burden of maintaining the endophyte, potentially tipping the cost–benefit balance against symbiotic plants \citep{ahlholm2002vertically,bronstein2001exploitation,faeth2002endophytic}. 
+A possible mechanism for this is that severe drought can activate plant defense pathways including elevated phytohormone production and reactive oxygen species (ROS) which may inhibit endophyte growth or reduce its functional contributions to the host \citep{bastias2023plant,eaton2011triggers}.
+Importantly, mutualism weakening in our study occurred even in the absence of herbivores, indicating that abiotic stress alone can destabilize the host–endophyte relationship. 
+This contrasts with studies emphasizing herbivore-mediated context dependence \citep{bastias2017epichloe,afkhami2009endophyte} and suggests that abiotic limitation can independently generate similar outcomes.
+
+Several grass–\textit{Epichloë} systems report enhanced host performance or selection for endophyte presence under drought conditions, particularly when endophytes improve water-use efficiency, osmotic regulation, or resistance to herbivory.
+However, these benefits are often documented under moderate or intermittent water limitation rather than under the severe, chronic drought conditions represented by our driest sites. 
+In contrast, our results indicate that endophyte-mediated benefits were greatest under high precipitation (low abiotic stress) and declined progressively as drought intensity increased. 
+Under increasingly dry conditions, host physiological capacity may be insufficient to sustain both its own demographic processes and the costs of maintaining a fungal symbiont, leading to neutral or weakly negative endophyte effects. 
+This perspective helps reconcile apparently conflicting results in the literature and emphasizes that stress intensity, rather than stress per se, governs the direction and magnitude of grass-endophyte interactions.
+
+Although overall inflorescence production was not strongly affected by endophyte presence across the precipitation gradient, spikelet production at the driest sites tended to be lower in endophyte-symbiotic plants. 
+While these effects were modest and uncertain, they suggest that drought-driven resource limitation may disproportionately affect specific reproductive components. Such trait-specific sensitivity highlights the importance of examining multiple fitness components when evaluating symbiotic costs and benefits and is consistent with demographic compensation, whereby declines in one component may be partially offset by stability in others \citep{cheplick2009ecology}.
+
+Across species and fitness components, climatic variation was the primary driver of endophyte-mediated effects, whereas herbivory played a secondary role that depended on site-specific herbivore pressure. 
+Precipitation strongly shaped host demography in our system, with drier sites constraining survival, growth, and fertility. 
+Contrary to the predictions of the stress gradient hypothesis (SGH), which suggests that biotic interactions should become more positive under stressful conditions \citep{louthan2015and,lortie2006re}, endophyte-mediated benefits were reduced under high abiotic stress. 
+Although most empirical tests of SGH have focused on plant–plant interactions \citep{bertness1994positive}, recent syntheses suggest stronger support for SGH among microbial interactions \citep{piccardi2019toxicity,hammarlund2019refining}. 
+Our results indicate that plant–microbe mutualisms embedded within host tissues may not conform to this generalization. 
+Unlike neighboring plants that can ameliorate stress through external modification of the environment, endophytes depend directly on host physiological condition, including water status, nutrient availability, and carbon balance. 
+When these resources are severely constrained, the capacity of endophytes to confer benefits may be fundamentally limited. 
+More broadly, our study suggests that the outcomes of endophyte-mediated mutualisms are governed not simply by the presence of stress, but by host physiological capacity under that stress, with important implications for predicting symbiotic responses to increasing drought under climate change.
 
 %\section*{Acknowledgements}
 %This research was supported by National Science Foundation Division of Environmental Biology awards.
@@ -578,6 +586,7 @@ Predicted effects of herbivore exclusion on survival, growth, and inflorescence 
 \section*{Tables}
 {
 \captionsetup[table]{list=no}
+
 \begin{table}[h]
 \centering
 \caption{Model comparison of drivers of grass--endophyte symbiosis across four fitness components (vital rates). 
@@ -717,6 +726,32 @@ TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
 \end{table}
 \clearpage 
 
+\begin{table}[h]
+\centering
+\caption{Realized numbers of endophyte-free (E$-$) and endophyte-infected (E$+$) individuals per species and population, with total number of clones.}
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Species} & \textbf{Population} & \textbf{E$-$} & \textbf{E$+$} & \textbf{Total clones} \\
+\midrule
+\textit{Agrostis hyemalis} & COHR  & 238 & 242 & 480 \\
+\textit{Agrostis hyemalis} & LPEF  & 227 & 236 & 463 \\
+\textit{Agrostis hyemalis} & SJC   & 232 & 225 & 457 \\
+\textit{Elymus virginicus} & HUNT  & 89  & 19  & 108 \\
+\textit{Elymus virginicus} & JLP   & 156 & 135 & 291 \\
+\textit{Elymus virginicus} & PALM  & 319 & 423 & 742 \\
+\textit{Elymus virginicus} & RL5   & 141 & 81  & 222 \\
+\textit{Elymus virginicus} & SHS   & 1   & 49  & 50  \\
+\textit{Poa autumnalis}     & LA1   & 119 & 101 & 220 \\
+\textit{Poa autumnalis}     & LA2   & 201 & 233 & 434 \\
+\textit{Poa autumnalis}     & LA7   & 89  & 72  & 161 \\
+\textit{Poa autumnalis}     & SFAEF & 207 & 212 & 419 \\
+\bottomrule
+\end{tabular}
+\label{tab:endo_counts}
+\end{table}
+
+\clearpage
+
 \begin{table}[ht]
 \centering
 \caption[Model comparison for vital rates (quadratic vs. linear models)]{Comparison of candidate models (quadratic vs. linear) for each vital rate based on leave-one-out cross-validation (LOOCV). 
@@ -751,38 +786,38 @@ Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had acc
 \label{tab:delta_summary_surv_quantiles}
 \begin{tabular}{llrrrrr}
 \hline
-\textbf{Species} & \textbf{Herbivore exclusion} & \textbf{Precipitation bin (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
+\textbf{Species} & \textbf{Herbivore treatment} & \textbf{Precipitation bin (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
 \hline
-\textit{Agrostis hyemalis} & Unfenced & 493  & -0.049 & -0.302 & 0.053 & 0.158 \\
-\textit{Agrostis hyemalis} & Unfenced & 678  & -0.038 & -0.215 & 0.052 & 0.187 \\
-\textit{Agrostis hyemalis} & Unfenced & 1036 & -0.012 & -0.099 & 0.058 & 0.357 \\
-\textit{Agrostis hyemalis} & Unfenced & 1424 & 0.015  & -0.050 & 0.102 & 0.681 \\
-\textit{Agrostis hyemalis} & Unfenced & 2294 & 0.056  & -0.035 & 0.249 & 0.860 \\
-\textit{Agrostis hyemalis} & Fenced   & 493  & -0.090 & -0.358 & 0.000 & 0.051 \\
-\textit{Agrostis hyemalis} & Fenced   & 678  & -0.076 & -0.264 & 0.002 & 0.057 \\
-\textit{Agrostis hyemalis} & Fenced   & 1036 & -0.041 & -0.142 & 0.019 & 0.127 \\
-\textit{Agrostis hyemalis} & Fenced   & 1424 & -0.004 & -0.085 & 0.072 & 0.448 \\
-\textit{Agrostis hyemalis} & Fenced   & 2294 & 0.047  & -0.052 & 0.224 & 0.802 \\
-\textit{Elymus virginicus} & Unfenced & 493  & -0.069 & -0.321 & 0.050 & 0.145 \\
-\textit{Elymus virginicus} & Unfenced & 678  & -0.065 & -0.254 & 0.068 & 0.189 \\
-\textit{Elymus virginicus} & Unfenced & 1036 & -0.014 & -0.143 & 0.113 & 0.424 \\
-\textit{Elymus virginicus} & Unfenced & 1424 & 0.061  & -0.069 & 0.194 & 0.779 \\
-\textit{Elymus virginicus} & Unfenced & 2294 & 0.148  & -0.031 & 0.356 & 0.914 \\
-\textit{Elymus virginicus} & Fenced   & 493  & -0.259 & -0.550 & -0.058 & 0.006 \\
-\textit{Elymus virginicus} & Fenced   & 678  & -0.230 & -0.430 & -0.058 & 0.012 \\
-\textit{Elymus virginicus} & Fenced   & 1036 & -0.059 & -0.183 & 0.061  & 0.210 \\
-\textit{Elymus virginicus} & Fenced   & 1424 & 0.090  & -0.022 & 0.225  & 0.907 \\
-\textit{Elymus virginicus} & Fenced   & 2294 & 0.154  & 0.031  & 0.400  & 0.992 \\
-\textit{Poa autumnalis}    & Unfenced & 493  & -0.001 & -0.101 & 0.005  & 0.175 \\
-\textit{Poa autumnalis}    & Unfenced & 678  & -0.005 & -0.143 & 0.010  & 0.154 \\
-\textit{Poa autumnalis}    & Unfenced & 1036 & -0.043 & -0.196 & 0.022  & 0.118 \\
-\textit{Poa autumnalis}    & Unfenced & 1424 & -0.051 & -0.188 & 0.060  & 0.214 \\
-\textit{Poa autumnalis}    & Unfenced & 2294 & 0.000  & -0.124 & 0.137  & 0.532 \\
-\textit{Poa autumnalis}    & Fenced   & 493  & 0.000  & -0.019 & 0.067  & 0.614 \\
-\textit{Poa autumnalis}    & Fenced   & 678  & 0.001  & -0.033 & 0.092  & 0.641 \\
-\textit{Poa autumnalis}    & Fenced   & 1036 & 0.016  & -0.058 & 0.136  & 0.689 \\
-\textit{Poa autumnalis}    & Fenced   & 1424 & 0.029  & -0.088 & 0.166  & 0.679 \\
-\textit{Poa autumnalis}    & Fenced   & 2294 & 0.002  & -0.117 & 0.151  & 0.570 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.049 & -0.302 & 0.053 & 0.158 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 678  & -0.038 & -0.215 & 0.052 & 0.187 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1036 & -0.012 & -0.099 & 0.058 & 0.357 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.015  & -0.050 & 0.102 & 0.681 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 0.056  & -0.035 & 0.249 & 0.860 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.090 & -0.358 & 0.000 & 0.051 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.076 & -0.264 & 0.002 & 0.057 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & -0.041 & -0.142 & 0.019 & 0.127 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & -0.004 & -0.085 & 0.072 & 0.448 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 0.047  & -0.052 & 0.224 & 0.802 \\
+\textit{Elymus virginicus} & Herbivory access    & 493  & -0.069 & -0.321 & 0.050 & 0.145 \\
+\textit{Elymus virginicus} & Herbivory access    & 678  & -0.065 & -0.254 & 0.068 & 0.189 \\
+\textit{Elymus virginicus} & Herbivory access    & 1036 & -0.014 & -0.143 & 0.113 & 0.424 \\
+\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.061  & -0.069 & 0.194 & 0.779 \\
+\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.148  & -0.031 & 0.356 & 0.914 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 493  & -0.259 & -0.550 & -0.058 & 0.006 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 678  & -0.230 & -0.430 & -0.058 & 0.012 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1036 & -0.059 & -0.183 & 0.061  & 0.210 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.090  & -0.022 & 0.225  & 0.907 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.154  & 0.031  & 0.400  & 0.992 \\
+\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.001 & -0.101 & 0.005  & 0.175 \\
+\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.005 & -0.143 & 0.010  & 0.154 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.043 & -0.196 & 0.022  & 0.118 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.051 & -0.188 & 0.060  & 0.214 \\
+\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.000  & -0.124 & 0.137  & 0.532 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.000  & -0.019 & 0.067  & 0.614 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.001  & -0.033 & 0.092  & 0.641 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 0.016  & -0.058 & 0.136  & 0.689 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 0.029  & -0.088 & 0.166  & 0.679 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 0.002  & -0.117 & 0.151  & 0.570 \\
 \hline
 \end{tabular}
 \end{table}
@@ -798,39 +833,40 @@ Positive median values indicate beneficial effects of endophytes; negative media
 \label{tab:delta_summary_grow}
 \begin{tabular}{llrrrrr}
 \hline
-\textbf{Species} & \textbf{Herbivore exclusion} & \textbf{Precipitation (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
+\textbf{Species} & \textbf{Herbivore treatment} & \textbf{Precipitation (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
 \hline
-\textit{Agrostis hyemalis} & Unfenced & 493  & -0.046 & -0.643 & 0.561 & 0.450 \\
-\textit{Agrostis hyemalis} & Unfenced & 678  & 0.092  & -0.352 & 0.543 & 0.629 \\
-\textit{Agrostis hyemalis} & Unfenced & 1036 & 0.274  & -0.019 & 0.571 & 0.939 \\
-\textit{Agrostis hyemalis} & Unfenced & 1424 & 0.412  & 0.147  & 0.683 & 0.994 \\
-\textit{Agrostis hyemalis} & Unfenced & 2294 & 0.616  & 0.212  & 1.022 & 0.994 \\
-\textit{Agrostis hyemalis} & Fenced   & 493  & -0.221 & -0.723 & 0.290 & 0.237 \\
-\textit{Agrostis hyemalis} & Fenced   & 678  & -0.090 & -0.466 & 0.284 & 0.347 \\
-\textit{Agrostis hyemalis} & Fenced   & 1036 & 0.084  & -0.165 & 0.336 & 0.710 \\
-\textit{Agrostis hyemalis} & Fenced   & 1424 & 0.214  & -0.034 & 0.460 & 0.925 \\
-\textit{Agrostis hyemalis} & Fenced   & 2294 & 0.411  & 0.017  & 0.799 & 0.956 \\
-\textit{Elymus virginicus} & Unfenced & 493  & 0.017  & -0.618 & 0.647 & 0.520 \\
-\textit{Elymus virginicus} & Unfenced & 678  & 0.084  & -0.400 & 0.566 & 0.614 \\
-\textit{Elymus virginicus} & Unfenced & 1036 & 0.168  & -0.137 & 0.476 & 0.814 \\
-\textit{Elymus virginicus} & Unfenced & 1424 & 0.232  & -0.002 & 0.470 & 0.948 \\
-\textit{Elymus virginicus} & Unfenced & 2294 & 0.330  & 0.008  & 0.643 & 0.955 \\
-\textit{Elymus virginicus} & Fenced   & 493  & -0.002 & -0.594 & 0.578 & 0.498 \\
-\textit{Elymus virginicus} & Fenced   & 678  & 0.023  & -0.419 & 0.457 & 0.532 \\
-\textit{Elymus virginicus} & Fenced   & 1036 & 0.060  & -0.205 & 0.316 & 0.651 \\
-\textit{Elymus virginicus} & Fenced   & 1424 & 0.087  & -0.101 & 0.274 & 0.777 \\
-\textit{Elymus virginicus} & Fenced   & 2294 & 0.130  & -0.160 & 0.410 & 0.767 \\
-\textit{Poa autumnalis}    & Unfenced & 493  & -0.393 & -1.089 & 0.289 & 0.174 \\
-\textit{Poa autumnalis}    & Unfenced & 678  & -0.283 & -0.803 & 0.230 & 0.185 \\
-\textit{Poa autumnalis}    & Unfenced & 1036 & -0.136 & -0.448 & 0.179 & 0.242 \\
-\textit{Poa autumnalis}    & Unfenced & 1424 & -0.024 & -0.245 & 0.202 & 0.431 \\
-\textit{Poa autumnalis}    & Unfenced & 2294 & 0.143  & -0.175 & 0.474 & 0.763 \\
-\textit{Poa autumnalis}    & Fenced   & 493  & 0.806  & 0.137  & 1.478 & 0.977 \\
-\textit{Poa autumnalis}    & Fenced   & 678  & 0.556  & 0.058  & 1.060 & 0.967 \\
-\textit{Poa autumnalis}    & Fenced   & 1036 & 0.223  & -0.077 & 0.529 & 0.890 \\
-\textit{Poa autumnalis}    & Fenced   & 1424 & -0.028 & -0.251 & 0.199 & 0.418 \\
-\textit{Poa autumnalis}    & Fenced   & 2294 & -0.406 & -0.737 & -0.067 & 0.025 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.046 & -0.643 & 0.561 & 0.450 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 678  & 0.092  & -0.352 & 0.543 & 0.629 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1036 & 0.274  & -0.019 & 0.571 & 0.939 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.412  & 0.147  & 0.683 & 0.994 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 0.616  & 0.212  & 1.022 & 0.994 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.221 & -0.723 & 0.290 & 0.237 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.090 & -0.466 & 0.284 & 0.347 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & 0.084  & -0.165 & 0.336 & 0.710 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & 0.214  & -0.034 & 0.460 & 0.925 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 0.411  & 0.017  & 0.799 & 0.956 \\
+\textit{Elymus virginicus} & Herbivory access    & 493  & 0.017  & -0.618 & 0.647 & 0.520 \\
+\textit{Elymus virginicus} & Herbivory access    & 678  & 0.084  & -0.400 & 0.566 & 0.614 \\
+\textit{Elymus virginicus} & Herbivory access    & 1036 & 0.168  & -0.137 & 0.476 & 0.814 \\
+\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.232  & -0.002 & 0.470 & 0.948 \\
+\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.330  & 0.008  & 0.643 & 0.955 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 493  & -0.002 & -0.594 & 0.578 & 0.498 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 678  & 0.023  & -0.419 & 0.457 & 0.532 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1036 & 0.060  & -0.205 & 0.316 & 0.651 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.087  & -0.101 & 0.274 & 0.777 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.130  & -0.160 & 0.410 & 0.767 \\
+\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.393 & -1.089 & 0.289 & 0.174 \\
+\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.283 & -0.803 & 0.230 & 0.185 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.136 & -0.448 & 0.179 & 0.242 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.024 & -0.245 & 0.202 & 0.431 \\
+\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.143  & -0.175 & 0.474 & 0.763 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.806  & 0.137  & 1.478 & 0.977 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.556  & 0.058  & 1.060 & 0.967 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 0.223  & -0.077 & 0.529 & 0.890 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & -0.028 & -0.251 & 0.199 & 0.418 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & -0.406 & -0.737 & -0.067 & 0.025 \\
 \hline
+
 \end{tabular}
 \end{table}
 \end{landscape}
@@ -845,38 +881,40 @@ Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had acc
 \label{tab:delta_summary_flow}
 \begin{tabular}{llrrrrr}
 \hline
-Species & Herbivore exclusion & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
+Species & Herbivore treatment & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
 \hline
-\textit{Agrostis hyemalis} & Unfenced & 493  & -0.325 & -1.371 & 0.229  & 0.137 \\
-\textit{Agrostis hyemalis} & Unfenced & 678  & -0.327 & -1.230 & 0.320  & 0.172 \\
-\textit{Agrostis hyemalis} & Unfenced & 1036 & -0.157 & -0.929 & 0.557  & 0.344 \\
-\textit{Agrostis hyemalis} & Unfenced & 1424 & 0.231  & -0.589 & 1.219  & 0.691 \\
-\textit{Agrostis hyemalis} & Unfenced & 2294 & 1.730  & -0.289 & 6.251  & 0.914 \\
-\textit{Agrostis hyemalis} & Fenced   & 493  & -0.355 & -1.550 & 0.311  & 0.154 \\
-\textit{Agrostis hyemalis} & Fenced   & 678  & -0.332 & -1.339 & 0.426  & 0.206 \\
-\textit{Agrostis hyemalis} & Fenced   & 1036 & -0.067 & -0.897 & 0.796  & 0.439 \\
-\textit{Agrostis hyemalis} & Fenced   & 1424 & 0.481  & -0.492 & 1.772  & 0.800 \\
-\textit{Agrostis hyemalis} & Fenced   & 2294 & 2.394  & -0.264 & 8.520  & 0.930 \\
-\textit{Elymus virginicus} & Unfenced & 493  & -0.167 & -0.742 & 0.249  & 0.220 \\
-\textit{Elymus virginicus} & Unfenced & 678  & -0.142 & -0.606 & 0.255  & 0.250 \\
-\textit{Elymus virginicus} & Unfenced & 1036 & -0.062 & -0.410 & 0.274  & 0.369 \\
-\textit{Elymus virginicus} & Unfenced & 1424 & 0.046  & -0.277 & 0.391  & 0.606 \\
-\textit{Elymus virginicus} & Unfenced & 2294 & 0.320  & -0.226 & 1.141  & 0.831 \\
-\textit{Elymus virginicus} & Fenced   & 493  & 0.006  & -1.001 & 1.434  & 0.505 \\
-\textit{Elymus virginicus} & Fenced   & 678  & 0.015  & -0.824 & 1.125  & 0.512 \\
-\textit{Elymus virginicus} & Fenced   & 1036 & 0.033  & -0.576 & 0.732  & 0.536 \\
-\textit{Elymus virginicus} & Fenced   & 1424 & 0.044  & -0.445 & 0.566  & 0.561 \\
-\textit{Elymus virginicus} & Fenced   & 2294 & 0.064  & -0.808 & 1.089  & 0.551 \\
-\textit{Poa autumnalis}    & Unfenced & 493  & 0.029  & -0.152 & 1.709  & 0.738 \\
-\textit{Poa autumnalis}    & Unfenced & 678  & 0.070  & -0.097 & 1.287  & 0.798 \\
-\textit{Poa autumnalis}    & Unfenced & 1036 & 0.194  & -0.029 & 1.143  & 0.921 \\
-\textit{Poa autumnalis}    & Unfenced & 1424 & 0.385  & 0.054  & 1.767  & 0.987 \\
-\textit{Poa autumnalis}    & Unfenced & 2294 & 0.957  & 0.027  & 10.518 & 0.972 \\
-\textit{Poa autumnalis}    & Fenced   & 493  & 0.543  & 0.021  & 14.821 & 0.996 \\
-\textit{Poa autumnalis}    & Fenced   & 678  & 0.744  & 0.072  & 8.201  & 0.998 \\
-\textit{Poa autumnalis}    & Fenced   & 1036 & 1.076  & 0.259  & 4.875  & 1.000 \\
-\textit{Poa autumnalis}    & Fenced   & 1424 & 1.349  & 0.322  & 5.461  & 1.000 \\
-\textit{Poa autumnalis}    & Fenced   & 2294 & 1.355  & 0.031  & 15.437 & 0.968 \\
+Species & Herbivory & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
+\hline
+\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.325 & -1.371 & 0.229  & 0.137 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 678  & -0.327 & -1.230 & 0.320  & 0.172 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1036 & -0.157 & -0.929 & 0.557  & 0.344 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.231  & -0.589 & 1.219  & 0.691 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 1.730  & -0.289 & 6.251  & 0.914 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.355 & -1.550 & 0.311  & 0.154 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.332 & -1.339 & 0.426  & 0.206 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & -0.067 & -0.897 & 0.796  & 0.439 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & 0.481  & -0.492 & 1.772  & 0.800 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 2.394  & -0.264 & 8.520  & 0.930 \\
+\textit{Elymus virginicus} & Herbivory access    & 493  & -0.167 & -0.742 & 0.249  & 0.220 \\
+\textit{Elymus virginicus} & Herbivory access    & 678  & -0.142 & -0.606 & 0.255  & 0.250 \\
+\textit{Elymus virginicus} & Herbivory access    & 1036 & -0.062 & -0.410 & 0.274  & 0.369 \\
+\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.046  & -0.277 & 0.391  & 0.606 \\
+\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.320  & -0.226 & 1.141  & 0.831 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 493  & 0.006  & -1.001 & 1.434  & 0.505 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 678  & 0.015  & -0.824 & 1.125  & 0.512 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1036 & 0.033  & -0.576 & 0.732  & 0.536 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.044  & -0.445 & 0.566  & 0.561 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.064  & -0.808 & 1.089  & 0.551 \\
+\textit{Poa autumnalis}    & Herbivory access    & 493  & 0.029  & -0.152 & 1.709  & 0.738 \\
+\textit{Poa autumnalis}    & Herbivory access    & 678  & 0.070  & -0.097 & 1.287  & 0.798 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1036 & 0.194  & -0.029 & 1.143  & 0.921 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1424 & 0.385  & 0.054  & 1.767  & 0.987 \\
+\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.957  & 0.027  & 10.518 & 0.972 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.543  & 0.021  & 14.821 & 0.996 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.744  & 0.072  & 8.201  & 0.998 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 1.076  & 0.259  & 4.875  & 1.000 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 1.349  & 0.322  & 5.461  & 1.000 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 1.355  & 0.031  & 15.437 & 0.968 \\
 \hline
 \end{tabular}
 \end{table}
@@ -892,28 +930,28 @@ Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had acc
 \label{tab:delta_summary_spike}
 \begin{tabular}{llrrrrr}
 \hline
-Species & Herbivore exclusion & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
+Species & Herbivore treatment & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
 \hline
-\textit{Elymus virginicus} & Unfenced & 493  & -3.150  & -11.100 & 3.190  & 0.202 \\
-\textit{Elymus virginicus} & Unfenced & 678  & -2.380  & -8.360  & 2.850  & 0.224 \\
-\textit{Elymus virginicus} & Unfenced & 1036 & -1.130  & -5.120  & 2.670  & 0.303 \\
-\textit{Elymus virginicus} & Unfenced & 1424 & -0.095  & -3.240  & 3.110  & 0.481 \\
-\textit{Elymus virginicus} & Unfenced & 2294 & 1.680   & -2.130  & 6.290  & 0.770 \\
-\textit{Elymus virginicus} & Fenced   & 493  & -4.550  & -11.900 & 1.240  & 0.092 \\
-\textit{Elymus virginicus} & Fenced   & 678  & -3.360  & -8.640  & 1.310  & 0.111 \\
-\textit{Elymus virginicus} & Fenced   & 1036 & -1.440  & -4.570  & 1.640  & 0.211 \\
-\textit{Elymus virginicus} & Fenced   & 1424 & 0.261   & -2.040  & 2.650  & 0.577 \\
-\textit{Elymus virginicus} & Fenced   & 2294 & 3.230   & -0.389  & 8.420  & 0.929 \\
-\textit{Poa autumnalis}    & Unfenced & 493  & -0.584  & -6.080  & 3.140  & 0.320 \\
-\textit{Poa autumnalis}    & Unfenced & 678  & -0.584  & -4.890  & 2.760  & 0.330 \\
-\textit{Poa autumnalis}    & Unfenced & 1036 & -0.408  & -3.240  & 2.230  & 0.373 \\
-\textit{Poa autumnalis}    & Unfenced & 1424 & -0.025  & -2.090  & 2.060  & 0.491 \\
-\textit{Poa autumnalis}    & Unfenced & 2294 & 1.100   & -2.360  & 5.460  & 0.719 \\
-\textit{Poa autumnalis}    & Fenced   & 493  & 2.630   & -1.310  & 12.700 & 0.890 \\
-\textit{Poa autumnalis}    & Fenced   & 678  & 2.940   & -0.645  & 10.500 & 0.917 \\
-\textit{Poa autumnalis}    & Fenced   & 1036 & 3.270   & 0.227   & 7.900  & 0.963 \\
-\textit{Poa autumnalis}    & Fenced   & 1424 & 3.330   & 0.797   & 6.550  & 0.987 \\
-\textit{Poa autumnalis}    & Fenced   & 2294 & 2.750   & -1.340  & 8.540  & 0.871 \\
+\textit{Elymus virginicus} & Herbivory access    & 493  & -3.149 & -11.141 & 3.194  & 0.202 \\
+\textit{Elymus virginicus} & Herbivory access    & 678  & -2.375 & -8.360  & 2.851  & 0.224 \\
+\textit{Elymus virginicus} & Herbivory access    & 1036 & -1.132 & -5.122  & 2.668  & 0.303 \\
+\textit{Elymus virginicus} & Herbivory access    & 1424 & -0.095 & -3.238  & 3.106  & 0.481 \\
+\textit{Elymus virginicus} & Herbivory access    & 2294 & 1.676  & -2.131  & 6.291  & 0.770 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 493  & -4.550 & -11.872 & 1.236  & 0.092 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 678  & -3.364 & -8.645  & 1.306  & 0.111 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1036 & -1.444 & -4.572  & 1.644  & 0.211 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.261  & -2.038  & 2.652  & 0.577 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 3.229  & -0.389  & 8.420  & 0.929 \\
+\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.584 & -6.085  & 3.143  & 0.320 \\
+\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.584 & -4.893  & 2.756  & 0.330 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.408 & -3.240  & 2.226  & 0.373 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.025 & -2.094  & 2.056  & 0.491 \\
+\textit{Poa autumnalis}    & Herbivory access    & 2294 & 1.097  & -2.362  & 5.455  & 0.719 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 2.630  & -1.310  & 12.708 & 0.890 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 2.943  & -0.645  & 10.507 & 0.917 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 3.267  & 0.227   & 7.905  & 0.963 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 3.333  & 0.797   & 6.547  & 0.987 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 2.748  & -1.344  & 8.544  & 0.871 \\
 \hline
 \end{tabular}
 \end{table}
@@ -971,11 +1009,10 @@ Species & Herbivore exclusion & Precipitation (mm) & Median $\Delta$  & Lower 90
 \subsection{Supporting Figures}
 \begin{figure}[ht]
 		\centering
-		\includegraphics[width=1\linewidth]{../Figure/Climate_prism_2023_2025.pdf}
-		\caption[Abiotic conditions across the common garden experiments]{Abiotic conditions across the seven study sites. 
-		(A) Mean annual precipitation showing the pronounced east–west aridity gradient from mesic Louisiana to arid Texas. 
-		(B) Mean annual temperature across sites, which does not differ much. 
-		Panels highlight that precipitation, rather than temperature, constitutes the primary abiotic gradient in this system.}
+		\includegraphics[width=0.8\linewidth]{../Figure/temp_pppt_site_year.pdf}
+		\caption[spatial and temporal variation in precipitation and temperature across the experimental sites.] {
+		(A) Annual precipitation (mm) and (B) mean temperature (°C) for 2023–2025.
+		Sites are arranged from west to east based on longitude.}
 		\label{Sup:temp}
 \end{figure}
 \clearpage  % forces the next figure to start on a new page

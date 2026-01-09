@@ -547,6 +547,110 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
 
 dev.off()
 
+delta_low_quantiles <- delta_surv_filtered %>%
+  group_by(species, herb) %>%
+  slice_min(clim_mm, n = 2) %>%   # two driest bins
+  summarise(
+    mean_delta_low = mean(median_delta),
+    .groups = "drop"
+  )
+
+delta_ratios <- delta_low_quantiles %>%
+  tidyr::pivot_wider(
+    names_from = herb,
+    values_from = mean_delta_low
+  ) %>%
+  mutate(
+    severity_ratio = abs(`Herbivory exclusion`) / abs(`Herbivory access`)
+  )
+
+
+## Endophyte effect size under abiotic stress
+## Ratio-based metric: E+ / E− survival
+## Interpretation:
+##   ratio = 1   → no effect
+##   ratio = 0.5 → E+ survival is 2× lower than E−
+##   ratio = 0.33 → E+ survival is ~3× lower than E−
+
+# Function to compute posterior survival ratios (E+ / E−)
+# for each herbivory treatment separately
+compute_ratio_surv <- function(clim_val, posterior_samples_surv, herb_values = c(0, 1)) {
+  
+  n_species <- dim(posterior_samples_surv$b0)[2]
+  n_post <- dim(posterior_samples_surv$b0)[1]
+  
+  result <- lapply(1:n_species, function(sp) {
+    lapply(herb_values, function(h) {
+      
+      # Posterior survival predictions for E+ (endo present)
+      pred_Eplus <- 1 / (1 + exp(-(
+        posterior_samples_surv$b0[, sp] +
+          posterior_samples_surv$bendo[, sp] * 1 +
+          posterior_samples_surv$bherb[, sp] * h +
+          posterior_samples_surv$bclim[, sp] * clim_val +
+          posterior_samples_surv$bendoclim[, sp] * clim_val +
+          posterior_samples_surv$bendoherb[, sp] * h +
+          posterior_samples_surv$bendoherbclim[, sp] * h * clim_val
+      )))
+      
+      # Posterior survival predictions for E− (endo absent)
+      pred_Eminus <- 1 / (1 + exp(-(
+        posterior_samples_surv$b0[, sp] +
+          posterior_samples_surv$bherb[, sp] * h +
+          posterior_samples_surv$bclim[, sp] * clim_val
+      )))
+      
+      # Ratio of survival probabilities (E+ / E−)
+      ratio <- pred_Eplus / pred_Eminus
+      
+      data.frame(
+        species = sp,
+        herb = h,
+        clim = clim_val,
+        Posterior_Sample = 1:n_post,
+        ratio = ratio
+      )
+    }) |> dplyr::bind_rows()
+  }) |> dplyr::bind_rows()
+  
+  return(result)
+}
+
+# Compute ratios across the full climate gradient
+ratio_surv_range <- lapply(climate_range, function(cl)
+  compute_ratio_surv(cl, posterior_samples_survival)) |>
+  dplyr::bind_rows()
+
+# Identify abiotic stress conditions (lowest climate quartile)
+stress_threshold <- quantile(ratio_surv_range$clim, 0.25)
+ratio_stress <- ratio_surv_range |>
+  dplyr::filter(clim <= stress_threshold)
+
+# Summarize separately for each herbivory treatment
+ratio_summary_herb <- ratio_stress |>
+  dplyr::group_by(species, herb) |>
+  dplyr::summarise(
+    median_ratio = median(ratio),
+    lower_90 = quantile(ratio, 0.05),
+    upper_90 = quantile(ratio, 0.95),
+    prob_Eplus_worse = mean(ratio < 1),
+    .groups = "drop"
+  )
+
+# Relabel species and herbivory for publication
+ratio_summary_herb <- ratio_summary_herb |>
+  dplyr::mutate(
+    species = factor(species,
+                     levels = 1:3,
+                     labels = c("Agrostis hyemalis",
+                                "Elymus virginicus",
+                                "Poa autumnalis")),
+    herb = factor(herb,
+                  levels = c(0,1),
+                  labels = c("Herbivory access", "Herbivory exclusion"))
+  )
+
+
 # Growth----
 ## Read and format survival data to build the model
 demography_climate%>%
@@ -2629,7 +2733,7 @@ Cairo::CairoPDF(
 
 ggplot(
   delta_long_spik %>%
-    filter(!is.na(species_label)),  # ✅ remove NA panels
+    filter(!is.na(species_label)),  
   aes(x = clim_mm, y = value, color = herb, group = herb)
 ) +
   geom_line(size = 0.5) +
@@ -2684,6 +2788,84 @@ ggplot(
   )
 
 dev.off()
+
+# ratio estimation
+compute_ratio_spik <- function(clim_val, posterior_samples_spik, herb_values = c(0, 1)) {
+  
+  n_species <- dim(posterior_samples_spik$b0)[2]
+  n_post <- dim(posterior_samples_spik$b0)[1]
+  
+  result <- lapply(1:n_species, function(sp) {
+    lapply(herb_values, function(h) {
+      
+      # Linear predictor for E+
+      eta_Eplus <- posterior_samples_spik$b0[, sp] +
+        posterior_samples_spik$bendo[, sp] * 1 +
+        posterior_samples_spik$bherb[, sp] * h +
+        posterior_samples_spik$bclim[, sp] * clim_val +
+        posterior_samples_spik$bendoclim[, sp] * clim_val * 1 +
+        posterior_samples_spik$bendoherb[, sp] * 1 * h +
+        posterior_samples_spik$bendoherbclim[, sp] * 1 * h * clim_val 
+      
+      # Linear predictor for E−
+      eta_Eminus <- posterior_samples_spik$b0[, sp] +
+        posterior_samples_spik$bendo[, sp] * 0 +
+        posterior_samples_spik$bherb[, sp] * h +
+        posterior_samples_spik$bclim[, sp] * clim_val +
+        posterior_samples_spik$bendoclim[, sp] * clim_val * 0 +
+        posterior_samples_spik$bendoherb[, sp] * 0 * h +
+        posterior_samples_spik$bendoherbclim[, sp] * 0 * h * clim_val 
+      
+      # Predicted mean spike counts (log link → exp)
+      pred_Eplus  <- exp(eta_Eplus)
+      pred_Eminus <- exp(eta_Eminus)
+      
+      # Ratio of spikelets (E+ / E−)
+      ratio <- pred_Eplus / pred_Eminus
+      
+      data.frame(
+        species = sp,
+        herb = h,
+        clim = clim_val,
+        Posterior_Sample = 1:n_post,
+        ratio = ratio
+      )
+    }) %>% dplyr::bind_rows()
+  }) %>% dplyr::bind_rows()
+  
+  return(result)
+}
+
+ratio_spik_range <- lapply(climate_range, function(cl) 
+  compute_ratio_spik(cl, posterior_samples_spik)) %>%
+  dplyr::bind_rows()
+
+stress_threshold <- quantile(ratio_spik_range$clim, 0.25)
+
+ratio_spik_stress <- ratio_spik_range %>%
+  dplyr::filter(clim <= stress_threshold)
+ratio_spik_summary <- ratio_spik_stress %>%
+  dplyr::group_by(species, herb) %>%
+  dplyr::summarise(
+    median_ratio = median(ratio),
+    lower_90 = quantile(ratio, 0.05),
+    upper_90 = quantile(ratio, 0.95),
+    prob_Eplus_worse = mean(ratio < 1),
+    .groups = "drop"
+  )
+
+ratio_spik_summary <- ratio_spik_summary %>%
+  dplyr::mutate(
+    species = factor(species,
+                     levels = 1:3,
+                     labels = c("Agrostis hyemalis",
+                                "Elymus virginicus",
+                                "Poa autumnalis")),
+    herb = factor(herb,
+                  levels = c(0,1),
+                  labels = c("Herbivory access", "Herbivory exclusion"))
+  )
+
 
 
 # Add trait column

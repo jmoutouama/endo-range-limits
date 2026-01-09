@@ -146,6 +146,12 @@ GBIF (2025c).
 \newblock Occurrence download for \emph{Poa autumnalis}.
 \newblock Accessed 5 November 2025.
 
+\bibitem[Gelman and Hill, 2007]{gelman2007data}
+Gelman, A. and Hill, J. (2007).
+\newblock {\em Data analysis using regression and multilevel/hierarchical
+  models}.
+\newblock Cambridge university press.
+
 \bibitem[Giauque et~al., 2019]{giauque2019endophyte}
 Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
 \newblock Endophyte traits relevant to stress tolerance, resource use and
@@ -205,6 +211,12 @@ Holmgren, M. and Scheffer, M. (2010).
 \newblock Strong facilitation in mild environments: the stress gradient
   hypothesis revisited.
 \newblock {\em Journal of Ecology}, 98(6):1269--1275.
+
+\bibitem[Jackson and Johnson-Cicalese, 1988]{jackson1988rapid}
+Jackson, D. and Johnson-Cicalese, J. (1988).
+\newblock A rapid staining method for detection of endophytic fungi in turf and
+  forage grasses.
+\newblock {\em Phytopathology}, 78:237--239.
 
 \bibitem[Johnson et~al., 1997]{johnson1997functioning}
 Johnson, N.~C., Graham, J.~H., and Smith, F.~A. (1997).
@@ -277,6 +289,12 @@ Pringle, E.~G. (2016).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria.
 
+\bibitem[Reynolds et~al., 2003]{reynolds2003grassroots}
+Reynolds, H.~L., Packer, A., Bever, J.~D., and Clay, K. (2003).
+\newblock Grassroots ecology: plant--microbe--soil interactions as drivers of
+  plant community structure and dynamics.
+\newblock {\em Ecology}, 84(9):2281--2291.
+
 \bibitem[Rodriguez et~al., 2009]{rodriguez2009fungal}
 Rodriguez, R., White~Jr, J., Arnold, A.~E., and Redman, a. R.~a. (2009).
 \newblock Fungal endophytes: diversity and functional roles.
@@ -288,12 +306,6 @@ Rudgers, J.~A., Fletcher, R.~A., Olivas, E., Young, C.~A., Charlton, N.~D.,
 \newblock Long-term ungulate exclusion reduces fungal symbiont prevalence in
   native grasslands.
 \newblock {\em Oecologia}, 181(4):1151--1161.
-
-\bibitem[Rudgers et~al., 2012]{rudgers2012there}
-Rudgers, J.~A., Miller, T.~E., Ziegler, S.~M., and Craven, K.~D. (2012).
-\newblock There are many ways to be a mutualist: endophytic fungus reduces
-  plant survival but increases population growth.
-\newblock {\em Ecology}, 93(3):565--574.
 
 \bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
 Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).

@@ -155,6 +155,9 @@ garden %>%
 garden %>% 
   filter(Species=="POAU")->garden_poau
 
+# Order sites west-to-east
+ordered_sites <- garden_aghy$site[order(garden_aghy$lon)]
+
 source %>% 
   filter(Species=="AGHY")->source_aghy
 source %>% 
@@ -191,8 +194,6 @@ crs(source_poau) <- CRS1
 # Climatic data----
 prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x231nlm6rtm96uqffsv03/prism_means.rds?rlkey=w29usaquhd1u1w3u7guf1rgbp&dl=1"))
 
-# Order sites west-to-east
-ordered_sites <- garden_sites_ppt$site[order(garden_sites_ppt$lon)]
 
 # Study area shapefile ----
 study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
@@ -397,7 +398,7 @@ barplot(
   cex.names=0.75
 )
 mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
-
+box()
 ### Panel E
 par(mar=c(0, 0, 0, 0))  
 plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
@@ -405,18 +406,26 @@ mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
 
 # fenced
 rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
-plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
-plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
-points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+# plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
+# plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+# points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+set.seed(13)  
+signs1 <- sample(c("+", "−"), length(plants1_x), replace = TRUE)
+text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
+
 mtext("Fenced", side=3, at=0.85, line=-4, cex=0.9)
 
 # unfenced
 rect(1.9, 0.1, 3.4, 1.6, border=NA)
 segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
 segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
-plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
-plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
-points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+# plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
+# plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+# points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+set.seed(13)
+signs2 <- sample(c("+", "−"), length(plants2_x), replace = TRUE)
+text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
+
 mtext("Unfenced", side=3, at=2.65, line=-4, cex=0.9)
 
 ### Panel F
@@ -427,7 +436,7 @@ bp <- barplot(
   height = mean_matrix,
   beside = TRUE,
   names.arg = ordered_sites,
-  col = colors,  # use herbivory colors
+  col = c("grey80","grey15"),  # use herbivory colors
   ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
   xlab = "Sites",
   ylab = "Proportion of damaged plants",
@@ -449,7 +458,7 @@ arrows(
 legend(
   "topright",
   legend = c("Unfenced", "Fenced"),
-  fill = c("lightgreen", "salmon"),
+  fill = c("grey80","grey15"),
   bty = "n",
   cex = 1.2
 )

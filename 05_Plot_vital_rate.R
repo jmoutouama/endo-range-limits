@@ -269,20 +269,34 @@ ggplot(plot_data_survival) +
   # Survival panel
   geom_line(
     data = subset(plot_data_survival, panel == "Pr (survival)"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    size = 0.5
-  ) +
+    aes(x = climate_mm, y = mean, color = factor(endo), group = endo)
+   # show.legend = c(color = TRUE, size = FALSE)
+  )+
+  # scale_size_manual(values = c("0" = 0.5, "1" = 1))+
+  # guides(
+  #   color = guide_legend(
+  #     override.aes = list(
+  #       size = c(0.5, 1)  # lines in legend match plot widths
+  #     )
+  #   )
+  # )+
   geom_ribbon(
     data = subset(plot_data_survival, panel == "Pr (survival)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
+    alpha = 0.2, color = NA
   ) +
   geom_point(
-    data = subset(observed_data_survival, panel == "Pr (survival)"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 0, height = 0.01)
-  ) +
-  
+    data = observed_data_survival,  # keep plot-level points
+    aes(
+      x = climate_mm,
+      y = ifelse(y_plot_mean <= 0, 0.01,
+                 ifelse(y_plot_mean >= 1, 0.99,
+                        y_plot_mean)),
+      color = factor(endo)
+    ),
+    size = 0.75,alpha=0.3,
+    position = position_jitter(width = 0.05, height = 0)  # horizontal jitter only
+  )+
   # Δ panel
   geom_line(
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
@@ -291,11 +305,11 @@ ggplot(plot_data_survival) +
   geom_ribbon(
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
+    fill = "#9B6B96", alpha = 0.6
   ) +
   geom_hline(
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
-    aes(yintercept = 0), linetype = "dashed", color = "black"
+    aes(yintercept = 0), linetype = "dashed",size=0.5, color = "black"
   ) +
   
   # Facets
@@ -310,27 +324,31 @@ ggplot(plot_data_survival) +
   ) +
   ggh4x::facetted_pos_scales(
     y = list(
-      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0,0)),
-      panel == "Pr (survival)" ~ scale_y_continuous(expand = c(0,0))
+      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0,0),breaks = 0,labels = 0,minor_breaks = NULL),
+      panel == "Pr (survival)" ~ scale_y_continuous(limits = c(0, 1),expand = c(0,0))
     )
   ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  theme_light() +
+  theme_classic() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = c(0.058, 0.23),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
-    panel.spacing.y = unit(0.0, "cm"),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 8),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+   #  axis.line.y = element_line(color = "black", size = 0.01),
+   # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   ) +
   # Add facet labels (a–f) only on top panels
   geom_text(
@@ -529,21 +547,25 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
     color = "Herbivore treatment",
     title = ""
   ) +
-  theme_light() +
+  theme_classic() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
-    legend.title = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
-  )
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
 
 dev.off()
 
@@ -833,7 +855,8 @@ panel_labels_grow <- data.frame(
   ), each = 2),
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
-  panel = "Growth"   # only place labels on upper panels
+  panel = "Growth",
+  ymax = rep(c(1, 1.25, 2), each = 2)   # 👈 from your Growth scale limits
 )
 
 # Plot
@@ -851,14 +874,14 @@ ggplot(plot_data_grow) +
   geom_ribbon(
     data = subset(plot_data_grow, panel == "Growth"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
+    alpha = 0.2, color = NA
   ) +
   # Observed points
   geom_point(
     data = subset(observed_data_grow, panel == "Growth"),
     aes(x =climate_mm, y =y_plot_mean, color = factor(endo)),
-    size = 0.75,
-    position = position_jitter(width = 0, height = 0.01)
+    size = 0.75,alpha=0.6,
+    position = position_jitter(width = 5, height = 0.05)
   ) +
   # Lower panel: Δ(E+ − E−) differences
   geom_line(
@@ -868,7 +891,7 @@ ggplot(plot_data_grow) +
   geom_ribbon(
     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
+    fill = "#9B6B96", alpha = 0.6
   ) +
   geom_hline(
     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
@@ -935,25 +958,31 @@ ggplot(plot_data_grow) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  theme_light() +
+  theme_classic() +
   theme(
-    legend.position = c(0.4, 0.2),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
+    legend.position = c(0.37, 0.23),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 8.5, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-  )+
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) +
+  # Add facet labels (a–f) only on top panels
   geom_text(
     data = panel_labels_grow,
-    aes(x = 490, y = 0.8, label = label),
-    fontface = "plain", size = 3.5, hjust = 0,
+    aes(x = 490, y = ymax * 0.80, label = label),
+    hjust = 0,
+    size = 3.5,
     inherit.aes = FALSE
   )
 
@@ -1242,21 +1271,25 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
     color = "Herbivore treatment",
     title = ""
   ) +
-  theme_light() +
+  theme_classic() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
-    legend.title = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
-  )
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
 
 dev.off()
 
@@ -1713,19 +1746,23 @@ ggplot(delta_long_flow, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   theme_light() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
-    legend.title = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
-  )
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
 
 dev.off()
 
@@ -1941,16 +1978,132 @@ panel_labels_inf <- data.frame(
   ), each = 2),
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
-  panel = "Inflorescences"   # only place labels on upper panels
+  panel = "Inflorescences",
+  ymax = rep(c(25, 10, 40), each = 2)   # 👈 from your facetted scales
 )
 
 #Plot with updated panel labels
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_v.pdf",
+  width = 7, height = 9
+)
+ggplot(plot_data_inf) +
+  # Upper panel: predicted infering counts (#Inflorescences)
+  geom_line(
+    data = subset(plot_data_inf, panel == "Inflorescences"),
+    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
+    size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_inf, panel == "Inflorescences"),
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
+    alpha = 0.3, color = NA
+  ) +
+  geom_point(
+    data = subset(observed_data_inf, panel == "Inflorescences"),
+    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),alpha=0.3,
+    size = 0.75, position = position_jitter(width = 0, height = 0.00)
+  ) +
+
+  # Lower panel: Δ (E+ - E-) differences
+  geom_line(
+    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
+    aes(x = climate_mm, y = mean), color = "black", size = 0.5
+  ) +
+  geom_ribbon(
+    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
+    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
+    fill = "#9B6B96", alpha = 0.6
+  ) +
+  geom_hline(
+    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
+    aes(yintercept = 0), linetype = "dashed", color = "black"
+  ) +
+  # Facets: species vertically, herb horizontally
+  ggh4x::facet_nested(
+    species + panel ~ herb,
+    scales = "free_y",
+    #space = "free_y",
+    labeller = labeller(
+      species = label_parsed,
+      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
+    )
+  ) +
+
+  # Facetted scales
+  ggh4x::facetted_pos_scales(
+    y = list(
+      # Lower panels – Δ (E+ - E-) only
+      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
+                     y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]),
+          expand = c(0, 0)
+        ),
+      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(-1.5,
+                     2),
+          expand = c(0, 0)
+        ),
+      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(
+          breaks = 0, labels = 0, minor_breaks = NULL,
+          limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
+                     y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]),
+          expand = c(0, 0)
+        ),
+
+      # Upper panels – #Inflorescences custom limits per species
+      panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
+        scale_y_continuous(limits = c(0, 25)),
+      panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
+        scale_y_continuous(limits = c(0, 10)),
+      panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
+        scale_y_continuous(limits = c(0, 40))
+    )
+  ) +
+  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
+  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+"))+
+  theme_classic() +
+  theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
+    legend.position = c(0.13, 0.26),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 6),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    # axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
+    text = element_text(family = "Arial"),
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) +
+  # Add facet labels (a–f) only on top panels
+  geom_text(
+    data = panel_labels_inf,
+    aes(x = 490, y = ymax * 0.93, label = label),
+    hjust = 0,
+    size = 3.5,
+    inherit.aes = FALSE
+  )
+dev.off()
+
+
 # Cairo::CairoPDF(
-#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_v.pdf",
-#   width = 8, height = 11.5
+#   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff.pdf",
+#   width = 13, height = 7
 # )
+# 
 # ggplot(plot_data_inf) +
-#   # Upper panel: predicted infering counts (#Inflorescences)
 #   geom_line(
 #     data = subset(plot_data_inf, panel == "Inflorescences"),
 #     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
@@ -1964,23 +2117,27 @@ panel_labels_inf <- data.frame(
 #   geom_point(
 #     data = subset(observed_data_inf, panel == "Inflorescences"),
 #     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-#     size = 0.75, position = position_jitter(width = 0, height = 0.01)
+#     size = 0.75, position = position_jitter(width = 5, height = 0.05)
 #   ) +
-# 
-#   # Lower panel: Δ (E+ - E-) differences
 #   geom_line(
 #     data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
 #     aes(x = climate_mm, y = mean), color = "black", size = 0.5
 #   ) +
+#   # Add a horizontal dashed line at y = 0 in the Δ-panel
+#   geom_hline(
+#     data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
+#     aes(yintercept = 0),
+#     color = "black",
+#     linetype = "dashed",
+#     size = 0.3
+#   )+
 #   geom_ribbon(
 #     data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
 #     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
 #     fill = "#9B6B96", alpha = 0.5
 #   ) +
-# 
-#   # Facets: species vertically, herb horizontally
 #   ggh4x::facet_nested(
-#     species + panel ~ herb,
+#     panel ~ species + herb,
 #     scales = "free_y",
 #     space = "free_y",
 #     labeller = labeller(
@@ -1988,40 +2145,29 @@ panel_labels_inf <- data.frame(
 #       herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
 #     )
 #   ) +
-# 
-#   # Facetted scales
 #   ggh4x::facetted_pos_scales(
 #     y = list(
-#       # Lower panels – Δ (E+ - E-) only
 #       panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
-#                      y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]),
-#           expand = c(0, 0)
-#         ),
+#         scale_y_continuous(breaks = 0, labels = 0, limits = c(
+#           y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
+#           y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]
+#         ), expand = c(0, 0)),
 #       panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(-1.5,
-#                      1.8),
-#           expand = c(0, 0)
-#         ),
+#         scale_y_continuous(breaks = 0, labels = 0, limits = c(
+#           y_limits_inf$ymin[y_limits_inf$species == "italic('Elymus virginicus')"],
+#           y_limits_inf$ymax[y_limits_inf$species == "italic('Elymus virginicus')"]
+#         ), expand = c(0, 0)),
 #       panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-#         scale_y_continuous(
-#           breaks = 0, labels = 0, minor_breaks = NULL,
-#           limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
-#                      y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]),
-#           expand = c(0, 0)
-#         ),
-# 
-#       # Upper panels – #Inflorescences custom limits per species
+#         scale_y_continuous(breaks = 0, labels = 0, limits = c(
+#           y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
+#           y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]
+#         ), expand = c(0, 0)),
 #       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-#         scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
+#         scale_y_continuous(limits = c(0, 30), expand = c(0, 0)),
 #       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-#         scale_y_continuous(limits = c(0, 5), expand = c(0, 0)),
+#         scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
 #       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-#         scale_y_continuous(limits = c(0, 13), expand = c(0, 0))
+#         scale_y_continuous(limits = c(0, 70), expand = c(0, 0))
 #     )
 #   ) +
 #   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -2029,121 +2175,27 @@ panel_labels_inf <- data.frame(
 #   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+"))+
 #   theme_light() +
 #   theme(
-#     legend.position = c(0.075, 0.40),
-#     legend.title = element_text(size = 6),
-#     legend.text = element_text(size = 6),
+#     legend.position = c(0.05, 0.7),
+#     legend.title = element_text(size = 12),
+#     legend.text = element_text(size = 12),
 #     panel.spacing.y = unit(0.0, "cm"),
-#     axis.title = element_text(size = 8),
+#     axis.title = element_text(size = 16),
 #     axis.text = element_text(size = 6),
 #     axis.line.y = element_line(color = "black", size = 0.1),
 #     axis.line.x = element_line(color = "black", size = 0.1),
 #     text = element_text(family = "Arial"),
-#     strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-#     strip.text.y = element_text(size = 8, color = "black", face = "plain"),
+#     strip.text.x = element_text(size = 14, color = "black", face = "plain"),
+#     strip.text.y = element_text(size = 14, color = "black", face = "plain"),
 #     strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+#   )+
+#   geom_text(
+#     data = panel_labels_inf,
+#     aes(x = 490, y = 25, label = label),
+#     fontface = "plain", size = 3.5, hjust = 0,
+#     inherit.aes = FALSE
 #   )
-
+# 
 # dev.off()
-
-
-Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff.pdf",
-  width = 13, height = 7
-)
-
-ggplot(plot_data_inf) +
-  geom_line(
-    data = subset(plot_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    size = 0.5
-  ) +
-  geom_ribbon(
-    data = subset(plot_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90, fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
-  ) +
-  geom_point(
-    data = subset(observed_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 0, height = 0.01)
-  ) +
-  geom_line(
-    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
-    aes(x = climate_mm, y = mean), color = "black", size = 0.5
-  ) +
-  # Add a horizontal dashed line at y = 0 in the Δ-panel
-  geom_hline(
-    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
-    aes(yintercept = 0),
-    color = "black",
-    linetype = "dashed",
-    size = 0.3
-  )+
-  geom_ribbon(
-    data = subset(plot_data_inf, panel == "Δ (E+ - E-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.5
-  ) +
-  ggh4x::facet_nested(
-    panel ~ species + herb,
-    scales = "free_y",
-    space = "free_y",
-    labeller = labeller(
-      species = label_parsed,
-      herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
-    )
-  ) +
-  ggh4x::facetted_pos_scales(
-    y = list(
-      panel == "Δ (E+ - E-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(breaks = 0, labels = 0, limits = c(
-          y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
-          y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]
-        ), expand = c(0, 0)),
-      panel == "Δ (E+ - E-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(breaks = 0, labels = 0, limits = c(
-          y_limits_inf$ymin[y_limits_inf$species == "italic('Elymus virginicus')"],
-          y_limits_inf$ymax[y_limits_inf$species == "italic('Elymus virginicus')"]
-        ), expand = c(0, 0)),
-      panel == "Δ (E+ - E-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(breaks = 0, labels = 0, limits = c(
-          y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
-          y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]
-        ), expand = c(0, 0)),
-      panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 30), expand = c(0, 0)),
-      panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 15), expand = c(0, 0)),
-      panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 70), expand = c(0, 0))
-    )
-  ) +
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
-  scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
-  scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+"))+
-  theme_light() +
-  theme(
-    legend.position = c(0.05, 0.7),
-    legend.title = element_text(size = 12),
-    legend.text = element_text(size = 12),
-    panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 16),
-    axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
-    text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 14, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 14, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-  )+
-  geom_text(
-    data = panel_labels_inf,
-    aes(x = 490, y = 25, label = label),
-    fontface = "plain", size = 3.5, hjust = 0,
-    inherit.aes = FALSE
-  )
-
-dev.off()
 
 # Climate quantiles for infering
 # Function to compute Δ(E+ − E−) for infering
@@ -2309,24 +2361,26 @@ ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) 
     color = "Herbivore treatment",
     title = ""
   ) +
-  theme_light() +
+  theme_classic() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
-    legend.title = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color="black", fill="grey80", size=0.1, linetype="solid")
-  )
-
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
 dev.off()
-
 
 # Spikelet----
 demography_climate %>%
@@ -2512,7 +2566,6 @@ Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
   width = 9, height = 6
 )
-
 ggplot(plot_data_spik) +
   # Upper panel: predicted spikelets
   geom_line(
@@ -2541,7 +2594,7 @@ ggplot(plot_data_spik) +
   geom_point(
     data = subset(observed_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 0, height = 0.01)
+    size = 0.75, position = position_jitter(width = 5, height = 0.05)
   ) +
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
@@ -2588,20 +2641,24 @@ ggplot(plot_data_spik) +
                      labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"),
                     labels = c("E-", "E+")) +
-  theme_light() +
+  theme_classic() +
   theme(
-    legend.position = c(0.12, 0.41),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
+    legend.position = c(0.1, 0.88),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
-    panel.spacing.y = unit(0.0, "cm"),
-    axis.title = element_text(size = 8),
+    panel.spacing.y = unit(0.2, "cm"),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 12, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )+
   geom_text(
     data = panel_labels_spik,
@@ -2730,7 +2787,6 @@ Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spike_diff_stat.pdf",
   width = 6, height = 5
 )
-
 ggplot(
   delta_long_spik %>%
     filter(!is.na(species_label)),  
@@ -2771,21 +2827,25 @@ ggplot(
   scale_fill_manual(values = c("Herbivory access" = "#E69F00", 
                                "Herbivory exclusion" = "#009E73"))+
   labs(x = "Precipitation (mm)", y = NULL, color = "Herbivore treatment") +
-  theme_light() +
+  theme_classic() +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
-    legend.title = element_text(size = 10),
-    legend.text = element_text(size = 8),
-    panel.spacing.y = unit(0.0, "cm"),
+    legend.title = element_text(size = 6),
+    legend.text = element_text(size = 6),
+    panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.line.y = element_line(color = "black", size = 0.1),
-    axis.line.x = element_line(color = "black", size = 0.1),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black", face = "plain"),
-    strip.text.y = element_text(size = 10, color = "black", face = "plain"),
-    strip.background = element_rect(color = "black", fill = "grey80", size = 0.1, linetype = "solid")
-  )
+    strip.text.x = element_text(size = 10, color = "black"),
+    strip.text.y = element_text(size = 8, color = "black"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
 
 dev.off()
 
@@ -2936,8 +2996,10 @@ p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group 
     y = NULL, 
     color = "Herbivore treatment"
   ) +
-  theme_light(base_size = 18, base_family = "Arial") +
+  theme_classic(base_size = 18, base_family = "Arial") +
   theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
     legend.title = element_text(size = 30),
     legend.text  = element_text(size = 30),
@@ -2945,12 +3007,29 @@ p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group 
     axis.text    = element_text(size = 20),
     strip.text.x = element_text(size = 32, color = "black"),
     strip.text.y = element_text(size = 32, color = "black"),
-    strip.background = element_rect(
-      color = "black",
-      fill = "grey80",
-      size = 0.3
-    )
-  )
+    #  axis.line.y = element_line(color = "black", size = 0.01),
+    # axis.line.x = element_line(color = "black", size = 0.01),
+    text = element_text(family = "Arial"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  ) 
+
+theme(
+  panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+  axis.line = element_line(color = "black", size = 0.1),
+  legend.position = "bottom",
+  legend.title = element_text(size = 30),
+  legend.text  = element_text(size = 30),
+  axis.title.x = element_text(size = 28),
+  axis.text    = element_text(size = 20),
+  strip.text.x = element_text(size = 32, color = "black"),
+  strip.text.y = element_text(size = 32, color = "black"),
+  #  axis.line.y = element_line(color = "black", size = 0.01),
+  # axis.line.x = element_line(color = "black", size = 0.01),
+  text = element_text(family = "Arial"),
+  strip.text.x = element_text(size = 10, color = "black"),
+  strip.text.y = element_text(size = 8, color = "black"),
+  strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+) 
 
 
 Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 30, height = 15)

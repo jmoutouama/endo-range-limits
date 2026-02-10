@@ -70,6 +70,8 @@
 \usepackage{newfloat}   % for creating new float types
 \usepackage{tocloft}    % for customizing lists
 \usepackage{caption}
+\usepackage{rotating}
+\usepackage{array}
 %\usepackage{hyperref}
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
@@ -716,32 +718,13 @@ All models include hierarchical random effects for site-year, source population,
 \clearpage 
 
 \subsection{Supporting Tables}
-\begin{table}[ht]
-\centering
-\caption[Geographic coordinates and descriptions of source populations for study species]{Geographic coordinates and brief descriptions of source populations for \textit{Agrostis hyemalis} (AGHY), \textit{Elymus virginicus} (ELVI), and \textit{Poa autumnalis} (POAU).}
-\label{tab:source_pop}
-%\begin{tabular}{lllll}
-\begin{tabular}{llrrp{6cm}}
-\toprule
-\textbf{Species} & \textbf{Population} & \textbf{Latitude} & \textbf{Longitude} & \textbf{Description} \\
-\midrule
-AGHY & SJC  & 30.771969 & -95.200620 & San Jacinto County, TX \\
-AGHY & COHR & 29.672833 & -96.567517 & Columbus, TX \\
-AGHY & LPEF & 30.085383 & -97.172508 & Lost Pines \\
-POAU & LA7  & 30.849660 & -93.276772 & DeRidder, LA \\
-POAU & LA1  & 32.568125 & -93.932976 & \tom{Jean Lafitte National Historical Park and Preserve}{Double check this. There were no POAU collected from Jean Lafitte Park.} \\
-POAU & LA2  & 31.183040 & -92.616969 & Jean Lafitte National Historical Park and Preserve \\
-POAU & SFAEF & 31.492158 & -94.772200 & Stephen F. Austin Experimental Forest, TX \\
-POAU & WB   & 30.399346 & -95.150026 & Sam Houston National Forest \\
-ELVI & HUNT & 30.741797 & -95.474508 & Sam Houston State University Field Station \\
-ELVI & \tom{SHS}{This row is exactly redundant with the previous row, it just has a different population name.}  & 30.741797 & -95.474508 & Sam Houston State University Field Station \\
-ELVI & RL5  & 30.471717 & -99.783803 & Texas Tech University Field Station, Junction \\
-ELVI & PALM & 29.591623 & -97.584781 & Palmetto State Park, TX \\
-ELVI & JLP  & 29.785105 & -90.114933 & Jean Lafitte Park, outside of New Orleans \\
-\bottomrule
-\end{tabular}
-\end{table}
-\clearpage  % forces the next figure to start on a new page
+\begin{sidewaystable}
+	\centering
+	\input{source_table.tex}
+	\caption{Geographic coordinates and descriptions of source populations for study species. For each source population, the table shows the total number of plants included in the experiment, the number of unique genotypes that these plants comrised, and the average amount of clonal replication per genotype.}
+	\label{tab:source_pop}
+\end{sidewaystable}
+\clearpage
 
 \begin{table}[ht]
 \caption[Geographic coordinates of common garden sites for study species]{Common garden sites used for reciprocal transplant and environmental manipulation studies.}

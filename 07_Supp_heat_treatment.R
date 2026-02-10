@@ -12,6 +12,16 @@ datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initial
 ##combine SHS and HUNT pops
 datini %<>% mutate(Population = recode_factor(Population, SHS = "HUNT"))
 
+##read in greenhouse inventory (all the plants we reared -- those in the experiment and many others)
+greenhouse<-read_excel("Data/2022-23_Greenhouse_Inventory.xlsx",sheet="Range Limit Greenhouse")
+str(greenhouse)
+#why is real_endo a character vector?
+unique(greenhouse$real_endo) ##because the excel function populates with "NA"
+##combine SHS and HUNT pops
+greenhouse %<>% mutate(POPULATION = recode_factor(POPULATION, SHS = "HUNT"))
+
+# source populations ------------------------------------------------------
+
 ##read in source info
 sources<-read.csv("Data/endo_range_limits_experiment- Source Population.csv")
 ## drop SHS since it's a duplicate row with HUNT
@@ -48,14 +58,6 @@ sources %<>%
                           "E. virginicus" = "ELVI",
                           "P. autumnalis" = "POAU"))
 
-##read in greenhouse inventory (all the plants we reared -- those in the experiment and many others)
-greenhouse<-read_excel("Data/2022-23_Greenhouse_Inventory.xlsx",sheet="Range Limit Greenhouse")
-str(greenhouse)
-#why is real_endo a character vector?
-unique(greenhouse$real_endo) ##because the excel function populates with "NA"
-##combine SHS and HUNT pops
-greenhouse %<>% mutate(POPULATION = recode_factor(POPULATION, SHS = "HUNT"))
-  
 ##how many genotypes from each soure population were used?
 source_tab1<-datini %>% 
   group_by(Species,Population) %>% 
@@ -68,7 +70,7 @@ source_tab2<-datini %>%
   group_by(Species,Population) %>% 
   summarise(mean_clones=mean(clones),min_clones=min(clones),max_clones=max(clones))
 
-## combine into table for manuscript
+## combine into table for manuscript, print out as .tex file, import into manuscript
 supp_table_sources<-left_join(sources %>% filter(Population!="WB"),#no WB in the experiment
           left_join(source_tab1,source_tab2,by=c("Species","Population")),
           by=c("Species","Population")) %>% 
@@ -89,9 +91,12 @@ align(tab)<-"lllrrp{0.2\\textwidth}p{2cm}p{2cm}p{2cm}" ## wrap notes
 print(tab,file = "Manuscript/source_table.tex",include.rownames=F,
   sanitize.text.function=identity,floating=F)
 
+
+# endophyte scores --------------------------------------------------------
+
 ##filter the source pops in the greenhouse inventory 
 ##to only include those used in the experiment
-greenhouse %>% %>%
+greenhouse %>%
   filter(POPULATION %in% datini$Population) %>% 
   #filter only plants with scores
   filter(!is.na(Leaf_peel_liberal)|!is.na(Leaf_peel_conservative)|

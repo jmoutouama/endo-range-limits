@@ -290,26 +290,26 @@ se_matrix <- sapply(ordered_sites, function(s){
 })
 
 # Calculate mean annual precipitation per site
-mean_ppt_per_site <- prism_summary %>%
-  group_by(site) %>%
-  summarise(mean_ppt = mean(sum_ppt, na.rm = TRUE))
+# mean_ppt_per_site <- prism_summary %>%
+#   group_by(site) %>%
+#   summarise(mean_ppt = mean(sum_ppt, na.rm = TRUE))
 
 # Join with garden site coordinates
-garden_sites_ppt <- data.frame(
-  site = garden_aghy$site_code,
-  lon  = coordinates(garden_aghy)[,1],
-  mean_ppt  = mean_ppt_per_site$mean_ppt[match(garden_aghy$site_code, mean_ppt_per_site$site)]
-)
+# garden_sites_ppt <- data.frame(
+#   site = garden_aghy$site_code,
+#   lon  = coordinates(garden_aghy)[,1],
+#   mean_ppt  = mean_ppt_per_site$mean_ppt[match(garden_aghy$site_code, mean_ppt_per_site$site)]
+# )
+# 
+# # Order sites west → east
+# garden_sites_ppt_west_east <- garden_sites_ppt[order(garden_sites_ppt$lon), ]
 
-# Order sites west → east
-garden_sites_ppt_west_east <- garden_sites_ppt[order(garden_sites_ppt$lon), ]
-
-# Prepare barplot values and labels
-mean_ppt_west_east <- garden_sites_ppt_west_east$mean_ppt
-names(mean_ppt_west_east) <- garden_sites_ppt_west_east$site
+# # Prepare barplot values and labels
+# mean_ppt_west_east <- garden_sites_ppt_west_east$mean_ppt
+# names(mean_ppt_west_east) <- garden_sites_ppt_west_east$site
 
 # Maps (Figure 1) ----
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map.pdf",
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map1.pdf",
     width=9, height=10.5)
 
 # Define layout as a 3x2 grid
@@ -385,48 +385,98 @@ legend(
   cex    = 0.9
 )
 
-### Panel D (barplot ordered largest → smallest)
+### Panel D (barplot per site per year)
+### Panel D (barplot per site per year)
 par(mar=c(6,4,4,1))
-barplot(
-  mean_ppt_west_east,
-  col="#E69F00",
-  xlab="Sites",
-  ylab="Cumulative Precipitation (mm)",
-  ylim=c(0, max(mean_ppt_west_east)*1.1),
-  las=2,
-  cex.lab=1.2,
-  cex.names=0.75
+
+# Convert prism_summary to a wide matrix: rows = sites, columns = years
+library(dplyr)
+library(tidyr)
+prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+
+# Example: create ppt_matrix for one species, e.g., AGHY
+ppt_matrix <- prism_summary_census %>%
+  dplyr::group_by(site, census_year) %>%
+  dplyr::summarise(cum_ppt = mean(cum_ppt), .groups = "drop") %>%  # average duplicates
+  tidyr::pivot_wider(
+    id_cols = site,
+    names_from = census_year,
+    values_from = cum_ppt
+  ) %>%
+  column_to_rownames("site") %>%
+  as.matrix()
+
+# Reorder sites west → east
+ppt_matrix <- ppt_matrix[ordered_sites, ]
+
+# Colors for years
+#year_colors <- c("2023" = "lightgreen", "2024" = "salmon", "2025" = "goldenrod")
+year_colors <- c("2023" = "lightgreen",   # green
+                 "2024" = "salmon",       # pink-orange
+                 "2025" = "cornflowerblue")  # blue
+
+
+# Create barplot
+bp <- barplot(
+  t(ppt_matrix),              # transpose so bars are grouped by site
+  beside = TRUE,              # grouped bars
+  col = year_colors[colnames(ppt_matrix)],
+  names.arg = rownames(ppt_matrix),
+  ylim = c(0, max(ppt_matrix, na.rm=TRUE) * 1.1),
+  las = 2,
+  cex.lab = 1.2,
+  cex.names = 0.75,
+  xlab = "Sites",
+  ylab = "Annual Precipitation (mm)"
 )
+
 mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
 box()
+
+# Add legend
+legend(
+  "topleft",
+  legend = colnames(ppt_matrix),
+  fill = year_colors[colnames(ppt_matrix)],
+  bty = "n",
+  cex = 1
+)
+
 ### Panel E
-par(mar=c(0, 0, 0, 0))  
-plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
+#par(mar=c(0, 0, 0, 0)) 
+par(mar=c(1,0,1,0))
+#plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
+plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.8), axes=FALSE, xlab="", ylab="", main="", asp=1)
+
 mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
 
 # fenced
-rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
-# plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
-# plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+#rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
+rect(0.1, 0.2, 1.6, 1.5, border="black", lwd=2)
+plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
+plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 set.seed(13)  
 signs1 <- sample(c("+", "−"), length(plants1_x), replace = TRUE)
 text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
 
-mtext("Fenced", side=3, at=0.85, line=-4, cex=0.9)
+mtext("Fenced", side=3, at=0.85, line=-4, cex=1.2)
 
 # unfenced
-rect(1.9, 0.1, 3.4, 1.6, border=NA)
-segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
-segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
-# plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
-# plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+# rect(1.9, 0.1, 3.4, 1.6, border=NA)
+# segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
+# segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
+rect(1.9, 0.2, 3.4, 1.5, border=NA)
+segments(1.9,0.2,3.4,0.2, col="black", lwd=2)
+segments(1.9,1.5,3.4,1.5, col="black", lwd=2)
+plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
+plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 set.seed(13)
 signs2 <- sample(c("+", "−"), length(plants2_x), replace = TRUE)
 text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 
-mtext("Unfenced", side=3, at=2.65, line=-4, cex=0.9)
+mtext("Unfenced", side=3, at=2.65, line=-4, cex=1.2)
 
 ### Panel F
 par(mar = c(8, 4, 2, 1))  # bottom, left, top, right
@@ -453,7 +503,7 @@ arrows(
   y1 = mean_matrix + se_matrix,
   angle = 90, code = 3, length = 0.07
 )
-
+box()
 # Add clear legend
 legend(
   "topright",

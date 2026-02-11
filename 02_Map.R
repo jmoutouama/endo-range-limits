@@ -2,6 +2,7 @@
 # Purpose: Maps of Common garden experiment for Agrostis hyemalis, Elymus virginicus and Poa autumnalis across a climatic gradient. 
 # Authors: Jacob Moutouama
 # Date last modified (Y-M-D): 
+
 # remove all objects and clear workspace
 rm(list = ls(all=TRUE))
 # load packages
@@ -15,6 +16,8 @@ library(prism)
 library(MESS)
 library(mgcv)
 library(maps)
+library(dplyr)
+library(tidyr)
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
@@ -193,8 +196,6 @@ crs(source_poau) <- CRS1
 
 # Climatic data----
 prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x231nlm6rtm96uqffsv03/prism_means.rds?rlkey=w29usaquhd1u1w3u7guf1rgbp&dl=1"))
-
-
 # Study area shapefile ----
 study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
 study_area <- study_area[(study_area$State_Name %in% c("TEXAS","LOUISIANA")), ]
@@ -236,7 +237,6 @@ datini <-clean_tag(datini)
 dat23 <-clean_tag(dat23) 
 
 datini23 <- right_join(x = datini, y = dat23, by = "Tag_ID")
-
 
 dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1")
 dat24ini<-read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1")
@@ -300,7 +300,7 @@ datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/h
 ## Merge the demographic data with the herbivory data
 dat23_herb <- left_join(x = datini23, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 dat24_herb <- left_join(x = dat24_sp_site_tag, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Species")) # Merge the demographic data with the herbivory data
+dat25_herb <- left_join(x = dat25_plot, y = datherbivory, by = c("Site","Plot", "Species")) # Merge the demographic data with the herbivory data
 
 dat23_herb_plot <- dat23_herb %>%
   group_by(Site, Plot, Herbivory) %>%
@@ -452,8 +452,6 @@ legend(
 par(mar=c(6,4,4,1))
 
 # Convert prism_summary to a wide matrix: rows = sites, columns = years
-library(dplyr)
-library(tidyr)
 prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
 unique(prism_summary_census$census_year)
 # Example: create ppt_matrix for one species, e.g., AGHY
@@ -473,9 +471,8 @@ ppt_matrix <- ppt_matrix[ordered_sites, ]
 
 # Colors for years
 #year_colors <- c("2023" = "lightgreen", "2024" = "salmon", "2025" = "goldenrod")
-year_colors <- c("2023" = "lightgreen",   # green
-                 "2024" = "salmon",       # pink-orange
-                 "2025" = "cornflowerblue")  # blue
+year_colors <- c( "2024" = "salmon",       # pink-orange
+                 "2025" = "lightgreen")  # blue
 
 
 # Create barplot
@@ -506,7 +503,7 @@ legend(
 
 ### Panel E
 #par(mar=c(0, 0, 0, 0)) 
-par(mar=c(1,0,1,0))
+par(mar=c(4,2,2,1))  
 #plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
 plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.8), axes=FALSE, xlab="", ylab="", main="", asp=1)
 
@@ -541,7 +538,7 @@ text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 mtext("Unfenced", side=3, at=2.65, line=-4, cex=1.2)
 
 ### Panel F
-par(mar = c(8, 4, 2, 1))  # bottom, left, top, right
+par(mar=c(4,2,2,1))  # same for both E and F
 mtext("F", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
 
 bp <- barplot(
@@ -577,234 +574,228 @@ legend(
 
 dev.off()
 
-## 2024 
-dat24_herb_plot <- dat24_herb %>%
-  group_by(Site, Plot, Herbivory) %>%
-  summarise(
-    prop_plants_damaged = mean(tiller_herb_24 > 0, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-# Summarize per Site × Herbivory
-summary_24 <- dat24_herb_plot %>%
-  group_by(Site, Herbivory) %>%
-  summarise(
-    Mean = mean(prop_plants_damaged, na.rm = TRUE),
-    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
-    .groups = "drop"
-  )
-
-# Define colors
-herb_levels <- c(0,1)  # 0 = Fenced, 1 = Unfenced
-colors <- c("lightgreen", "salmon")
+## Herbivory for 2024 and 2025
+# Define herbivory levels and colors
+herb_levels <- c(1,0)  # 1 = Fenced, 0 = Unfenced
+colors <- c("grey15","grey80")
 names(colors) <- herb_levels
 
-# Create matrix for barplot (rows = Herbivory, columns = Site)
-site_ids <- unique(summary_24$Site)
-mean_matrix <- sapply(site_ids, function(s){
-  sapply(herb_levels, function(h){
-    v <- summary_24$Mean[summary_24$Site==s & summary_24$Herbivory==h]
-    if(length(v)==0) NA else v
-  })
-})
-
-# Create SE matrix
-se_matrix <- sapply(site_ids, function(s){
-  sapply(herb_levels, function(h){
-    v <- summary_24$SE[summary_24$Site==s & summary_24$Herbivory==h]
-    if(length(v)==0) NA else v
-  })
-})
-
-# Export barplot as PDF
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot24.pdf",
-    width = 5, height = 4)
-
-bp <- barplot(
-  height = mean_matrix,
-  beside = TRUE,
-  names.arg = site_ids,
-  col = colors,
-  ylim = c(0, max(mean_matrix + se_matrix, na.rm=TRUE) * 1.2),
-  ylab = "Proportion of damaged plants",
-  xlab="Sites",
-  main = "",
-  las = 2,
-  cex.names = 0.6
-)
-# Add error bars
-arrows(
-  x0 = bp,
-  y0 = mean_matrix - se_matrix,
-  x1 = bp,
-  y1 = mean_matrix + se_matrix,
-  angle = 90, code = 3, length = 0.05
-)
-
-# Add legend
-legend(0,0.95, legend = c("Unfenced", "Fenced"), fill = colors, bty = "n", cex = 0.8)
-
-dev.off()
-
-
-# Summarize data per plot and herbivory
-dat24_herb_plot_by_species <- dat24_herb %>%
-  group_by(Species, Site, Plot, Herbivory) %>%
-  summarise(
-    prop_plants_damaged = mean(tiller_herb_24 > 0, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-# Summarize per Site × Herbivory × Species
-summary_24 <- dat24_herb_plot_by_species %>%
-  group_by(Species, Site, Herbivory) %>%
-  summarise(
-    Mean = mean(prop_plants_damaged, na.rm = TRUE),
-    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
-    .groups = "drop"
-  )
-
-# Define colors and herbivory levels (1 = Fenced, 0 = Unfenced)
-herb_levels <- c(1, 0)  # reordered
-colors <- c("salmon","lightgreen")
-names(colors) <- herb_levels
-
-# Get species list
-species_list <- unique(summary_24$Species)
-
-# Export barplots as a multi-page PDF
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot24_by_species.pdf",
-    width = 5, height = 4)
-
-for (sp in species_list) {
-  
-  sp_data <- summary_24 %>% filter(Species == sp)
-  site_ids <- unique(sp_data$Site)
-  
-  # Create numeric mean matrix (rows = Herbivory, columns = Site)
-  mean_matrix <- matrix(
-    as.numeric(sapply(site_ids, function(s){
-      sapply(herb_levels, function(h){
-        v <- sp_data$Mean[sp_data$Site==s & sp_data$Herbivory==h]
-        if(length(v)==0) NA else v
-      })
-    })),
-    nrow = length(herb_levels), byrow = FALSE
-  )
-  
-  # SE matrix
-  se_matrix <- matrix(
-    as.numeric(sapply(site_ids, function(s){
-      sapply(herb_levels, function(h){
-        v <- sp_data$SE[sp_data$Site==s & sp_data$Herbivory==h]
-        if(length(v)==0) NA else v
-      })
-    })),
-    nrow = length(herb_levels), byrow = FALSE
-  )
-  
-  # Create barplot with italic species name
-  bp <- barplot(
-    height = mean_matrix,
-    beside = TRUE,
-    names.arg = site_ids,
-    col = colors,
-    ylim = c(0, max(mean_matrix + se_matrix, na.rm=TRUE) * 1.2),
-    ylab = "Proportion of damaged plants",
-    xlab = "Sites",
-    main = substitute(italic(sp_name), list(sp_name = sp)),
-    las = 2,
-    cex.names = 0.6
-  )
-  
-  # Add error bars
-  arrows(
-    x0 = bp,
-    y0 = mean_matrix - se_matrix,
-    x1 = bp,
-    y1 = mean_matrix + se_matrix,
-    angle = 90, code = 3, length = 0.05
-  )
-  
-  # Add legend (Fenced = 1, Unfenced = 0)
-  legend("topright", legend = c("Fenced", "Unfenced"), fill = colors, bty = "n", cex = 0.8)
+# Function to summarize data per year
+summarize_herb <- function(dat, year_col, tiller_col){
+  dat %>%
+    group_by(Site, Plot, Herbivory) %>%
+    summarise(
+      prop_plants_damaged = mean(.data[[tiller_col]] > 0, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    group_by(Site, Herbivory) %>%
+    summarise(
+      Mean = mean(prop_plants_damaged, na.rm = TRUE),
+      SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
+      .groups = "drop"
+    ) %>%
+    filter(!is.na(Site) & !is.na(Herbivory))
 }
 
-dev.off()
+# Summarize 2024
+summary_24 <- summarize_herb(dat24_herb, "date_24", "tiller_herb_24")
+# Summarize 2025
+summary_25 <- summarize_herb(dat25_herb, "date_25", "tiller_herb_25")  # assuming dat25_herb exists
 
-# Climatic census ----
-prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+# Combine into wide matrices, ordered by ordered_sites
+make_matrix <- function(summary_df){
+  mat <- sapply(ordered_sites, function(s){
+    sapply(herb_levels, function(h){
+      v <- summary_df$Mean[summary_df$Site==s & summary_df$Herbivory==h]
+      if(length(v)==0) NA else v
+    })
+  })
+  rownames(mat) <- herb_levels
+  mat
+}
 
-# Aggregate cum_ppt by site and year
-# Aggregate cum_ppt by site and year
-site_data <- aggregate(cum_ppt ~ site + census_year, data = prism_summary_census, sum)
+make_se_matrix <- function(summary_df){
+  mat <- sapply(ordered_sites, function(s){
+    sapply(herb_levels, function(h){
+      v <- summary_df$SE[summary_df$Site==s & summary_df$Herbivory==h]
+      if(length(v)==0) NA else v
+    })
+  })
+  rownames(mat) <- herb_levels
+  mat
+}
 
-# Ensure site is a factor with the desired order
-site_data$site <- factor(site_data$site, levels = c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON"))
+mean_matrix_24 <- make_matrix(summary_24)
+se_matrix_24 <- make_se_matrix(summary_24)
 
-# Reshape into matrix: rows = sites, columns = years
-library(reshape2)
-bar_matrix <- dcast(site_data, site ~ census_year, value.var = "cum_ppt", fill = 0)
-rownames(bar_matrix) <- bar_matrix$site
-bar_matrix <- as.matrix(bar_matrix[, c("2024", "2025")])
+mean_matrix_25 <- make_matrix(summary_25)
+se_matrix_25 <- make_se_matrix(summary_25)
 
-# Side-by-side bar plot
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/climate_census_years.pdf",
-    width = 5, height = 4)
-barplot(
-  t(bar_matrix),             # transpose so 2024 and 2025 are beside each other
+# Export combined plot
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot_24_25.pdf",
+    width = 8, height = 4)
+
+par(mfrow=c(1,2), mar=c(5,4,3,1))  # side-by-side panels
+
+# --- Panel 2024 ---
+bp1 <- barplot(
+  height = mean_matrix_24,
   beside = TRUE,
-  col = c("skyblue", "orange"),
-  legend.text = c("2024", "2025"),
-  args.legend = list(x = "topright"),
-  main = "",
-  ylim=c(0,7000),
+  names.arg = ordered_sites,
+  col = colors,
+  ylim = c(0, max(c(mean_matrix_24 + se_matrix_24,
+                    mean_matrix_25 + se_matrix_25), na.rm = TRUE) * 1.2),
+  ylab = "Proportion of damaged plants",
   xlab = "Sites",
-  ylab = "Cumulative Precipitation (mm)",
-  las = 1
+  main = "2024",
+  las = 2,
+  cex.names = 0.75
 )
+arrows(
+  x0 = bp1,
+  y0 = mean_matrix_24 - se_matrix_24,
+  x1 = bp1,
+  y1 = mean_matrix_24 + se_matrix_24,
+  angle = 90, code = 3, length = 0.05
+)
+box()
+# --- Panel 2025 ---
+bp2 <- barplot(
+  height = mean_matrix_25,
+  beside = TRUE,
+  names.arg = ordered_sites,
+  col = colors,
+  ylim = c(0, max(c(mean_matrix_24 + se_matrix_24,
+                    mean_matrix_25 + se_matrix_25), na.rm = TRUE) * 1.2),
+  ylab = "",
+  xlab = "Sites",
+  main = "2025",
+  las = 2,
+  cex.names = 0.75
+)
+arrows(
+  x0 = bp2,
+  y0 = mean_matrix_25 - se_matrix_25,
+  x1 = bp2,
+  y1 = mean_matrix_25 + se_matrix_25,
+  angle = 90, code = 3, length = 0.05
+)
+box()
+# Shared legend
+legend("topleft", legend = c("Fenced","Unfenced"), fill = colors, bty = "n", cex = 0.9)
+
 dev.off()
 
-# Order sites west-to-east
-ordered_sites <- garden_sites_ppt$site[order(garden_sites_ppt$lon)]
+## Herbivory per species  and per year
+# Define herbivory levels and colors
+herb_levels <- c(0,1)  # 0 = Fenced, 1 = Unfenced
+colors <- c("grey80","grey15")
+names(colors) <- herb_levels
 
-# Years
-years <- sort(unique(prism_summary$year))
+# Function to summarize herbivory per dataset
+summarize_herb <- function(dat, tiller_col){
+  # Remove rows with NA in key columns
+  dat <- dat %>% filter(!is.na(Species), !is.na(Site), !is.na(Herbivory))
+  
+  if(!tiller_col %in% colnames(dat)){
+    stop(paste("Column", tiller_col, "not found in dataset"))
+  }
+  
+  # Compute proportion damaged per Plot
+  summary_plot <- dat %>%
+    group_by(Species, Site, Plot, Herbivory) %>%
+    summarise(
+      prop_plants_damaged = mean(.data[[tiller_col]] > 0, na.rm = TRUE),
+      .groups = "drop"
+    )
+  
+  # Summarize per Species × Site × Herbivory
+  summary_site <- summary_plot %>%
+    group_by(Species, Site, Herbivory) %>%
+    summarise(
+      Mean = mean(prop_plants_damaged, na.rm = TRUE),
+      SE   = if(n() > 1) sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()) else 0,
+      .groups = "drop"
+    )
+  
+  return(summary_site)
+}
 
-# Create matrices for barplot (years as rows, sites as columns) in west-east order
-ppt_mat <- sapply(ordered_sites, function(s) prism_summary$sum_ppt[prism_summary$site==s])
-temp_mat <- sapply(ordered_sites, function(s) prism_summary$mean_temp[prism_summary$site==s])
-rownames(ppt_mat) <- years
-rownames(temp_mat) <- years
-colnames(ppt_mat) <- ordered_sites
-colnames(temp_mat) <- ordered_sites
+# Summarize all years
+summary_23 <- summarize_herb(dat23_herb, "tiller_Herb_23")
+summary_24 <- summarize_herb(dat24_herb, "tiller_herb_24")
+summary_25 <- summarize_herb(dat25_herb, "tiller_herb_25")
 
-# Colors for years (color-blind friendly)
-cols <- c("#0072B2", "#D55E00", "#009E73")
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/temp_pppt_site_year.pdf",
-    width=10, height=12)
+# List of summaries and years
+summary_list <- list("2023"=summary_23, "2024"=summary_24, "2025"=summary_25)
+years <- names(summary_list)
 
-# Layout with custom heights (ppt taller, temp shorter)
-layout(matrix(1:2, ncol=1), heights=c(2.5, 1))  # 2.5:1 ratio
+# Function to create mean & SE matrices per species
+make_matrices <- function(summary_df, species){
+  df <- summary_df %>% filter(Species == species)
+  
+  mean_matrix <- sapply(ordered_sites, function(s){
+    sapply(herb_levels, function(h){
+      v <- df$Mean[df$Site==s & df$Herbivory==h]
+      if(length(v)==0) NA else v
+    })
+  })
+  rownames(mean_matrix) <- herb_levels
+  
+  se_matrix <- sapply(ordered_sites, function(s){
+    sapply(herb_levels, function(h){
+      v <- df$SE[df$Site==s & df$Herbivory==h]
+      if(length(v)==0) NA else v
+    })
+  })
+  rownames(se_matrix) <- herb_levels
+  
+  list(mean=mean_matrix, se=se_matrix)
+}
 
-# Increase label sizes
-par(mar=c(5,6,2,2), cex.lab=1.5, cex.axis=1.3)  # margins, axis and label sizes
+# PDF output
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_species_years.pdf",
+    width = 12, height = 8)
 
-# --- Precipitation ---
-barplot(ppt_mat, beside=TRUE, col=cols,
-        ylim=c(0,max(ppt_mat)*1.2),
-        names.arg=ordered_sites,
-        xlab="Site", ylab="Annual Precipitation (mm)")
-legend("topleft", legend=years, fill=cols, title="Year", cex=1.2)
-box()
-mtext("A", side=3, adj=0, line=0.25, cex=2)
+# Layout: rows = species, cols = years
+species_list <- c("AGHY","ELVI","POAU")
+par(mfrow=c(length(species_list), length(years)), mar=c(5,4,3,1))
 
-# --- Temperature ---
-barplot(temp_mat, beside=TRUE, col=cols,
-        ylim=c(0,max(temp_mat)*1.2),
-        names.arg=ordered_sites,
-        xlab="Site", ylab="Mean Temperature (°C)")
-box()
-mtext("B", side=3, adj=0, line=0.25, cex=2)
+# Loop over species and years
+for(species in species_list){
+  for(yr in years){
+    mats <- make_matrices(summary_list[[yr]], species)
+    mean_matrix <- mats$mean
+    se_matrix <- mats$se
+    
+    bp <- barplot(
+      height = mean_matrix,
+      beside = TRUE,
+      names.arg = ordered_sites,
+      col = colors,
+      ylim = c(0, max(unlist(lapply(summary_list, function(s){ 
+        max(s$Mean + s$SE, na.rm=TRUE) 
+      })), na.rm=TRUE) * 1.2),
+      ylab = ifelse(yr=="2023", "Proportion of damaged plants",""),
+      xlab = "Sites",
+      main = paste(species, "-", yr),
+      las = 2,
+      cex.names = 0.75
+    )
+    
+    arrows(
+      x0 = bp,
+      y0 = mean_matrix - se_matrix,
+      x1 = bp,
+      y1 = mean_matrix + se_matrix,
+      angle = 90, code = 3, length = 0.05
+    )
+    box()
+    # Add legend only on first panel
+    if(species == species_list[1] & yr==years[1]){
+      legend("topright", legend=c("Unfenced","Fenced"), fill=colors, bty="n", cex=1)
+    }
+  }
+}
 
 dev.off()

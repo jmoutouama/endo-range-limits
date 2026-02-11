@@ -217,31 +217,90 @@ col_precip_rev <- rev(col_precip)
 
 # Fenced plots change herbivory that plants experience
 ## Data
-datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
-dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
-## Match the data with initial data 
-dat23_sp <- dat23 %>%
-  left_join(
-    datini %>%
-      dplyr::select(Site, Species, Plot, Position, Tag_ID, Population, 
-                    GreenhouseID, Clone, Endo),
-    by = "Tag_ID"
-  ) %>%
-  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C")))
-#Combine datini and dat23
-combined_data <- bind_rows(datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")], dat23_sp[,c("Site","Species","Plot","Tag_ID","Population","Endo" )])%>% 
+# Helper function to clean Tag_ID
+clean_tag <- function(df) {
+  df %>%
+    mutate(
+      Tag_ID = as.character(Tag_ID),        # ensure character
+      Tag_ID = str_trim(Tag_ID),            # trim leading/trailing spaces
+      Tag_ID = str_squish(Tag_ID)           # remove extra spaces inside
+    )
+}
+
+## Load census data
+datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1")
+dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1")
+
+# Ensure Tag_ID is numeric in both tables
+datini <-clean_tag(datini)
+dat23 <-clean_tag(dat23) 
+
+datini23 <- right_join(x = datini, y = dat23, by = "Tag_ID")
+
+
+dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1")
+dat24ini<-read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1")
+dat24 <- clean_tag(dat24)
+dat24ini <-clean_tag(dat24ini)
+
+# Combine initial and 2023 census
+combined_data <- bind_rows(
+  datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")],
+  datini23[,c("Site","Species","Plot","Tag_ID","Population","Endo")]
+) %>%
   distinct(Tag_ID, .keep_all = TRUE)
 
-dat24_sp<-left_join(x = dat24, y = combined_data, by = c("Tag_ID")) %>% 
-  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit"))) %>% 
-  filter(!is.na(Species))
+dat24_sp_site_tag <- dat24 %>%
+  # join combined_data for extra columns including Site, Plot, Species, Population, Endo
+  left_join(
+    combined_data %>% dplyr::select(Tag_ID, Site, Plot, Species, Population, Endo),
+    by = "Tag_ID"
+  ) %>%
+  # join initial 2024 plantings to fill any missing metadata
+  left_join(
+    dat24ini %>% dplyr::select(Tag_ID, Site, Species, Plot),
+    by = "Tag_ID",
+    suffix = c("", "_ini")
+  ) %>%
+  # coalesce to fill missing Site, Species, Plot
+  mutate(
+    Site = coalesce(Site, Site_ini),
+    Species = coalesce(Species, Species_ini),
+    Plot = coalesce(Plot, Plot_ini)
+  ) %>%
+  # remove unwanted measurement columns and the temporary "_ini" columns
+  dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit",
+                          "attachedInf_24","brokenInf_24",
+                          "Site_ini","Species_ini","Plot_ini")))
+# datini23 %>%
+#   mutate(Tag_ID_num = as.numeric(Tag_ID)) %>%
+#   filter(Tag_ID_num >= 75 & Tag_ID_num <= 85)
+#dat24_sp_site_tag %>% filter(Tag_ID %in% missing_tags$Tag_ID)
+
+dat25 <- read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1")
+# Ensure Tag_ID is character and trim whitespace
+dat25 <- clean_tag(dat25)
+
+dat25_plot <- dat25 %>%
+  left_join(
+    dat24_sp_site_tag %>% dplyr::select(Tag_ID, Site, Species, Plot),
+    by = "Tag_ID"
+  ) %>%
+  mutate(
+    Site    = coalesce(Site.x, Site.y),
+    Species = coalesce(Species.x, Species.y),
+    Plot    = Plot  # <-- this will fill Plot from dat24
+  ) %>%
+  dplyr::select(-ends_with(".x"), -ends_with(".y"))
+
+# Check duplicates
+dat25_plot %>% count(Tag_ID) %>% filter(n > 1)
+datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
+
 ## Merge the demographic data with the herbivory data
-dat23_herb <- left_join(x = dat23_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-dat24_herb <- left_join(x = dat24_sp, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
-#dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+dat23_herb <- left_join(x = datini23, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+dat24_herb <- left_join(x = dat24_sp_site_tag, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
+dat25_herb <- left_join(x = dat25, y = datherbivory, by = c("Site", "Species")) # Merge the demographic data with the herbivory data
 
 dat23_herb_plot <- dat23_herb %>%
   group_by(Site, Plot, Herbivory) %>%
@@ -252,12 +311,15 @@ dat23_herb_plot <- dat23_herb %>%
 
 #  Summarize per Site × Herbivory
 summary_23 <- dat23_herb_plot %>%
+  filter(!is.na(Site) & !is.na(Herbivory)) %>%  # remove rows with missing grouping variables
   group_by(Site, Herbivory) %>%
   summarise(
     Mean = mean(prop_plants_damaged, na.rm = TRUE),
-    SE   = sd(prop_plants_damaged, na.rm = TRUE)/sqrt(n()),
+    SE   = sd(prop_plants_damaged, na.rm = TRUE) / sqrt(sum(!is.na(prop_plants_damaged))),
     .groups = "drop"
-  )
+  ) %>%
+  filter(!is.nan(Mean))  # remove groups with all NA
+
 
 # Define colors
 # Extract site codes and longitudes
@@ -393,7 +455,7 @@ par(mar=c(6,4,4,1))
 library(dplyr)
 library(tidyr)
 prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
-
+unique(prism_summary_census$census_year)
 # Example: create ppt_matrix for one species, e.g., AGHY
 ppt_matrix <- prism_summary_census %>%
   dplyr::group_by(site, census_year) %>%

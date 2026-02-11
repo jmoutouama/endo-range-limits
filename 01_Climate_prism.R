@@ -140,15 +140,24 @@ datini <-clean_tag(datini)
 dat23 <-clean_tag(dat23) 
 
 datini23 <- right_join(x = datini, y = dat23, by = "Tag_ID")
-datini23 %>%
-  dplyr::select(Site, Plot,Species, date_23) %>%
-  distinct() -> date_sp_site23
+date_sp_site23 <- datini23 %>%
+  dplyr::select(Site, Plot, Species, date_23) %>%
+  distinct() %>%
+  filter(!is.na(Site) & !is.na(Species) & !is.na(Plot))
 
 dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1")
 dat24ini<-read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1")
 dat24 <- clean_tag(dat24)
+#unique(dat24$date_24)
+#which(dat24$date_24 == "CO+IR 2-24-1 E+")
+#which(dat24$date_24 == "2026-06-24")
+#which(dat24$date_24 == "2025-05-23")
 dat24ini <-clean_tag(dat24ini)
-
+dat24ini <- dat24ini %>%
+  mutate(
+    date_24 = mdy(date_24)  # converts "2-26-2024" to "2024-02-26"
+  )
+#unique(dat24ini$date_24)
 # Combine initial and 2023 census
 combined_data <- bind_rows(
   datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")],
@@ -178,28 +187,16 @@ dat24_sp_site_tag <- dat24 %>%
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit",
                           "attachedInf_24","brokenInf_24",
                           "Site_ini","Species_ini","Plot_ini")))
-# datini23 %>%
-#   mutate(Tag_ID_num = as.numeric(Tag_ID)) %>%
-#   filter(Tag_ID_num >= 75 & Tag_ID_num <= 85)
-#dat24_sp_site_tag %>% filter(Tag_ID %in% missing_tags$Tag_ID)
-
+#unique(dat24_sp_site_tag$date_24)
 dat24_sp_site_tag %>%
   dplyr::select(Site,Plot, Species, date_24) %>%
   distinct() %>%
   na.omit() -> date_sp_site24
-
-date_sp_site_ini_24 <- dat24ini %>%
-  dplyr::select(Site, Plot, Species, date_24) %>%
-  distinct() %>%
-  na.omit() %>%
-  mutate(
-    # Parse the current m/d/yyyy format
-    date_24 = mdy(date_24)  # lubridate::mdy converts "3-6-2024" to Date class
-  )
-
+#unique(date_sp_site24$date_24)
 dat25 <- read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1")
 # Ensure Tag_ID is character and trim whitespace
 dat25 <- clean_tag(dat25)
+#unique(dat25$date_25)
 
 dat25_plot <- dat25 %>%
   left_join(
@@ -215,7 +212,7 @@ dat25_plot <- dat25 %>%
 
 # Check duplicates
 dat25_plot %>% count(Tag_ID) %>% filter(n > 1)
-
+#unique(dat25_plot$date_25)
 
 dat25_plot %>%
   dplyr::select(Site,Plot,Species, date_25) %>%
@@ -231,68 +228,47 @@ date_sp_site24_unique <- date_sp_site24 %>%
   group_by(Site, Species) %>%
   summarise(date_24 = max(as.Date(date_24)), .groups = "drop")
 
-
 census_dates_23_24 <- date_sp_site23_unique %>%
   left_join(date_sp_site24_unique, by = c("Site", "Species")) %>%
   rename(start_date = date_23, end_date = date_24) %>%
   mutate(
-    end_date = if_else(is.na(end_date), start_date + years(1), end_date),
-    census_year = paste(year(end_date)),
-    start_year  = year(start_date),
-    start_month = month(start_date),
-    end_year    = year(end_date),
-    end_month   = month(end_date)
+    start_year  = lubridate::year(start_date),
+    start_month = lubridate::month(start_date),
+    end_year    = lubridate::year(end_date),
+    end_month   = lubridate::month(end_date)
   )
 #view(census_dates_23_24)
 # head(census_dates_23_24)
 
 ## Compute cumulative precipitation and mean temperature per species × site for 2023–2024
+#  Summarise main 2024 data by Site, Plot, Species
 date_sp_site24_unique <- date_sp_site24 %>%
   group_by(Site, Plot, Species) %>%
-  summarise(date_24 = min(as.Date(date_24)), .groups = "drop")
+  summarise(date_24_main = min(as.Date(date_24)), .groups = "drop")
 
-date_sp_ini_site24_unique <- date_sp_site_ini_24 %>%
-  mutate(date_24 = as.Date(date_24, format = "%m-%d-%Y")) %>%
-  group_by(Site, Plot, Species) %>%
-  summarise(date_24 = max(date_24), .groups = "drop")
-
+# Summarise 2025 data
 date_sp_site25_unique <- date_sp_site25 %>%
   group_by(Site, Plot, Species) %>%
   summarise(date_25 = max(as.Date(date_25)), .groups = "drop")
 
-date_sp_site24_updated <- date_sp_site24_unique %>%
-  left_join(
-    date_sp_ini_site24_unique,
-    by = c("Site", "Plot", "Species"),
-    suffix = c("_main", "_replanted")
-  ) %>%
-  mutate(date_24 = coalesce(date_24_replanted, date_24_main)) %>%
-  dplyr::select(Site, Plot, Species, date_24)
-
-census_dates_24_25 <- date_sp_site24_updated %>%
-  left_join(date_sp_site25_unique, by = c("Site", "Plot", "Species")) %>%
+# Combine 2024 and 2025 for census dates
+census_dates_24_25 <- date_sp_site24_unique %>%
+  full_join(date_sp_site25_unique, by = c("Site", "Species")) %>%
   rename(start_date = date_24, end_date = date_25) %>%
   mutate(
-    end_date = if_else(is.na(end_date), start_date + years(1), end_date),
+    # If 2025 date missing, leave as NA (don't backfill)
+    census_year = year(end_date),
     start_year  = year(start_date),
     start_month = month(start_date),
     end_year    = year(end_date),
-    end_month   = month(end_date),
-    census_year = year(end_date)
+    end_month   = month(end_date)
   )
 
+# Check
+census_dates_24_25
+view(census_dates_24_25)
 # COLLAPSE CENSUS WINDOWS TO SITE × SPECIES
-census_site_species_24_25 <- census_dates_24_25 %>%
-  group_by(Site, Species) %>%
-  summarise(
-    start_year  = min(start_year),
-    start_month = min(start_month),
-    end_year    = max(end_year),
-    end_month   = max(end_month),
-    census_year = max(census_year),
-    .groups = "drop"
-  )
-
+# Ensure census_site_species tables assign census_year = end_year
 census_site_species_23_24 <- census_dates_23_24 %>%
   group_by(Site, Species) %>%
   summarise(
@@ -300,19 +276,29 @@ census_site_species_23_24 <- census_dates_23_24 %>%
     start_month = min(start_month),
     end_year    = max(end_year),
     end_month   = max(end_month),
-    census_year = max(census_year),
+    census_year = max(end_year),  # assign census_year to the end year
     .groups = "drop"
   )
 
-# CLIMATE WINDOWS
+census_site_species_24_25 <- census_dates_24_25 %>%
+  group_by(Site, Species) %>%
+  summarise(
+    start_year  = min(start_year),
+    start_month = min(start_month),
+    end_year    = max(end_year),
+    end_month   = max(end_month),
+    census_year = max(end_year),
+    .groups = "drop"
+  )
+
+# ---- CLIMATE DATA ----
 climate_monthly <- climate_garden_1995_2025 %>%
   mutate(date = as.Date(paste(year, month, "01", sep = "-")))
 
 # ---- 2023–2024 ----
 climate_2023_2024 <- climate_monthly %>%
-  filter(date >= as.Date("2023-05-01"),
-         date <= as.Date("2024-06-01")) %>%
-  inner_join(census_site_species_23_24, by = c("site" = "Site")) %>%
+  inner_join(census_site_species_23_24, by = c("site" = "Site"), relationship = "many-to-many") %>%
+  # Keep only months inside each site × species census window
   filter(
     (year > start_year | (year == start_year & month >= start_month)) &
       (year < end_year   | (year == end_year   & month <= end_month))
@@ -326,9 +312,7 @@ climate_2023_2024 <- climate_monthly %>%
 
 # ---- 2024–2025 ----
 climate_2024_2025 <- climate_monthly %>%
-  filter(date >= as.Date("2024-05-01"),
-         date <= as.Date("2025-06-01")) %>%
-  inner_join(census_site_species_24_25, by = c("site" = "Site")) %>%
+  inner_join(census_site_species_24_25, by = c("site" = "Site"), relationship = "many-to-many") %>%
   filter(
     (year > start_year | (year == start_year & month >= start_month)) &
       (year < end_year   | (year == end_year   & month <= end_month))
@@ -340,14 +324,12 @@ climate_2024_2025 <- climate_monthly %>%
     .groups = "drop"
   )
 
-# COMBINE ALL YEARS
-climate_2023_2024 <- climate_2023_2024 %>%
-  mutate(census_year = as.integer(census_year))
+# ---- COMBINE ALL YEARS ----
+climate_census_years <- bind_rows(climate_2023_2024, climate_2024_2025)
 
-climate_census_years <- bind_rows(
-  climate_2023_2024,
-  climate_2024_2025
-)
+# Check unique census years
+unique(climate_census_years$census_year)
+
 # view(climate_census_years)
 # saveRDS(climate_census_years, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
 

@@ -18,6 +18,8 @@ library(mgcv)
 library(maps)
 library(dplyr)
 library(tidyr)
+library(reshape2)
+
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
@@ -797,5 +799,54 @@ for(species in species_list){
     }
   }
 }
+
+dev.off()
+
+# Load climate census data
+prism_summary_census <- readRDS(url(
+  "https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"
+))
+
+# Ensure site is a factor with desired west-to-east order
+ordered_sites <- c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON")
+prism_summary_census$site <- factor(prism_summary_census$site, levels = ordered_sites)
+
+# Aggregate mean temperature by site and year
+temp_data <- aggregate(mean_tmean ~ site + census_year, data = prism_summary_census, mean)
+
+# Reshape into matrix: rows = years, columns = sites
+temp_matrix <- dcast(temp_data, census_year ~ site, value.var = "mean_tmean")
+rownames(temp_matrix) <- temp_matrix$census_year
+temp_matrix <- as.matrix(temp_matrix[, -1, drop=FALSE])  # remove year column
+
+# Years (rows)
+years <- as.character(temp_matrix[,1])  # optional if you want to reference
+
+# Colors for years (color-blind friendly)
+cols <- c("#0072B2", "#D55E00", "#009E73")  # adjust depending on number of years
+num_years <- nrow(temp_matrix)
+if(length(cols) < num_years) cols <- rainbow(num_years)
+
+# Export temperature-only barplot
+pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/temp_census_years.pdf",
+    width = 8, height = 4)
+
+par(mar=c(5,6,3,2), cex.lab=1.5, cex.axis=1.3)
+
+# Transpose so years are grouped side-by-side
+barplot(
+  temp_matrix,        # transpose to get years beside each site
+  beside = TRUE,
+  col = cols[1:nrow(temp_matrix)],
+  names.arg = ordered_sites,
+  ylim = c(0, max(temp_matrix, na.rm = TRUE) * 1.8),
+  xlab = "Site",
+  ylab = "Mean Temperature (°C)",
+  las = 1
+)
+legend("topleft", legend = rownames(temp_matrix), fill = cols[1:nrow(temp_matrix)],
+       title = "Year", cex = 1.2)
+box()
+#mtext("Temperature", side = 3, adj = 0, line = 0.25, cex = 1.5)
 
 dev.off()

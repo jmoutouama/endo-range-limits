@@ -63,6 +63,10 @@ source_tab1<-datini %>%
   group_by(Species,Population) %>% 
   summarise(number_plants=n(),number_genotypes=length(unique(GreenhouseID)))
 
+datini %>% 
+  group_by(Species) %>% 
+  summarise(number_plants=n(),number_genotypes=length(unique(GreenhouseID)))
+
 ##what was the average (and range of) clonal replication per population?
 source_tab2<-datini %>% 
   group_by(Species,Population,GreenhouseID) %>% 
@@ -70,6 +74,13 @@ source_tab2<-datini %>%
   group_by(Species,Population) %>% 
   summarise(mean_clones=mean(clones),min_clones=min(clones),max_clones=max(clones))
 
+## how many sources per species?
+sources %>% group_by(Species) %>% summarise(n())##but POAU WB not used
+##what was the average number of genotypes per source?
+source_tab1 %>% summarise(mean(number_genotypes))
+##and the average number of clones per genotype?
+source_tab2 %>% summarise(mean(mean_clones))
+  
 ## combine into table for manuscript, print out as .tex file, import into manuscript
 supp_table_sources<-left_join(sources %>% filter(Population!="WB"),#no WB in the experiment
           left_join(source_tab1,source_tab2,by=c("Species","Population")),
@@ -161,8 +172,26 @@ scored_greenhouse_genotypes %>%
   group_by(SPECIES,POPULATION,ENDOPHYTE) %>% 
   summarise(count=n(),
             prevalence_liberal=mean(mean_liberal),
-            prevalence_conservative=mean(mean_conservative)) %>% View
+            prevalence_conservative=mean(mean_conservative))->endo_scores
 
-  
-scored_greenhouse_genotypes %>% 
-  recode_factor(POPULATION,SHS="HUNT")
+##mean prevalence by species
+endo_scores %>% group_by(SPECIES,ENDOPHYTE) %>% summarise(mean(prevalence_liberal))
+
+treatment_table<-endo_scores %>% 
+  ungroup() %>%
+  mutate(Species = fct_recode(factor(SPECIES),
+                               "A. hyemalis" = "AGHY",
+                               "E. virginicus" = "ELVI",
+                               "P. autumnalis" = "POAU"),
+         Treatment = fct_recode(factor(ENDOPHYTE),"Heat"="E+/- Heat","Control"="E+ Con")) %>% 
+  rename(Population=POPULATION,
+        `\\%E+`=prevalence_liberal,
+         N=count) %>% 
+  select(Species,Population,Treatment,N,`\\%E+`)%>% 
+  mutate(Species = paste0("\\textit{", Species, "}"))
+
+print(xtable(treatment_table),file = "Manuscript/treatment_table.tex",include.rownames=F,
+      sanitize.text.function=identity,floating = FALSE,)
+
+##what was the mean E+ prevalence in controls?
+treatment_table %>% filter(Treatment=="Control") %>% summarise(mean(`\\%E+`))

@@ -54,6 +54,19 @@ dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census20
 dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
 dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
 datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
+# Helper function to clean Tag_ID
+clean_tag <- function(df) {
+  df %>%
+    mutate(
+      Tag_ID = as.character(Tag_ID),        # ensure character
+      Tag_ID = str_trim(Tag_ID),            # trim leading/trailing spaces
+      Tag_ID = str_squish(Tag_ID)           # remove extra spaces inside
+    )
+}
+datini <-clean_tag(datini)
+dat23 <- clean_tag(dat23)
+dat24 <-clean_tag(dat24)
+dat25<-clean_tag(dat25)
 
 # Climatic data ----
 climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
@@ -68,54 +81,68 @@ climate_site_scaled <- climate_site %>%
 #saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
 
 # calculate the average spikelet and inflorescence number for each census
-dat23_spike <- dat23 %>%
-  mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
-    spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
-dat24_spike <- dat24 %>%
-  mutate(
-    spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-    Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
-    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
-  )
-dat25_spike <- dat25 %>%
-  mutate(
-    spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-    Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
-    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
-  )
-# calculate the total spikelet and inflorescence number for each census
 # dat23_spike <- dat23 %>%
 #   mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
-#     spikelet_23 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE))
-# 
+#     spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
 # dat24_spike <- dat24 %>%
 #   mutate(
-#     spikelet_24 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
-#     Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE),
-#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#     spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+#     Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
+#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
 #   )
-# 
 # dat25_spike <- dat25 %>%
 #   mutate(
-#     spikelet_25 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
-#     Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE),
-#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#     spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+#     Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
+#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
 #   )
+# 2023
+dat23_spike <- dat23 %>%
+  mutate(
+    mean_spikelet_23 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), # mean spikelets per sampled inflorescence
+    spikelet_23 = round(mean_spikelet_23 * Inf_23, 0),                         # estimate total spikelets per plant
+    Flowered_23 = ifelse(Inf_23 > 0, 1, 0)                                    # flowered or not
+  )
+# 2024: estimate total inflorescences and spikelets per plant
+dat24_spike <- dat24 %>%
+  mutate(
+    # Sum attached and broken inflorescences to get total number per plant
+    Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), 
+    
+    # Calculate the mean number of spikelets per sampled inflorescence (Spikelet_A, B, C)
+    mean_spikelet_24 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
+    
+    # Estimate total spikelets per plant: mean spikelets per inflorescence * total inflorescences
+    spikelet_24 = round(mean_spikelet_24 * Inf_24, 0),                       
+    
+    # Create a binary column: 1 if the plant has at least one inflorescence, 0 otherwise
+    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)                                   
+  )
 
+# 2025: same calculation as 2024
+dat25_spike <- dat25 %>%
+  mutate(
+    # Total inflorescences per plant
+    Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), 
+    
+    # Average spikelets per sampled inflorescence
+    mean_spikelet_25 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
+    
+    # Estimate total spikelets per plant
+    spikelet_25 = round(mean_spikelet_25 * Inf_25, 0),                       
+    
+    # Flowered binary column
+    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)                                   
+  )
 
 # Check for duplicate Tag_IDs
-datini$Tag_ID <- as.character(datini$Tag_ID)
-dat23_spike$Tag_ID <- as.character(dat23_spike$Tag_ID)
-dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
-dat24_spike$Tag_ID <- as.character(dat24_spike$Tag_ID)
-dat25_spike$Tag_ID <- as.character(dat25_spike$Tag_ID)
-#view(dat24_spike)
+# dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
 # dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
 # dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
 
 ## Merge the initial data to the 23 to get the Tag ID for each elements -----
 datini23_spike <- dat23_spike %>%
-  left_join(
+  right_join(
     datini %>%
       dplyr::select(Site, Species, Plot, Position, Tag_ID, Population, 
                     GreenhouseID, Clone, Endo),

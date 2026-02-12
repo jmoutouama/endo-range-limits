@@ -70,7 +70,7 @@ aghy<-rbind(aghy1,aghy2,aghy3)
 #dir.create("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Data/occurence")
 #elvi_occ_raw <- gbif(genus="Elymus",species="virginicus",download=TRUE) 
 elvi_occ_raw<-readRDS(url("https://www.dropbox.com/scl/fi/0ssa5gepxyz28b7ykw1x8/elvi_occ_raw.rds?rlkey=4dx0q4lw2112droh73hmh7xte&dl=1"))
-head(elvi_occ_raw) 
+#head(elvi_occ_raw) 
 elvi_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
   filter(!is.na(lat) & !is.na(lon)) %>% 
@@ -98,7 +98,7 @@ elvi<-rbind(elvi1,elvi2,elvi3)
 # Poa autumnalis ---
 #poa_occ_raw <- gbif(genus="Poa",species="autumnalis",download=TRUE) 
 poa_occ_raw<-readRDS(url("https://www.dropbox.com/scl/fi/oip7ndyf0d99rqxcqxb0q/poa_occ_raw.rds?rlkey=920uql1gd4gahnh8utw9fz96l&dl=1"))
-head(poa_occ_raw) 
+#head(poa_occ_raw) 
 poa_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
   filter(!is.na(lat) & !is.na(lon))%>% 

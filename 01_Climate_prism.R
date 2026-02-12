@@ -79,16 +79,17 @@ census_2023_raw <- read.csv(
   "https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1"
 ) %>% clean_tag()
 
-census_2023_unique <- census_2023_metadata %>%
-  dplyr::select(Site, Plot, Species, date_23) %>%
-  distinct() %>%
-  filter(!is.na(Site) & !is.na(Species) & !is.na(Plot))
-
 census_2023_metadata <- right_join(
   x = census_initial_plantings,
   y = census_2023_raw,
   by = "Tag_ID"
 )
+census_2023_unique <- census_2023_metadata %>%
+  dplyr::select(Site, Plot, Species, date_23) %>%
+  distinct() %>%
+  filter(!is.na(Site) & !is.na(Species) & !is.na(Plot))
+
+
 
 census_2024_raw <- read.csv(
   "https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1"
@@ -185,7 +186,6 @@ census_windows_2024_2025 <- census_dates_2024_full %>%
     end_year    = year(end_date),
     end_month   = month(end_date)
   )
-
 
 census_windows_by_site_species_23_24 <- census_windows_2023_2024 %>%
   group_by(Site, Species) %>%

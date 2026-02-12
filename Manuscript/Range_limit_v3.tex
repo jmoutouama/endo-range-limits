@@ -604,18 +604,22 @@ $\Delta$ELPD represents the difference in expected log predictive density relati
 \toprule
 \textbf{Vital rate} & \textbf{Model type} & & \textbf{$\Delta$ELPD} & \textbf{SE} \\
 \midrule
-Survival      & Endophyte $\times$ Climate                     & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory                   & & $-4.65$ & 2.05 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-5.23$ & 3.82 \\
-Growth        & Endophyte $\times$ Climate                     & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory                   & & $-0.27$ & 3.24 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-0.31$ & 3.51 \\
-Inflorescence & Endophyte $\times$ Climate                     & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory                   & & $-0.74$ & 2.70 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-0.90$ & 3.39 \\
-Spikelet      & Endophyte $\times$ Climate                     & & 0.00   & 0.00 \\
-              & Endophyte $\times$ Herbivory                   & & $-0.92$ & 3.31 \\
-              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-3.27$ & 2.44 \\
+Survival      & Endophyte $\times$ Climate                     & & 0.00    & 0.00 \\
+              & Endophyte $\times$ Herbivory                   & & $-0.33$ & 2.60 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-1.92$ & 1.43 \\
+              & Endophyte + Climate + Herbivory               & & $-4.98$ & 3.24 \\
+Growth        & Endophyte $\times$ Climate                     & & 0.00    & 0.00 \\
+              & Endophyte $\times$ Herbivory                   & & $-1.72$ & 1.99 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-2.04$ & 3.05 \\
+              & Endophyte + Climate + Herbivory               & & $-2.47$ & 3.72 \\
+Inflorescence & Endophyte $\times$ Climate                     & & 0.00    & 0.00 \\
+              & Endophyte $\times$ Herbivory                   & & $-1.65$ & 1.81 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-3.02$ & 2.65 \\
+              & Endophyte + Climate + Herbivory               & & $-4.65$ & 2.70 \\
+Spikelet      & Endophyte $\times$ Climate                     & & 0.00    & 0.00 \\
+              & Endophyte $\times$ Herbivory                   & & $-0.56$ & 2.25 \\
+              & Endophyte $\times$ Climate $\times$ Herbivory  & & $-0.95$ & 1.54 \\
+              & Endophyte + Climate + Herbivory               & & $-4.23$ & 1.87 \\
 \bottomrule
 \end{tabular}
 \label{tab:comp_table_driver}
@@ -775,14 +779,14 @@ ELPD difference is relative to the best model.}
 \hline
 \textbf{Vital rate} & \textbf{Model type} & \textbf{ELPD difference} & \textbf{SE difference} \\
 \hline
-Survival        & Quadratic & 0       & 0.00 \\
-Survival        & Linear    & -0.055  & 1.09 \\
-Growth          & Quadratic & 0       & 0.00 \\
-Growth          & Linear    & -0.187  & 1.33 \\
-Inflorescence   & Quadratic & 0       & 0.00 \\
-Inflorescence   & Linear    & -1.510  & 1.43 \\
-Spikelet        & Quadratic & 0       & 0.00 \\
-Spikelet        & Linear    & -0.849  & 1.32 \\
+Survival        & Quadratic & 0.00  & 0.00 \\
+Survival        & Linear    & -0.50 & 0.84 \\
+Growth          & Quadratic & 0.00  & 0.00 \\
+Growth          & Linear    & -0.04 & 1.03 \\
+Inflorescence   & Quadratic & 0.00  & 0.00 \\
+Inflorescence   & Linear    & -0.11 & 0.64 \\
+Spikelet        & Quadratic & 0.00  & 0.00 \\
+Spikelet        & Linear    & -0.56 & 0.52 \\
 \hline
 \end{tabular}
 \end{table}
@@ -1060,6 +1064,36 @@ Elymus virginicus & Herbivory exclusion & 1.35 & 0.928 & 1.98 & 0.0942 \\
 \end{landscape}
 \clearpage  % forces the next figure to start on a new page
 
+%\begin{landscape}
+%\begin{table}[ht]
+%\centering
+%\caption{Comparison of predictive performance (ELPD differences) among models of vital rates. Models with interactions are indicated by ``x'', additive models by ``+''. Negative ELPD differences indicate worse predictive performance relative to the best model for each vital rate.}
+%\label{tab:elpd_model_comparison}
+%\begin{tabular}{llrr}
+%\hline
+%Vital rate & Model type & ELPD difference & SE difference \\
+%\hline
+%Survival        & Endophyte × climate             & 0.000  & 0.00 \\
+%Survival        & Endophyte × herb                & -0.327 & 2.60 \\
+%Survival        & Endophyte × climate × herb      & -1.92  & 1.43 \\
+%Survival        & Endophyte + climate + herb      & -4.98  & 3.24 \\
+%Growth          & Endophyte × climate             & 0.000  & 0.00 \\
+%Growth          & Endophyte × herb                & -1.72  & 1.99 \\
+%Growth          & Endophyte × climate × herb      & -2.04  & 3.05 \\
+%Growth          & Endophyte + climate + herb      & -2.47  & 3.72 \\
+%Inflorescence   & Endophyte × climate             & 0.000  & 0.00 \\
+%Inflorescence   & Endophyte × herb                & -1.65  & 1.81 \\
+%Inflorescence   & Endophyte × climate × herb      & -3.02  & 2.65 \\
+%Inflorescence   & Endophyte + climate + herb      & -4.65  & 2.70 \\
+%Spikelet        & Endophyte × climate             & 0.000  & 0.00 \\
+%Spikelet        & Endophyte × herb                & -0.561 & 2.25 \\
+%Spikelet        & Endophyte × climate × herb      & -0.950 & 1.54 \\
+%Spikelet        & Endophyte + climate + herb      & -4.23  & 1.87 \\
+%\hline
+%\end{tabular}
+%\end{table}
+%\end{landscape}
+%
 
 \subsection{Supporting Figures}
 \begin{figure}[ht]

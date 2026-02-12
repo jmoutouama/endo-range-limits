@@ -46,8 +46,8 @@ compute_loo <- function(fit) {
 }
 
 # Survival models ----
-fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/tsyih2vbg04zf9odu2goe/fit_surv_abio_bio_endo.rds?rlkey=tp4no6tfv5mb6f85jwtkqfuyg&dl=1"))
-fit_surv_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/fjq0aa56baziu3g6im205/fit_surv_abio_bio_endo.rds?rlkey=cqz351n8gwnpmfmcypiolx8tc&dl=1"))
+fit_surv_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vz1nxc2310os0u83skn6/fit_surv_abio_bio_endo_linear.rds?rlkey=mmghgcfx1glfwzg0t56wa42d4&dl=1"))
 
 loo_surv <- compute_loo(fit_surv_abio_bio_endo)
 loo_surv_linear <- compute_loo(fit_surv_abio_bio_endo_linear)
@@ -56,8 +56,8 @@ comp_surv <- loo::loo_compare(loo_surv, loo_surv_linear)
 comp_surv
 
 # Growth models ----
-fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/4r5062xbfc66gqh5l6xbz/fit_grow_abio_bio_endo.rds?rlkey=spnn4nj0zvzfsss1kn3qsnocj&dl=1"))
-fit_grow_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/x5gpxjlzwfr6a997ka4gn/fit_grow_abio_bio_endo.rds?rlkey=otlvalgg26h7y0qcy84u33rf2&dl=1"))
+fit_grow_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/jxujzmf5rcgptbzqbyu8u/fit_grow_abio_bio_endo_linear.rds?rlkey=hxs21k5algqp86md8aqsgc59c&dl=1"))
 
 loo_grow <- compute_loo(fit_grow_abio_bio_endo)
 loo_grow_linear <- compute_loo(fit_grow_abio_bio_endo_linear)
@@ -66,8 +66,8 @@ comp_grow <- loo::loo_compare(loo_grow, loo_grow_linear)
 comp_grow
 
 # Inflorescence models ----
-fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/rnkijsri04jtrczshfmp6/fit_inf_abio_bio_endo.rds?rlkey=kyxj4f6mpwdp5m78wi0p6v64r&dl=1"))
-fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/hlwxsi38dhf1qswjyhwsp/fit_inf_abio_bio_endo.rds?rlkey=p96ec0vxfg71z5i9w6sft7mxp&dl=1"))
+fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/vn7ms9zrp91svfr9o9wy8/fit_inf_abio_bio_endo_linear.rds?rlkey=accz66armitumo1y2n142q3tj&dl=1"))
 
 loo_inf <- compute_loo(fit_inf_abio_bio_endo)
 loo_inf_linear <- compute_loo(fit_inf_abio_bio_endo_linear)
@@ -76,8 +76,8 @@ comp_inf <- loo::loo_compare(loo_inf, loo_inf_linear)
 comp_inf
 
 # Spikelet models ----
-fit_spik_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/pebuc3ysvv9rrr2dvihl2/fit_spik_abio_bio_endo.rds?rlkey=f1l4q9ucvk4h4236600zoyjci&dl=1"))
-fit_spik_ppt_abiotic_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+fit_spik_ppt_abiotic <- readRDS(url("https://www.dropbox.com/scl/fi/aptez3xb4v5n60l0fcf71/fit_spik_abio_bio_endo.rds?rlkey=wdp4g5r8vs2jg6rwwr70tuskc&dl=1"))
+fit_spik_ppt_abiotic_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vnqhv5f8q5r0xkyiz8jw/fit_spik_abio_bio_endo_linear.rds?rlkey=0fhzukeb0294bskqv7boheokm&dl=1"))
 
 loo_spik <- compute_loo(fit_spik_ppt_abiotic)
 loo_spik_linear <- compute_loo(fit_spik_ppt_abiotic_linear)
@@ -111,55 +111,60 @@ print(comp_table)
 
 # What drive the outcome of symbiosis ? 
 # Survival models ----
-fit_surv_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/hfqoeo14h5fs4chl6dodb/fit_surv_endo_clim.rds?rlkey=qcw7rtpz31khpeplm5wuco6qg&dl=1"))
-fit_surv_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/y288qm224kc1rz0jyfzhe/fit_surv_endo_herb.rds?rlkey=f95fswt5g0xthvoezw1mpyiao&dl=1"))
-fit_surv_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+fit_surv_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/2n6zta5vijb6xt3djhxw7/fit_surv_endo_clim.rds?rlkey=pvrg561oekfzbua2a2p9cdfbm&dl=1"))
+fit_surv_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/1b41a0twrz3x1kkeu5937/fit_surv_endo_herb.rds?rlkey=w6tn6iyy37o3zedq5soulgnck&dl=1"))
+fit_surv_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vz1nxc2310os0u83skn6/fit_surv_abio_bio_endo_linear.rds?rlkey=mmghgcfx1glfwzg0t56wa42d4&dl=1"))
+fit_surv_abio_bio_endo_linear_wi <- readRDS(url("https://www.dropbox.com/scl/fi/mkkl86jzneey71hrsqay3/fit_surv_abio_bio_endo_linear_wi.rds?rlkey=zaxr4h1d4arhrygtq8dog674d&dl=1"))
 
 loo_surv_endo_clim <- compute_loo(fit_surv_endo_clim)
 loo_surv_endo_herb <- compute_loo(fit_surv_endo_herb)
 loo_surv_abio_bio_endo_linear <- compute_loo(fit_surv_abio_bio_endo_linear)
+loo_surv_abio_bio_endo_linear_wi <- compute_loo(fit_surv_abio_bio_endo_linear_wi)
 
-
-comp_surv_driver <- loo::loo_compare(loo_surv_endo_clim, loo_surv_endo_herb,loo_surv_abio_bio_endo_linear)
+comp_surv_driver <- loo::loo_compare(loo_surv_endo_clim, loo_surv_endo_herb,loo_surv_abio_bio_endo_linear,loo_surv_abio_bio_endo_linear_wi)
 comp_surv_driver
 
 # Growth models ----
-fit_grow_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/ufdm43yzjg0dqjliuo2ri/fit_grow_endo_clim.rds?rlkey=kq9mswjtx554g114nr65v0i8p&dl=1"))
-fit_grow_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/avidlmm6htcy59nvsg2m6/fit_grow_endo_herb.rds?rlkey=ilyuu0qjcwxr7ydudbe08krer&dl=1"))
-fit_grow_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+fit_grow_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/rznv7exh29hss75ar3k1m/fit_grow_endo_clim.rds?rlkey=lc6rtgvweux5g2a2r8x81cmu6&dl=1"))
+fit_grow_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/fi738wqjpuqznfq3k2a03/fit_grow_endo_herb.rds?rlkey=3mpe134uxsdcz22j5sqitgfpo&dl=1"))
+fit_grow_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/jxujzmf5rcgptbzqbyu8u/fit_grow_abio_bio_endo_linear.rds?rlkey=hxs21k5algqp86md8aqsgc59c&dl=1"))
+fit_grow_abio_bio_endo_linear_wi <- readRDS(url("https://www.dropbox.com/scl/fi/xxr1pjaye1b2pgs54t4um/fit_grow_abio_bio_endo_linear_wi.rds?rlkey=mzv0vdhh5gik8r0cve12lo66o&dl=1"))
 
 loo_grow_endo_clim <- compute_loo(fit_grow_endo_clim)
 loo_grow_endo_herb <- compute_loo(fit_grow_endo_herb)
 loo_grow_abio_bio_endo_linear <- compute_loo(fit_grow_abio_bio_endo_linear)
+loo_grow_abio_bio_endo_linear_wi <- compute_loo(fit_grow_abio_bio_endo_linear_wi)
 
-
-comp_grow_driver <- loo::loo_compare(loo_grow_endo_clim, loo_grow_endo_herb,loo_grow_abio_bio_endo_linear)
+comp_grow_driver <- loo::loo_compare(loo_grow_endo_clim, loo_grow_endo_herb,loo_grow_abio_bio_endo_linear,loo_grow_abio_bio_endo_linear_wi)
 comp_grow_driver
 
 # Inflorescence models ----
-fit_inf_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/k0drs7vhqz86rizmrveyj/fit_inf_endo_clim.rds?rlkey=cy9l8foe16y5g7j7kmjusy53j&dl=1"))
-fit_inf_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/xv6sxf4q6e1b6xbgts7j3/fit_inf_endo_herb.rds?rlkey=zgmilm8daq9kvvi93afi4z3sw&dl=1"))
-fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+fit_inf_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/t9t32qq2hvd892bxa13ql/fit_inf_endo_clim.rds?rlkey=6ygzhdc9k7oj2o8uohcy7wbji&dl=1"))
+fit_inf_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/bjo9gkxxpvk2cms4weyej/fit_inf_endo_herb.rds?rlkey=tskx6axw8vl0qjfy0t17v0wnu&dl=1"))
+fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/vn7ms9zrp91svfr9o9wy8/fit_inf_abio_bio_endo_linear.rds?rlkey=accz66armitumo1y2n142q3tj&dl=1"))
+fit_inf_abio_bio_endo_linear_wi <- readRDS(url("https://www.dropbox.com/scl/fi/vu3rwpapiuhgyop1cpcwm/fit_inf_abio_bio_endo_linear_wi.rds?rlkey=32cbzcgbjq5tx912jbm1zzgn6&dl=1"))
 
 loo_inf_endo_clim <- compute_loo(fit_inf_endo_clim)
 loo_inf_endo_herb <- compute_loo(fit_inf_endo_herb)
 loo_inf_abio_bio_endo_linear <- compute_loo(fit_inf_abio_bio_endo_linear)
+loo_inf_abio_bio_endo_linear_wi <- compute_loo(fit_inf_abio_bio_endo_linear_wi)
 
-
-comp_inf_driver <- loo::loo_compare(loo_inf_endo_clim, loo_inf_endo_herb,loo_inf_abio_bio_endo_linear)
+comp_inf_driver <- loo::loo_compare(loo_inf_endo_clim, loo_inf_endo_herb,loo_inf_abio_bio_endo_linear,loo_inf_abio_bio_endo_linear_wi)
 comp_inf_driver
 
 # Spikelets models ----
-fit_spik_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/0j6g437ycf5z3udw97naz/fit_spik_endo_clim.rds?rlkey=270oqdolmcqq7u8wl2cdgn35c&dl=1"))
-fit_spik_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/f3jmc2u2sebt255fe342y/fit_spik_endo_herb.rds?rlkey=nbng4yyuvb09sjx10sua8g16m&dl=1"))
-fit_spik_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+fit_spik_endo_clim <- readRDS(url("https://www.dropbox.com/scl/fi/k7i6md4owzod6fligb2gm/fit_spik_endo_clim.rds?rlkey=cpwvsiz7w0pt3j7ckxhwfrhmg&dl=1"))
+fit_spik_endo_herb <- readRDS(url("https://www.dropbox.com/scl/fi/7dqrsbmqadgh7pp5bbalw/fit_spik_endo_herb.rds?rlkey=zbsa9emyp0rcrx7sxhrs4eq44&dl=1"))
+fit_spik_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vnqhv5f8q5r0xkyiz8jw/fit_spik_abio_bio_endo_linear.rds?rlkey=0fhzukeb0294bskqv7boheokm&dl=1"))
+fit_spik_abio_bio_endo_linear_wi <- readRDS(url("https://www.dropbox.com/scl/fi/4oan1tf3zl0nz7m5nz6pc/fit_spik_abio_bio_endo_linear_wi.rds?rlkey=thr7eubz4bi75m6041r96zyn1&dl=1"))
 
 loo_spik_endo_clim <- compute_loo(fit_spik_endo_clim)
 loo_spik_endo_herb <- compute_loo(fit_spik_endo_herb)
 loo_spik_abio_bio_endo_linear <- compute_loo(fit_spik_abio_bio_endo_linear)
+loo_spik_abio_bio_endo_linear_wi <- compute_loo(fit_spik_abio_bio_endo_linear_wi)
 
 
-comp_spik_driver <- loo::loo_compare(loo_spik_endo_clim, loo_spik_endo_herb,loo_spik_abio_bio_endo_linear)
+comp_spik_driver <- loo::loo_compare(loo_spik_endo_clim, loo_spik_endo_herb,loo_spik_abio_bio_endo_linear,loo_spik_abio_bio_endo_linear_wi)
 comp_spik_driver
 
 comp_table_driver <- bind_rows(
@@ -167,4 +172,11 @@ comp_table_driver <- bind_rows(
   extract_loo_table(comp_grow_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb"), "Growth"),
   extract_loo_table(comp_inf_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb"), "Inflorescence"),
   extract_loo_table(comp_spik_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb"), "Spikelet")
+)
+
+comp_table_driver <- bind_rows(
+  extract_loo_table(comp_surv_driver, c("Endophye x climate", "Endophye x herd","Endophye x climate x herb","Endophye + climate + herb"), "Survival"),
+  extract_loo_table(comp_grow_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Growth"),
+  extract_loo_table(comp_inf_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Inflorescence"),
+  extract_loo_table(comp_spik_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Spikelet")
 )

@@ -808,7 +808,7 @@ prism_summary_census <- readRDS(url(
 ))
 
 # Ensure site is a factor with desired west-to-east order
-ordered_sites <- c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON")
+ordered_sites <- rev(c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON"))
 prism_summary_census$site <- factor(prism_summary_census$site, levels = ordered_sites)
 
 # Aggregate mean temperature by site and year

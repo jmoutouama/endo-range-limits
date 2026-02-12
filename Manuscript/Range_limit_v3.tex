@@ -503,7 +503,7 @@ More broadly, our study suggests that outcomes of endophyte-mediated mutualisms 
 \captionsetup[figure]{list=no}
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=1\textwidth]{../Figure/Prediction.pdf}
+    \includegraphics[width=1\textwidth]{../Figure/Prediction.png}
     \caption{Conceptual framework illustrating the predicted effects of abiotic stress, biotic stress, and endophyte-mediated mutualism on host plant fitness (adapted from \citep{porter2020beneficial}). 
     (a) \textbf{Endophyte-driven stress amelioration scenario:} Endophytes are predicted to enhance host performance under increasing abiotic stress (e.g., low precipitation) in the absence of herbivores by mitigating drought-related physiological costs. 
     %Abiotic stress is the primary driver of host fitness, and endophyte-mediated benefits become more pronounced as stress intensifies. 
@@ -680,6 +680,12 @@ Spikelet      & Endophyte $\times$ Climate                     & & 0.00   & 0.00
     &\quad + \beta_{\text{endo}\times \text{herb} \times P}[\text{Sp}_i]\,endo_i\,herb_i\,P_i
           + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
+
+    \item \textbf{Endophyte + Climate + Herbivory (main effects only):} includes all three predictors but no interactions:
+    \begin{align*}
+    \mu_i &= \beta_0[\text{Sp}_i] + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_P[\text{Sp}_i] P_i + \beta_{\text{herb}}[\text{Sp}_i]\,herb_i \\
+    &\quad + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
+    \end{align*}
 \end{enumerate}
 
 In these models, the $\beta$ coefficients represent species-specific effects. 
@@ -741,18 +747,18 @@ TAMU Sonora Station & SON & 30.273467 & -100.561463 \\
 \toprule
 \textbf{Species} & \textbf{Population} & \textbf{E$-$} & \textbf{E$+$} & \textbf{Total clones} \\
 \midrule
-\textit{Agrostis hyemalis} & COHR  & 238 & 242 & 480 \\
-\textit{Agrostis hyemalis} & LPEF  & 227 & 236 & 463 \\
-\textit{Agrostis hyemalis} & SJC   & 232 & 225 & 457 \\
-\textit{Elymus virginicus} & HUNT  & 89  & 19  & 108 \\
-\textit{Elymus virginicus} & JLP   & 156 & 135 & 291 \\
-\textit{Elymus virginicus} & PALM  & 319 & 423 & 742 \\
-\textit{Elymus virginicus} & RL5   & 141 & 81  & 222 \\
-\textit{Elymus virginicus} & SHS   & 1   & 49  & 50  \\
-\textit{Poa autumnalis}     & LA1   & 119 & 101 & 220 \\
-\textit{Poa autumnalis}     & LA2   & 201 & 233 & 434 \\
-\textit{Poa autumnalis}     & LA7   & 89  & 72  & 161 \\
-\textit{Poa autumnalis}     & SFAEF & 207 & 212 & 419 \\
+\textit{Agrostis hyemalis} & COHR  & 288 & 290 & 578 \\
+\textit{Agrostis hyemalis} & LPEF  & 270 & 286 & 556 \\
+\textit{Agrostis hyemalis} & SJC   & 284 & 262 & 546 \\
+\textit{Elymus virginicus} & HUNT  & 100 & 22  & 122 \\
+\textit{Elymus virginicus} & JLP   & 188 & 164 & 352 \\
+\textit{Elymus virginicus} & PALM  & 384 & 500 & 884 \\
+\textit{Elymus virginicus} & RL5   & 166 & 96  & 262 \\
+\textit{Elymus virginicus} & SHS   & 2   & 58  & 60  \\
+\textit{Poa autumnalis}     & LA1   & 142 & 116 & 258 \\
+\textit{Poa autumnalis}     & LA2   & 234 & 272 & 506 \\
+\textit{Poa autumnalis}     & LA7   & 102 & 80  & 182 \\
+\textit{Poa autumnalis}     & SFAEF & 242 & 252 & 494 \\
 \bottomrule
 \end{tabular}
 \label{tab:endo_counts}
@@ -1060,7 +1066,7 @@ Elymus virginicus & Herbivory exclusion & 1.35 & 0.928 & 1.98 & 0.0942 \\
 		\centering
 		\includegraphics[width=0.8\linewidth]{../Figure/temp_census_years.pdf}
 		\caption[spatial and temporal variation in precipitation and temperature across the experimental sites.] {
-		(A) Annual temperature (°C) for 2024 and 2025 census.
+		Annual temperature (°C) for 2024 and 2025 census.
 		Sites are arranged from west to east based on longitude.}
 		\label{sup:temp}
 \end{figure}
@@ -1071,7 +1077,7 @@ Elymus virginicus & Herbivory exclusion & 1.35 & 0.928 & 1.98 & 0.0942 \\
 		\includegraphics[width=1\linewidth]{../Figure/prop_damage_barplot_24_25.pdf}
 		\caption[Proportion of plants damaged by herbivory across sites in 2024 and 2025.] {
 		Proportion of plants damaged by herbivory across sites in 2024 and 2025.
-		Barplots show fenced (dark) versus unfenced (grey) plots for each site (ordered west to east: SON, KER, BFL, BAS, COL, HUN, LAF). 
+		Barplots show fenced (dark) versus unfenced (grey) plots for each site (ordered west to east). 
 Error bars indicate standard errors across plots within each site. 
 Panels show results for 2024 (left) and 2025 (right).}
 		\label{sup:herb}
@@ -1083,7 +1089,7 @@ Panels show results for 2024 (left) and 2025 (right).}
 		\includegraphics[width=1\linewidth]{../Figure/prop_damage_species_years.pdf}
 		\caption[Proportion of plants damaged by herbivory across sites in 2024 and 2025.] {
 		Proportion of plants damaged by herbivory across sites for three species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, \textit{Poa autumnalis}) over the years 2023–2025. 
-Barplots show fenced (grey80) versus unfenced (grey15) plots for each site (ordered west to east: SON, KER, BFL, BAS, COL, HUN, LAF). 
+Barplots show fenced (grey80) versus unfenced (grey15) proportion of damage for each site (ordered west to east: SON, KER, BFL, BAS, COL, HUN, LAF). 
 Error bars indicate standard errors across plots within each site. 
 Panels are arranged by species (rows) and year (columns), with the y-axis labeled only for the first column for clarity.}
 		\label{sup:herbsp}

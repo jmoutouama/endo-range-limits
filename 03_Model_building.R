@@ -81,59 +81,31 @@ climate_site_scaled <- climate_site %>%
   )
 #saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
 
-# calculate the average spikelet and inflorescence number for each census
-# dat23_spike <- dat23 %>%
-#   mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
-#     spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
-# dat24_spike <- dat24 %>%
-#   mutate(
-#     spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-#     Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
-#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
-#   )
-# dat25_spike <- dat25 %>%
-#   mutate(
-#     spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-#     Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
-#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
-#   )
-# 2023
+# 2023 reproductive metrics
+# 2023 reproductive metrics
 dat23_spike <- dat23 %>%
   mutate(
-    mean_spikelet_23 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), # mean spikelets per sampled inflorescence
-    spikelet_23 = round(mean_spikelet_23 * Inf_23, 0),                         # estimate total spikelets per plant
-    Flowered_23 = ifelse(Inf_23 > 0, 1, 0)                                    # flowered or not
-  )
-# 2024: estimate total inflorescences and spikelets per plant
-dat24_spike <- dat24 %>%
-  mutate(
-    # Sum attached and broken inflorescences to get total number per plant
-    Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), 
-    
-    # Calculate the mean number of spikelets per sampled inflorescence (Spikelet_A, B, C)
-    mean_spikelet_24 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
-    
-    # Estimate total spikelets per plant: mean spikelets per inflorescence * total inflorescences
-    spikelet_24 = round(mean_spikelet_24 * Inf_24, 0),                       
-    
-    # Create a binary column: 1 if the plant has at least one inflorescence, 0 otherwise
-    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)                                   
+    spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE)),  # rounded
+    total_spikelet_23 = round(spikelet_23 * Inf_23, digits = 0),
+    Flowered_23 = ifelse(Inf_23 > 0, 1, 0)
   )
 
-# 2025: same calculation as 2024
+# 2024 reproductive metrics
+dat24_spike <- dat24 %>%
+  mutate(
+    spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE)),  # rounded
+    Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
+    total_spikelet_24 = round(spikelet_24 * Inf_24, digits = 0),
+    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
+  )
+
+# 2025 reproductive metrics
 dat25_spike <- dat25 %>%
   mutate(
-    # Total inflorescences per plant
-    Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), 
-    
-    # Average spikelets per sampled inflorescence
-    mean_spikelet_25 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
-    
-    # Estimate total spikelets per plant
-    spikelet_25 = round(mean_spikelet_25 * Inf_25, 0),                       
-    
-    # Flowered binary column
-    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)                                   
+    spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE)),  # rounded
+    Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
+    total_spikelet_25 = round(spikelet_25 * Inf_25, digits = 0),
+    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
   )
 
 # Check for duplicate Tag_IDs
@@ -150,11 +122,13 @@ dat23_census <- dat23_spike %>%
     by = "Tag_ID"
   ) %>%
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit")))
-#names(dat23_census)
+
+# names(dat23_census)
 # unique(dat23_census$Species)
 # view(dat23_census)
 # dat23_census %>%
 #   filter(Tag_ID >= 75, Tag_ID <= 85)
+# summary(dat23_census)
 
 #Combine datini and dat23
 combined_data <- bind_rows(
@@ -162,17 +136,20 @@ combined_data <- bind_rows(
   dat23_census[,c("Site","Species","Plot","Tag_ID","Population","Endo")]
 ) %>%
   distinct(Tag_ID, .keep_all = TRUE)
-str(combined_data)
+
+#str(combined_data)
 # combined_data %>%
 #   filter(Tag_ID >= "075", Tag_ID <= "085")
 
 dat24_census<-left_join(x = dat24_spike, y = combined_data, by = c("Tag_ID")) %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_24","brokenInf_24"))) %>% 
   filter(!is.na(Species))
+
 #dat24_census %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
 # view(dat24_spike_sp_site_tag)
 # dat24_census %>%
 #   filter(Tag_ID >= "075", Tag_ID <= "085")
+# summary(dat24_census)
 
 dat24_census_full <- combined_data %>%
   left_join(dat24_spike, by = "Tag_ID") %>%
@@ -188,13 +165,16 @@ dat24_census_full <- combined_data %>%
     "attachedInf_24","brokenInf_24",
     "Site_ini","Species_ini","Plot_ini"
   )))
+
 # dat24_census_full %>%
 #   filter(Tag_ID >= "075", Tag_ID <= "085")
+#summary(dat24_census_full)
 
 dat25_census<- dat25_spike %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_25","brokenInf_25"))) 
 #dat25_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
 #names(dat25_census)
+# summary(dat25_census)
 
 dat2324 <- dat23_census %>%
   left_join(
@@ -202,8 +182,10 @@ dat2324 <- dat23_census %>%
       dplyr::select(Tag_ID, Flowered_24,Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
     by = "Tag_ID"
   ) 
+
 #names(dat2324)
 #unique(dat2324$Species)
+# summary(dat2324)
 
 dat2425 <- dat24_census_full %>%
   left_join(
@@ -211,6 +193,7 @@ dat2425 <- dat24_census_full %>%
       dplyr::select(Tag_ID, Flowered_25,Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
     by = "Tag_ID"
   )
+names(dat2425)
 #unique(dat2425$Species)
 #dat2425 %>% filter(is.na(Species)) %>% dplyr::select(Tag_ID, everything())
 
@@ -315,7 +298,6 @@ endo_counts <- dat_t_t1 %>%
 
 endo_counts
 
-
 ## Merge the demographic data with the herbivory data -----
 dat_t_t1_herb <- left_join(x = dat_t_t1, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
 # head(dat_t_t1_herb)
@@ -354,7 +336,19 @@ dat_t_t1_herb_clim %>%
     grow = ifelse(tiller_t>0 & tiller_t1>0,log(tiller_t1/tiller_t),NA_real_)
   ) -> demography_climate
 
-#saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
+# Check for missing key metadata
+demography_climate %>%
+  summarise(
+    n_missing_Site = sum(is.na(Site)),
+    n_missing_Species = sum(is.na(Species)),
+    n_missing_Plot = sum(is.na(Plot)),
+    n_missing_Population = sum(is.na(Population)),
+    total_rows = n(),
+    n_unique_Tag = n_distinct(Tag_ID)
+  )
+
+
+# saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
 
 ## check for TagIDs  duplicated within years
 # demography_climate %>%
@@ -451,6 +445,16 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+fit_surv_abio_bio_endo_linear_wi <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_main.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  seed = 13
+)
+
 fit_surv_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
   data = demography_surv_ppt,
@@ -499,6 +503,7 @@ fit_surv_endo_herb <- stan(
 ## Save RDS file for further use
 # saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
 # saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear_wi.rds')
 # saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
 # saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
 
@@ -568,6 +573,14 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+fit_grow_abio_bio_endo_linear_wi <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_main.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
 
 fit_grow_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
@@ -627,6 +640,7 @@ fit_grow_endo_herb <- stan(
 ## Save RDS file for further use
 # saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 # saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
+# saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
 # saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
 # saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
 
@@ -696,6 +710,14 @@ bayesplot::mcmc_trace(posterior_flow_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+fit_flow_abio_bio_endo_linear_wi <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering_main.stan",
+  data = demography_flow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
 
 fit_flow_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/flowering.stan",
@@ -722,6 +744,7 @@ bayesplot::mcmc_trace(posterior_flow_abio_bio_endo,
 
 ## Save RDS file for further use
 # saveRDS(fit_flow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo_linear.rds')
+# saveRDS(fit_flow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo_linear_wi.rds')
 # saveRDS(fit_flow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_flow_abio_bio_endo.rds')
 
 # Inflorescence----
@@ -790,6 +813,14 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+fit_inf_abio_bio_endo_linear_wi <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_main.stan",
+  data = demography_inf_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
 
 fit_inf_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence.stan",
@@ -834,6 +865,7 @@ fit_inf_endo_herb <- stan(
 
 ## Save RDS file for further use
 # saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
+# saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
 # saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
 # saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
 # saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
@@ -905,6 +937,15 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+fit_spik_abio_bio_endo_linear_wi <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_main.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control =sim_pars$control,
+  seed = 13)
+
 fit_spik_abio_bio_endo <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
   data = demography_spik_ppt,
@@ -937,6 +978,7 @@ fit_spik_endo_clim <- stan(
   chains = sim_pars$chains,
   control =sim_pars$control,
   seed = 13)
+
 fit_spik_endo_herb <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_herb.stan",
   data = demography_spik_ppt,
@@ -946,10 +988,11 @@ fit_spik_endo_herb <- stan(
   control =sim_pars$control,
   seed = 13)
 ## Save RDS file for further use
-saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
-saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
-saveRDS(fit_spik_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_clim.rds')
-saveRDS(fit_spik_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_herb.rds')
+# saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
+# saveRDS(fit_spik_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear_wi.rds')
+# saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
+# saveRDS(fit_spik_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_clim.rds')
+# saveRDS(fit_spik_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_herb.rds')
 
 # Posterior predictive check----
 # Quadratic models
@@ -998,7 +1041,7 @@ simulate_ppc <- function(pred_matrix, phi = NULL, zi = NULL,
 }
 bayesplot::color_scheme_set("blue")
 ## Survival Model full model----
-fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/tsyih2vbg04zf9odu2goe/fit_surv_abio_bio_endo.rds?rlkey=tp4no6tfv5mb6f85jwtkqfuyg&dl=1"))
+fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/fjq0aa56baziu3g6im205/fit_surv_abio_bio_endo.rds?rlkey=cqz351n8gwnpmfmcypiolx8tc&dl=1"))
 post_surv <- rstan::extract(fit_surv_abio_bio_endo)
 pred_surv <- post_surv$predS
 y_surv <- demography_surv_ppt$y
@@ -1006,14 +1049,13 @@ y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
 p_surv <- ppc_dens_overlay(y_surv, y_rep_surv) + ggtitle("Survival")
 
 ## Growth Model full model----
-fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/4r5062xbfc66gqh5l6xbz/fit_grow_abio_bio_endo.rds?rlkey=spnn4nj0zvzfsss1kn3qsnocj&dl=1"))
+fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/x5gpxjlzwfr6a997ka4gn/fit_grow_abio_bio_endo.rds?rlkey=otlvalgg26h7y0qcy84u33rf2&dl=1"))
 post_grow <- rstan::extract(fit_grow_abio_bio_endo)
 pred_grow <- post_grow$predG
 sigma_grow <- post_grow$sigma
 y_grow <- demography_grow_ppt$y
 y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
 p_grow <- ppc_dens_overlay(y_grow, y_rep_grow) + ggtitle("Growth")
-
 
 # ## Flowering Model full model ----
 # fit_flow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/5717xz8nt6sph3neq6jj9/fit_flow_abio_bio_endo.rds?rlkey=p4s7391sdqgepd89x53tbgw82&dl=1"))
@@ -1024,7 +1066,7 @@ p_grow <- ppc_dens_overlay(y_grow, y_rep_grow) + ggtitle("Growth")
 # p_flow <- ppc_dens_overlay(y_flow, y_rep_flow) + ggtitle("Flowering") 
 
 ## Inflorescence Model full model ----
-fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/rnkijsri04jtrczshfmp6/fit_inf_abio_bio_endo.rds?rlkey=kyxj4f6mpwdp5m78wi0p6v64r&dl=1"))
+fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/hlwxsi38dhf1qswjyhwsp/fit_inf_abio_bio_endo.rds?rlkey=p96ec0vxfg71z5i9w6sft7mxp&dl=1"))
 post_inf <- rstan::extract(fit_inf_abio_bio_endo)
 pred_inf <- post_inf$predF      # linear predictor
 phi_inf <- post_inf$phi         # dispersion
@@ -1034,7 +1076,7 @@ y_rep_inf <- simulate_ppc(pred_inf, phi = phi_inf, zi = zi_inf, family = "zinb")
 p_inf <- ppc_dens_overlay(y_inf, y_rep_inf) + ggtitle("Inflorescence")+xlim(0, 75)
 
 ## Spikelet Model full model ----
-fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/pebuc3ysvv9rrr2dvihl2/fit_spik_abio_bio_endo.rds?rlkey=f1l4q9ucvk4h4236600zoyjci&dl=1"))
+fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/aptez3xb4v5n60l0fcf71/fit_spik_abio_bio_endo.rds?rlkey=wdp4g5r8vs2jg6rwwr70tuskc&dl=1"))
 post_spik <- rstan::extract(fit_spik_abio_bio_endo)
 pred_spik <- post_spik$predF
 #zi_spik <- post_spik$zi           # scalar zero-inflation
@@ -1057,7 +1099,7 @@ ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model o
 
 # Monotonic models
 ## Survival Model linear ----
-fit_surv_linear <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+fit_surv_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vz1nxc2310os0u83skn6/fit_surv_abio_bio_endo_linear.rds?rlkey=mmghgcfx1glfwzg0t56wa42d4&dl=1"))
 post_surv_linear <- rstan::extract(fit_surv_linear)
 pred_surv_linear <- post_surv_linear$predS
 y_surv_linear <- demography_surv_ppt$y
@@ -1065,7 +1107,7 @@ y_rep_surv_linear <- simulate_ppc(pred_surv_linear, family = "bernoulli")
 p_surv_linear <- ppc_dens_overlay(y_surv_linear, y_rep_surv_linear) + ggtitle("Survival")
 
 ## Growth Model linear ----
-fit_grow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+fit_grow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/jxujzmf5rcgptbzqbyu8u/fit_grow_abio_bio_endo_linear.rds?rlkey=hxs21k5algqp86md8aqsgc59c&dl=1"))
 post_grow_linear <- rstan::extract(fit_grow_linear)
 pred_grow_linear <- post_grow_linear$predG
 sigma_grow_linear <- post_grow_linear$sigma
@@ -1082,7 +1124,7 @@ p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear) + ggtitle("G
 # p_flow_linear <- ppc_dens_overlay(y_flow_linear, y_rep_flow_linear) + ggtitle("Inflorescence")+xlim(0,100)
 
 # ## Inflorescence Model linear ----
-fit_inf_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+fit_inf_linear <- readRDS(url("https://www.dropbox.com/scl/fi/vu3rwpapiuhgyop1cpcwm/fit_inf_abio_bio_endo_linear_wi.rds?rlkey=32cbzcgbjq5tx912jbm1zzgn6&dl=1"))
 post_inf_linear <- rstan::extract(fit_inf_linear)
 pred_inf_linear <- post_inf_linear$predF
 zi_inf_linear <- post_inf_linear$zi           # scalar zero-inflation
@@ -1092,7 +1134,7 @@ y_rep_inf_linear <- simulate_ppc(pred_inf_linear, zi =zi_inf_linear,phi = phi_in
 p_inf_linear <- ppc_dens_overlay(y_inf_linear, y_rep_inf_linear[1:500, ]) + ggtitle("Inflorescence")+xlim(0,100)
 
 ## Spikelet Model linear ----
-fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/6vnqhv5f8q5r0xkyiz8jw/fit_spik_abio_bio_endo_linear.rds?rlkey=0fhzukeb0294bskqv7boheokm&dl=1"))
 post_spik_linear <- rstan::extract(fit_spik_linear)
 pred_spik_linear <- post_spik_linear$predF
 zi_spik_linear <- post_spik_linear$zi           # scalar zero-inflation
@@ -1117,4 +1159,77 @@ ggsave(
   width = 7,
   height = 6
 )
+
+### Herbivory on E+ and E_ fenced and unfenced. 
+# Add Plot to dat25_census based on Tag_ID from dat24_census
+# Filter and prepare the data
+# Prepare data for Stan model with site-year random effect
+demography_climate_herb <- demography_climate %>%
+  filter(!is.na(tiller_Herb_t)) %>%  # keep only observed herbivory
+  dplyr::select(
+    Species, Population, Site, site_species_plot, site_year,
+    Endo, Herbivory, ppt_scaled, tiller_Herb_t
+  ) %>%
+  na.omit() %>%
+  mutate(
+    # Grouping indices for random effects
+    Site              = as.integer(factor(Site)),
+    Species           = as.integer(factor(Species)),
+    Population        = as.integer(factor(Population)),
+    site_year         = as.integer(factor(site_year)),
+    site_species_plot = as.integer(factor(site_species_plot)),
+    
+    # Response and predictors
+    y_herb           = tiller_Herb_t,
+    endo             = Endo,        # 0/1
+    herb             = Herbivory,   # 0/1
+    clim             = ppt_scaled
+  )
+
+# Convert into list for Stan
+demography_herb_stan <- list(
+  N          = nrow(demography_climate_herb),                  # total data points
+  nSpp       = n_distinct(demography_climate_herb$Species),    # species
+  nSite      = n_distinct(demography_climate_herb$Site),       # sites
+  nPop       = n_distinct(demography_climate_herb$Population), # populations
+  nPlot      = n_distinct(demography_climate_herb$site_species_plot), # plots
+  nsite_year = n_distinct(demography_climate_herb$site_year),  # site-year combos
+  
+  # Grouping indices
+  Spp        = demography_climate_herb$Species,
+  site       = demography_climate_herb$Site,
+  pop        = demography_climate_herb$Population,
+  plot       = demography_climate_herb$site_species_plot,
+  site_year  = demography_climate_herb$site_year,
+  
+  # Predictors
+  endo       = demography_climate_herb$endo,
+  herb       = demography_climate_herb$herb,
+  clim       = demography_climate_herb$clim,
+  
+  # Response
+  y = demography_climate_herb$y_herb
+)
+# mean(demography_climate_herb$y_herb == 0)
+
+fit_her_endo_year <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/herbivory_endo_siteyear.stan",
+  data = demography_herb_stan,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+posterior_herb_endo <- as.array(fit_her_endo_year) # Convert Stan fit to array
+# Trace plots for key fixed effects
+mcmc_trace(posterior_herb_endo,
+           pars = c(
+             "b0[1]", "b0[2]", "b0[3]",       # species intercepts
+             "bendo[1]", "bendo[2]", "bendo[3]", # Endo effect per species
+             "bclim[1]", "bclim[2]", "bclim[3]"  # Climate effect per species
+           )) + 
+  theme_bw()
+
+saveRDS(fit_her_endo_year, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_her_endo_year.rds')
 

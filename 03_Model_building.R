@@ -52,9 +52,23 @@ set.seed(13)
 datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
 dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
 dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
+dat24_ini <- read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1", stringsAsFactors = F)
 dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
 datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
-
+# Helper function to clean Tag_ID
+clean_tag <- function(df) {
+  df %>%
+    mutate(
+      Tag_ID = as.character(Tag_ID),        # ensure character
+      Tag_ID = str_trim(Tag_ID),            # trim leading/trailing spaces
+      Tag_ID = str_squish(Tag_ID)           # remove extra spaces inside
+    )
+}
+datini <-clean_tag(datini)
+dat23 <- clean_tag(dat23)
+dat24 <-clean_tag(dat24)
+dat25<-clean_tag(dat25)
+dat24_ini<-clean_tag(dat24_ini)
 # Climatic data ----
 climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
 # head(climate_site)
@@ -68,90 +82,137 @@ climate_site_scaled <- climate_site %>%
 #saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
 
 # calculate the average spikelet and inflorescence number for each census
-dat23_spike <- dat23 %>%
-  mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
-    spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
-dat24_spike <- dat24 %>%
-  mutate(
-    spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-    Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
-    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
-  )
-dat25_spike <- dat25 %>%
-  mutate(
-    spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
-    Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
-    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
-  )
-# calculate the total spikelet and inflorescence number for each census
 # dat23_spike <- dat23 %>%
 #   mutate(Flowered_23 = ifelse(Inf_23 > 0, 1, 0), 
-#     spikelet_23 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE))
-# 
+#     spikelet_23 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0))
 # dat24_spike <- dat24 %>%
 #   mutate(
-#     spikelet_24 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
-#     Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE),
-#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#     spikelet_24 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+#     Inf_24 = round(rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), digits = 0),
+#     Flowered_24 = ifelse(Inf_24 > 0, 1, 0)
 #   )
-# 
 # dat25_spike <- dat25 %>%
 #   mutate(
-#     spikelet_25 = rowSums(across(Spikelet_A:Spikelet_C), na.rm = TRUE),
-#     Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE),
-#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)  # 1 if any inflorescence, 0 otherwise
+#     spikelet_25 = round(rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), digits = 0),
+#     Inf_25 = round(rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), digits = 0),
+#     Flowered_25 = ifelse(Inf_25 > 0, 1, 0)
 #   )
+# 2023
+dat23_spike <- dat23 %>%
+  mutate(
+    mean_spikelet_23 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), # mean spikelets per sampled inflorescence
+    spikelet_23 = round(mean_spikelet_23 * Inf_23, 0),                         # estimate total spikelets per plant
+    Flowered_23 = ifelse(Inf_23 > 0, 1, 0)                                    # flowered or not
+  )
+# 2024: estimate total inflorescences and spikelets per plant
+dat24_spike <- dat24 %>%
+  mutate(
+    # Sum attached and broken inflorescences to get total number per plant
+    Inf_24 = rowSums(across(attachedInf_24:brokenInf_24), na.rm = TRUE), 
+    
+    # Calculate the mean number of spikelets per sampled inflorescence (Spikelet_A, B, C)
+    mean_spikelet_24 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
+    
+    # Estimate total spikelets per plant: mean spikelets per inflorescence * total inflorescences
+    spikelet_24 = round(mean_spikelet_24 * Inf_24, 0),                       
+    
+    # Create a binary column: 1 if the plant has at least one inflorescence, 0 otherwise
+    Flowered_24 = ifelse(Inf_24 > 0, 1, 0)                                   
+  )
 
+# 2025: same calculation as 2024
+dat25_spike <- dat25 %>%
+  mutate(
+    # Total inflorescences per plant
+    Inf_25 = rowSums(across(attachedInf_25:brokenInf_25), na.rm = TRUE), 
+    
+    # Average spikelets per sampled inflorescence
+    mean_spikelet_25 = rowMeans(across(Spikelet_A:Spikelet_C), na.rm = TRUE), 
+    
+    # Estimate total spikelets per plant
+    spikelet_25 = round(mean_spikelet_25 * Inf_25, 0),                       
+    
+    # Flowered binary column
+    Flowered_25 = ifelse(Inf_25 > 0, 1, 0)                                   
+  )
 
 # Check for duplicate Tag_IDs
-datini$Tag_ID <- as.character(datini$Tag_ID)
-dat23_spike$Tag_ID <- as.character(dat23_spike$Tag_ID)
-dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
-dat24_spike$Tag_ID <- as.character(dat24_spike$Tag_ID)
-dat25_spike$Tag_ID <- as.character(dat25_spike$Tag_ID)
-#view(dat24_spike)
+# dat23_spike %>% count(Tag_ID) %>% filter(n > 1)
 # dat24_spike %>% count(Tag_ID) %>% filter(n > 1)
 # dat25_spike %>% count(Tag_ID) %>% filter(n > 1)
 
 ## Merge the initial data to the 23 to get the Tag ID for each elements -----
-datini23_spike <- dat23_spike %>%
-  left_join(
+dat23_census <- dat23_spike %>%
+  right_join(
     datini %>%
       dplyr::select(Site, Species, Plot, Position, Tag_ID, Population, 
                     GreenhouseID, Clone, Endo),
     by = "Tag_ID"
   ) %>%
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit")))
-
-# view(datini23_spike)
+#names(dat23_census)
+# unique(dat23_census$Species)
+# view(dat23_census)
+# dat23_census %>%
+#   filter(Tag_ID >= 75, Tag_ID <= 85)
 
 #Combine datini and dat23
-combined_data <- bind_rows(datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")], datini23_spike[,c("Site","Species","Plot","Tag_ID","Population","Endo" )])%>% 
+combined_data <- bind_rows(
+  datini[,c("Site","Species","Plot","Tag_ID","Population","Endo")],
+  dat23_census[,c("Site","Species","Plot","Tag_ID","Population","Endo")]
+) %>%
   distinct(Tag_ID, .keep_all = TRUE)
+str(combined_data)
+# combined_data %>%
+#   filter(Tag_ID >= "075", Tag_ID <= "085")
 
-dat24_spike_sp_site_tag<-left_join(x = dat24_spike, y = combined_data, by = c("Tag_ID")) %>% 
+dat24_census<-left_join(x = dat24_spike, y = combined_data, by = c("Tag_ID")) %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_24","brokenInf_24"))) %>% 
   filter(!is.na(Species))
-#dat24_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
+#dat24_census %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
 # view(dat24_spike_sp_site_tag)
+# dat24_census %>%
+#   filter(Tag_ID >= "075", Tag_ID <= "085")
 
-dat25_spike_sp_site_tag<- dat25_spike %>% 
+dat24_census_full <- combined_data %>%
+  left_join(dat24_spike, by = "Tag_ID") %>%
+  left_join(dat24_ini %>% dplyr::select(Tag_ID, Site, Species, Plot),
+            by = "Tag_ID", suffix = c("", "_ini")) %>%
+  mutate(
+    Site = coalesce(Site, Site_ini),
+    Species = coalesce(Species, Species_ini),
+    Plot = coalesce(Plot, Plot_ini)
+  ) %>%
+  dplyr::select(-any_of(c(
+    "Spikelet_A","Spikelet_B","Spikelet_C","digit",
+    "attachedInf_24","brokenInf_24",
+    "Site_ini","Species_ini","Plot_ini"
+  )))
+# dat24_census_full %>%
+#   filter(Tag_ID >= "075", Tag_ID <= "085")
+
+dat25_census<- dat25_spike %>% 
   dplyr::select(-any_of(c("Spikelet_A", "Spikelet_B", "Spikelet_C", "digit","attachedInf_25","brokenInf_25"))) 
 #dat25_spike_sp_site_tag %>% count(Tag_ID) %>% filter(n > 1) # No duplicate 
+#names(dat25_census)
 
-dat2324 <- datini23_spike %>%
+dat2324 <- dat23_census %>%
   left_join(
-    dat24_spike_sp_site_tag %>%
+    dat24_census %>%
       dplyr::select(Tag_ID, Flowered_24,Inf_24, Tiller_24, tiller_herb_24, date_24, stroma_24, spikelet_24),
     by = "Tag_ID"
   ) 
+#names(dat2324)
+#unique(dat2324$Species)
 
-dat2425 <- dat24_spike_sp_site_tag %>%
+dat2425 <- dat24_census_full %>%
   left_join(
-    dat25_spike_sp_site_tag %>%
+    dat25_census %>%
       dplyr::select(Tag_ID, Flowered_25,Inf_25, Tiller_25, tiller_herb_25, date_25, stroma_25, spikelet_25),
     by = "Tag_ID"
   )
+#unique(dat2425$Species)
+#dat2425 %>% filter(is.na(Species)) %>% dplyr::select(Tag_ID, everything())
 
 # Change variable names
 dat2324%>%
@@ -168,7 +229,7 @@ dat2324%>%
     tiller_Herb_t1 = tiller_herb_24,
     date_t=date_23,
     date_t1=date_24,
-    census_year=rep(2024,nrow(datini23_spike))
+    census_year=rep(2024,nrow(dat23_census))
   ) %>%
   dplyr::select(
     Site,
@@ -209,7 +270,7 @@ dat2425 %>%
     tiller_Herb_t1 = tiller_herb_25,
     date_t = date_24,
     date_t1 = date_25,
-    census_year=rep(2025,nrow(dat24_spike_sp_site_tag))
+    census_year=rep(2025,nrow(dat24_census_full))
   ) %>%
   dplyr::select(
     Site,
@@ -248,10 +309,9 @@ dat_t_t1 <- rbind(dat2324_t_t1, dat2425_t_t1)
 endo_counts <- dat_t_t1 %>%
   group_by(Species, Population, Endo) %>%
   summarise(n_individuals = n(), .groups = "drop") %>%
-  pivot_wider(names_from = Endo, values_from = n_individuals, 
-              names_prefix = "Endo_") %>%
-  replace(is.na(.), 0) %>%   # replace missing counts with 0
-  mutate(n_clones = Endo_0 + Endo_1)  # add total clones column
+  pivot_wider(names_from = Endo, values_from = n_individuals, names_prefix = "Endo_") %>%
+  mutate(across(starts_with("Endo_"), ~replace_na(., 0))) %>%   # only numeric columns
+  mutate(n_clones = Endo_0 + Endo_1)
 
 endo_counts
 

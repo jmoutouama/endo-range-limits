@@ -304,7 +304,7 @@ For genotypes that were vegetatively propagated, we tested the endophyte status 
 
 \subsection*{Common garden experimental design and climate data}
 To examine the effects of endophyte symbiosis across an abiotic stress gradient, we established common garden experiments with E+ and E- hosts at seven sites along an aridity gradient from Louisiana to central Texas, US (Fig.~\ref{fig:site}, Table~\ref{tab:exp_sites}).
-From west to east, mean annual precipitation increases more than three-fold across these sites while mean annual temperature is relatively consistent, based on 30-year climate normals (Fig. \ref{Sup:temp}).
+From west to east, mean annual precipitation increases more than three-fold across these sites while mean annual temperature is relatively consistent, based on climate data collected during the same period as our demographic surveys (Fig. \ref{sup:temp}).
 For this reason, we focus on precipitation as the primary abiotic factor that varied across sites.  
 This geographic gradient overlaps and exceeds the natural range edges of our focal species, ensuring exposure to realistic climatic and biotic conditions (Fig.~\ref{fig:site}A,B, C). 
 
@@ -332,7 +332,7 @@ In \emph{A. hyemalis}, one spikelet yields one seed, while in \emph{P. autumnali
 %Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 We measured herbivore damage to assess the effects of herbivory treatment on realized herbivory experienced by individual plants.
 We defined damage as chewing damage to leaves, tillers, or inflorescences, and estimated the proportion of damaged plants by plot, site, and herbivore treatment.
-\tom{These data showed that plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F), confirming that our experimental manipulations had the intended effects.}{I agree with you that Methods is a better place for this. But somewhere we should address how the magnitude of herbivory and effectiveness of exclusion varies across sites, which reflect natural background variation in the herbivore communities. Reviewers may also ask to see how herbivory differed between E+ and E- plants, which I think could be an interesting and relevant addition. You don't really analyze the herbivory data beyond showing this figure, so I think this could be something that would enrich the results, or maybe be appropriate for the supplement.}
+\tom{These data showed that plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F,Fig.~\ref{sup:herb},Fig.~\ref{sup:herbsp}), confirming that our experimental manipulations had the intended effects.}{I agree with you that Methods is a better place for this. But somewhere we should address how the magnitude of herbivory and effectiveness of exclusion varies across sites, which reflect natural background variation in the herbivore communities. Reviewers may also ask to see how herbivory differed between E+ and E- plants, which I think could be an interesting and relevant addition. You don't really analyze the herbivory data beyond showing this figure, so I think this could be something that would enrich the results, or maybe be appropriate for the supplement.}
 
 \subsection*{Statistical modeling}
 To assess how abiotic and biotic stress modify the demographic effects of endophyte symbiosis, we fit generalized linear mixed models for each vital rate response in a hierarchical Bayesian statistical framework. %first developed two candidate models for each vital rate: one quadratic and one monotonic.
@@ -1058,13 +1058,37 @@ Elymus virginicus & Herbivory exclusion & 1.35 & 0.928 & 1.98 & 0.0942 \\
 \subsection{Supporting Figures}
 \begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.8\linewidth]{../Figure/temp_pppt_site_year.pdf}
+		\includegraphics[width=0.8\linewidth]{../Figure/temp_census_years.pdf}
 		\caption[spatial and temporal variation in precipitation and temperature across the experimental sites.] {
-		(A) Annual precipitation (mm) and (B) mean temperature (°C) for 2023–2025.
+		(A) Annual temperature (°C) for 2024 and 2025 census.
 		Sites are arranged from west to east based on longitude.}
-		\label{Sup:temp}
+		\label{sup:temp}
 \end{figure}
 \clearpage  % forces the next figure to start on a new page
+
+\begin{figure}[ht]
+		\centering
+		\includegraphics[width=1\linewidth]{../Figure/prop_damage_barplot_24_25.pdf}
+		\caption[Proportion of plants damaged by herbivory across sites in 2024 and 2025.] {
+		Proportion of plants damaged by herbivory across sites in 2024 and 2025.
+		Barplots show fenced (dark) versus unfenced (grey) plots for each site (ordered west to east: SON, KER, BFL, BAS, COL, HUN, LAF). 
+Error bars indicate standard errors across plots within each site. 
+Panels show results for 2024 (left) and 2025 (right).}
+		\label{sup:herb}
+\end{figure}
+\clearpage  %
+
+\begin{figure}[ht]
+		\centering
+		\includegraphics[width=1\linewidth]{../Figure/prop_damage_species_years.pdf}
+		\caption[Proportion of plants damaged by herbivory across sites in 2024 and 2025.] {
+		Proportion of plants damaged by herbivory across sites for three species (\textit{Agrostis hyemalis}, \textit{Elymus virginicus}, \textit{Poa autumnalis}) over the years 2023–2025. 
+Barplots show fenced (grey80) versus unfenced (grey15) plots for each site (ordered west to east: SON, KER, BFL, BAS, COL, HUN, LAF). 
+Error bars indicate standard errors across plots within each site. 
+Panels are arranged by species (rows) and year (columns), with the y-axis labeled only for the first column for clarity.}
+		\label{sup:herbsp}
+\end{figure}
+\clearpage  %
 
 \begin{figure}[ht]
 \centering

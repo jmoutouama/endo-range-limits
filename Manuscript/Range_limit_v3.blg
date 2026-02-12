@@ -3,44 +3,48 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v3.aux
 The style file: apalike.bst
 Database file #1: References.bib
-You've used 68 entries,
+Warning--I didn't find a database entry for "rosenberg2007role"
+Warning--I didn't find a database entry for "gupta2020dynamics"
+Warning--I didn't find a database entry for "li2026climate"
+You've used 69 entries,
             1935 wiz_defined-function locations,
-            875 strings with 16041 characters,
-and the built_in function-call counts, 28694 in all, are:
-= -- 2851
-> -- 1213
+            884 strings with 16391 characters,
+and the built_in function-call counts, 29273 in all, are:
+= -- 2904
+> -- 1256
 < -- 34
-+ -- 428
-- -- 410
-* -- 2617
-:= -- 4965
-add.period$ -- 204
-call.type$ -- 68
-change.case$ -- 540
-chr.to.int$ -- 66
-cite$ -- 68
-duplicate$ -- 960
-empty$ -- 1966
-format.name$ -- 508
-if$ -- 5506
++ -- 444
+- -- 426
+* -- 2675
+:= -- 5069
+add.period$ -- 207
+call.type$ -- 69
+change.case$ -- 553
+chr.to.int$ -- 67
+cite$ -- 69
+duplicate$ -- 974
+empty$ -- 1995
+format.name$ -- 525
+if$ -- 5612
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 65
-newline$ -- 343
-num.names$ -- 204
-pop$ -- 403
+missing$ -- 66
+newline$ -- 348
+num.names$ -- 207
+pop$ -- 414
 preamble$ -- 1
-purify$ -- 545
+purify$ -- 558
 quote$ -- 0
-skip$ -- 735
+skip$ -- 745
 stack$ -- 0
-substring$ -- 2363
-swap$ -- 93
+substring$ -- 2400
+swap$ -- 94
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 402
+type$ -- 408
 warning$ -- 0
-while$ -- 252
+while$ -- 256
 width$ -- 0
-write$ -- 878
+write$ -- 891
+(There were 3 warnings)

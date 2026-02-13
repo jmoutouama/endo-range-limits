@@ -583,7 +583,7 @@ Panels are grouped by species and herbivory treatment (Fenced, Unfenced).}
 \captionsetup[figure]{list=no}
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat.pdf}
+\includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
 \caption{
 Predicted effects of herbivore exclusion on survival, growth, and inflorescence production across precipitation gradients for \textit{A. hyemalis}, \textit{E. virginicus}, and \textit{P. autumnalis}. Panels show the median difference between fenced and unfenced treatments ($\Delta = E^{+} - E^{-}$) and the probability that this difference is positive ($\Pr[\Delta > 0]$). Horizontal dashed lines indicate $\Delta = 0$ and $\Pr(\Delta > 0) = 0.5$, and vertical dashed lines denote species-specific mean annual precipitation at range limits. Colors indicate herbivore exclusion treatments.
 }
@@ -818,52 +818,49 @@ Poa autumnalis & Herbivory exclusion & 1.28 & 0.356 & 4.91 & 0.371 \\
 \begin{table}[ht]
 \centering
 \small
-\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for survival across precipitation bins]{
-Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for survival across precipitation quartiles for each species and herbivore treatment. 
-Median, 90\% credible interval, and posterior probability that $\Delta > 0$ are shown. 
-Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had access.
-}
-\label{tab:delta_summary_surv_quantiles}
+\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for growth across precipitation quantiles]{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for growth across precipitation quantiles for each species and herbivore treatment. 
+Positive median values indicate beneficial effects of endophytes; negative medians indicate costly effects.}
+\label{tab:delta_summary_grow}
 \begin{tabular}{llrrrrr}
 \hline
-\textbf{Species} & \textbf{Herbivore treatment} & \textbf{Precipitation bin (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
+\textbf{Species} & \textbf{Herbivore treatment} & \textbf{Precipitation (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
 \hline
-\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.049 & -0.302 & 0.053 & 0.158 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 678  & -0.038 & -0.215 & 0.052 & 0.187 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1036 & -0.012 & -0.099 & 0.058 & 0.357 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.015  & -0.050 & 0.102 & 0.681 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 0.056  & -0.035 & 0.249 & 0.860 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.090 & -0.358 & 0.000 & 0.051 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.076 & -0.264 & 0.002 & 0.057 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & -0.041 & -0.142 & 0.019 & 0.127 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & -0.004 & -0.085 & 0.072 & 0.448 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 0.047  & -0.052 & 0.224 & 0.802 \\
-\textit{Elymus virginicus} & Herbivory access    & 493  & -0.069 & -0.321 & 0.050 & 0.145 \\
-\textit{Elymus virginicus} & Herbivory access    & 678  & -0.065 & -0.254 & 0.068 & 0.189 \\
-\textit{Elymus virginicus} & Herbivory access    & 1036 & -0.014 & -0.143 & 0.113 & 0.424 \\
-\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.061  & -0.069 & 0.194 & 0.779 \\
-\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.148  & -0.031 & 0.356 & 0.914 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 493  & -0.259 & -0.550 & -0.058 & 0.006 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 678  & -0.230 & -0.430 & -0.058 & 0.012 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1036 & -0.059 & -0.183 & 0.061  & 0.210 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.090  & -0.022 & 0.225  & 0.907 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.154  & 0.031  & 0.400  & 0.992 \\
-\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.001 & -0.101 & 0.005  & 0.175 \\
-\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.005 & -0.143 & 0.010  & 0.154 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.043 & -0.196 & 0.022  & 0.118 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.051 & -0.188 & 0.060  & 0.214 \\
-\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.000  & -0.124 & 0.137  & 0.532 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.000  & -0.019 & 0.067  & 0.614 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.001  & -0.033 & 0.092  & 0.641 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 0.016  & -0.058 & 0.136  & 0.689 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 0.029  & -0.088 & 0.166  & 0.679 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 0.002  & -0.117 & 0.151  & 0.570 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 543  & -0.034 & -0.282 & 0.061 & 0.189 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 786  & -0.029 & -0.183 & 0.057 & 0.225 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1285 & 0.000  & -0.076 & 0.071 & 0.496 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1858 & 0.035  & -0.049 & 0.163 & 0.775 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 3231 & 0.079  & -0.052 & 0.353 & 0.842 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 543  & -0.077 & -0.348 & 0.000 & 0.052 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 786  & -0.068 & -0.240 & 0.002 & 0.057 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1285 & -0.027 & -0.113 & 0.038 & 0.233 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1858 & 0.023  & -0.071 & 0.145 & 0.677 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 3231 & 0.085  & -0.047 & 0.335 & 0.863 \\
+\textit{Elymus virginicus} & Herbivory access    & 543  & 0.010  & -0.141 & 0.208 & 0.566 \\
+\textit{Elymus virginicus} & Herbivory access    & 786  & 0.019  & -0.128 & 0.184 & 0.598 \\
+\textit{Elymus virginicus} & Herbivory access    & 1285 & 0.032  & -0.096 & 0.161 & 0.663 \\
+\textit{Elymus virginicus} & Herbivory access    & 1858 & 0.037  & -0.096 & 0.172 & 0.679 \\
+\textit{Elymus virginicus} & Herbivory access    & 3231 & 0.031  & -0.151 & 0.220 & 0.628 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 543  & -0.168 & -0.404 & -0.010 & 0.040 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 786  & -0.143 & -0.309 & 0.016 & 0.068 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1285 & -0.005 & -0.119 & 0.112 & 0.473 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1858 & 0.080  & -0.027 & 0.218 & 0.896 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 3231 & 0.092  & 0.006  & 0.307 & 0.966 \\
+\textit{Poa autumnalis}    & Herbivory access    & 543  & -0.001 & -0.082 & 0.008 & 0.231 \\
+\textit{Poa autumnalis}    & Herbivory access    & 786  & -0.006 & -0.132 & 0.017 & 0.195 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1285 & -0.057 & -0.192 & 0.036 & 0.147 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1858 & -0.022 & -0.177 & 0.087 & 0.328 \\
+\textit{Poa autumnalis}    & Herbivory access    & 3231 & 0.000  & -0.105 & 0.103 & 0.533 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 543  & 0.000  & -0.018 & 0.065 & 0.620 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 786  & 0.002  & -0.035 & 0.097 & 0.647 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1285 & 0.025  & -0.072 & 0.150 & 0.705 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1858 & 0.016  & -0.105 & 0.167 & 0.628 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 3231 & 0.000  & -0.107 & 0.116 & 0.531 \\
 \hline
 \end{tabular}
 \end{table}
+\clearpage
 \end{landscape}
 \clearpage
-
 \begin{landscape}
 \begin{table}[ht]
 \centering
@@ -875,47 +872,47 @@ Positive median values indicate beneficial effects of endophytes; negative media
 \hline
 \textbf{Species} & \textbf{Herbivore treatment} & \textbf{Precipitation (mm)} & \textbf{Median $\Delta$} & \textbf{Lower 90\%} & \textbf{Upper 90\%} & \textbf{P($\Delta>0$)} \\
 \hline
-\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.046 & -0.643 & 0.561 & 0.450 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 678  & 0.092  & -0.352 & 0.543 & 0.629 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1036 & 0.274  & -0.019 & 0.571 & 0.939 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.412  & 0.147  & 0.683 & 0.994 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 0.616  & 0.212  & 1.022 & 0.994 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.221 & -0.723 & 0.290 & 0.237 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.090 & -0.466 & 0.284 & 0.347 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & 0.084  & -0.165 & 0.336 & 0.710 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & 0.214  & -0.034 & 0.460 & 0.925 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 0.411  & 0.017  & 0.799 & 0.956 \\
-\textit{Elymus virginicus} & Herbivory access    & 493  & 0.017  & -0.618 & 0.647 & 0.520 \\
-\textit{Elymus virginicus} & Herbivory access    & 678  & 0.084  & -0.400 & 0.566 & 0.614 \\
-\textit{Elymus virginicus} & Herbivory access    & 1036 & 0.168  & -0.137 & 0.476 & 0.814 \\
-\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.232  & -0.002 & 0.470 & 0.948 \\
-\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.330  & 0.008  & 0.643 & 0.955 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 493  & -0.002 & -0.594 & 0.578 & 0.498 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 678  & 0.023  & -0.419 & 0.457 & 0.532 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1036 & 0.060  & -0.205 & 0.316 & 0.651 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.087  & -0.101 & 0.274 & 0.777 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.130  & -0.160 & 0.410 & 0.767 \\
-\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.393 & -1.089 & 0.289 & 0.174 \\
-\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.283 & -0.803 & 0.230 & 0.185 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.136 & -0.448 & 0.179 & 0.242 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.024 & -0.245 & 0.202 & 0.431 \\
-\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.143  & -0.175 & 0.474 & 0.763 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.806  & 0.137  & 1.478 & 0.977 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.556  & 0.058  & 1.060 & 0.967 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 0.223  & -0.077 & 0.529 & 0.890 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & -0.028 & -0.251 & 0.199 & 0.418 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & -0.406 & -0.737 & -0.067 & 0.025 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 543  & 0.013  & -0.610 & 0.651 & 0.514 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 786  & 0.152  & -0.285 & 0.596 & 0.718 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1285 & 0.341  & 0.069  & 0.609 & 0.981 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1858 & 0.482  & 0.167  & 0.788 & 0.994 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 3231 & 0.691  & 0.125  & 1.252 & 0.977 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 543  & -0.201 & -0.725 & 0.316 & 0.261 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 786  & -0.053 & -0.418 & 0.300 & 0.403 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1285 & 0.140  & -0.096 & 0.377 & 0.838 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1858 & 0.288  & -0.014 & 0.584 & 0.941 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 3231 & 0.510  & -0.019 & 1.033 & 0.944 \\
+\textit{Elymus virginicus} & Herbivory access    & 543  & 0.552  & -0.021 & 1.126 & 0.943 \\
+\textit{Elymus virginicus} & Herbivory access    & 786  & 0.455  & 0.021  & 0.880 & 0.959 \\
+\textit{Elymus virginicus} & Herbivory access    & 1285 & 0.323  & 0.045  & 0.596 & 0.972 \\
+\textit{Elymus virginicus} & Herbivory access    & 1858 & 0.223  & -0.017 & 0.465 & 0.936 \\
+\textit{Elymus virginicus} & Herbivory access    & 3231 & 0.076  & -0.296 & 0.438 & 0.631 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 543  & -0.087 & -0.609 & 0.432 & 0.387 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 786  & -0.034 & -0.422 & 0.345 & 0.441 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1285 & 0.036  & -0.196 & 0.266 & 0.606 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1858 & 0.090  & -0.096 & 0.278 & 0.787 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 3231 & 0.171  & -0.120 & 0.470 & 0.829 \\
+\textit{Poa autumnalis}    & Herbivory access    & 543  & -0.385 & -1.094 & 0.324 & 0.188 \\
+\textit{Poa autumnalis}    & Herbivory access    & 786  & -0.256 & -0.753 & 0.248 & 0.198 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1285 & -0.083 & -0.339 & 0.179 & 0.300 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1858 & 0.048  & -0.188 & 0.282 & 0.635 \\
+\textit{Poa autumnalis}    & Herbivory access    & 3231 & 0.239  & -0.247 & 0.723 & 0.799 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 543  & 0.744  & 0.078  & 1.438 & 0.967 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 786  & 0.468  & -0.001 & 0.947 & 0.950 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1285 & 0.095  & -0.156 & 0.352 & 0.734 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1858 & -0.184 & -0.429 & 0.067 & 0.109 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 3231 & -0.604 & -1.091 & -0.106 & 0.023 \\
 \hline
-
 \end{tabular}
 \end{table}
+\clearpage
 \end{landscape}
 \clearpage
 
 \begin{landscape}
 \begin{table}[ht]
 \centering
-\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for inflorescences across precipitation quantiles]{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for flowering output at precipitation quantiles for each species and herbivore  treatment. 
+\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for inflorescences across precipitation quantiles]{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for flowering output at precipitation quantiles for each species and herbivore treatment. 
 Median, 90\% credible interval, and posterior probability that $\Delta > 0$ are shown. 
 Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had access.}
 \label{tab:delta_summary_flow}
@@ -923,75 +920,75 @@ Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had acc
 \hline
 Species & Herbivore treatment & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
 \hline
-Species & Herbivory & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
-\hline
-\textit{Agrostis hyemalis} & Herbivory access    & 493  & -0.325 & -1.371 & 0.229  & 0.137 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 678  & -0.327 & -1.230 & 0.320  & 0.172 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1036 & -0.157 & -0.929 & 0.557  & 0.344 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 1424 & 0.231  & -0.589 & 1.219  & 0.691 \\
-\textit{Agrostis hyemalis} & Herbivory access    & 2294 & 1.730  & -0.289 & 6.251  & 0.914 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 493  & -0.355 & -1.550 & 0.311  & 0.154 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 678  & -0.332 & -1.339 & 0.426  & 0.206 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1036 & -0.067 & -0.897 & 0.796  & 0.439 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 1424 & 0.481  & -0.492 & 1.772  & 0.800 \\
-\textit{Agrostis hyemalis} & Herbivory exclusion & 2294 & 2.394  & -0.264 & 8.520  & 0.930 \\
-\textit{Elymus virginicus} & Herbivory access    & 493  & -0.167 & -0.742 & 0.249  & 0.220 \\
-\textit{Elymus virginicus} & Herbivory access    & 678  & -0.142 & -0.606 & 0.255  & 0.250 \\
-\textit{Elymus virginicus} & Herbivory access    & 1036 & -0.062 & -0.410 & 0.274  & 0.369 \\
-\textit{Elymus virginicus} & Herbivory access    & 1424 & 0.046  & -0.277 & 0.391  & 0.606 \\
-\textit{Elymus virginicus} & Herbivory access    & 2294 & 0.320  & -0.226 & 1.141  & 0.831 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 493  & 0.006  & -1.001 & 1.434  & 0.505 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 678  & 0.015  & -0.824 & 1.125  & 0.512 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1036 & 0.033  & -0.576 & 0.732  & 0.536 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.044  & -0.445 & 0.566  & 0.561 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 0.064  & -0.808 & 1.089  & 0.551 \\
-\textit{Poa autumnalis}    & Herbivory access    & 493  & 0.029  & -0.152 & 1.709  & 0.738 \\
-\textit{Poa autumnalis}    & Herbivory access    & 678  & 0.070  & -0.097 & 1.287  & 0.798 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1036 & 0.194  & -0.029 & 1.143  & 0.921 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1424 & 0.385  & 0.054  & 1.767  & 0.987 \\
-\textit{Poa autumnalis}    & Herbivory access    & 2294 & 0.957  & 0.027  & 10.518 & 0.972 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 0.543  & 0.021  & 14.821 & 0.996 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 0.744  & 0.072  & 8.201  & 0.998 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 1.076  & 0.259  & 4.875  & 1.000 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 1.349  & 0.322  & 5.461  & 1.000 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 1.355  & 0.031  & 15.437 & 0.968 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 543  & -0.255 & -1.127 & 0.302  & 0.179 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 786  & -0.261 & -1.077 & 0.409  & 0.226 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1285 & -0.001 & -0.797 & 0.800  & 0.499 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 1858 & 0.718  & -0.486 & 2.578  & 0.832 \\
+\textit{Agrostis hyemalis} & Herbivory access    & 3231 & 3.915  & -0.863 & 18.461 & 0.899 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 543  & -0.286 & -1.282 & 0.370  & 0.187 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 786  & -0.260 & -1.163 & 0.503  & 0.254 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1285 & 0.152  & -0.711 & 1.103  & 0.623 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 1858 & 1.126  & -0.433 & 3.585  & 0.877 \\
+\textit{Agrostis hyemalis} & Herbivory exclusion & 3231 & 5.224  & -0.833 & 23.097 & 0.912 \\
+\textit{Elymus virginicus} & Herbivory access    & 543  & -0.002 & -0.534 & 0.691  & 0.498 \\
+\textit{Elymus virginicus} & Herbivory access    & 786  & 0.012  & -0.416 & 0.529  & 0.522 \\
+\textit{Elymus virginicus} & Herbivory access    & 1285 & 0.040  & -0.275 & 0.390  & 0.585 \\
+\textit{Elymus virginicus} & Herbivory access    & 1858 & 0.068  & -0.258 & 0.422  & 0.640 \\
+\textit{Elymus virginicus} & Herbivory access    & 3231 & 0.122  & -0.555 & 0.989  & 0.629 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 543  & -0.385 & -1.582 & 0.555  & 0.210 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 786  & -0.335 & -1.253 & 0.490  & 0.224 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1285 & -0.187 & -0.838 & 0.431  & 0.295 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1858 & -0.001 & -0.523 & 0.527  & 0.498 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 3231 & 0.424  & -0.477 & 1.810  & 0.788 \\
+\textit{Poa autumnalis}    & Herbivory access    & 543  & 0.015  & -0.237 & 1.502  & 0.655 \\
+\textit{Poa autumnalis}    & Herbivory access    & 786  & 0.057  & -0.132 & 1.162  & 0.750 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1285 & 0.235  & -0.006 & 1.174  & 0.944 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1858 & 0.579  & 0.072  & 3.125  & 0.996 \\
+\textit{Poa autumnalis}    & Herbivory access    & 3231 & 1.681  & -0.124 & 43.735 & 0.925 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 543  & 0.377  & 0.012  & 11.777 & 0.985 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 786  & 0.602  & 0.061  & 6.436  & 0.994 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1285 & 1.050  & 0.263  & 4.237  & 1.000 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1858 & 1.461  & 0.236  & 7.731  & 1.000 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 3231 & 1.139  & -2.399 & 43.360 & 0.810 \\
 \hline
 \end{tabular}
 \end{table}
 \end{landscape}
 
+\clearpage
+
 \begin{landscape}
 \begin{table}[ht]
 \centering
 \small
-\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for inflorescences across precipitation quantiles]{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) at precipitation quantiles for each species and herbivore  treatment. 
+\caption[Summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) for spikelets across precipitation quantiles]{Posterior summaries of $\Delta$ (E$^{+}$ $-$ E$^{-}$) at precipitation quantiles for each species and herbivore treatment. 
 Median, 90\% credible interval, and posterior probability that $\Delta > 0$ are shown. 
 Herbivore exclusion: Fenced = herbivores excluded, Unfenced = herbivores had access.}
 \label{tab:delta_summary_spike}
 \begin{tabular}{llrrrrr}
 \hline
-Species & Herbivore treatment & Precipitation (mm) & Median $\Delta$  & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
+Species & Herbivore treatment & Precipitation (mm) & Median $\Delta$ & Lower 90\% & Upper 90\% & P($\Delta>0$) \\
 \hline
-\textit{Elymus virginicus} & Herbivory access    & 493  & -3.149 & -11.141 & 3.194  & 0.202 \\
-\textit{Elymus virginicus} & Herbivory access    & 678  & -2.375 & -8.360  & 2.851  & 0.224 \\
-\textit{Elymus virginicus} & Herbivory access    & 1036 & -1.132 & -5.122  & 2.668  & 0.303 \\
-\textit{Elymus virginicus} & Herbivory access    & 1424 & -0.095 & -3.238  & 3.106  & 0.481 \\
-\textit{Elymus virginicus} & Herbivory access    & 2294 & 1.676  & -2.131  & 6.291  & 0.770 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 493  & -4.550 & -11.872 & 1.236  & 0.092 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 678  & -3.364 & -8.645  & 1.306  & 0.111 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1036 & -1.444 & -4.572  & 1.644  & 0.211 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 1424 & 0.261  & -2.038  & 2.652  & 0.577 \\
-\textit{Elymus virginicus} & Herbivory exclusion & 2294 & 3.229  & -0.389  & 8.420  & 0.929 \\
-\textit{Poa autumnalis}    & Herbivory access    & 493  & -0.584 & -6.085  & 3.143  & 0.320 \\
-\textit{Poa autumnalis}    & Herbivory access    & 678  & -0.584 & -4.893  & 2.756  & 0.330 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1036 & -0.408 & -3.240  & 2.226  & 0.373 \\
-\textit{Poa autumnalis}    & Herbivory access    & 1424 & -0.025 & -2.094  & 2.056  & 0.491 \\
-\textit{Poa autumnalis}    & Herbivory access    & 2294 & 1.097  & -2.362  & 5.455  & 0.719 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 493  & 2.630  & -1.310  & 12.708 & 0.890 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 678  & 2.943  & -0.645  & 10.507 & 0.917 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1036 & 3.267  & 0.227   & 7.905  & 0.963 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 1424 & 3.333  & 0.797   & 6.547  & 0.987 \\
-\textit{Poa autumnalis}    & Herbivory exclusion & 2294 & 2.748  & -1.344  & 8.544  & 0.871 \\
+\textit{Elymus virginicus} & Herbivory access    & 543  & 0.154   & -5.83 & 7.17  & 0.519 \\
+\textit{Elymus virginicus} & Herbivory access    & 786  & 0.220   & -4.46 & 5.44  & 0.533 \\
+\textit{Elymus virginicus} & Herbivory access    & 1285 & 0.341   & -2.96 & 3.79  & 0.570 \\
+\textit{Elymus virginicus} & Herbivory access    & 1858 & 0.419   & -2.76 & 3.71  & 0.595 \\
+\textit{Elymus virginicus} & Herbivory access    & 3231 & 0.572   & -5.09 & 6.55  & 0.574 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 543  & -2.570  & -8.70 & 3.24  & 0.208 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 786  & -1.970  & -6.77 & 2.81  & 0.231 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1285 & -0.866  & -4.10 & 2.45  & 0.321 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 1858 & 0.196   & -2.26 & 2.73  & 0.554 \\
+\textit{Elymus virginicus} & Herbivory exclusion & 3231 & 2.170   & -1.41 & 7.04  & 0.842 \\
+\textit{Poa autumnalis}    & Herbivory access    & 543  & -0.548  & -6.18 & 3.40  & 0.336 \\
+\textit{Poa autumnalis}    & Herbivory access    & 786  & -0.528  & -4.72 & 2.87  & 0.352 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1285 & -0.237  & -2.65 & 2.16  & 0.424 \\
+\textit{Poa autumnalis}    & Herbivory access    & 1858 & 0.396   & -1.67 & 2.66  & 0.627 \\
+\textit{Poa autumnalis}    & Herbivory access    & 3231 & 2.180   & -4.71 & 12.6  & 0.724 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 543  & 2.840   & -1.34 & 13.1  & 0.891 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 786  & 3.170   & -0.535 & 10.3 & 0.924 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1285 & 3.380   & 0.635 & 7.13  & 0.979 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 1858 & 3.120   & 0.477 & 6.66  & 0.976 \\
+\textit{Poa autumnalis}    & Herbivory exclusion & 3231 & 1.630   & -7.56 & 12.3  & 0.643 \\
 \hline
 \end{tabular}
 \end{table}

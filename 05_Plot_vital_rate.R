@@ -117,7 +117,7 @@ demography_surv_ppt <- list(
 )
 
 # Load model and data
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6vz1nxc2310os0u83skn6/fit_surv_abio_bio_endo_linear.rds?rlkey=mmghgcfx1glfwzg0t56wa42d4&dl=1"))
 
 # Prediction grid
 climate_range <- seq(min(demography_surv_ppt$clim),
@@ -718,7 +718,7 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/jxujzmf5rcgptbzqbyu8u/fit_grow_abio_bio_endo_linear.rds?rlkey=hxs21k5algqp86md8aqsgc59c&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_grow_ppt$clim),
@@ -1201,7 +1201,6 @@ delta_grow_filtered <- delta_grow_summary %>%
     upper_90 = round(upper_90, 3),
     prob_delta_gt0 = round(prob_delta_gt0, 3)
   )
-
 
 # Prepare long-format data for growth
 delta_long_grow <- delta_grow_summary %>%
@@ -1810,7 +1809,7 @@ demography_inf_ppt <- list(
   N = nrow(demography_climate_inf)
 )
 
-fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/vn7ms9zrp91svfr9o9wy8/fit_inf_abio_bio_endo_linear.rds?rlkey=accz66armitumo1y2n142q3tj&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_inf_ppt$clim),
@@ -1979,7 +1978,7 @@ panel_labels_inf <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Inflorescences",
-  ymax = rep(c(25, 10, 40), each = 2)   # 👈 from your facetted scales
+  ymax = rep(c(40, 10, 110), each = 2)   # 👈 from your facetted scales
 )
 
 #Plot with updated panel labels
@@ -2058,11 +2057,11 @@ ggplot(plot_data_inf) +
 
       # Upper panels – #Inflorescences custom limits per species
       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 25)),
+        scale_y_continuous(limits = c(0, 40)),
       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(0, 10)),
       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 40))
+        scale_y_continuous(limits = c(0, 110))
     )
   ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -2426,8 +2425,7 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_spik)
 )
 
-
-fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6vnqhv5f8q5r0xkyiz8jw/fit_spik_abio_bio_endo_linear.rds?rlkey=0fhzukeb0294bskqv7boheokm&dl=1"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 predictions <- expand.grid(
   clim = seq(
@@ -2956,9 +2954,9 @@ climate_max <- climate_max %>%
 p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group = herb)) +
   geom_line(size = 1) +
   geom_hline(
-    data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"), 
-    aes(yintercept = 0), 
-    linetype = "dashed", 
+    data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"),
+    aes(yintercept = 0),
+    linetype = "dashed",
     color = "black"
   ) +
   geom_hline(
@@ -3013,27 +3011,55 @@ p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group 
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   ) 
 
-theme(
-  panel.border = element_rect(color = "black", fill = NA, size = 0.2),
-  axis.line = element_line(color = "black", size = 0.1),
-  legend.position = "bottom",
-  legend.title = element_text(size = 30),
-  legend.text  = element_text(size = 30),
-  axis.title.x = element_text(size = 28),
-  axis.text    = element_text(size = 20),
-  strip.text.x = element_text(size = 32, color = "black"),
-  strip.text.y = element_text(size = 32, color = "black"),
-  #  axis.line.y = element_line(color = "black", size = 0.01),
-  # axis.line.x = element_line(color = "black", size = 0.01),
-  text = element_text(family = "Arial"),
-  strip.text.x = element_text(size = 10, color = "black"),
-  strip.text.y = element_text(size = 8, color = "black"),
-  strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
-) 
 
 
 Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 30, height = 15)
 print(p_all)
 dev.off()
 
+# Filter only the lower panel (Pr (Δ > 0))
+p_lower <- delta_long_all %>%
+  filter(metric == "Pr (Δ > 0)") %>%
+  ggplot(aes(x = clim_mm, y = value, color = herb, group = herb)) +
+  geom_line(size = 1) +
+  geom_hline(
+    yintercept = 0.5, 
+    linetype = "dashed", 
+    color = "grey50"
+  ) +
+  facet_grid(
+    . ~ species_label + trait,
+    scales = "free_y",
+    labeller = labeller(
+      species_label = label_parsed,
+      trait = label_value
+    )
+  ) +
+  scale_color_manual(values = c(
+    "Herbivory access" = "#E69F00", 
+    "Herbivory exclusion" = "#009E73"
+  )) +
+  labs(
+    x = "Precipitation (mm)", 
+    y = "P(Δ > 0)", 
+    color = "Herbivore treatment"
+  ) +
+  theme_classic(base_size = 18, base_family = "Arial") +
+  theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
+    legend.position = c(0.998, 0.95),       # top-right inside last panel
+    legend.justification = c(1, 1),        # align top-right corner
+    legend.background = element_rect(fill = alpha('white', 0.7), color = "black"),
+    legend.title = element_text(size = 24),
+    legend.text  = element_text(size = 22),
+    axis.title.x = element_text(size = 28),
+    axis.text    = element_text(size = 20),
+    strip.text.x = element_text(size = 32, color = "black"),
+    text = element_text(family = "Arial"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  )
 
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 10)
+print(p_lower)
+dev.off()

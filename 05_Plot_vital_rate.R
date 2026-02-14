@@ -193,7 +193,11 @@ observed_data_survival <- demography_surv_ppt %>%
     y = .$y
   ) %>% 
   group_by(plot, species, herb, clim, endo) %>% 
-  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop") %>%
+  summarise(
+    y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # counts non-missing observations
+    .groups = "drop"
+  ) %>%
   mutate(panel = "Pr (survival)")
 
 # Differences (E+ - E-)
@@ -292,11 +296,15 @@ ggplot(plot_data_survival) +
       y = ifelse(y_plot_mean <= 0, 0.01,
                  ifelse(y_plot_mean >= 1, 0.99,
                         y_plot_mean)),
-      color = factor(endo)
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
     ),
-    size = 0.75,alpha=0.3,
-    position = position_jitter(width = 0.05, height = 0)  # horizontal jitter only
-  )+
+    alpha = 0.3,
+    position = position_jitter(width = 0.05, height = 0),  # horizontal jitter only
+    show.legend = FALSE  # suppress size legend
+  ) +
+  # optional: scale the sizes so they aren't too big or small
+  scale_size_continuous(range = c(0.5, 3))+
   # Δ panel
   geom_line(
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
@@ -324,7 +332,7 @@ ggplot(plot_data_survival) +
   ) +
   ggh4x::facetted_pos_scales(
     y = list(
-      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0,0),breaks = 0,labels = 0,minor_breaks = NULL),
+      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.35), expand = c(0,0),breaks = 0,labels = 0,minor_breaks = NULL),
       panel == "Pr (survival)" ~ scale_y_continuous(limits = c(0, 1),expand = c(0,0))
     )
   ) +
@@ -335,7 +343,7 @@ ggplot(plot_data_survival) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 0.2),
     axis.line = element_line(color = "black", size = 0.1),
-    legend.position = c(0.058, 0.23),
+    legend.position = c(0.415, 0.20),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -486,7 +494,7 @@ delta_surv_filtered <- delta_surv_summary %>%
     upper_90 = round(upper_90, 3),
     prob_delta_gt0 = round(prob_delta_gt0, 3)
   )
-
+view(delta_surv_filtered)
 #library(xtable)
 # Add LaTeX italics to species names
 # delta_surv_filtered_latex <- delta_surv_filtered %>%
@@ -819,11 +827,16 @@ observed_data_grow <- demography_grow_ppt %>%
     y = .$y
   ) %>%
   group_by(plot, species, herb, clim, endo) %>% 
-  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop") %>%
+  summarise(
+    y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
+    .groups = "drop"
+  ) %>%
   mutate(
     panel = "Growth",
     climate_mm = exp(clim * ppt_sd + ppt_mean)
   )
+
 
 observed_data_grow$species <- factor(
   observed_data_grow$species,
@@ -879,10 +892,19 @@ ggplot(plot_data_grow) +
   # Observed points
   geom_point(
     data = subset(observed_data_grow, panel == "Growth"),
-    aes(x =climate_mm, y =y_plot_mean, color = factor(endo)),
-    size = 0.75,alpha=0.6,
-    position = position_jitter(width = 5, height = 0.05)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 5, height = 0.05),
+    show.legend = FALSE  # hide size legend
   ) +
+  # optional: control relative sizes
+  scale_size_continuous(range = c(0.5, 3))+
+
   # Lower panel: Δ(E+ − E−) differences
   geom_line(
     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
@@ -955,7 +977,7 @@ ggplot(plot_data_grow) +
     )
   ) +
   # Labels and theme
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  labs(x = "Precipitation (mm)", y = "Log ratio of size", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   theme_classic() +
@@ -987,7 +1009,6 @@ ggplot(plot_data_grow) +
   )
 
 dev.off()
-
 
 # Plot
 # Cairo::CairoPDF(
@@ -1914,7 +1935,7 @@ plot_data_inf$species <- factor(
 plot_data_inf <- plot_data_inf %>%
   mutate(panel = ifelse(panel == "Inflorescences", "Inflorescences", panel))
 
-observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
+observed_data_inf <- demography_inf_ppt %>%  # or your dataset for inflorescences
   data.frame(
     clim = .$clim,
     endo = .$endo,
@@ -1926,10 +1947,13 @@ observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
     .groups = "drop"
   ) %>%
-  mutate(panel = "Inflorescences",
-         climate_mm = exp(clim * ppt_sd + ppt_mean))
+  mutate(
+    panel = "Inflorescences",
+    climate_mm = exp(clim * ppt_sd + ppt_mean)
+  )
 
 # Relabel species (matching your plot_data_inf)
 observed_data_inf$species <- factor(
@@ -1978,7 +2002,7 @@ panel_labels_inf <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Inflorescences",
-  ymax = rep(c(40, 10, 110), each = 2)   # 👈 from your facetted scales
+  ymax = rep(c(40, 8, 110), each = 2)   # 👈 from your facetted scales
 )
 
 #Plot with updated panel labels
@@ -2000,9 +2024,17 @@ ggplot(plot_data_inf) +
   ) +
   geom_point(
     data = subset(observed_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),alpha=0.3,
-    size = 0.75, position = position_jitter(width = 0, height = 0.00)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 0, height = 0),
+    show.legend = FALSE  # hide size legend
   ) +
+  scale_size_continuous(range = c(0.5, 3)) + # optional: control relative sizes
 
   # Lower panel: Δ (E+ - E-) differences
   geom_line(
@@ -2059,7 +2091,7 @@ ggplot(plot_data_inf) +
       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
         scale_y_continuous(limits = c(0, 40)),
       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 10)),
+        scale_y_continuous(limits = c(0, 8)),
       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(limits = c(0, 110))
     )
@@ -2521,10 +2553,13 @@ observed_data_spik <- demography_spik_ppt %>%
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),   # sample size per plot
     .groups = "drop"
   ) %>%
-  mutate(panel = "Spikelets",
-         climate_mm = exp(clim * ppt_sd + ppt_mean))
+  mutate(
+    panel = "Spikelets",
+    climate_mm = exp(clim * ppt_sd + ppt_mean)
+  )
 
 # Relabel species
 observed_data_spik$species <- factor(
@@ -2562,7 +2597,7 @@ panel_labels_spik <- data.frame(
 # Plot (horizontal layout for paper figure) 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
-  width = 9, height = 6
+  width = 10, height = 6
 )
 ggplot(plot_data_spik) +
   # Upper panel: predicted spikelets
@@ -2591,9 +2626,17 @@ ggplot(plot_data_spik) +
   ) +
   geom_point(
     data = subset(observed_data_spik, panel == "Spikelets"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 5, height = 0.05)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs   # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 5, height = 0.05),
+    show.legend = FALSE   # hide size legend
   ) +
+  scale_size_continuous(range = c(0.5, 3))+
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
@@ -2654,8 +2697,8 @@ ggplot(plot_data_spik) +
     #  axis.line.y = element_line(color = "black", size = 0.01),
     # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black"),
-    strip.text.y = element_text(size = 8, color = "black"),
+    strip.text.x = element_text(size = 12, color = "black"),
+    strip.text.y = element_text(size = 10, color = "black"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )+
   geom_text(
@@ -2760,7 +2803,7 @@ delta_spik_filtered <- delta_spik_summary %>%
   )
 
 # View the filtered summary
-delta_spik_filtered
+ß
 
 # Prepare long-format data for plotting
 delta_long_spik <- delta_spik_summary %>%

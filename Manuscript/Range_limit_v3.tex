@@ -73,6 +73,7 @@
 \usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{makecell} % 
+\usepackage{float} 
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
 
@@ -174,11 +175,11 @@ This research was supported by National Science Foundation Division of Environme
 %J.K.M. drafted the manuscript, and T.E.X.M contributed to revisions.
 
 \bigskip
-\noindent\textbf{Abstract:}\\
+\noindent\textbf{Abstract}: 141\\
 \noindent\textbf{Main Text:}\\
-\noindent\textbf{Figures: 5}\\
-\noindent\textbf{Tables: 1}\\
-\noindent\textbf{References: X}
+\noindent\textbf{Figures}: 6\\
+\noindent\textbf{Tables}: 1\\
+\noindent\textbf{References}: X
 
 \newpage
 %\SweaveOpts{concordance=TRUE}
@@ -186,10 +187,10 @@ This research was supported by National Science Foundation Division of Environme
 %-------------------------------------------------------------------------
 \spacing{1.25}
 \section*{Abstract}
-%150 words limit for Ecology letter. The number now is 146
-Symbiotic microbes are widespread and often thought to enhance host performance under environmental stress, yet the relative roles of abiotic and biotic factors in shaping these outcomes remain unclear.
-We studied how the independent and combined effects of aridity and herbivory modify the demographic effects of seed-transmitted fungal endophytes on three native grass host species using geographically distributed field experiments along a precipitation gradient, crossed with herbivore exclusion. 
-Host demographic performance declined under low precipitation, with endophyte-symbiotic plants showing particularly high mortality and reduced reproduction.
+%150 words limit for Ecology letter. The number now is 151
+Symbiotic mutualisms are widespread in nature and often thought to enhance host performance under environmental stress, yet the relative roles of abiotic and biotic factors in shaping these outcomes remain unclear.
+We studied how the independent and combined effects of aridity and herbivory modify the demographic effects of seed-transmitted fungal endophytes on three native grass host species using geographically distributed field experiments along a precipitation gradient, crossed with herbivore exclusion treatments. 
+Host fitness declined under high aridity, with endophyte-symbiotic plants showing reduced survival, growth, or reproduction in at least one treatment for each species.
 Abiotic stress emerged as the primary driver of symbiosis outcomes, but in the opposite direction than predicted by theory and previous studies, with symbioses becoming more beneficial in more benign abiotic environments.
 These results highlight that symbiotic fungi can become liabilities under stress, with implications for the dynamics of plant-fungal mutualisms under global change.
 
@@ -496,97 +497,96 @@ Moving forward, quantifying how symbioses influence population growth under diff
 
 \clearpage
 \section*{Figures}
-{
 \captionsetup[figure]{list=no}
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\textwidth]{../Figure/Prediction.png}
-    \caption{Conceptual framework illustrating the predicted effects of abiotic stress, biotic stress, and endophyte-mediated mutualism on host plant fitness (adapted from \citep{porter2020beneficial}). 
-    (a) \textbf{Endophyte-driven stress amelioration scenario:} Endophytes are predicted to enhance host performance under increasing abiotic stress (e.g., low precipitation) in the absence of herbivores by mitigating drought-related physiological costs. 
-    %Abiotic stress is the primary driver of host fitness, and endophyte-mediated benefits become more pronounced as stress intensifies. 
-    (b) \textbf{Reduced endophyte-mediated benefits scenario:} When abiotic stress is combined with herbivory, the positive effect of endophytes is expected to weaken. Limited plant resources are divided between defense against herbivores and sustaining the endophyte, reducing the endophyte’s capacity to ameliorate drought stress and potentially resulting in a net cost of hosting an endophyte. 
-    Colors are used solely for visualization: blue lines represent endophyte-infected plants and violet lines represent endophyte-free plants.}
-    \label{fig:prediction}
+\centering
+\includegraphics[width=1\textwidth]{../Figure/Prediction.png}
+\caption{
+Conceptual framework illustrating predicted effects of abiotic stress, biotic stress, and endophyte-mediated mutualism on host plant fitness (adapted from \citep{porter2020beneficial}). 
+(A) Endophyte-driven stress amelioration: endophytes enhance host performance under increasing abiotic stress in the absence of herbivores. 
+(B) Reduced endophyte benefits under combined abiotic stress and herbivory due to resource limitation. 
+Blue lines represent endophyte-infected plants (E$^{+}$) and violet lines represent endophyte-free plants (E$^{-}$).
+}
+\label{fig:prediction}
 \end{figure}
 
-
 \clearpage
-{
+
 \captionsetup[figure]{list=no}
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.92\textwidth]{../Figure/clim_map1.pdf}
-\caption{Distribution of common garden sites along a natural aridity gradient from Texas to Louisiana, US for (A) \emph{Agrostis hyemalis}, (B) \emph{Elymus virginicus}, and (C) \emph{Poa autumnalis}. 
-Climate data in A–C are based on 30-year normals of climate predictions (1996–2025) from PRISM data \citep{PRISM2024}, illustrating the precipitation gradient across experimental sites (scale on the right is in mm). 
-Red dots indicate the locations of source populations, while grey dots represent Global Biodiversity Information Facility (GBIF) occurrence records for each species within the study area \citep{gbif2025_aghy,gbif2025_elvi,gbif2025_poau}.
-(D) Annual cumulative precipitation during each census year  at each experimental site, ordered west to east. 
-Values are also derived from PRISM climate data. 
-Note that Kerville (KER) was not censused in 2025.
-(E) Schematic illustration of fenced (left) and unfenced (right) plots used to assess herbivory. 
-Symbols (+/$-$) represent plant endophyte status, with ``+'' indicating endophyte-positive and ``$-$'' indicating endophyte-free individuals; plot shape corresponds to experimental design.
-(F) Proportion of damaged plants in fenced (salmon) and unfenced (light green) plots across experimental sites, with mean ± standard error. 
-Sites are ordered west to east as in panel D. 
-Panels E–F illustrate herbivory treatments and outcomes, and species-specific breakdowns are provided in Supplementary Figures.}
+\caption{
+Distribution of common garden sites along an aridity gradient from Texas to Louisiana, USA, for (A) \emph{Agrostis hyemalis}, (B) \emph{Elymus virginicus}, and (C) \emph{Poa autumnalis}. 
+Panels show PRISM 30-year climate normals (1996–2025). 
+Red dots indicate source populations and grey dots GBIF occurrences. 
+(D) Annual precipitation during census years. 
+(E) Herbivory treatments (access vs. exclusion). 
+(F) Proportion of damaged plants (mean ± SE).
+}
 \label{fig:site}
 \end{figure}
-}
+
 \clearpage
 
-{
 \captionsetup[figure]{list=no}
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{../Figure/PrSurvival_diff.pdf}
-\caption{Predicted survival rate (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
-Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
-Points represent mean observed survival per plot,  jittered  for visualization.  
-The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
-Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
+\caption{
+Predicted survival probability (upper panels) and endophyte effect ($\Delta = E^{+} - E^{-}$; lower panels) across precipitation gradients. 
+Lines show posterior means with 90\% credible intervals. 
+Points indicate observed means, with point size proportional to sample size. 
+Horizontal dashed line denotes $\Delta = 0$. 
+Panels are arranged by species and herbivory treatment (herbivore access and exclusion).
+}
 \label{fig:Surv}
 \end{figure}
-}
 
-{
 \captionsetup[figure]{list=no}
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/Growth_diff.pdf}
-\caption{Predicted relative growth from year to the next year (top panels) and endophyte effect (\(\Delta = \mathrm{E^+ - E^-}\), bottom panels) across precipitation gradients. 
-Lines show posterior means for E\(^+\) (blue) and E\(^-\) (red), with shading indicating 90\% credible intervals. 
-Points represent mean observed growth per plot,  jittered  for visualization.  
-The dashed line at \(\Delta = 0\) indicates no endophyte effect. 
-Panels are organized by species and herbivory treatment (Fenced, Unfenced).}
+\includegraphics[width=0.99\textwidth]{../Figure/Growth_diff.pdf}
+\caption{
+Predicted relative growth rate (upper panels) and endophyte effect ($\Delta = E^{+} - E^{-}$; lower panels) across precipitation gradients. 
+Lines show posterior means with 90\% credible intervals. 
+Points indicate observed means, with point size proportional to sample size. 
+Horizontal dashed line denotes $\Delta = 0$. 
+Panels are arranged by species and herbivory treatment (herbivore access and exclusion).
+}
 \label{fig:growth}
 \end{figure}
-}
 
-{
 \captionsetup[figure]{list=no}
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{../Figure/Inflorescence_diff_v.pdf}
 \caption{
-%Effects of precipitation, endophyte presence, and herbivory on flowering output (number of inflorescences) across three cool-season grass species. 
-Predicted number of inflorescences (upper panels) and the difference between endophyte-infected (E$^+$) and endophyte-free (E$^-$) plants ($\Delta$(E$^+$--E$^-$), lower panels) are shown across a gradient of precipitation.
-%for \textit{Agrostis hyemalis}, \textit{Elymus virginicus}, and \textit{Poa autumnalis}. 
-Shaded areas represent 90\% credible intervals. 
-Points indicate observed means, jittered  for visualization. 
-Panels are grouped by species and herbivory treatment (Fenced, Unfenced).}
+Predicted inflorescence production (upper panels) and endophyte effect ($\Delta = E^{+} - E^{-}$; lower panels) across precipitation gradients. 
+Lines show posterior means with 90\% credible intervals. 
+Points indicate observed means, with point size proportional to sample size. 
+Horizontal dashed line denotes $\Delta = 0$. 
+Panels are arranged by species and herbivory treatment (herbivore access and exclusion).
+}
 \label{fig:flowering}
 \end{figure}
-}
+
 \clearpage
 
 \captionsetup[figure]{list=no}
-\begin{figure}[H]
+\begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
 \caption{
-Predicted effects of herbivore exclusion on survival, growth, and inflorescence production across precipitation gradients for \textit{A. hyemalis}, \textit{E. virginicus}, and \textit{P. autumnalis}. Panels show the median difference between fenced and unfenced treatments ($\Delta = E^{+} - E^{-}$) and the probability that this difference is positive ($\Pr[\Delta > 0]$). Horizontal dashed lines indicate $\Delta = 0$ and $\Pr(\Delta > 0) = 0.5$, and vertical dashed lines denote species-specific mean annual precipitation at range limits. Colors indicate herbivore exclusion treatments.
+Predicted effects of herbivory exclusion on survival, growth, and inflorescence production across precipitation gradients. 
+Panels show median differences and $\Pr(\Delta > 0)$. 
+Horizontal dashed lines denote $\Delta = 0$ and $\Pr(\Delta > 0) = 0.5$. 
+%Vertical dashed lines indicate species-specific precipitation at range limits. 
+Panels are arranged by species and vital rate.
 }
 \label{fig:allstat}
 \end{figure}
-}
+
 \clearpage
 
 \section*{Tables}
@@ -663,7 +663,6 @@ Spikelet      & Endophyte $\times$ Climate                     & & 0.00    & 0.0
             + \beta_{\text{endo}\times P}[\text{Sp}_i]\,endo_i P_i \\
     &\quad + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
-
     \item \textbf{Endophyte × Herbivory model:} includes endophyte status ($\text{endo}$), herbivory ($\text{herb}$), and their interaction:
     \begin{align*}
     \mu_i &= \beta_0[\text{Sp}_i] + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_{\text{herb}}[\text{Sp}_i]\,herb_i 
@@ -680,14 +679,12 @@ Spikelet      & Endophyte $\times$ Climate                     & & 0.00    & 0.0
     &\quad + \beta_{\text{endo}\times \text{herb} \times P}[\text{Sp}_i]\,endo_i\,herb_i\,P_i
           + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
-
     \item \textbf{Endophyte + Climate + Herbivory (main effects only):} includes all three predictors but no interactions:
     \begin{align*}
     \mu_i &= \beta_0[\text{Sp}_i] + \beta_{\text{endo}}[\text{Sp}_i]\,endo_i + \beta_P[\text{Sp}_i] P_i + \beta_{\text{herb}}[\text{Sp}_i]\,herb_i \\
     &\quad + \phi_{\text{site}[i],\text{Sp}_i} + \omega_{\text{source}[i],\text{Sp}_i} + \rho_{\text{plot}[i],\text{Sp}_i}
     \end{align*}
 \end{enumerate}
-
 In these models, the $\beta$ coefficients represent species-specific effects. 
 The intercept $\beta_0[\text{Sp}_i]$ corresponds to the baseline value of the vital rate for species $\text{Sp}_i$ in the absence of predictors. $\beta_{\text{endo}}[\text{Sp}_i]$ and $\beta_{\text{herb}}[\text{Sp}_i]$ describe the effects of endophyte presence and herbivory, respectively. The linear effect of precipitation is captured by $\beta_P[\text{Sp}_i]$, while interactions are represented by $\beta_{\text{endo}\times P}[\text{Sp}_i]$, $\beta_{\text{herb}\times P}[\text{Sp}_i]$, $\beta_{\text{endo}\times \text{herb}}[\text{Sp}_i]$, and the three-way interaction $\beta_{\text{endo}\times \text{herb} \times P}[\text{Sp}_i]$. 
 All models include hierarchical random effects for site-year, source population, and plot, with species-specific random effects $\phi_{\text{site}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{site}})$, $\omega_{\text{source}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{source}})$, and $\rho_{\text{plot}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{plot}})$.

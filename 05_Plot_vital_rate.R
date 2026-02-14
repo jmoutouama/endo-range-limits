@@ -494,7 +494,7 @@ delta_surv_filtered <- delta_surv_summary %>%
     upper_90 = round(upper_90, 3),
     prob_delta_gt0 = round(prob_delta_gt0, 3)
   )
-view(delta_surv_filtered)
+#view(delta_surv_filtered)
 #library(xtable)
 # Add LaTeX italics to species names
 # delta_surv_filtered_latex <- delta_surv_filtered %>%
@@ -502,8 +502,6 @@ view(delta_surv_filtered)
 # 
 # # Create xtable
 # xt <- xtable(delta_surv_filtered_latex, label = "tab:delta_surv_filtered")
-
-
 
 # Plot for survival
 Cairo::CairoPDF(
@@ -593,8 +591,6 @@ delta_ratios <- delta_low_quantiles %>%
   mutate(
     severity_ratio = abs(`Herbivory exclusion`) / abs(`Herbivory access`)
   )
-
-
 ## Endophyte effect size under abiotic stress
 ## Ratio-based metric: E+ / E− survival
 ## Interpretation:

@@ -117,7 +117,7 @@ demography_surv_ppt <- list(
 )
 
 # Load model and data
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/khyez2xegn8j5elkchaf6/fit_surv_abio_bio_endo_linear.rds?rlkey=zh4hx9czjov9aivlmaycfcuq7&dl=1"))
+fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6vz1nxc2310os0u83skn6/fit_surv_abio_bio_endo_linear.rds?rlkey=mmghgcfx1glfwzg0t56wa42d4&dl=1"))
 
 # Prediction grid
 climate_range <- seq(min(demography_surv_ppt$clim),
@@ -193,7 +193,11 @@ observed_data_survival <- demography_surv_ppt %>%
     y = .$y
   ) %>% 
   group_by(plot, species, herb, clim, endo) %>% 
-  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop") %>%
+  summarise(
+    y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # counts non-missing observations
+    .groups = "drop"
+  ) %>%
   mutate(panel = "Pr (survival)")
 
 # Differences (E+ - E-)
@@ -292,11 +296,15 @@ ggplot(plot_data_survival) +
       y = ifelse(y_plot_mean <= 0, 0.01,
                  ifelse(y_plot_mean >= 1, 0.99,
                         y_plot_mean)),
-      color = factor(endo)
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
     ),
-    size = 0.75,alpha=0.3,
-    position = position_jitter(width = 0.05, height = 0)  # horizontal jitter only
-  )+
+    alpha = 0.3,
+    position = position_jitter(width = 0.05, height = 0),  # horizontal jitter only
+    show.legend = FALSE  # suppress size legend
+  ) +
+  # optional: scale the sizes so they aren't too big or small
+  scale_size_continuous(range = c(0.5, 3))+
   # Δ panel
   geom_line(
     data = subset(plot_data_survival, panel == "Δ (E+ - E-)"),
@@ -324,7 +332,7 @@ ggplot(plot_data_survival) +
   ) +
   ggh4x::facetted_pos_scales(
     y = list(
-      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.3), expand = c(0,0),breaks = 0,labels = 0,minor_breaks = NULL),
+      panel == "Δ (E+ - E-)" ~ scale_y_continuous(limits = c(-0.3, 0.35), expand = c(0,0),breaks = 0,labels = 0,minor_breaks = NULL),
       panel == "Pr (survival)" ~ scale_y_continuous(limits = c(0, 1),expand = c(0,0))
     )
   ) +
@@ -335,7 +343,7 @@ ggplot(plot_data_survival) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 0.2),
     axis.line = element_line(color = "black", size = 0.1),
-    legend.position = c(0.058, 0.23),
+    legend.position = c(0.415, 0.20),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -486,7 +494,7 @@ delta_surv_filtered <- delta_surv_summary %>%
     upper_90 = round(upper_90, 3),
     prob_delta_gt0 = round(prob_delta_gt0, 3)
   )
-
+#view(delta_surv_filtered)
 #library(xtable)
 # Add LaTeX italics to species names
 # delta_surv_filtered_latex <- delta_surv_filtered %>%
@@ -494,8 +502,6 @@ delta_surv_filtered <- delta_surv_summary %>%
 # 
 # # Create xtable
 # xt <- xtable(delta_surv_filtered_latex, label = "tab:delta_surv_filtered")
-
-
 
 # Plot for survival
 Cairo::CairoPDF(
@@ -585,8 +591,6 @@ delta_ratios <- delta_low_quantiles %>%
   mutate(
     severity_ratio = abs(`Herbivory exclusion`) / abs(`Herbivory access`)
   )
-
-
 ## Endophyte effect size under abiotic stress
 ## Ratio-based metric: E+ / E− survival
 ## Interpretation:
@@ -718,7 +722,7 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/o62tvjf8aqqz15gjxnrjn/fit_grow_abio_bio_endo_linear.rds?rlkey=xg1s6u5ctsluampm1l2zy1wqn&dl=1"))
+fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/jxujzmf5rcgptbzqbyu8u/fit_grow_abio_bio_endo_linear.rds?rlkey=hxs21k5algqp86md8aqsgc59c&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_grow_ppt$clim),
@@ -819,11 +823,16 @@ observed_data_grow <- demography_grow_ppt %>%
     y = .$y
   ) %>%
   group_by(plot, species, herb, clim, endo) %>% 
-  summarise(y_plot_mean = mean(y, na.rm = TRUE), .groups = "drop") %>%
+  summarise(
+    y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
+    .groups = "drop"
+  ) %>%
   mutate(
     panel = "Growth",
     climate_mm = exp(clim * ppt_sd + ppt_mean)
   )
+
 
 observed_data_grow$species <- factor(
   observed_data_grow$species,
@@ -879,10 +888,19 @@ ggplot(plot_data_grow) +
   # Observed points
   geom_point(
     data = subset(observed_data_grow, panel == "Growth"),
-    aes(x =climate_mm, y =y_plot_mean, color = factor(endo)),
-    size = 0.75,alpha=0.6,
-    position = position_jitter(width = 5, height = 0.05)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 5, height = 0.05),
+    show.legend = FALSE  # hide size legend
   ) +
+  # optional: control relative sizes
+  scale_size_continuous(range = c(0.5, 3))+
+
   # Lower panel: Δ(E+ − E−) differences
   geom_line(
     data = subset(plot_data_grow, panel == "Δ (E+ - E-)"),
@@ -955,7 +973,7 @@ ggplot(plot_data_grow) +
     )
   ) +
   # Labels and theme
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  labs(x = "Precipitation (mm)", y = "Log ratio of size", color = "Endophyte", fill = "Endophyte") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("E-", "E+")) +
   theme_classic() +
@@ -987,7 +1005,6 @@ ggplot(plot_data_grow) +
   )
 
 dev.off()
-
 
 # Plot
 # Cairo::CairoPDF(
@@ -1201,7 +1218,6 @@ delta_grow_filtered <- delta_grow_summary %>%
     upper_90 = round(upper_90, 3),
     prob_delta_gt0 = round(prob_delta_gt0, 3)
   )
-
 
 # Prepare long-format data for growth
 delta_long_grow <- delta_grow_summary %>%
@@ -1810,7 +1826,7 @@ demography_inf_ppt <- list(
   N = nrow(demography_climate_inf)
 )
 
-fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6ngnypika10yc0jrvr531/fit_inf_abio_bio_endo_linear.rds?rlkey=822f09t91dd2jw4r8svwmdh29&dl=1"))
+fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/vn7ms9zrp91svfr9o9wy8/fit_inf_abio_bio_endo_linear.rds?rlkey=accz66armitumo1y2n142q3tj&dl=1"))
 predictions <- expand.grid(
   clim = seq(
     min(demography_inf_ppt$clim),
@@ -1915,7 +1931,7 @@ plot_data_inf$species <- factor(
 plot_data_inf <- plot_data_inf %>%
   mutate(panel = ifelse(panel == "Inflorescences", "Inflorescences", panel))
 
-observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
+observed_data_inf <- demography_inf_ppt %>%  # or your dataset for inflorescences
   data.frame(
     clim = .$clim,
     endo = .$endo,
@@ -1927,10 +1943,13 @@ observed_data_inf <- demography_inf_ppt %>%  # or your dataset for infering
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
     .groups = "drop"
   ) %>%
-  mutate(panel = "Inflorescences",
-         climate_mm = exp(clim * ppt_sd + ppt_mean))
+  mutate(
+    panel = "Inflorescences",
+    climate_mm = exp(clim * ppt_sd + ppt_mean)
+  )
 
 # Relabel species (matching your plot_data_inf)
 observed_data_inf$species <- factor(
@@ -1979,7 +1998,7 @@ panel_labels_inf <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Inflorescences",
-  ymax = rep(c(25, 10, 40), each = 2)   # 👈 from your facetted scales
+  ymax = rep(c(40, 8, 110), each = 2)   # 👈 from your facetted scales
 )
 
 #Plot with updated panel labels
@@ -2001,9 +2020,17 @@ ggplot(plot_data_inf) +
   ) +
   geom_point(
     data = subset(observed_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),alpha=0.3,
-    size = 0.75, position = position_jitter(width = 0, height = 0.00)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs  # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 0, height = 0),
+    show.legend = FALSE  # hide size legend
   ) +
+  scale_size_continuous(range = c(0.5, 3)) + # optional: control relative sizes
 
   # Lower panel: Δ (E+ - E-) differences
   geom_line(
@@ -2058,11 +2085,11 @@ ggplot(plot_data_inf) +
 
       # Upper panels – #Inflorescences custom limits per species
       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 25)),
+        scale_y_continuous(limits = c(0, 40)),
       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 10)),
+        scale_y_continuous(limits = c(0, 8)),
       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 40))
+        scale_y_continuous(limits = c(0, 110))
     )
   ) +
   labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
@@ -2426,8 +2453,7 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_spik)
 )
 
-
-fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6fcebl4lw8mu94fz62hnh/fit_spik_abio_bio_endo_linear.rds?rlkey=zy25y44zocugs6shh68lwpy1q&dl=1"))
+fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/6vnqhv5f8q5r0xkyiz8jw/fit_spik_abio_bio_endo_linear.rds?rlkey=0fhzukeb0294bskqv7boheokm&dl=1"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 predictions <- expand.grid(
   clim = seq(
@@ -2523,10 +2549,13 @@ observed_data_spik <- demography_spik_ppt %>%
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),   # sample size per plot
     .groups = "drop"
   ) %>%
-  mutate(panel = "Spikelets",
-         climate_mm = exp(clim * ppt_sd + ppt_mean))
+  mutate(
+    panel = "Spikelets",
+    climate_mm = exp(clim * ppt_sd + ppt_mean)
+  )
 
 # Relabel species
 observed_data_spik$species <- factor(
@@ -2564,7 +2593,7 @@ panel_labels_spik <- data.frame(
 # Plot (horizontal layout for paper figure) 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
-  width = 9, height = 6
+  width = 10, height = 6
 )
 ggplot(plot_data_spik) +
   # Upper panel: predicted spikelets
@@ -2593,9 +2622,17 @@ ggplot(plot_data_spik) +
   ) +
   geom_point(
     data = subset(observed_data_spik, panel == "Spikelets"),
-    aes(x = climate_mm, y = y_plot_mean, color = factor(endo)),
-    size = 0.75, position = position_jitter(width = 5, height = 0.05)
+    aes(
+      x = climate_mm,
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs   # map point size to sample size
+    ),
+    alpha = 0.3,
+    position = position_jitter(width = 5, height = 0.05),
+    show.legend = FALSE   # hide size legend
   ) +
+  scale_size_continuous(range = c(0.5, 3))+
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Δ (E+ - E-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
@@ -2656,8 +2693,8 @@ ggplot(plot_data_spik) +
     #  axis.line.y = element_line(color = "black", size = 0.01),
     # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
-    strip.text.x = element_text(size = 10, color = "black"),
-    strip.text.y = element_text(size = 8, color = "black"),
+    strip.text.x = element_text(size = 12, color = "black"),
+    strip.text.y = element_text(size = 10, color = "black"),
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )+
   geom_text(
@@ -2762,7 +2799,7 @@ delta_spik_filtered <- delta_spik_summary %>%
   )
 
 # View the filtered summary
-delta_spik_filtered
+ß
 
 # Prepare long-format data for plotting
 delta_long_spik <- delta_spik_summary %>%
@@ -2956,9 +2993,9 @@ climate_max <- climate_max %>%
 p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group = herb)) +
   geom_line(size = 1) +
   geom_hline(
-    data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"), 
-    aes(yintercept = 0), 
-    linetype = "dashed", 
+    data = delta_long_all %>% filter(metric == "Median Δ (E+ − E−)"),
+    aes(yintercept = 0),
+    linetype = "dashed",
     color = "black"
   ) +
   geom_hline(
@@ -3013,27 +3050,55 @@ p_all <- ggplot(delta_long_all, aes(x = clim_mm, y = value, color = herb, group 
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   ) 
 
-theme(
-  panel.border = element_rect(color = "black", fill = NA, size = 0.2),
-  axis.line = element_line(color = "black", size = 0.1),
-  legend.position = "bottom",
-  legend.title = element_text(size = 30),
-  legend.text  = element_text(size = 30),
-  axis.title.x = element_text(size = 28),
-  axis.text    = element_text(size = 20),
-  strip.text.x = element_text(size = 32, color = "black"),
-  strip.text.y = element_text(size = 32, color = "black"),
-  #  axis.line.y = element_line(color = "black", size = 0.01),
-  # axis.line.x = element_line(color = "black", size = 0.01),
-  text = element_text(family = "Arial"),
-  strip.text.x = element_text(size = 10, color = "black"),
-  strip.text.y = element_text(size = 8, color = "black"),
-  strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
-) 
 
 
 Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat.pdf", width = 30, height = 15)
 print(p_all)
 dev.off()
 
+# Filter only the lower panel (Pr (Δ > 0))
+p_lower <- delta_long_all %>%
+  filter(metric == "Pr (Δ > 0)") %>%
+  ggplot(aes(x = clim_mm, y = value, color = herb, group = herb)) +
+  geom_line(size = 1) +
+  geom_hline(
+    yintercept = 0.5, 
+    linetype = "dashed", 
+    color = "grey50"
+  ) +
+  facet_grid(
+    . ~ species_label + trait,
+    scales = "free_y",
+    labeller = labeller(
+      species_label = label_parsed,
+      trait = label_value
+    )
+  ) +
+  scale_color_manual(values = c(
+    "Herbivory access" = "#E69F00", 
+    "Herbivory exclusion" = "#009E73"
+  )) +
+  labs(
+    x = "Precipitation (mm)", 
+    y = "P(Δ > 0)", 
+    color = "Herbivore treatment"
+  ) +
+  theme_classic(base_size = 18, base_family = "Arial") +
+  theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
+    legend.position = c(0.998, 0.95),       # top-right inside last panel
+    legend.justification = c(1, 1),        # align top-right corner
+    legend.background = element_rect(fill = alpha('white', 0.7), color = "black"),
+    legend.title = element_text(size = 24),
+    legend.text  = element_text(size = 22),
+    axis.title.x = element_text(size = 28),
+    axis.text    = element_text(size = 20),
+    strip.text.x = element_text(size = 32, color = "black"),
+    text = element_text(family = "Arial"),
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
+  )
 
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 10)
+print(p_lower)
+dev.off()

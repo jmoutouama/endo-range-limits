@@ -36,6 +36,7 @@ library(extraDistr)
 library(lubridate)
 library(patchwork)
 library(ggh4x)
+library(xtable)
 # Install cmdstanr from R
 # install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 # # Install CmdStan backend (once)
@@ -539,7 +540,6 @@ dev.off()
 
 
 # Select only the essential columns for reporting
-library(xtable)
 # Map full species names to abbreviated form
 species_abbrev <- c(
   "Agrostis hyemalis"   = "A. hyemalis",
@@ -1835,7 +1835,7 @@ delta_long_inf <- delta_inf_summary %>%
 
 # Plot Δ survival
 Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_stat_speciesRange.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_stat_species.pdf",
   width = 7, height = 6
 )
 

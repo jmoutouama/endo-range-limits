@@ -176,6 +176,8 @@ scored_greenhouse_genotypes %>%
 
 ##mean prevalence by species
 endo_scores %>% group_by(SPECIES,ENDOPHYTE) %>% summarise(mean(prevalence_liberal))
+##how many plants did we test?
+endo_scores %>% ungroup() %>% summarise(sum(count))
 
 treatment_table<-endo_scores %>% 
   ungroup() %>%

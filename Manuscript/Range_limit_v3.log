@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 FEB 2026 12:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 FEB 2026 16:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1267,49 +1267,49 @@ Package microtype Info: Loading generic protrusion settings for font family
 [20])
 
 [21]
-<../Figure/Prediction.png, id=447, 950.55125pt x 413.545pt>
+<../Figure/Prediction.png, id=446, 950.55125pt x 413.545pt>
 File: ../Figure/Prediction.png Graphic file (type png)
 <use ../Figure/Prediction.png>
-Package pdftex.def Info: ../Figure/Prediction.png  used on input line 503.
+Package pdftex.def Info: ../Figure/Prediction.png  used on input line 508.
 (pdftex.def)             Requested size: 469.75502pt x 204.37411pt.
 
 
 [22
 
  <../Figure/Prediction.png>]
-<../Figure/clim_map1.pdf, id=458, 650.43pt x 758.835pt>
+<../Figure/clim_map1.pdf, id=457, 650.43pt x 758.835pt>
 File: ../Figure/clim_map1.pdf Graphic file (type pdf)
 <use ../Figure/clim_map1.pdf>
-Package pdftex.def Info: ../Figure/clim_map1.pdf  used on input line 518.
+Package pdftex.def Info: ../Figure/clim_map1.pdf  used on input line 523.
 (pdftex.def)             Requested size: 432.17375pt x 504.21368pt.
 
 
 [23
 
  <../Figure/clim_map1.pdf>]
-<../Figure/PrSurvival_diff.pdf, id=478, 433.62pt x 505.89pt>
+<../Figure/PrSurvival_diff.pdf, id=477, 433.62pt x 505.89pt>
 File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 535.
+Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 540.
 
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
-<../Figure/Growth_diff.pdf, id=479, 505.89pt x 650.43pt>
+<../Figure/Growth_diff.pdf, id=478, 505.89pt x 650.43pt>
 File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 550.
+Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 555.
 (pdftex.def)             Requested size: 465.06004pt x 597.94632pt.
 
 
-LaTeX Warning: Float too large for page by 17.51631pt on input line 560.
+LaTeX Warning: Float too large for page by 17.51631pt on input line 565.
 
-<../Figure/Inflorescence_diff_v.pdf, id=480, 505.89pt x 650.43pt>
+<../Figure/Inflorescence_diff_v.pdf, id=479, 505.89pt x 650.43pt>
 File: ../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff_v.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff_v.pdf  used on input line
- 565.
+ 570.
 (pdftex.def)             Requested size: 469.75502pt x 603.98058pt.
 
-LaTeX Warning: Float too large for page by 23.55057pt on input line 575.
+LaTeX Warning: Float too large for page by 23.55057pt on input line 580.
 
 
 
@@ -1318,11 +1318,11 @@ LaTeX Warning: Float too large for page by 23.55057pt on input line 575.
 [25 <../Figure/Growth_diff.pdf>]
 
 [26 <../Figure/Inflorescence_diff_v.pdf>]
-<../Figure/All_traits_diff_stat_lower.pdf, id=576, 2457.18pt x 722.7pt>
+<../Figure/All_traits_diff_stat_lower.pdf, id=575, 2457.18pt x 722.7pt>
 File: ../Figure/All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use ../Figure/All_traits_diff_stat_lower.pdf>
 Package pdftex.def Info: ../Figure/All_traits_diff_stat_lower.pdf  used on inpu
-t line 582.
+t line 587.
 (pdftex.def)             Requested size: 469.75502pt x 138.16354pt.
 
 
@@ -1403,59 +1403,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--10
 [39
 
 ]
-<../Figure/temp_census_years.pdf, id=657, 578.16pt x 289.08pt>
+<../Figure/temp_census_years.pdf, id=656, 578.16pt x 289.08pt>
 File: ../Figure/temp_census_years.pdf Graphic file (type pdf)
 <use ../Figure/temp_census_years.pdf>
-Package pdftex.def Info: ../Figure/temp_census_years.pdf  used on input line 79
-5.
+Package pdftex.def Info: ../Figure/temp_census_years.pdf  used on input line 80
+0.
 (pdftex.def)             Requested size: 375.80544pt x 187.89977pt.
 
 
 [40
 
  <../Figure/temp_census_years.pdf>]
-<../Figure/prop_damage_barplot_24_25.pdf, id=667, 578.16pt x 289.08pt>
+<../Figure/prop_damage_barplot_24_25.pdf, id=666, 578.16pt x 289.08pt>
 File: ../Figure/prop_damage_barplot_24_25.pdf Graphic file (type pdf)
 <use ../Figure/prop_damage_barplot_24_25.pdf>
 Package pdftex.def Info: ../Figure/prop_damage_barplot_24_25.pdf  used on input
- line 805.
+ line 810.
 (pdftex.def)             Requested size: 469.75502pt x 234.8769pt.
 
 
 [41
 
  <../Figure/prop_damage_barplot_24_25.pdf>]
-<../Figure/prop_damage_species_years.pdf, id=678, 867.24pt x 578.16pt>
+<../Figure/prop_damage_species_years.pdf, id=677, 867.24pt x 578.16pt>
 File: ../Figure/prop_damage_species_years.pdf Graphic file (type pdf)
 <use ../Figure/prop_damage_species_years.pdf>
 Package pdftex.def Info: ../Figure/prop_damage_species_years.pdf  used on input
- line 817.
+ line 822.
 (pdftex.def)             Requested size: 469.75502pt x 313.17216pt.
 
 
 [42
 
  <../Figure/prop_damage_species_years.pdf>]
-<../Figure/PPC_linear.png, id=689, 573.14125pt x 485.815pt>
+<../Figure/PPC_linear.png, id=688, 573.14125pt x 485.815pt>
 File: ../Figure/PPC_linear.png Graphic file (type png)
 <use ../Figure/PPC_linear.png>
-Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 829.
+Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 834.
 (pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
-<../Figure/Spikelet_diff.pdf, id=690, 722.7pt x 433.62pt>
+<../Figure/Spikelet_diff.pdf, id=689, 722.7pt x 433.62pt>
 File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 840.
+Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 845.
 (pdftex.def)             Requested size: 469.75502pt x 281.85628pt.
 
 
 [43
 
  <../Figure/PPC_linear.png>]
-<../Figure/Spikelet_diff_stat.pdf, id=697, 505.89pt x 433.62pt>
+<../Figure/Spikelet_diff_stat.pdf, id=696, 505.89pt x 433.62pt>
 File: ../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Spikelet_diff_stat.pdf  used on input line 8
-53.
+58.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1471,18 +1471,19 @@ Package rerunfilecheck Info: File `Range_limit_v3.out' has not changed.
  )
 (\end occurred inside a group at level 2)
 
-### simple group (level 2) entered at line 596 ({)
+### simple group (level 2) entered at line 601 ({)
 ### semi simple group (level 1) entered at line 188 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 31023 strings out of 473190
- 567647 string characters out of 5715801
- 966663 words of memory out of 5000000
- 52587 multiletter control sequences out of 15000+600000
- 684551 words of font info for 860 fonts, out of 8000000 for 9000
+ 31043 strings out of 473190
+ 567957 string characters out of 5715801
+ 967663 words of memory out of 5000000
+ 52594 multiletter control sequences out of 15000+600000
+ 685524 words of font info for 870 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,15n,101p,1011b,922s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,15n,101p,1011b,919s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmitt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
@@ -1492,10 +1493,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v3.pdf (45 pages, 892460 bytes).
+Output written on Range_limit_v3.pdf (45 pages, 905424 bytes).
 PDF statistics:
- 836 PDF objects out of 1000 (max. 8388607)
- 692 compressed objects within 7 object streams
- 151 named destinations out of 1000 (max. 500000)
- 195177 words of extra memory for PDF output out of 221844 (max. 10000000)
+ 839 PDF objects out of 1000 (max. 8388607)
+ 693 compressed objects within 7 object streams
+ 152 named destinations out of 1000 (max. 500000)
+ 195689 words of extra memory for PDF output out of 221844 (max. 10000000)
 

@@ -99,6 +99,10 @@ observed_herb <- observed_herb %>%
 # -------------------------------
 # 7. Plot predictions + observed points
 # -------------------------------
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_diff.pdf",
+  width = 8, height = 8
+)
 ggplot(pred_summary_clim, aes(x = ppt_mm, y = median, color = Endo_label, fill = Endo_label)) +
   
   # Posterior 90% CI ribbon
@@ -125,8 +129,8 @@ ggplot(pred_summary_clim, aes(x = ppt_mm, y = median, color = Endo_label, fill =
   
   # Axis labels
   labs(
-    x = "Cumulative precipitation (mm)",
-    y = "Herbivory (plot mean)",
+    x = "Precipitation (mm)",
+    y = "Herbivory",
     color = "Endophyte",
     fill  = "Endophyte"
   ) +
@@ -137,7 +141,7 @@ ggplot(pred_summary_clim, aes(x = ppt_mm, y = median, color = Endo_label, fill =
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank()
   )
-
+dev.off()
 # Compute posterior difference (E+ - E-) per draw
 # Identify unique species and ppt combinations
 species_unique <- unique(pred_grid$Species)

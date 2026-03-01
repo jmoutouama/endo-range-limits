@@ -23,6 +23,7 @@ parameters {
   vector[nSpp] bendoclim;     
   vector[nSpp] bendoherb;     
   vector[nSpp] bendoherbclim; 
+  vector[nSpp] bherbclim;     
   vector[nSpp] bclim2;        
 
   real<lower=0> plot_tau;     
@@ -45,6 +46,7 @@ transformed parameters {
                 // 2-way interactions between endophyte and stressors
                 bendoclim[Spp[isurv]] * clim[isurv] * endo[isurv] + 
                 bendoherb[Spp[isurv]] * endo[isurv] * herb[isurv] + 
+                bherbclim[Spp[isurv]] * herb[isurv] * clim[isurv] +  
                 // 3-way interaction between endophyte, herbivory, and climate
                 bendoherbclim[Spp[isurv]] * endo[isurv] * herb[isurv] * clim[isurv] + 
                 // Quadratic climate effects
@@ -64,6 +66,7 @@ model {
   bclim ~ normal(0, 5);           
   bendoclim ~ normal(0, 5);       
   bendoherb ~ normal(0, 5);       
+  bherbclim ~ normal(0, 5);       
   bendoherbclim ~ normal(0, 5);   
   bclim2 ~ normal(0, 5);          
 

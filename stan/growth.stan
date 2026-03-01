@@ -21,13 +21,14 @@ data {
 
 parameters {
   // Fixed effects
-  vector[nSpp] b0;             // Species-specific intercepts
-  vector[nSpp] bendo;          // Endophyte main effect
-  vector[nSpp] bherb;          // Herbivory main effect
-  vector[nSpp] bclim;          // Climate main effect
-  vector[nSpp] bendoclim;      // Endophyte × Climate interaction
-  vector[nSpp] bendoherb;      // Endophyte × Herbivory interaction
-  vector[nSpp] bendoherbclim;  // Endophyte × Herbivory × Climate interaction
+  vector[nSpp] b0;             
+  vector[nSpp] bendo;          
+  vector[nSpp] bherb;          
+  vector[nSpp] bclim;          
+  vector[nSpp] bendoclim;      // Endophyte × Climate
+  vector[nSpp] bendoherb;      // Endophyte × Herbivory
+  vector[nSpp] bherbclim;      // Herbivory × Climate (NEW)
+  vector[nSpp] bendoherbclim;  // Endophyte × Herbivory × Climate
   vector[nSpp] bclim2;         // Quadratic climate effect
 
   // Random effects
@@ -47,21 +48,17 @@ transformed parameters {
 
   for (i in 1:N) {
     predG[i] = b0[Spp[i]] + 
-               // Main effects for each covariate: baseline growth, endophyte, climate, herbivory
                bendo[Spp[i]] * endo[i] +
                bclim[Spp[i]] * clim[i] +
                bherb[Spp[i]] * herb[i] +
-               // Two-way interactions between endophyte and stressors
                bendoclim[Spp[i]] * endo[i] * clim[i] +
                bendoherb[Spp[i]] * endo[i] * herb[i] +
-               // Three-way interaction between endophyte, herbivory, and climate
+               bherbclim[Spp[i]] * herb[i] * clim[i] +   // <-- NEW
                bendoherbclim[Spp[i]] * endo[i] * herb[i] * clim[i] +
-               // Quadratic climate effect
                bclim2[Spp[i]] * square(clim[i]) +
-               // Random effects to account for unobserved variation
-               plot_rfx[plot[i]] +               // Plot-level variation
-               pop_rfx[pop[i]] +                 // Population-level variation
-               site_year_rfx[Spp[i], site_year[i]]; // Site-year-level variation
+               plot_rfx[plot[i]] + 
+               pop_rfx[pop[i]] + 
+               site_year_rfx[Spp[i], site_year[i]];
   }
 }
 
@@ -73,11 +70,12 @@ model {
   bclim ~ normal(0, 1);
   bendoclim ~ normal(0, 1);
   bendoherb ~ normal(0, 1);
+  bherbclim ~ normal(0, 1);       // <-- NEW
   bendoherbclim ~ normal(0, 1);
   bclim2 ~ normal(0, 1);
   sigma ~ normal(0, 1);
 
-  // Priors for random effects to capture variation across plots, populations, and site-years
+  // Priors for random effects
   plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);
   pop_tau ~ inv_gamma(0.1,0.1);
@@ -86,13 +84,12 @@ model {
   for (s in 1:nSpp)
     site_year_rfx[s] ~ normal(0, site_year_tau[s]);
 
-  // Likelihood: models growth as a normal function of all predictors
-  // Interactions test whether endophyte benefits are modulated by climate, herbivory, or both
+  // Likelihood
   y ~ normal(predG, sigma);
 }
 
 generated quantities {
-  vector[N] log_lik;  // Log-likelihood for model comparison (e.g., WAIC, LOO)
+  vector[N] log_lik;  // Log-likelihood for model comparison
   for (i in 1:N) {
     log_lik[i] = normal_lpdf(y[i] | predG[i], sigma);
   }

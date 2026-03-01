@@ -23,7 +23,6 @@ parameters {
   vector[nSpp] bendo;           
   vector[nSpp] bherb;           
   vector[nSpp] bclim;           
-  vector[nSpp] bclim2;          
 
   // Random effects
   real<lower=0> plot_tau;              
@@ -45,7 +44,6 @@ transformed parameters {
       b0[Spp[i]] +                              
       bendo[Spp[i]] * endo[i] +
       bclim[Spp[i]] * clim[i] +
-      bclim2[Spp[i]] * square(clim[i]) +
       bherb[Spp[i]] * herb[i] +
       plot_rfx[plot[i]] +
       pop_rfx[pop[i]] +
@@ -59,7 +57,6 @@ model {
   bendo ~ normal(0, 1);   
   bherb ~ normal(0, 1); 
   bclim ~ normal(0, 1);  
-  bclim2 ~ normal(0, 1);  
   phi ~ gamma(2,1);
 
   // Random effects

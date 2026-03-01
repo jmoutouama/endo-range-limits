@@ -20,7 +20,6 @@ parameters {
   vector[nSpp] bendo;         
   vector[nSpp] bherb;         
   vector[nSpp] bclim;         
-  vector[nSpp] bclim2;        
 
   real<lower=0> plot_tau;     
   vector[nPlot] plot_rfx;     
@@ -38,7 +37,6 @@ transformed parameters {
                     bendo[Spp[isurv]] * endo[isurv] +
                     bclim[Spp[isurv]] * clim[isurv] +
                     bherb[Spp[isurv]] * herb[isurv] +
-                    bclim2[Spp[isurv]] * square(clim[isurv]) +
                     plot_rfx[plot[isurv]] +
                     pop_rfx[pop[isurv]] +
                     site_year_rfx[Spp[isurv], site_year[isurv]];
@@ -51,7 +49,6 @@ model {
   bendo ~ normal(0, 5);           
   bherb ~ normal(0, 5);           
   bclim ~ normal(0, 5);           
-  bclim2 ~ normal(0, 5);          
 
   // Priors for random effects
   plot_tau ~ inv_gamma(0.1,0.1);

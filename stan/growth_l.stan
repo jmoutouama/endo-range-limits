@@ -27,6 +27,7 @@ parameters {
   vector[nSpp] bclim;         
   vector[nSpp] bendoclim;     
   vector[nSpp] bendoherb;     
+  vector[nSpp] bherbclim;       
   vector[nSpp] bendoherbclim; 
 
   // Random effects
@@ -51,6 +52,7 @@ transformed parameters {
                bherb[Spp[i]] * herb[i] +
                bendoclim[Spp[i]] * endo[i] * clim[i] +
                bendoherb[Spp[i]] * endo[i] * herb[i] +
+               bherbclim[Spp[i]] * herb[i] * clim[i] + 
                bendoherbclim[Spp[i]] * endo[i] * herb[i] * clim[i] +
                plot_rfx[plot[i]] +
                pop_rfx[pop[i]] +
@@ -66,15 +68,16 @@ model {
   bclim ~ normal(0, 1);
   bendoclim ~ normal(0, 1);
   bendoherb ~ normal(0, 1);
+  bherbclim ~ normal(0, 1);       
   bendoherbclim ~ normal(0, 1);
   sigma ~ normal(0, 1);
 
   // Random effects
-  plot_tau ~ inv_gamma(0.1,0.1);
+  plot_tau ~ normal(0, 1);
   plot_rfx ~ normal(0, plot_tau);
-  pop_tau ~ inv_gamma(0.1,0.1);
+  pop_tau ~ normal(0, 1);
   pop_rfx ~ normal(0, pop_tau);
-  site_year_tau ~ inv_gamma(0.1,0.1);
+  site_year_tau ~ normal(0, 1);
   for (s in 1:nSpp)
     site_year_rfx[s] ~ normal(0, site_year_tau[s]);
 
@@ -88,4 +91,3 @@ generated quantities {
     log_lik[i] = normal_lpdf(y[i] | predG[i], sigma);
   }
 }
-

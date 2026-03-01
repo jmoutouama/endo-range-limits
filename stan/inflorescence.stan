@@ -25,6 +25,7 @@ parameters {
   vector[nSpp] bclim;           
   vector[nSpp] bendoclim;       
   vector[nSpp] bendoherb;       
+  vector[nSpp] bherbclim;       
   vector[nSpp] bendoherbclim;   
   vector[nSpp] bclim2;          
 
@@ -38,7 +39,7 @@ parameters {
 
   // NB overdispersion and zero-inflation
   real<lower=0> phi; 
-  real<lower=0, upper=1> zi; // probability of structural zeros
+  real<lower=0, upper=1> zi; 
 }
 
 transformed parameters {
@@ -52,6 +53,7 @@ transformed parameters {
       bherb[Spp[i]] * herb[i] +
       bendoclim[Spp[i]] * clim[i] * endo[i] +
       bendoherb[Spp[i]] * endo[i] * herb[i] +
+      bherbclim[Spp[i]] * herb[i] * clim[i] +  
       bendoherbclim[Spp[i]] * endo[i] * herb[i] * clim[i] +
       bclim2[Spp[i]] * square(clim[i]) +
       plot_rfx[plot[i]] +
@@ -68,17 +70,17 @@ model {
   bclim ~ normal(0, 1);  
   bendoclim ~ normal(0, 1);  
   bendoherb ~ normal(0, 1); 
+  bherbclim ~ normal(0, 1);      
   bendoherbclim ~ normal(0, 1);
   bclim2 ~ normal(0, 1);  
-  phi ~ gamma(2,0.1); ; 
-  zi ~ beta(1, 1);  // weak prior for zero inflation
+  phi ~ gamma(2,0.1); 
+  zi ~ beta(1, 1);  
 
+  // Random effects
   plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);  
-
   pop_tau ~ inv_gamma(0.1,0.1);
   pop_rfx ~ normal(0, pop_tau);    
-
   site_year_tau ~ inv_gamma(0.1,0.1);     
   for (f in 1:nSpp)
     site_year_rfx[f] ~ normal(0, site_year_tau[f]);
@@ -87,8 +89,8 @@ model {
   for (i in 1:N) {
     if (y[i] == 0)
       target += log_sum_exp(
-        bernoulli_lpmf(1 | zi), // structural zero
-        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi) // NB zero
+        bernoulli_lpmf(1 | zi), 
+        bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi)
       );
     else
       target += bernoulli_lpmf(0 | zi) + neg_binomial_2_log_lpmf(y[i] | predF[i], phi);

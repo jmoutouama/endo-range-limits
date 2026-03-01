@@ -22,6 +22,7 @@ parameters {
   vector[nSpp] bclim;         
   vector[nSpp] bendoclim;     
   vector[nSpp] bendoherb;     
+  vector[nSpp] bherbclim;        // NEW 2-way interaction
   vector[nSpp] bendoherbclim; 
 
   real<lower=0> plot_tau;     
@@ -42,6 +43,7 @@ transformed parameters {
                     bherb[Spp[isurv]] * herb[isurv] + 
                     bendoclim[Spp[isurv]] * clim[isurv] * endo[isurv] + 
                     bendoherb[Spp[isurv]] * endo[isurv] * herb[isurv] + 
+                    bherbclim[Spp[isurv]] * herb[isurv] * clim[isurv] + 
                     bendoherbclim[Spp[isurv]] * endo[isurv] * herb[isurv] * clim[isurv] + 
                     plot_rfx[plot[isurv]] +
                     pop_rfx[pop[isurv]] +
@@ -57,12 +59,15 @@ model {
   bclim ~ normal(0, 5);           
   bendoclim ~ normal(0, 5);       
   bendoherb ~ normal(0, 5);       
+  bherbclim ~ normal(0, 5);       
   bendoherbclim ~ normal(0, 5);   
 
   plot_tau ~ inv_gamma(0.1,0.1);
   plot_rfx ~ normal(0, plot_tau);
+
   pop_tau ~ inv_gamma(0.1,0.1);
   pop_rfx ~ normal(0, pop_tau);
+
   site_year_tau ~ inv_gamma(0.1,0.1);
   for (s in 1:nSpp)
     site_year_rfx[s] ~ normal(0, site_year_tau[s]);

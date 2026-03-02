@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 MAR 2026 12:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 MAR 2026 14:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1267,11 +1267,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 [20])
 
 [21]
-<../Figure/Prediction.png, id=436, 950.55125pt x 413.545pt>
+<../Figure/Prediction.png, id=436, 833.076pt x 433.62pt>
 File: ../Figure/Prediction.png Graphic file (type png)
 <use ../Figure/Prediction.png>
 Package pdftex.def Info: ../Figure/Prediction.png  used on input line 504.
-(pdftex.def)             Requested size: 469.75502pt x 204.37411pt.
+(pdftex.def)             Requested size: 469.75502pt x 244.51276pt.
 
 
 [22
@@ -1309,9 +1309,9 @@ File: ../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use ../Figure/Inflorescence_diff_v.pdf>
 Package pdftex.def Info: ../Figure/Inflorescence_diff_v.pdf  used on input line
  567.
-(pdftex.def)             Requested size: 469.75502pt x 603.98058pt.
+(pdftex.def)             Requested size: 465.06004pt x 597.94632pt.
 
-LaTeX Warning: Float too large for page by 23.55057pt on input line 577.
+LaTeX Warning: Float too large for page by 17.51631pt on input line 577.
 
 
 
@@ -1439,11 +1439,12 @@ Package pdftex.def Info: ../Figure/prop_damage_species_years.pdf  used on input
 [42
 
  <../Figure/prop_damage_species_years.pdf>]
-<../Figure/PPC_linear.png, id=698, 573.14125pt x 485.815pt>
-File: ../Figure/PPC_linear.png Graphic file (type png)
-<use ../Figure/PPC_linear.png>
-Package pdftex.def Info: ../Figure/PPC_linear.png  used on input line 831.
-(pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
+<../Figure/combined_ppc_plots_linear.pdf, id=698, 505.89pt x 433.62pt>
+File: ../Figure/combined_ppc_plots_linear.pdf Graphic file (type pdf)
+<use ../Figure/combined_ppc_plots_linear.pdf>
+Package pdftex.def Info: ../Figure/combined_ppc_plots_linear.pdf  used on input
+ line 831.
+(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 <../Figure/Spikelet_diff.pdf, id=699, 722.7pt x 433.62pt>
 File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff.pdf>
@@ -1453,8 +1454,8 @@ Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 842.
 
 [43
 
- <../Figure/PPC_linear.png>]
-<../Figure/Spikelet_diff_stat.pdf, id=706, 505.89pt x 433.62pt>
+ <../Figure/combined_ppc_plots_linear.pdf>]
+<../Figure/Spikelet_diff_stat.pdf, id=714, 505.89pt x 433.62pt>
 File: ../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use ../Figure/Spikelet_diff_stat.pdf>
 Package pdftex.def Info: ../Figure/Spikelet_diff_stat.pdf  used on input line 8
@@ -1469,10 +1470,6 @@ Package pdftex.def Info: ../Figure/Spikelet_diff_stat.pdf  used on input line 8
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `Range_limit_v3.out' has not changed.
 (rerunfilecheck)             Checksum: AA9AE6FD2258D4688979943AE84ABE15;605.
  )
@@ -1483,8 +1480,8 @@ Package rerunfilecheck Info: File `Range_limit_v3.out' has not changed.
 ### bottom level 
 Here is how much of TeX's memory you used:
  31048 strings out of 473190
- 568123 string characters out of 5715801
- 968983 words of memory out of 5000000
+ 568252 string characters out of 5715801
+ 968980 words of memory out of 5000000
  52603 multiletter control sequences out of 15000+600000
  685360 words of font info for 865 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1500,10 +1497,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v3.pdf (45 pages, 904015 bytes).
+Output written on Range_limit_v3.pdf (45 pages, 60281197 bytes).
 PDF statistics:
- 849 PDF objects out of 1000 (max. 8388607)
- 695 compressed objects within 7 object streams
+ 858 PDF objects out of 1000 (max. 8388607)
+ 703 compressed objects within 8 object streams
  155 named destinations out of 1000 (max. 500000)
  195689 words of extra memory for PDF output out of 221844 (max. 10000000)
 

@@ -564,7 +564,7 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/Inflorescence_diff_v.pdf}
+\includegraphics[width=0.99\textwidth]{../Figure/Inflorescence_diff_v.pdf}
 \caption{
 Predicted inflorescence production (upper panels) and endophyte effect ($\Delta = S^{+} - S^{-}$; lower panels) across precipitation gradients. 
 Lines show posterior means with 90\% credible intervals. 
@@ -741,14 +741,14 @@ ELPD difference is relative to the best model.}
 \hline
 Vital rate & Model type & ELPD difference & SE difference \\
 \hline
-Survival        & Quadratic & 0       & 0.00 \\
-Survival        & Linear    & -0.055  & 1.09 \\
-Growth          & Quadratic & 0       & 0.00 \\
-Growth          & Linear    & -0.187  & 1.33 \\
-Inflorescence   & Quadratic & 0       & 0.00 \\
-Inflorescence   & Linear    & -1.510  & 1.43 \\
-Spikelet        & Quadratic & 0       & 0.00 \\
-Spikelet        & Linear    & -0.849  & 1.32 \\
+Survival        & Linear      & 0      & 0.000 \\
+Survival        & Quadratic   & -0.293 & 0.815 \\
+Growth          & Quadratic   & 0      & 0.000 \\
+Growth          & Linear      & -0.218 & 1.110 \\
+Inflorescence   & Linear      & 0      & 0.000 \\
+Inflorescence   & Quadratic   & -0.277 & 0.732 \\
+Spikelet        & Linear      & 0      & 0.000 \\
+Spikelet        & Quadratic   & -0.894 & 0.467 \\
 \hline
 \end{tabular}
 \end{table}
@@ -828,7 +828,7 @@ Panels are arranged by species (rows) and year (columns), with the y-axis labele
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/PPC_linear.png}
+\includegraphics[width=1\textwidth]{../Figure/combined_ppc_plots_linear.pdf}
 \caption[Posterior predictive checks for each vital rate]{
 Posterior predictive checks for each vital rate. 
 Dark blue lines show observed data ($y$), and light blue lines show replicated datasets generated from posterior predictions ($y_{\text{rep}}$). 

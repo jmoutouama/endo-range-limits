@@ -256,7 +256,6 @@ plot_data_survival <- plot_data_survival %>%
 observed_data_survival <- observed_data_survival %>%
   mutate(climate_mm = exp(clim * ppt_sd + ppt_mean))
 
-
 # Create label table (a–f for 3 species × 2 herbivory)
 panel_labels <- data.frame(
   species = rep(c(
@@ -349,7 +348,7 @@ ggplot(plot_data_survival) +
   ) +
   
   # Labels and colors
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  labs(x = "Precipitation (mm)", y = "", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   
@@ -443,7 +442,6 @@ climate_range_per_species <- lapply(1:3, function(sp) {
   seq(min(sp_clim), max(sp_clim), length.out = 30)
 })
 names(climate_range_per_species) <- 1:3
-
 # Compute Δ survival across species-specific ranges
 delta_surv_species_range <- lapply(1:3, function(sp) {
   lapply(climate_range_per_species[[sp]], function(cl) {
@@ -520,7 +518,7 @@ delta_long_surv <- delta_surv_summary %>%
 
 # Plot Δ survival
 Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff_stat_speciesRange.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff_stat_species.pdf",
   width = 7, height = 6
 )
 
@@ -813,7 +811,8 @@ panel_labels_grow <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Growth",
-  ymax = rep(c(1, 1.25, 2), each = 2)   # 👈 from your Growth scale limits
+  # manually tweak y positions
+  ymax = c(1, 1, 1.25, 1.25, 3.3, 3.3)   # tweak last one slightly higher
 )
 
 # Plot
@@ -917,11 +916,11 @@ ggplot(plot_data_grow) +
       panel == "Growth" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(-1.1, 1.25), expand = c(0, 0)),
       panel == "Growth" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(-4, 2), expand = c(0, 0))
+        scale_y_continuous(limits = c(-4, 3), expand = c(0, 0))
     )
   ) +
   # Labels and theme
-  labs(x = "Precipitation (mm)", y = "Log ratio of size", color = "Endophyte", fill = "Endophyte") +
+  labs(x = "Precipitation (mm)", y = "Log ratio of size", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   theme_classic() +
@@ -1083,7 +1082,7 @@ delta_long_grow <- delta_grow_summary %>%
 
 # Plot Δ survival
 Cairo::CairoPDF(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff_stat_speciesRange.pdf",
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff_stat_species.pdf",
   width = 7, height = 6
 )
 
@@ -1481,7 +1480,7 @@ ggplot(plot_data_inf) +
   ) +
   
   # Labels and colors
-  labs(x = "Precipitation (mm)", y = "", color = "Endophyte", fill = "Endophyte") +
+  labs(x = "Precipitation (mm)", y = "", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   
@@ -2048,7 +2047,7 @@ ggplot(plot_data_spik) +
   )
 dev.off()
 
-# Function to compute Δ(E+ − E−) for spike
+# Function to compute Δ(S+ − S−) for spike
 compute_delta_spik <- function(clim, posterior_samples_spik, herb_values = c(0, 1)) {
   n_species <- dim(posterior_samples_spik$b0)[2]
   n_post <- dim(posterior_samples_spik$b0)[1]
@@ -2411,6 +2410,6 @@ p_lower <- delta_long_all %>%
     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
-Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 10)
+Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 12)
 print(p_lower)
 dev.off()

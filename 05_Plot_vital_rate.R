@@ -357,7 +357,7 @@ ggplot(plot_data_survival) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
     axis.line = element_line(color = "black", linewidth = 0.1),
-    legend.position = c(0.415, 0.20),
+    legend.position = c(0.42, 0.20),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -374,7 +374,7 @@ ggplot(plot_data_survival) +
   # Add facet labels (a–f)
   geom_text(
     data = panel_labels,
-    aes(x = 490, y = 0.7, label = label),
+    aes(x = 490, y = 0.9, label = label),
     fontface = "plain",
     size = 3.5,
     hjust = 0,
@@ -560,7 +560,6 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
   )
 
 dev.off()
-
 
 # Select only the essential columns for reporting
 # Map full species names to abbreviated form
@@ -1385,7 +1384,7 @@ panel_labels_inf <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Inflorescences",
-  ymax = rep(c(40, 8, 110), each = 2)   # 👈 from your facetted scales
+  ymax = rep(c(60, 16, 90), each = 2)   # 👈 from your facetted scales
 )
 
 #Plot with updated panel labels
@@ -1458,7 +1457,7 @@ ggplot(plot_data_inf) +
       panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(
           breaks = 0, labels = 0, minor_breaks = NULL,
-          limits = c(-1.5, 2),
+          limits = c(-1.5, 3.2),
           expand = c(0, 0)
         ),
       panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
@@ -1471,11 +1470,11 @@ ggplot(plot_data_inf) +
       
       # Upper panels – #Inflorescences per species
       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 40)),
+        scale_y_continuous(limits = c(0, 60)),
       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 8)),
+        scale_y_continuous(limits = c(0, 16)),
       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 110))
+        scale_y_continuous(limits = c(0, 90))
     )
   ) +
   
@@ -1693,7 +1692,6 @@ ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) 
   )
 
 dev.off()
-
 
 # Select only the essential columns for reporting
 # Prepare data
@@ -2041,7 +2039,7 @@ ggplot(plot_data_spik) +
   )+
   geom_text(
     data = panel_labels_spik,
-    aes(x = 490, y = 42, label = label),
+    aes(x = 490, y = 47, label = label),
     fontface = "plain", size = 3.5, hjust = 0,
     inherit.aes = FALSE
   )
@@ -2367,6 +2365,8 @@ delta_long_all <- delta_long_all %>%
 # print(p_all)
 # dev.off()
 
+# Create a data frame with panel labels
+
 # Filter only the lower panel (Pr (Δ > 0))
 p_lower <- delta_long_all %>%
   filter(metric == "Pr (Δ > 0)") %>%
@@ -2413,3 +2413,4 @@ p_lower <- delta_long_all %>%
 Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 12)
 print(p_lower)
 dev.off()
+

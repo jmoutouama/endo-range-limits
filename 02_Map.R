@@ -393,7 +393,7 @@ plot(aghy, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_aghy, add=TRUE, pch=3, col="black", cex=2)
 plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
-mtext("A", side=3, adj=0, cex=1.25, line=0.2)
+mtext("(a)", side=3, adj=0, cex=1.25, line=0.2)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -410,7 +410,7 @@ plot(elvi, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_elvi, add=TRUE, pch=3, col="black", cex=2)
 plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
-mtext("B", side=3, adj=0, cex=1.25, line=0.2)
+mtext("(b)", side=3, adj=0, cex=1.25, line=0.2)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -428,7 +428,7 @@ plot(poau, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_poau, add=TRUE, pch=3, col="black", cex=2)
 plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
-mtext("C", side=3, adj=0, cex=1.25, line=0.3)
+mtext("(c)", side=3, adj=0, cex=1.25, line=0.3)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -491,7 +491,7 @@ bp <- barplot(
   ylab = "Annual Precipitation (mm)"
 )
 
-mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
+mtext("(d)", side=3, adj=-0.06, cex=1.25, line=0.5)
 box()
 
 # Add legend
@@ -509,7 +509,8 @@ par(mar=c(4,2,2,1))
 #plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
 plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.8), axes=FALSE, xlab="", ylab="", main="", asp=1)
 
-mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
+#mtext("(e)", side=3, adj=0.07, cex=1.25, line=-1.75)
+mtext("(e)", side = 3, adj = -0.01, cex = 1.25, line = 0.55)
 
 # fenced
 #rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
@@ -541,7 +542,7 @@ mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)
 
 ### Panel F
 par(mar=c(4,2,2,1))  # same for both E and F
-mtext("F", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
+mtext("(f)", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
 
 bp <- barplot(
   height = mean_matrix,

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  2 MAR 2026 14:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  3 MAR 2026 18:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1480,8 +1480,8 @@ Package rerunfilecheck Info: File `Range_limit_v3.out' has not changed.
 ### bottom level 
 Here is how much of TeX's memory you used:
  31048 strings out of 473190
- 568252 string characters out of 5715801
- 968980 words of memory out of 5000000
+ 568257 string characters out of 5715801
+ 968986 words of memory out of 5000000
  52603 multiletter control sequences out of 15000+600000
  685360 words of font info for 865 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1497,7 +1497,7 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v3.pdf (45 pages, 60281197 bytes).
+Output written on Range_limit_v3.pdf (45 pages, 60281744 bytes).
 PDF statistics:
  858 PDF objects out of 1000 (max. 8388607)
  703 compressed objects within 8 object streams

@@ -98,7 +98,7 @@ extract_loo_table <- function(comp_result, model_names, vital_rate) {
 # Combine all comparisons into one table
 comp_table <- bind_rows(
   extract_loo_table(comp_surv, c("Linear","Quadratic"), "Survival"),
-  extract_loo_table(comp_grow, c("Quadratic", "Linear"), "Growth"),
+  extract_loo_table(comp_grow, c("Linear","Quadratic"), "Growth"),
   extract_loo_table(comp_inf, c("Linear","Quadratic"), "Inflorescence"),
   extract_loo_table(comp_spik, c("Linear","Quadratic"), "Spikelet")
 )
@@ -175,8 +175,8 @@ comp_table_driver <- bind_rows(
 )
 
 comp_table_driver <- bind_rows(
-  extract_loo_table(comp_surv_driver, c("Endophye x climate", "Endophye x herd","Endophye x climate x herb","Endophye + climate + herb"), "Survival"),
-  extract_loo_table(comp_grow_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Growth"),
-  extract_loo_table(comp_inf_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Inflorescence"),
-  extract_loo_table(comp_spik_driver, c("Endophye x climate", "Endophye x herb","Endophye x climate x herb","Endophye + climate + herb"), "Spikelet")
+  extract_loo_table(comp_surv_driver, c("Endophye x climate","Endophye + climate + herb", "Endophye x herd","Endophye x climate x herb"), "Survival"),
+  extract_loo_table(comp_grow_driver, c("Endophye + climate + herb","Endophye x herb","Endophye x climate","Endophye x climate x herb"), "Growth"),
+  extract_loo_table(comp_inf_driver, c("Endophye + climate + herb","Endophye x herb","Endophye x climate x herb","Endophye x climate"), "Inflorescence"),
+  extract_loo_table(comp_spik_driver, c("Endophye + climate + herb","Endophye x climate", "Endophye x herb","Endophye x climate x herb"), "Spikelet")
 )

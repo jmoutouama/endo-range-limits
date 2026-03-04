@@ -1,72 +1,118 @@
+// Hierarchical Bayesian growth model (endo × herb only)
+// Response: continuous growth (size t -> t+1) modeled with Normal
+// Fixed effects:
+//   - Endophyte presence
+//   - Herbivory
+//   - Endophyte × Herbivory interaction
+// Species-level coefficients drawn from global hyperpriors
+// Random effects:
+//   - Site-year (species-specific)
+//   - Plot
+//   - Source population
+
 data {
-  // Indices
-  int<lower=1> nSpp;          
-  int<lower=1> nsite_year;    
-  int<lower=1> nPop;          
-  int<lower=1> N;             
-  int<lower=1> nPlot;         
+  int<lower=1> N;                // number of observations
+  int<lower=1> nSpp;             // number of species
+  int<lower=1> nsite_year;       // number of site-year combinations
+  int<lower=1> nPop;             // number of source populations
+  int<lower=1> nPlot;            // number of plots
 
-  // Observation-level data
-  int<lower=1> Spp[N];        
-  int<lower=1> site_year[N];  
-  int<lower=1> plot[N];       
-  int<lower=1> pop[N];        
-  vector[N] y;                
+  array[N] int<lower=1, upper=nSpp> Spp;
+  array[N] int<lower=1, upper=nsite_year> site_year;
+  array[N] int<lower=1, upper=nPop> pop;
+  array[N] int<lower=1, upper=nPlot> plot;
 
-  // Covariates
-  int<lower=0,upper=1> endo[N]; 
-  int<lower=0,upper=1> herb[N]; 
+  vector[N] y;                   // continuous growth response
+  array[N] int<lower=0, upper=1> endo;   // endophyte presence
+  array[N] int<lower=0, upper=1> herb;   // herbivory presence
 }
 
 parameters {
-  // Fixed effects
-  vector[nSpp] b0;            
-  vector[nSpp] bendo;         
-  vector[nSpp] bherb;         
-  vector[nSpp] bendoherb;     
+  // Global means
+  real mu_b0;
+  real mu_bendo;
+  real mu_bherb;
+  real mu_bendoherb;  // Endo × Herb interaction
 
-  // Random effects
-  real<lower=0> plot_tau;     
-  vector[nPlot] plot_rfx;     
-  real<lower=0> pop_tau;      
-  vector[nPop] pop_rfx;       
-  vector<lower=0>[nSpp] site_year_tau;
-  matrix[nSpp, nsite_year] site_year_rfx;
+  // Species-level variation
+  real<lower=0> sigma_b0;
+  real<lower=0> sigma_bendo;
+  real<lower=0> sigma_bherb;
+  real<lower=0> sigma_bendoherb;
 
-  // Residual standard deviation
+  // Non-centered species deviations
+  vector[nSpp] z_b0;
+  vector[nSpp] z_bendo;
+  vector[nSpp] z_bherb;
+  vector[nSpp] z_bendoherb;
+
+  // Random effect SDs
+  real<lower=0> sigma_site_year;
+  real<lower=0> sigma_plot;
+  real<lower=0> sigma_pop;
+
+  // Non-centered random effects
+  matrix[nSpp, nsite_year] z_site_year;
+  vector[nPlot] z_plot;
+  vector[nPop] z_pop;
+
+  // Residual SD
   real<lower=0> sigma;
 }
 
 transformed parameters {
+  vector[nSpp] b0        = mu_b0        + sigma_b0        * z_b0;
+  vector[nSpp] bendo     = mu_bendo     + sigma_bendo     * z_bendo;
+  vector[nSpp] bherb     = mu_bherb     + sigma_bherb     * z_bherb;
+  vector[nSpp] bendoherb = mu_bendoherb + sigma_bendoherb * z_bendoherb;
+
+  matrix[nSpp, nsite_year] site_year_rfx = sigma_site_year * z_site_year;
+  vector[nPlot] plot_rfx = sigma_plot * z_plot;
+  vector[nPop] pop_rfx = sigma_pop * z_pop;
+
   vector[N] predG;
 
   for (i in 1:N) {
-    predG[i] = b0[Spp[i]] + 
-               bendo[Spp[i]] * endo[i] +
-               bherb[Spp[i]] * herb[i] +
-               bendoherb[Spp[i]] * endo[i] * herb[i] +
-               plot_rfx[plot[i]] +
-               pop_rfx[pop[i]] +
-               site_year_rfx[Spp[i], site_year[i]];
+    predG[i] =
+      b0[Spp[i]]
+      + bendo[Spp[i]] * endo[i]
+      + bherb[Spp[i]] * herb[i]
+      + bendoherb[Spp[i]] * endo[i] * herb[i]
+      + site_year_rfx[Spp[i], site_year[i]]
+      + plot_rfx[plot[i]]
+      + pop_rfx[pop[i]];
   }
 }
 
 model {
-  // Priors for fixed effects
-  b0 ~ normal(0, 1);
-  bendo ~ normal(0, 1);
-  bherb ~ normal(0, 1);
-  bendoherb ~ normal(0, 1);
-  sigma ~ normal(0, 1);
+  // Global priors
+  mu_b0 ~ normal(0,2);
+  mu_bendo ~ normal(0,2);
+  mu_bherb ~ normal(0,2);
+  mu_bendoherb ~ normal(0,2);
+
+  // Species variation
+  sigma_b0 ~ normal(0,1);
+  sigma_bendo ~ normal(0,1);
+  sigma_bherb ~ normal(0,1);
+  sigma_bendoherb ~ normal(0,1);
+
+  // Non-centered species deviations
+  z_b0 ~ normal(0,1);
+  z_bendo ~ normal(0,1);
+  z_bherb ~ normal(0,1);
+  z_bendoherb ~ normal(0,1);
 
   // Random effects
-  plot_tau ~ inv_gamma(0.1,0.1);
-  plot_rfx ~ normal(0, plot_tau);
-  pop_tau ~ inv_gamma(0.1,0.1);
-  pop_rfx ~ normal(0, pop_tau);
-  site_year_tau ~ inv_gamma(0.1,0.1);
-  for (s in 1:nSpp)
-    site_year_rfx[s] ~ normal(0, site_year_tau[s]);
+  sigma_site_year ~ normal(0,1);
+  sigma_plot ~ normal(0,1);
+  sigma_pop ~ normal(0,1);
+
+  to_vector(z_site_year) ~ normal(0,1);
+  z_plot ~ normal(0,1);
+  z_pop ~ normal(0,1);
+
+  sigma ~ normal(0,1);
 
   // Likelihood
   y ~ normal(predG, sigma);
@@ -74,7 +120,6 @@ model {
 
 generated quantities {
   vector[N] log_lik;
-  for (i in 1:N) {
+  for (i in 1:N)
     log_lik[i] = normal_lpdf(y[i] | predG[i], sigma);
-  }
 }

@@ -119,7 +119,7 @@ demography_surv_ppt <- list(
 
 # Load model and data
 fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"))
-
+fit_surv_ppt <- readRDS("/Users/jacobmoutouama/Desktop/Pooling/output/fit_surv_abio_bio_endo_linear.rds")
 # Prediction grid
 climate_range <- seq(min(demography_surv_ppt$clim),
                      max(demography_surv_ppt$clim),

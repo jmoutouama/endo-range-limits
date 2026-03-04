@@ -521,7 +521,7 @@ set.seed(13)
 signs1 <- sample(c("+", "−"), length(plants1_x), replace = TRUE)
 text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
 
-mtext("Fenced", side=3, at=0.85, line=-4, cex=1.2)
+mtext("Herbivory exclusion", side=3, at=0.85, line=-4, cex=1)
 
 # unfenced
 # rect(1.9, 0.1, 3.4, 1.6, border=NA)
@@ -537,7 +537,7 @@ set.seed(13)
 signs2 <- sample(c("+", "−"), length(plants2_x), replace = TRUE)
 text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 
-mtext("Unfenced", side=3, at=2.65, line=-4, cex=1.2)
+mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)
 
 ### Panel F
 par(mar=c(4,2,2,1))  # same for both E and F
@@ -547,7 +547,7 @@ bp <- barplot(
   height = mean_matrix,
   beside = TRUE,
   names.arg = ordered_sites,
-  col = c("grey80","grey15"),  # use herbivory colors
+  col = c("#E69F00","#009E73"),  # use herbivory colors
   ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
   xlab = "Sites",
   ylab = "Proportion of damaged plants",
@@ -568,8 +568,8 @@ box()
 # Add clear legend
 legend(
   "topright",
-  legend = c("Unfenced", "Fenced"),
-  fill = c("grey80","grey15"),
+  legend = c("Herbivory access", "Herbivory exclusion"),
+  fill = c("#E69F00","#009E73"),
   bty = "n",
   cex = 1.2
 )
@@ -579,7 +579,7 @@ dev.off()
 ## Herbivory for 2024 and 2025
 # Define herbivory levels and colors
 herb_levels <- c(1,0)  # 1 = Fenced, 0 = Unfenced
-colors <- c("grey15","grey80")
+colors <- c("#E69F00","#009E73")
 names(colors) <- herb_levels
 
 # Function to summarize data per year
@@ -684,14 +684,14 @@ arrows(
 )
 box()
 # Shared legend
-legend("topleft", legend = c("Fenced","Unfenced"), fill = colors, bty = "n", cex = 0.9)
+legend("topleft", legend = c("Herbivory exclusion","Herbivory access"), fill = colors, bty = "n", cex = 0.9)
 
 dev.off()
 
 ## Herbivory per species  and per year
 # Define herbivory levels and colors
 herb_levels <- c(0,1)  # 0 = Fenced, 1 = Unfenced
-colors <- c("grey80","grey15")
+colors <- c("#E69F00","#009E73")
 names(colors) <- herb_levels
 
 # Function to summarize herbivory per dataset
@@ -795,7 +795,7 @@ for(species in species_list){
     box()
     # Add legend only on first panel
     if(species == species_list[1] & yr==years[1]){
-      legend("topright", legend=c("Unfenced","Fenced"), fill=colors, bty="n", cex=1)
+      legend("topright", legend=c("Herbivory access","Herbivory exclusion"), fill=colors, bty="n", cex=1)
     }
   }
 }

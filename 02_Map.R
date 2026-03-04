@@ -518,8 +518,9 @@ rect(0.1, 0.2, 1.6, 1.5, border="black", lwd=2)
 plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
 plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
-set.seed(13)  
-signs1 <- sample(c("+", "−"), length(plants1_x), replace = TRUE)
+set.seed(13)
+n1 <- length(plants1_x)
+signs1 <- sample(rep(c("+", "−"), each = n1/2))
 text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
 
 mtext("Herbivory exclusion", side=3, at=0.85, line=-4, cex=1)
@@ -535,7 +536,8 @@ plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
 plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 set.seed(13)
-signs2 <- sample(c("+", "−"), length(plants2_x), replace = TRUE)
+n2 <- length(plants2_x)
+signs2 <- sample(rep(c("+", "−"), each = n2/2))
 text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 
 mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)

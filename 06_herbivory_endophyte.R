@@ -15,7 +15,7 @@ demography <- readRDS(
 )
 
 fit_model <- readRDS(
-  url("https://www.dropbox.com/scl/fi/8v28c6tdwvingtstgnzeg/fit_her_endo_year.rds?rlkey=04vp4iale1i8wvycsqvepujyz&dl=1")
+  url("https://www.dropbox.com/scl/fi/cnefmiwlubfsovix6mxmm/herbivory_endo_siteyear.rds?rlkey=u7xtiftzeqdn50k9qo2njv75i&dl=1")
 )
 
 # -------------------------------

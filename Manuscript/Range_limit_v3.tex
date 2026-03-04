@@ -296,7 +296,7 @@ After vegetative propagation of \textit{A. hyemalis}, \textit{E. virginicus}, an
 
 To assess the efficacy of heat treatment and to confirm endophyte status before transfer to the field experiment, we tested endophyte status (E$^+$ or E$^-$) of plants from control and heat lineages using three methods. 
 First, for microscopy, peels of the inner leaf sheaths were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify \emph{Epichloë} hyphae \citep{jackson1988rapid}. 
-Second, we used microscopy to assess the presence or absence of \emph{Epichloë} in seeds that were squashed and stained similarly as the leaf tissue, to determine the endophyte status of the maternal plant \citep{fowler2025increasing}. 
+Second, we used microscopy to assess the presence or absence of \emph{Epichloë} in seeds that were soaked in NaOH to break down the seed coat, then squashed and stained similarly to the leaf tissue, to determine the endophyte status of the maternal plant \citep{fowler2025increasing}. 
 Third, we used an immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co.) that targets proteins of \emph{Epichloë} spp. to visually indicate presence or absence \citep{koh2006rapid}. 
 In total, we tested 1,481 plants for endophyte status. 
 In cases where two or more methods were used on the same plants ($N=253$), there was 99.2\% agreement between methods.
@@ -321,7 +321,7 @@ At each of seven sites along the gradient, we established 24 square plots (1.5 m
 Within each site, each plot was randomly assigned to either herbivore access or herbivore exclusion (Fig.~\ref{fig:site}E). 
 The herbivory treatment targeted both vertebrate and invertebrate hebivores: exclusion plots had deer fencing on four sides and were sprayed with Sevin insecticide (active ingredient Zeta-Cypermethrin) 2-3 times per growing season following the manufacturer's protocol; herbivore access plots were unsprayed and fenced on two sides to control for any fence effect.
 
-Greenhouse-raised plants were planted into the field experiment in February-March 2023.
+Greenhouse-raised plants were planted into the field experiment in February--March 2023.
 Each plot was planted with 15 individuals, a mix of E+ and E- host-plants. 
 Clonal replicates were arranged such that all plots had the same level of genetic diversity (number of unique genotypes) for each species.  
 %Initial endophyte prevalence varied from 20\% (3 E+, 12 E-) to 80\% (12 E+, 3 E-); this aspect of the experimental design was intended to address a different question about change in symbiont prevalence across generations, and is not further considered here. 
@@ -333,17 +333,18 @@ We collected demographic data, including survival, growth, and reproduction, dur
 For each individual, survival was recorded as alive or dead and, for surviving plants, size was measured as the count of tillers.  
 Growth was quantified as the log ratio of tiller count between consecutive censuses (i.e., $\log(\text{tiller}_{t+1}/\text{tiller}_{t})$) for plants that were alive in years $t$ and $t+1$.
 We recorded the number of inflorescences per plant for all three species and counted the number of spikelets on up to three inflorescences from reproducing individuals of \emph{Poa autumnalis} and \emph{Elymus virginicus}. 
+Spikelet counts were not recorded for \emph{Agrostis hyemalis} because its inflorescences contain numerous very small spikelets that are difficult to count reliably.
 In \emph{A. hyemalis}, one spikelet yields one seed, while in \emph{P. autumnalis} and \emph{E. virginicus} a single spikelet can produce 2-6 seeds. 
 %Spikelet counts were limited to three reproducing tillers per plot due to the time-consuming nature of this measurement.  
 We measured herbivore damage to assess the effects of herbivory treatment on realized herbivory experienced by individual plants.
 We defined damage as chewing damage to leaves, tillers, or inflorescences, and estimated the proportion of damaged plants by plot, site, and herbivore treatment.
-\jacob{These data showed that plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}, Fig.~\ref{sup:herbsp}), confirming the effectiveness of our experimental manipulations.}{I also compared herbivory on $E^+$ vs.\ $E^-$ plants across the gradient, but these results are omitted here as they pertain to physical defense without corresponding chemical defense data. The figure is available here: \url{https://www.dropbox.com/scl/fi/5b6rnj1zxtfq7xfftegua/herb_endo_diff.pdf?rlkey=uvb6lxlz3h589trdxrv104vs9&dl=1}.}
+\jacob{Plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}, Fig.~\ref{sup:herbsp}), confirming the effectiveness of our experimental manipulations.}{I also compared herbivory on $E^+$ vs.\ $E^-$ plants across the gradient, but these results are omitted here as they pertain to physical defense without corresponding chemical defense data. The figure is available here: \url{https://www.dropbox.com/scl/fi/5b6rnj1zxtfq7xfftegua/herb_endo_diff.pdf?rlkey=uvb6lxlz3h589trdxrv104vs9&dl=1}.}
 
 \subsection*{Statistical modeling}
 To assess how abiotic and biotic stress modify the demographic effects of endophyte symbiosis, we fit generalized linear mixed models for each vital rate response in a hierarchical Bayesian statistical framework. %first developed two candidate models for each vital rate: one quadratic and one monotonic.
 All models shared the same hierarchical structure for their expected values and were applied to survival, growth, and fertility.
 Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, inflorescence count with a zero-inflated negative binomial distribution, and spikelet count with a negative binomial distribution.
-All models included species-specific fixed effects for symbiosis (E+ or E-), precipitation (cumulative rainfall over 12 months preceding the census), and herbivory (herbivore access/exlusion), including all two- and three-way interactions. 
+All models included species-specific fixed effects for symbiosis (E+ or E-), precipitation (cumulative rainfall over 12 months preceding the census), and herbivory (herbivore access/exclusion), including all two- and three-way interactions. 
 We considered models with linear and quadratic forms for the influence of precipitation, to account for the possibility of non-monotonic responses. 
 Although we evaluated quadratic models, model selection criteria (LOOCV) showed that they provided minimal improvement over monotonic models (Table~\ref{tab:model_comparison}). 
 Therefore, all subsequent analyses used the first-order (linear) effect of precipitation (Eq.~\ref{eq:full_model}), which captures the observed patterns while maintaining model simplicity.
@@ -387,7 +388,7 @@ Intermediate probabilities (approximately 0.7–0.9 or 0.1–0.3) indicate moder
 %Thus, $\Delta$ and its posterior probability together were used to determine whether endophytes confer biologically meaningful benefits, costs, or negligible effects under the given precipitation and herbivory conditions.
 
 \subsection*{Comparing drivers of endophyte effects on host demography}
-To quantify relative statistical support for abiotic and/or biotic contexts as modifiers of grass-enodphyte symbiosis, we fitted four hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production; Supplementary Methods \ref{sec:models}).
+To quantify relative statistical support for abiotic and/or biotic contexts as modifiers of grass-endophyte symbiosis, we fitted four hierarchical Bayesian candidate models for each vital rate (survival, growth, inflorescence, and spikelet production; Supplementary Methods \ref{sec:models}).
 All models included endophyte status as a baseline predictor but differed in whether they incorporated interactions with precipitation (Endophyte~$\times$~Precip), herbivory (Endophyte~$\times$~Herbivory), both factors including the three-way interaction (Endophyte~$\times$~Precip~$\times$~Herbivory), or only main effects (Endophyte~$+$~Precip~$+$~Herbivory).
 %Random effects for \tom{site-year}{Here you say site-year and above you say site. WHich is it?} ($\phi_{\text{site}[i],\text{Sp}_i}$), source population ($\omega_{\text{source}[i],\text{Sp}_i}$), and plot ($\rho_{\text{plot}[i],\text{Sp}_i}$) captured hierarchical variation while accommodating species-specific responses, as above.
 We compared candidate models using leave-one-out cross-validation (LOO-CV) \citep{vehtari2017practical}, which estimates predictive accuracy by iteratively holding out each observation. 
@@ -427,7 +428,7 @@ The outcomes of grass-endophyte symbioses, whether beneficial, costly, or neutra
 Across all vital rates (survival, growth, inflorescence, and spikelet production) and host species, model comparisons consistently indicated that models including an \textit{Endophyte}~$\times$~\textit{Climate} interaction had the strongest predictive support.  
 Although differences in expected log predictive density (ELPD) were modest relative to their standard errors for some traits, these patterns were consistent across all fitness components.  
 For survival, the \textit{Endophyte}~$\times$~\textit{Climate} model was clearly favored over models including \textit{Endophyte}~$\times$~\textit{Herbivory} ($\Delta \mathrm{ELPD} = -0.33$, SE = 2.60), the three-way interaction ($\Delta \mathrm{ELPD} = -1.92$, SE = 1.43), or the additive Endophyte + Climate + Herbivory model ($\Delta \mathrm{ELPD} = -4.98$, SE = 3.24).  
-Similar patterns were observed for growth, inflorescence, and spikelet production, with the \textit{Endophyte}~$\times$~\textit{Climate} model consistently ranking highest, though ELPD differences relative to the other models were smaller for reproduction (Table~\ref{tab:comp_table_driver}).  
+Similar patterns were observed for growth, inflorescence, and spikelet production, with the \textit{Endophyte}~$\times$~\textit{Climate} model consistently ranking highest, though differences in ELPD among models were smaller for reproductive traits (Table~\ref{tab:comp_table_driver}).  
 %Overall, these results indicate that climate-dependent effects of endophytes are the dominant driver of variation in grass fitness, whereas herbivory has only minor influence on model performance.
 
 
@@ -520,10 +521,10 @@ Blue lines represent endophyte-infected plants (E$^{+}$) and violet lines repres
 \caption{Distribution of common garden sites along a natural aridity gradient from Texas to Louisiana, US for (A) \emph{Agrostis hyemalis}, (B) \emph{Elymus virginicus}, and (C) \emph{Poa autumnalis}. 
 Climate data in A–C are based on 30-year normals of climate predictions (1996–2025) from PRISM data \citep{PRISM2024}, illustrating the precipitation gradient across experimental sites (scale on the right is in mm). 
 Red dots indicate the locations of source populations, while grey dots represent Global Biodiversity Information Facility (GBIF) occurrence records for each species within the study area \citep{gbif2025_aghy,gbif2025_elvi,gbif2025_poau}.
-(D) Annual cumulative precipitation during each census year ( 2024  and 2025) at each experimental site, ordered west to east. 
+(D) Annual cumulative precipitation during each census year (2024  and 2025) at each experimental site, ordered west to east. 
 Values are also derived from PRISM climate data.
-(E) Schematic illustration of fenced (Herbivore exclusion) and unfenced (Herbivore access) plots used to assess herbivory. 
-In each herbivore treatment plot, `$+$' denotes endophyte-positive and `$-$' denotes endophyte-negative individuals.
+(E) Schematic illustration of Herbivore exclusion and Herbivore access plots used to assess herbivory. 
+In the schematic, `$+$' denotes endophyte-positive and `$-$' denotes endophyte-negative individuals; equal numbers are shown for illustration, although endophyte frequencies varied among experimental plots.
 (F) Proportion of damaged plants in fenced (salmon) and unfenced (light green) plots across experimental sites, with mean ± standard error. 
 Panels E–F illustrate herbivory treatments and outcomes, and species-specific breakdowns are provided in Supplementary Figures (Fig.~\ref{sup:herb}, Fig.~\ref{sup:herbsp}).}
 \label{fig:site}
@@ -549,7 +550,7 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.99\textwidth]{../Figure/Growth_diff.pdf}
+\includegraphics[width=0.90\textwidth]{../Figure/Growth_diff.pdf}
 \caption{
 Predicted relative growth rate (upper panels) and endophyte effect ($\Delta = S^{+} - S^{-}$; lower panels) across precipitation gradients. 
 Lines show posterior means with 90\% credible intervals. 
@@ -568,7 +569,7 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 \caption{
 Predicted inflorescence production (upper panels) and endophyte effect ($\Delta = S^{+} - S^{-}$; lower panels) across precipitation gradients. 
 Lines show posterior means with 90\% credible intervals. 
-Points indicate observed means, with point size proportional to sample size. 
+Points indicate observed values. 
 Horizontal dashed line denotes $\Delta = 0$. 
 Panels are arranged by species and herbivory treatment (herbivore access and exclusion).
 All panels share a common x-axis for illustrative purposes; some species extend beyond their observed precipitation range.

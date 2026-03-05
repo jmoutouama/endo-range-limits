@@ -348,7 +348,7 @@ ggplot(plot_data_survival) +
   ) +
   
   # Labels and colors
-  labs(x = "Precipitation (mm)", y = "", color = "Symbiont", fill = "Symbiont") +
+  labs(x = "Precipitation (mm)", y = "Survival probability / Δ survival (S+ − S−)", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   
@@ -919,7 +919,7 @@ ggplot(plot_data_grow) +
     )
   ) +
   # Labels and theme
-  labs(x = "Precipitation (mm)", y = "Log ratio of size", color = "Symbiont", fill = "Symbiont") +
+  labs(x = "Precipitation (mm)", y = "Log size ratio / Δ growth (S+ − S−)", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   theme_classic() +
@@ -1478,7 +1478,7 @@ ggplot(plot_data_inf) +
   ) +
   
   # Labels and colors
-  labs(x = "Precipitation (mm)", y = "", color = "Symbiont", fill = "Symbiont") +
+  labs(x = "Precipitation (mm)", y = "Number of inflorescences / Δ inflorescences (S+ − S−)", color = "Symbiont", fill = "Symbiont") +
   scale_color_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   
@@ -1491,7 +1491,7 @@ ggplot(plot_data_inf) +
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
-    axis.title = element_text(size = 12),
+    axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
     axis.ticks.x = element_line(color = "black", linewidth = 0.2),
     axis.ticks.y = element_line(color = "black", linewidth = 0.2),
@@ -2011,7 +2011,7 @@ ggplot(plot_data_spik) +
   ) +
   labs(
     x = "Precipitation (mm)",
-    y = "",
+    y = "Number of spikelets per inflorescence / Δ spikelets (S+ − S−)",
     color = "Symbiont",
     fill = "Symbiont"
   ) +
@@ -2215,6 +2215,7 @@ ggplot(delta_long_spik, aes(x = clim_mm, y = value, color = herb, group = herb))
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 0.2),
     axis.line = element_line(color = "black", size = 0.1),
+    axis.title = element_text(size = 10),
     legend.position = "bottom",
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
@@ -2402,7 +2403,8 @@ p_lower <- delta_long_all %>%
     legend.background = element_rect(fill = alpha('white', 0.7), color = "black"),
     legend.title = element_text(size = 24),
     legend.text  = element_text(size = 22),
-    axis.title.x = element_text(size = 28),
+    axis.title.x = element_text(size = 40),
+    axis.title = element_text(size = 50),
     axis.text    = element_text(size = 20),
     strip.text.x = element_text(size = 32, color = "black"),
     text = element_text(family = "Arial"),

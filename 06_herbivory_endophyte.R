@@ -15,7 +15,7 @@ demography <- readRDS(
 )
 
 fit_model <- readRDS(
-  url("https://www.dropbox.com/scl/fi/cnefmiwlubfsovix6mxmm/herbivory_endo_siteyear.rds?rlkey=u7xtiftzeqdn50k9qo2njv75i&dl=1")
+  url("https://www.dropbox.com/scl/fi/vvtip7o3eujuml4k3gpbj/fit_her_endo_year.rds?rlkey=8pjfyq5mhdskt267etb55y42q&dl=1")
 )
 
 # -------------------------------
@@ -29,7 +29,7 @@ posterior <- rstan::extract(fit_model)
 observed_herb <- demography %>%
   filter(!is.na(tiller_Herb_t1)) %>%
   mutate(
-    Endo_label = ifelse(Endo == 1, "E+", "E-")
+    Endo_label = ifelse(Endo == 1, "S+", "S-")
   ) %>%
   group_by(Species,Plot, Endo_label, ppt_scaled) %>%
   summarise(
@@ -54,7 +54,7 @@ pred_grid <- species_ppt %>%
   mutate(ppt_seq = list(seq(from = ppt_min, to = ppt_max, length.out = 20))) %>%
   unnest(cols = c(ppt_seq)) %>%
   crossing(Endo = c(0,1)) %>%
-  mutate(Endo_label = ifelse(Endo == 1, "E+", "E-"))
+  mutate(Endo_label = ifelse(Endo == 1, "S+", "S-"))
 
 # -------------------------------
 # 5. Compute posterior predictions
@@ -124,20 +124,20 @@ ggplot(pred_summary_clim, aes(x = ppt_mm, y = median, color = Endo_label, fill =
   facet_wrap(~ Species, ncol = 2, scales = "free") +
   
   # Color scales
-  scale_color_manual(values = c("E-" = "tomato", "E+" = "cornflowerblue")) +
-  scale_fill_manual(values = c("E-" = "tomato", "E+" = "cornflowerblue")) +
+  scale_color_manual(values = c("S-" = "tomato", "S+" = "cornflowerblue")) +
+  scale_fill_manual(values = c("S-" = "tomato", "S+" = "cornflowerblue")) +
   
   # Axis labels
   labs(
     x = "Precipitation (mm)",
     y = "Herbivory",
-    color = "Endophyte",
-    fill  = "Endophyte"
+    color = "Symbiont",
+    fill  = "Symbiont"
   ) +
   
   theme_test(base_size = 14) +
   theme(
-    legend.position = c(0.15, 0.85),
+    legend.position = c(0.12, 0.20),
     panel.grid.major.x = element_blank(),
     panel.grid.minor = element_blank()
   )

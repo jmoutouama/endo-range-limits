@@ -291,6 +291,19 @@ Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
 \newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
 
+\bibitem[Maestre et~al., 2009]{maestre2009refining}
+Maestre, F.~T., Callaway, R.~M., Valladares, F., and Lortie, C.~J. (2009).
+\newblock Refining the stress-gradient hypothesis for competition and
+  facilitation in plant communities.
+\newblock {\em Journal of ecology}, 97(2):199--205.
+
+\bibitem[Marangon et~al., 2025]{marangon2025destabilization}
+Marangon, E., R{\"a}decker, N., Li, J.~Y., Terzin, M., Buerger, P., Webster,
+  N.~S., Bourne, D.~G., and Laffy, P.~W. (2025).
+\newblock Destabilization of mutualistic interactions shapes the early heat
+  stress response of the coral holobiont.
+\newblock {\em Microbiome}, 13(1):31.
+
 \bibitem[Oberhofer et~al., 2014]{oberhofer2014effects}
 Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
 \newblock Effects of natural hybrid and non-hybrid epichlo{\"e} endophytes on
@@ -413,6 +426,13 @@ Vehtari, A., Gelman, A., and Gabry, J. (2017).
 \newblock Practical bayesian model evaluation using leave-one-out
   cross-validation and waic.
 \newblock {\em Statistics and computing}, 27:1413--1432.
+
+\bibitem[Vidal-Dupiol et~al., 2009]{vidal2009coral}
+Vidal-Dupiol, J., Adjeroud, M., Roger, E., Foure, L., Duval, D., Mone, Y.,
+  Ferrier-Pages, C., Tambutte, E., Tambutte, S., Zoccola, D., et~al. (2009).
+\newblock Coral bleaching under thermal stress: putative involvement of
+  host/symbiont recognition mechanisms.
+\newblock {\em BMC physiology}, 9(1):14.
 
 \bibitem[White~Jr, 1994]{white1994endophyte}
 White~Jr, J.~F. (1994).

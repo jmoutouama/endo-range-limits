@@ -1,0 +1,37 @@
+Column name,Column description
+Tray,There are two trays for AGHY and one for ELVI
+Species,"There are two species, AGHY (Agrostis hymalis) and ELVI (Elymus virginicus)"
+Pop,"Seeds were sourced from four populations JLP (Jean Laffitte Park), LPEF (Lost Pines), PALM (Palmetto State Park), SJC (Ecolab property (owner Andy Stilley astilleypb72@gmail.com))"
+Endo,"Endophyte status, E+ (endophyte present), E- (endophyte absent)"
+Site,"Site that each soil came from BAS (Bastrop), BFL (Brackenridge Field Laboratory), HUN (Huntsville)"
+Var1,"Row of tray (A , B, C, D, E, F, or G)"
+Var2,"Coumn of tray (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, or 14)"
+Location,"Position in Tray, a combination of Var 1 and Var 2"
+Location,"Location of each plant within a tray, a combination of Var 1 and Var 2"
+Birthday,Date each seedling was transplated from agar to a conetainer of soil within a tray
+Jan8_census,"census of alive and dead plants taken on Jan 8, 2025. Dead plants were replaced if possible"
+Replacement_(NEW BIRTHDAY),"When an plant dies, it is replaced in the experiment. In this clolumn the date that the new plant is planted is recoded"
+1st_date_collect,1st date developed inflorescneces were collected
+2nd_date_collect,2nd date developed inflorescneces were collected
+3rd_date_collect,3rd date developed inflorescneces were collected
+spike_inflo_a,number of spikelets counted from the 1st inflorescence measured
+spike_inflo_b,number of spikelets counted from the 2nd inflorescence measured
+spike_inflo_c,number of spikelets counted from the 3rd inflorescence measured
+spike_inflo_d,number of spikelets counted from the 4th inflorescence measured
+spike_inflo_e,number of spikelets counted from the 5th inflorescence measured
+spike_inflo_f,number of spikelets counted from the 6th inflorescence measured
+spike_inflo_g,number of spikelets counted from the 7th inflorescence measured
+spike_inflo_h,number of spikelets counted from the 8th inflorescence measured
+spike_inflo_i,number of spikelets counted from the 9th inflorescence measured
+spike_infl_j,number of spikelets counted from the 10th inflorescence measured
+spike_inflos_unk,"number of spikelets and seeds counted, cannot be traced back to a specific inflorescence"
+tot_spikelet,Sum of the count of spikelets from each inflorescene counted. 
+avg_spikelet,mean number of spikelets among the inflorescences that were measured for number of spikelets
+total_inflo,total number of inflorescences collected from each plant
+total_spik,total number of spikelets calculated by multiplying average spikelet count and inflorescence count of each plant
+abg_mass_sans_inflo,aboveground biomass excluding the mass of inflorescences and seeds
+seed save,mass of inflorescences and seeds collected with the intention of using for future experiments
+seed squash,mass of inflorescenses and seeds collected with the intention of being tested for endophyte presence/absemce
+Inflo_mass,"total mass of inflorecences and seeds from combining ""seed save"" and ""seed squash"""
+abg_mass_tot,total mass of aboveground plant material including inflorescences and seeds
+NOTES,notes 

@@ -51,7 +51,7 @@ theme_EL <- function(base_size = 9, base_family = "sans") {
 output_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/"
 fig_dir    <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure"
 
-save_EL <- function(p, filename, width_mm = 174, height_mm = 130) {
+save_EL <- function(p, filename, width_mm = 174, height_mm = 110) {
   ggsave(file.path(fig_dir, filename), plot = p,
          width = width_mm, height = height_mm, units = "mm",
          dpi = 600, device = "pdf")
@@ -482,24 +482,44 @@ p_trace_inflo   <- mcmc_trace(fit_inflo, regex_pars = "beta\\[",
 print(p_trace_biomass)
 print(p_trace_inflo)
 
-ppc_check <- function(fit, y_obs, label) {
+ppc_check <- function(fit, y_obs, label, xlim = NULL) {
   y_rep     <- as.matrix(fit, pars = "y_rep")
   y_rep_sub <- y_rep[sample(nrow(y_rep), 200), ]
   p <- ppc_dens_overlay(y_obs, y_rep_sub) +
-    labs(title = paste0("PPC — ", label)) + theme_EL()
-  print(p)
+    labs(title = paste0("PPC — ", label)) +
+    theme_EL()
+  if(!is.null(xlim)){
+    p <- p + coord_cartesian(xlim = xlim) +
+      scale_x_continuous(expand = c(0, 0))
+  }
+  return(p)
 }
 
-ppc_check(fit_biomass, sd_biomass$y_cont, "Biomass")
-ppc_check(fit_inflo,   sd_inflo$y,        "Inflo count")
-ppc_check(fit_totspi,  sd_totspi$y,       "Total spikelets (projected)")
-ppc_check(fit_avgspi,  sd_avgspi$y,       "Avg spikelets")
+p_biomass <- ppc_check(fit_biomass, sd_biomass$y_cont, "Biomass")
+p_inflo <- ppc_check(
+  fit_inflo,
+  sd_inflo$y,
+  "Inflo count",
+  xlim = c(-1, 50)   # adjust as needed
+)
+p_inflo <- p_inflo + scale_x_continuous(expand = c(0, 0))+scale_y_continuous(expand = c(0, 0))
 
-message("\nPart 2 complete — check diagnostics before Part 3.\n")
-
-
+p_avgspi <- ppc_check(
+  fit_avgspi,
+  sd_avgspi$y,
+  "Avg spikelets"
+)
+ppc_panel <- (p_biomass | p_inflo | p_avgspi) +
+  plot_annotation(tag_levels = "A")
+# ggsave(
+#   filename = file.path(fig_dir, "PPC_models_soilendo.pdf"),
+#   plot = ppc_panel,
+#   width = 12,   # adjust width
+#   height = 4,   # adjust height
+#   device = cairo_pdf   # high-quality PDF
+# )
 # =============================================================================
-# PART 3 — PUBLICATION-QUALITY FIGURES (Ecology Letters standard)
+# PART 3 FIGURES
 # =============================================================================
 
 # ── 3.1  Extract posterior fitted means per Site × Endo ──────────────────────
@@ -662,10 +682,12 @@ fig_all <- ((extract_panelA(fig_biomass) + labs(tag = "A")) +
                 legend.title          = element_text(face = "plain", hjust = 0.5),
                 legend.text           = element_text(size = 10),
                 legend.key.size       = unit(1.2, "cm"),
+                legend.spacing.x      = unit(0.1, "cm"),   
+                legend.spacing.y      = unit(0.2, "cm"),   
                 legend.box.margin     = margin(t = 10, r = 0, b = 0, l = 0)
               ))
 
-save_EL(fig_all, "Fig_AllResponses_combined.pdf", 174, 200)
+save_EL(fig_all, "Fig_AllResponses_combined.pdf", 174, 120)
 
 message("\nPart 3 complete — figures saved to: ", fig_dir, "\n")
 

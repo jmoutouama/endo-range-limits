@@ -393,6 +393,11 @@ Differences in expected log predictive density ($\Delta$ELPD), along with associ
 When the difference in ELPD between two models ($\Delta$ELPD) was small relative to its standard error (SE), we considered their predictive performance to be effectively similar. 
 Accordingly, model rankings were interpreted cautiously, focusing on consistent trends across vital rates rather than on small differences between closely ranked models.
 
+Patterns in the field may arise from multiple mechanisms, including soil legacy effects that co-vary with the precipitation gradient. 
+To test whether soil origin independently modulates endophyte effects on host demography, we conducted a common garden experiment with \textit{Agrostis hyemalis} grown in soils collected across the full abiotic gradient. 
+For each fitness component (aboveground biomass, inflorescence count, and average spikelets per inflorescence), we fitted hierarchical Bayesian models including endophyte status, soil origin, and their interaction (\textit{Endophyte}~$\times$~\textit{Soil origin}) as predictors, with population included as a random effect. Posterior summaries of the interaction terms reported as median estimates and 95\% credible intervals were used to assess whether endophyte effects varied systematically across soils from sites differing in long-term precipitation.
+
+
 \section*{Results}
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
 %Our results confirmed that the herbivory treatment was effective (Fig.~\ref{fig:site}F).}{I recommend moving the methods to data collection methods below (you will also need to define what you mean by ``damage'' and move the result to results).}
@@ -411,7 +416,7 @@ Exclusion produced smaller, nearly uniform positive effects ($\Delta=0.09$, $\ma
 \textit{P. autumnalis} showed moderate positive effects under access at low-to-intermediate precipitation ($\Delta=0.07$--0.10, $\mathrm{Pr}(\Delta>0)=0.66$--0.74), which declined toward higher precipitation.
 Under exclusion, positive effects occurred at low precipitation ($\Delta=-0.02$--0.17, $\mathrm{Pr}(\Delta>0)=0.45$--0.76) but shifted to negative at the highest precipitation ($\Delta=-0.12$ to $-0.21$, $\mathrm{Pr}(\Delta>0)=0.13$--0.19).
 
-Endophytes generally enhanced reproduction across the grasses under wetter conditions, while effects were neutral or negative under drier conditions, with herbivore exclusion often amplifying positive effects (Figs.~\ref{fig:flowering}, \ref{sup:spikelet}; Fig.~\ref{fig:allstat}).
+Endophytes generally enhanced reproduction across the grasses under wetter conditions, while effects were neutral or negative under drier conditions, with herbivore exclusion often amplifying positive effects (Figs.~\ref{fig:flowering}, \ref{sup:spikelet}; Fig.~\ref{sup:allstat}).
 In \textit{A. hyemalis}, median $\Delta$ under herbivore access shifted from negative at low precipitation ($\Delta=-0.11$ to $-0.08$, $\mathrm{Pr}(\Delta>0)=0.24$--0.35) to strongly positive at high precipitation ($\Delta=0.50$--1.38, $\mathrm{Pr}(\Delta>0)=0.87$--0.93).
 Exclusion followed a similar trend, from slightly negative or near-neutral effects at low precipitation ($\Delta=-0.07$ to $-0.01$, $\mathrm{Pr}(\Delta>0)=0.38$--0.49) to moderately positive at high precipitation ($\Delta=0.71$--1.65, $\mathrm{Pr}(\Delta>0)=0.86$--0.89).
 \textit{E. virginicus} showed weak or negative effects at low precipitation ($\Delta=-0.18$ to $-0.10$, $\mathrm{Pr}(\Delta>0)=0.23$--0.30) under access, increasing modestly at higher precipitation ($\Delta=0.16$--0.31, $\mathrm{Pr}(\Delta>0)=0.82$--0.88).
@@ -419,14 +424,22 @@ Under exclusion, median $\Delta$ increased strongly at moderate to high precipit
 In \textit{P. autumnalis}, endophyte effects were small under access at low precipitation ($\Delta=0.01$--0.07, $\mathrm{Pr}(\Delta>0)=0.64$--0.80), and increased markedly at high precipitation ($\Delta=1.03$--3.19, $\mathrm{Pr}(\Delta>0)=0.99$).
 Exclusion further amplified positive effects across wetter conditions ($\Delta=0.17$--5.96, $\mathrm{Pr}(\Delta>0)=0.97$--1.00), reflecting strong reproductive advantages in the absence of herbivores.
 
-\subsection*{Abiotic and biotic factors jointly shape fitness components across the stress gradient}
+\subsection*{Abiotic and biotic interactions shape host fitness across climatic and soil gradients}
 Grass-endophyte symbioses influenced host vital rates primarily through climatic variation, with additional contributions from herbivory (Table~\ref{tab:model_comparison}). 
 Across host species, models including an \textit{Endophyte}~$\times$~\textit{Climate} interaction consistently ranked among the best-supported models for survival and growth.
 For survival, the \textit{Endophyte}~$\times$~\textit{Climate} model showed the highest predictive performance, whereas models including additional abiotic–biotic interactions ($\Delta \mathrm{ELPD} = -2.1$, SE = 1.8) or the \textit{Endophyte}~$\times$~\textit{Herbivory} interaction ($\Delta \mathrm{ELPD} = -2.1$, SE = 2.4) performed slightly worse. 
 A similar pattern was observed for growth, where the \textit{Endophyte}~$\times$~\textit{Climate} model ranked highest, although predictive differences among competing models were small ($\Delta \mathrm{ELPD} = -0.1$ to $-0.6$, SE = 2.7–2.9).
 For reproductive traits, models including herbivore interactions ranked highest in predictive performance, though differences among models were generally small relative to their standard errors. 
-Inflorescence production was best predicted by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, with modest differences from the \textit{Endophyte}~$\times$~\textit{Herbivory} model ($\Delta \mathrm{ELPD} = -1.3$, SE = 2.3) and the \textit{Endophyte}~$\times$~\textit{Climate} model ($\Delta \mathrm{ELPD} = -1.4$, SE = 2.8). 
-Similarly, spikelet production was best supported by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, whereas the abiotic–biotic interaction model showed lower predictive performance ($\Delta \mathrm{ELPD} = -4.2$, SE = 1.7).
+Inflorescence production was best predicted by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, with modest differences from the \textit{Endophyte}~$\times$~\textit{Climate}~$\times$~\textit{Herbivory} model ($\Delta \mathrm{ELPD} = -1.3$, SE = 2.3) and the \textit{Endophyte}~$\times$~\textit{Climate} model 
+($\Delta \mathrm{ELPD} = -1.4$, SE = 2.8).
+Similarly, spikelet production was best supported by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, with the \textit{Endophyte}~$\times$~\textit{Climate} model performing similarly ($\Delta \mathrm{ELPD} = -0.1$, SE = 2.4), whereas the full three-way interaction model showed notably lower predictive performance ($\Delta \mathrm{ELPD} = -4.2$, SE = 1.7).
+
+A similar pattern emerged in the greenhouse experiment using soils collected along the climatic gradient (Table~S\ref{tab:posterior_soil}). 
+Endophyte benefits on biomass were strongest in soils from the three wettest sites (posterior medians = 0.734--0.943, $P(>0) = 0.84$--0.97), 
+with weaker or uncertain effects in soils from drier sites. 
+Inflorescence count was similarly elevated for $E^+$ plants in soils from wetter sites (posterior medians = 0.597--0.974, $P(>0) = 0.85$--0.95), whereas effects were negative or uncertain in soils from the two driest sites (posterior medians = $-0.949$ to $-0.457$, $P(>0) = 0.11$--0.26). 
+Average spikelet number showed generally small effects across soil origins, with the exception of one intermediate site where $E^+$ plants produced more spikelets per inflorescence (median $= 0.608$, $P(>0) = 0.95$).
+
 \section*{Discussion}
 
 Drawing on three years of field experiments and Bayesian demographic models, we evaluated how biotic and abiotic stressors jointly influence the demographic effects of vertically transmitted \textit{Epichloë} endophytes on three cool-season perennial grasses across a natural climatic gradient in the southern United States.  
@@ -487,6 +500,18 @@ This pattern aligns with previous work showing that microbial effects can exacer
 Persistent stress can destabilize microbial communities, limiting their capacity to enhance host fitness \citep{hernandez2021environmental}. 
 Unlike neighboring plants, which can modify the local environment through shading, moisture retention, or nutrient cycling, endophytes live entirely within their host and cannot directly alter external conditions. 
 Consequently, the benefits they provide depend on the host’s ability to cope with stress: when survival, growth, or reproduction is strongly limited by drought, the endophyte’s capacity to enhance fitness may be reduced.
+
+The greenhouse experiment provides a complementary mechanistic perspective on these field patterns, suggesting that soil legacy along the precipitation gradient independently modulates endophyte-mediated host performance. 
+Endophyte benefits on biomass and inflorescence production were strongest in soils from wetter sites and weakened or reversed in soils from drier sites, mirroring the climate-dependence observed in the field. 
+This correspondence is consistent with the hypothesis that soil properties co-varying with precipitation, including microbial community composition, nutrient availability, and water retention, shape the conditions under which endophyte benefits can be expressed \citep{van2013plant}. 
+Soil microbial legacies, shaped by the plant communities and climate conditions that historically dominated a site, can persist for months 
+and influence plant growth even after the original conditioning community has been replaced \citep{hannula2021persistence}. 
+Critically, these legacies are not only detectable in bulk soil but are conserved inside plant roots, where they shape the endophytic community 
+acquired during early ontogeny and feed back to influence host performance \citep{hannula2021persistence}. 
+In our system, soils from drier sites may therefore harbour microbial legacies less capable of supporting the metabolic and mutualistic pathways through which endophytes enhance host growth and reproduction, independently of ambient climate. 
+Above- and belowground legacy effects can generate long-term consequences for biotic interactions and functional processes in terrestrial ecosystems \citep{wurst2015plant}, suggesting that the precipitation-driven soil legacies we document here may have broader implications for how grass-endophyte symbioses respond to ongoing climate change. 
+The exception for spikelet production at one intermediate site suggests that soil legacy effects are not strictly linear along the gradient and may reflect site-specific edaphic properties that locally favour endophyte-mediated reproductive benefits, consistent with the versatile and context-dependent nature of microbial soil legacies 
+\citep{hannula2021persistence}.
 
 Our study illustrates how variation in environmental conditions, such as precipitation, can directly influence the outcomes of host-microbe interactions (Fig.~\ref{fig:prediction}). 
 By connecting the demographic consequences of symbioses to environmental gradients, we contribute to a growing understanding of how mutualisms respond to environmental change. 
@@ -552,7 +577,7 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 }
 \label{fig:Surv}
 \end{figure}
-
+\clearpage
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
 \centering
@@ -567,6 +592,7 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 }
 \label{fig:growth}
 \end{figure}
+\clearpage
 
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
@@ -582,24 +608,23 @@ All panels share a common x-axis for illustrative purposes; some species extend 
 }
 \label{fig:flowering}
 \end{figure}
-
 \clearpage
+
 
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
+\includegraphics[width=1\textwidth]{../Figure/Fig_AllResponses_combined.pdf}
 \caption{
-Predicted effects of herbivory exclusion on survival, growth, and inflorescence production across precipitation gradients. 
-Panels show median differences and $\Pr(\Delta > 0)$. 
-Horizontal dashed lines denote $\Delta = 0$ and $\Pr(\Delta > 0) = 0.5$. 
-%Vertical dashed lines indicate species-specific precipitation at range limits. 
-Panels are arranged by species and vital rate.
-}
-\label{fig:allstat}
+Combined effects of symbiont status ($S^{+}$ vs $S^{-}$) on plant performance across soils along a precipitation gradient. 
+Panels show (A) aboveground biomass (g), (B) total inflorescences per plant, and (C) average spikelets per inflorescence. 
+Data points represent observed values, and symbols indicate model predictions. 
+Soils are ordered from wet to dry sites along the x-axis.}
+\label{fig:flowering}
 \end{figure}
-
 \clearpage
+
+
 
 \section*{Tables}
 {
@@ -834,7 +859,7 @@ Error bars indicate standard errors across plots within each site.
 Panels are arranged by species (rows) and year (columns), with the y-axis labeled only for the first column for clarity.}
 		\label{sup:herbsp}
 \end{figure}
-\clearpage  %
+\clearpage  
 
 \begin{figure}[ht]
 \centering
@@ -846,6 +871,19 @@ The strong overlap across survival, growth, flowering, and spikelet production i
 }
 \label{sup:ppc_vital}
 \end{figure}
+\clearpage
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{../Figure/PPC_models_soilendo.pdf}
+\caption{
+Posterior predictive checks for the Bayesian models of plant performance. 
+Density overlays show observed data (solid line) and 200 posterior predictive draws (shaded lines) for (A) aboveground biomass, (B) inflorescence count, and (C) average spikelets per plant. 
+These plots indicate that the models adequately capture the distribution of the observed data across response variables.
+}
+\label{fig:ppc_models}
+\end{figure}
+\clearpage
 
 \begin{figure}[H]
 \centering
@@ -859,12 +897,28 @@ Panels are organized by species and herbivory treatment (herbivore access and ex
 All panels share the same x-axis for comparison, so some species extend beyond their observed precipitation range.}
 \label{sup:spikelet}
 \end{figure}
-
+\clearpage
 \begin{figure}[H]
 		\centering
 		\includegraphics[width=1\linewidth]{../Figure/Spikelet_diff_stat.pdf}
 		\caption[Effects of precipitation and endophyte presence on spikelet with and without herbivory exclusion]{Effects of precipitation and endophyte presence on spikelet (reproductive output) for three cool-season grass species. Median $\Delta$ (E$^{+} - $E$^{-}$) and posterior probability $\mathrm{Pr}(\Delta > 0)$ are shown across precipitation quantiles. Herbivore exclusion treatments are indicated by color (Fenced = herbivores excluded, Unfenced = herbivores had access). Horizontal dashed lines indicate $\Delta = 0$ for medians and $\mathrm{Pr}(\Delta > 0) = 0.5$ for probabilities. Facets separate metrics and species.}
 		\label{sup:spike_delta}
 \end{figure}
+
+\captionsetup[figure]{list=no}
+\begin{figure}[t]
+\centering
+\includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
+\caption{
+Predicted effects of herbivory exclusion on survival, growth, and inflorescence production across precipitation gradients. 
+Panels show median differences and $\Pr(\Delta > 0)$. 
+Horizontal dashed lines denote $\Delta = 0$ and $\Pr(\Delta > 0) = 0.5$. 
+%Vertical dashed lines indicate species-specific precipitation at range limits. 
+Panels are arranged by species and vital rate.
+}
+\label{sup:allstat}
+\end{figure}
+
+\clearpage
 
 \end{document}

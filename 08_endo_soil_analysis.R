@@ -1,5 +1,5 @@
 # =============================================================================
-# DOES SOIL INTERACT WITH ENDOPHYTE STATUS TO INFLUENCE DEMOGRAPHY?
+# DOES SOIL INTERACT WITH SYMBIONT STATUS TO INFLUENCE DEMOGRAPHY?
 # Full Bayesian Analysis via rstan
 # Author: Jacob Moutouama
 # =============================================================================
@@ -8,17 +8,17 @@ rm(list = ls())
 # ── Packages ──────────────────────────────────────────────────────────────────
 library(tidyverse)
 library(rstan)
-library(posterior)      # tidy draws from stanfit
-library(bayesplot)      # MCMC diagnostics
-library(patchwork)      # combine ggplots
-library(ggdist)         # halfeye / rain-cloud distributions
+library(posterior)
+library(bayesplot)
+library(patchwork)
+library(ggdist)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 # ── Colour palette ────────────────────────────────────────────────────────────
-endo_col    <- c("E-" = "tomato", "E+" = "cornflowerblue")
-endo_levels <- c("E-", "E+")
+endo_col    <- c("S-" = "tomato", "S+" = "cornflowerblue")
+endo_levels <- c("S-", "S+")
 site_order  <- c("SON","KER","BFL","BAS","COL","HUN","LAF")
 
 # ── ggplot theme for Ecology Letters ─────────────────────────────────────────
@@ -58,36 +58,20 @@ save_EL <- function(p, filename, width_mm = 174, height_mm = 110) {
   message("Saved: ", filename)
 }
 
-
 # =============================================================================
 # PART 1 — DATA PREPARATION & EXPLORATORY DIAGNOSTICS
 # =============================================================================
 
 # ── 1.1  Column definitions (from metadata) ───────────────────────────────────
-# spike_inflo_a..j   : spikelets counted from each individually measured inflo
-# spike_inflos_unk   : spikelets from inflos that cannot be traced individually
-# tot_spikelet       : Excel sum of spikelets from counted inflos (QC only)
-# avg_spikelet       : Excel mean spikelets among measured inflos (QC only)
-# total_inflo        : total inflorescences COLLECTED per plant (field count)
-# total_spik_calc    : Excel projected total = avg_spikelet × total_inflo
-# Inflo_mass         : seed_save + seed_squash
-# abg_mass_tot       : abg_mass_sans_inflo + Inflo_mass
-#
-# PRIMARY MODEL RESPONSES (recalculated from raw columns):
-#   calc_abg_mass_tot  : total aboveground biomass (g)
-#   calc_total_inflo   : total inflorescences collected
-#   calc_total_spik    : projected total spikelets = calc_avg_spikelet × calc_total_inflo
-#   calc_avg_spikelet  : mean spikelets among individually measured inflos (a-j)
-
 spike_indiv <- c("spike_inflo_a", "spike_inflo_b", "spike_inflo_c", "spike_inflo_d",
                  "spike_inflo_e", "spike_inflo_f", "spike_inflo_g", "spike_inflo_h",
                  "spike_inflo_i", "spike_infl_j")
 spike_all   <- c(spike_indiv, "spike_inflos_unk")
 
-# ── Birthday parser (handles mixed US date formats & two-digit years) ─────────
+# ── Birthday parser ───────────────────────────────────────────────────────────
 parse_birthday <- function(x) {
   x[x == ""] <- NA
-  x <- sub("/(\\d{2})$", "/20\\1", x)   # m/d/YY → m/d/20YY before parsing
+  x <- sub("/(\\d{2})$", "/20\\1", x)
   as.Date(x, "%m/%d/%Y")
 }
 
@@ -97,82 +81,59 @@ soils <- read.csv(
   stringsAsFactors = FALSE,
   check.names = FALSE
 ) %>%
-  rename(Endo        = "Endo",
+  rename(Symbiont    = "Endo",
          seed_save   = "seed save",
          seed_squash = "seed squash") %>%
   mutate(
-    # ── Force raw measurement columns to numeric ──────────────────────────────
     across(all_of(c(spike_all,
                     "abg_mass_sans_inflo", "seed_save", "seed_squash",
                     "Inflo_mass", "total_inflo", "tot_spikelet",
                     "avg_spikelet", "total_spik_calc", "abg_mass_tot")),
            ~ suppressWarnings(as.numeric(.))),
-
-    # ── Recalculate response variables (order matters: each uses the previous) ─
-
-    # (1) calc_n_measured: inflorescences individually measured (a-j only)
-    #     unk cannot contribute to the mean — used as denominator only
+    
     calc_n_measured   = rowSums(!is.na(across(all_of(spike_indiv)))),
-
-    # (2) calc_avg_spikelet: mean spikelets among measured inflos only
-    #     per metadata: "mean number of spikelets among inflorescences measured"
     calc_avg_spikelet = rowSums(across(all_of(spike_indiv)), na.rm = TRUE) /
-                          calc_n_measured,
-
-    # (3) calc_tot_spikelet: sum across counted inflos only — QC USE ONLY
-    #     NOT a model response: underestimates plants where total_inflo > n_Inflo
+      calc_n_measured,
     calc_tot_spikelet = ifelse(
       rowSums(!is.na(across(all_of(spike_all)))) == 0,
       NA_real_,
       rowSums(across(all_of(spike_all)), na.rm = TRUE)
     ),
-
-    # (4) calc_total_inflo: total inflorescences collected (field count)
-    #     per metadata: "total number of inflorescences collected from each plant"
     calc_total_inflo  = total_inflo,
-
-    # (5) calc_total_spik: projected total spikelets = avg × total_inflo
-    #     PRIMARY RESPONSE for total reproductive output — accounts for
-    #     inflos collected but not individually counted
-    #     per metadata: "multiplying average spikelet count and inflorescence count"
     calc_total_spik   = calc_avg_spikelet * calc_total_inflo,
-
-    # (6) calc_Inflo_mass: seed_save + seed_squash
     calc_Inflo_mass   = seed_save + seed_squash,
-
-    # (7) calc_abg_mass_tot: total aboveground mass
-    #     log-transform applied inside make_stan_data() for Gaussian model only
     calc_abg_mass_tot = abg_mass_sans_inflo + calc_Inflo_mass,
-
-    # ── Discrepancy flags (QC only — not used in models) ─────────────────────
+    
     discrep_tot_spikelet = !is.na(tot_spikelet) &
-                             tot_spikelet != calc_tot_spikelet,
+      tot_spikelet != calc_tot_spikelet,
     discrep_avg_spikelet = !is.na(avg_spikelet) &
-                             round(avg_spikelet, 4) != round(calc_avg_spikelet, 4),
+      round(avg_spikelet, 4) != round(calc_avg_spikelet, 4),
     discrep_total_inflo  = !is.na(total_inflo) &
-                             total_inflo != calc_total_inflo,
+      total_inflo != calc_total_inflo,
     discrep_total_spik   = !is.na(total_spik_calc) &
-                             round(total_spik_calc, 2) != round(calc_total_spik, 2),
+      round(total_spik_calc, 2) != round(calc_total_spik, 2),
     discrep_Inflo_mass   = !is.na(Inflo_mass) & !is.na(calc_Inflo_mass) &
-                             round(Inflo_mass, 5) != round(calc_Inflo_mass, 5),
+      round(Inflo_mass, 5) != round(calc_Inflo_mass, 5),
     discrep_abg_mass_tot = !is.na(abg_mass_tot) & !is.na(calc_abg_mass_tot) &
-                             round(abg_mass_tot, 5) != round(calc_abg_mass_tot, 5),
-
-    # ── Dates, age, factors ───────────────────────────────────────────────────
+      round(abg_mass_tot, 5) != round(calc_abg_mass_tot, 5),
+    
     Birthday = parse_birthday(Birthday),
     age_days = as.numeric(as.Date("2025-01-01") - Birthday),
     age_std  = as.numeric(scale(age_days)),
     Site     = factor(Site, levels = site_order),
-    Endo     = factor(Endo, levels = endo_levels),
+    Symbiont = factor(Symbiont, levels = c("E-", "E+")),
+    Symbiont = factor(recode(as.character(Symbiont),
+                             "E-" = "S-", "E+" = "S+"),
+                      levels = endo_levels),
     Pop      = as.factor(Pop),
     Tray     = as.factor(Tray)
   )
 
-# ── Sanity check: no implausible birthdays ────────────────────────────────────
+# ── Sanity check ──────────────────────────────────────────────────────────────
 bad_dates <- soils %>%
   filter(!is.na(Birthday),
          Birthday < as.Date("2024-01-01") | Birthday > as.Date("2025-12-31")) %>%
-  select(Pop, Site, Endo, Birthday)
+  dplyr::select(Pop, Site, Symbiont, Birthday)
 if (nrow(bad_dates) > 0) warning("Implausible Birthday values:\n", print(bad_dates))
 
 # ── QC report ─────────────────────────────────────────────────────────────────
@@ -185,56 +146,50 @@ cat("  Inflo_mass    :", sum(soils$discrep_Inflo_mass,    na.rm = TRUE), "rows d
 cat("  abg_mass_tot  :", sum(soils$discrep_abg_mass_tot,  na.rm = TRUE), "rows differ\n")
 cat("All response variables use the recalculated (calc_*) versions.\n\n")
 
-# NOTE: 39 rows differ from Excel avg_spikelet because:
-# (1) Excel incorrectly included spike_inflos_unk in the mean numerator
-# (2) Some rows used total_inflo as denominator instead of n measured inflos
-# calc_avg_spikelet uses only spike_indiv columns / calc_n_measured — correct per metadata
 summary(soils)
 
 # ── Filter to AGHY only ───────────────────────────────────────────────────────
 aghysoils <- soils %>% filter(Species == "AGHY")
 
 message("AGHY n = ", nrow(aghysoils),
-        "  |  E-: ", sum(aghysoils$Endo == "E-"),
-        "  |  E+: ", sum(aghysoils$Endo == "E+"))
+        "  |  S-: ", sum(aghysoils$Symbiont == "S-"),
+        "  |  S+: ", sum(aghysoils$Symbiont == "S+"))
 
-# ── 1.2  Sample sizes per Site × Endo ────────────────────────────────────────
+# ── 1.2  Sample sizes per Site × Symbiont ─────────────────────────────────────
 sample_grid <- aghysoils %>%
-  count(Site, Endo, name = "n") %>%
-  complete(Site, Endo, fill = list(n = 0))
+  count(Site, Symbiont, name = "n") %>%
+  complete(Site, Symbiont, fill = list(n = 0))
 
-p_n <- ggplot(sample_grid, aes(x = Site, y = n, fill = Endo)) +
+p_n <- ggplot(sample_grid, aes(x = Site, y = n, fill = Symbiont)) +
   geom_col(position = position_dodge(0.7), width = 0.65,
            colour = "white", linewidth = 0.25) +
   geom_text(aes(label = n), position = position_dodge(0.7),
             vjust = -0.4, size = 2.2, family = "sans") +
-  scale_fill_manual(values = endo_col, name = "Endophyte") +
+  scale_fill_manual(values = endo_col, name = "Symbiont") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
   labs(x = "Soil origin (site)", y = "Sample size",
-       title = "Sample sizes per Site × Endophyte") +
+       title = "Sample sizes per Site x Symbiont") +
   theme_EL()
 
 # ── 1.3  Distribution of each response ───────────────────────────────────────
-# NOTE: calc_total_spik (projected total = avg × total_inflo) is the primary
-#       response for total reproductive output — replaces calc_tot_spikelet
 resp_long <- aghysoils %>%
-  dplyr::select(Site, Endo,
+  dplyr::select(Site, Symbiont,
                 calc_abg_mass_tot, calc_total_inflo,
                 calc_total_spik, calc_avg_spikelet) %>%
-  pivot_longer(-c(Site, Endo),
+  pivot_longer(-c(Site, Symbiont),
                names_to  = "response",
                values_to = "value") %>%
   dplyr::mutate(response = dplyr::recode(response,
-    "calc_abg_mass_tot" = "Aboveground biomass (g)",
-    "calc_total_inflo"  = "Total inflorescences",
-    "calc_total_spik"   = "Total spikelets (projected)",
-    "calc_avg_spikelet" = "Avg spikelets / inflo"))
+                                         "calc_abg_mass_tot" = "Aboveground biomass (g)",
+                                         "calc_total_inflo"  = "Total inflorescences",
+                                         "calc_total_spik"   = "Total spikelets (projected)",
+                                         "calc_avg_spikelet" = "Avg spikelets / inflo"))
 
 p_dist <- ggplot(resp_long %>% filter(!is.na(value)),
-                 aes(x = value, fill = Endo, colour = Endo)) +
+                 aes(x = value, fill = Symbiont, colour = Symbiont)) +
   geom_density(alpha = 0.45, linewidth = 0.3, adjust = 1.2) +
-  scale_fill_manual(values  = endo_col, name = "Endophyte") +
-  scale_colour_manual(values = endo_col, name = "Endophyte") +
+  scale_fill_manual(values  = endo_col, name = "Symbiont") +
+  scale_colour_manual(values = endo_col, name = "Symbiont") +
   facet_wrap(~ response, scales = "free", ncol = 2) +
   labs(x = "Observed value", y = "Density") +
   theme_EL() +
@@ -242,7 +197,7 @@ p_dist <- ggplot(resp_long %>% filter(!is.na(value)),
 
 # ── 1.4  Raw means ± SE across sites ─────────────────────────────────────────
 p_raw <- ggplot(resp_long %>% filter(!is.na(value)),
-                aes(x = Site, y = value, fill = Endo, colour = Endo)) +
+                aes(x = Site, y = value, fill = Symbiont, colour = Symbiont)) +
   stat_summary(fun = mean,
                fun.min = function(x) mean(x) - sd(x)/sqrt(length(x)),
                fun.max = function(x) mean(x) + sd(x)/sqrt(length(x)),
@@ -250,28 +205,28 @@ p_raw <- ggplot(resp_long %>% filter(!is.na(value)),
                position = position_dodge(0.55),
                size = 0.35, linewidth = 0.5, shape = 21,
                colour = "black",
-               aes(fill = Endo)) +
-  scale_fill_manual(values  = endo_col, name = "Endophyte") +
-  scale_colour_manual(values = endo_col, name = "Endophyte") +
+               aes(fill = Symbiont)) +
+  scale_fill_manual(values  = endo_col, name = "Symbiont") +
+  scale_colour_manual(values = endo_col, name = "Symbiont") +
   facet_wrap(~ response, scales = "free_y", ncol = 2) +
-  labs(x = "Soil origin (site)", y = "Observed value (mean ± SE)") +
+  labs(x = "Soil origin (site)", y = "Observed value (mean +/- SE)") +
   theme_EL() +
   theme(legend.position = "top",
         axis.text.x = element_text(angle = 35, hjust = 1))
 
 # ── 1.5  Age covariate vs responses ──────────────────────────────────────────
 age_summary <- aghysoils %>%
-  group_by(Site, Endo) %>%
+  group_by(Site, Symbiont) %>%
   summarise(age_days = mean(age_days, na.rm = TRUE), .groups = "drop")
 
 resp_long <- resp_long %>%
-  left_join(age_summary, by = c("Site", "Endo"))
+  left_join(age_summary, by = c("Site", "Symbiont"))
 
 p_age <- ggplot(resp_long %>% filter(!is.na(value)),
-                aes(x = age_days, y = value, colour = Endo)) +
+                aes(x = age_days, y = value, colour = Symbiont)) +
   geom_point(alpha = 0.35, size = 0.7, shape = 16) +
   geom_smooth(method = "lm", se = TRUE, linewidth = 0.6, formula = y ~ x) +
-  scale_colour_manual(values = endo_col, name = "Endophyte") +
+  scale_colour_manual(values = endo_col, name = "Symbiont") +
   facet_wrap(~ response, scales = "free_y", ncol = 2) +
   labs(x = "Age (days from transplant to 1 Jan 2025)",
        y = "Observed value") +
@@ -283,7 +238,6 @@ print(p_dist)
 print(p_raw)
 print(p_age)
 
-
 # =============================================================================
 # PART 2 — STAN MODEL BUILDING & SAMPLING
 # =============================================================================
@@ -292,16 +246,14 @@ print(p_age)
 make_stan_data <- function(df, response_col, family = "negbinom") {
   d <- df %>%
     filter(!is.na(.data[[response_col]]),
-           !is.na(Endo), !is.na(Site), !is.na(age_std)) %>%
+           !is.na(Symbiont), !is.na(Site), !is.na(age_std)) %>%
     droplevels()
-
-  X <- model.matrix(~ Endo * Site + age_std, data = d)
-
-  # Gaussian (biomass): log-transform here so calc_abg_mass_tot stays on gram
-  # scale in plots; only the modelling step uses log
+  
+  X <- model.matrix(~ Symbiont * Site + age_std, data = d)
+  
   y_vals <- d[[response_col]]
   if (family == "gaussian") y_vals <- log(y_vals)
-
+  
   list(
     N      = nrow(d),
     K      = ncol(X),
@@ -315,14 +267,9 @@ make_stan_data <- function(df, response_col, family = "negbinom") {
   )
 }
 
-# ── Response variables per metadata definitions ───────────────────────────────
-# calc_abg_mass_tot : total aboveground biomass (g)           → Gaussian
-# calc_total_inflo  : total inflorescences collected          → NegBinom
-# calc_total_spik   : projected total spikelets (avg×count)   → NegBinom  ← FIX
-# calc_avg_spikelet : mean spikelets per measured inflo       → NegBinom
 sd_biomass <- make_stan_data(aghysoils, "calc_abg_mass_tot",  "gaussian")
 sd_inflo   <- make_stan_data(aghysoils, "calc_total_inflo",   "negbinom")
-sd_totspi  <- make_stan_data(aghysoils, "calc_total_spik",    "negbinom")  # ← was calc_tot_spikelet
+sd_totspi  <- make_stan_data(aghysoils, "calc_total_spik",    "negbinom")
 sd_avgspi  <- make_stan_data(aghysoils, "calc_avg_spikelet",  "negbinom")
 
 # ── 2.2  Stan model: Gaussian (biomass) ──────────────────────────────────────
@@ -401,8 +348,8 @@ generated quantities {
   vector[N] log_lik;
   for (n in 1:N) {
     real log_mu_n    = X[n] * beta + u_pop[pop_id[n]];
-    real safe_log_mu = fmin(log_mu_n, 10.0);   // cap at ~22,000 counts
-    real safe_phi    = fmin(phi, 1e6);          // cap phi
+    real safe_log_mu = fmin(log_mu_n, 10.0);
+    real safe_phi    = fmin(phi, 1e6);
     log_lik[n] = neg_binomial_2_log_lpmf(y[n] | log_mu_n, phi);
     if (is_nan(safe_log_mu) || is_inf(safe_log_mu)) {
       y_rep[n] = -1;
@@ -416,9 +363,9 @@ generated quantities {
 
 # ── 2.4  Compile models ───────────────────────────────────────────────────────
 mod_gaussian <- stan_model(model_code = stan_gaussian_code,
-                           model_name = "gaussian_endo_soil")
+                           model_name = "gaussian_sym_soil")
 mod_negbinom <- stan_model(model_code = stan_negbinom_code,
-                           model_name = "negbinom_endo_soil")
+                           model_name = "negbinom_sym_soil")
 
 # ── 2.5  Sampling helper ──────────────────────────────────────────────────────
 run_stan <- function(stan_mod, data_list, family, seed = 13,
@@ -442,7 +389,7 @@ run_stan <- function(stan_mod, data_list, family, seed = 13,
                       n_pop  = data_list$n_pop,
                       pop_id = data_list$pop_id)
   }
-
+  
   sampling(stan_mod, data = stan_data,
            chains = chains, iter = iter, warmup = warmup,
            seed = seed,
@@ -473,11 +420,11 @@ check_hmc(fit_totspi,  "M3 Total spikelets (projected)")
 check_hmc(fit_avgspi,  "M4 Avg spikelets")
 
 p_trace_biomass <- mcmc_trace(fit_biomass, regex_pars = "beta\\[",
-                               facet_args = list(ncol = 2)) +
-  labs(title = "M1 — Biomass: trace plots (beta)") + theme_EL()
+                              facet_args = list(ncol = 2)) +
+  labs(title = "M1 - Biomass: trace plots (beta)") + theme_EL()
 p_trace_inflo   <- mcmc_trace(fit_inflo, regex_pars = "beta\\[",
-                               facet_args = list(ncol = 2)) +
-  labs(title = "M2 — Inflo: trace plots (beta)") + theme_EL()
+                              facet_args = list(ncol = 2)) +
+  labs(title = "M2 - Inflo: trace plots (beta)") + theme_EL()
 
 print(p_trace_biomass)
 print(p_trace_inflo)
@@ -486,9 +433,9 @@ ppc_check <- function(fit, y_obs, label, xlim = NULL) {
   y_rep     <- as.matrix(fit, pars = "y_rep")
   y_rep_sub <- y_rep[sample(nrow(y_rep), 200), ]
   p <- ppc_dens_overlay(y_obs, y_rep_sub) +
-    labs(title = paste0("PPC — ", label)) +
+    labs(title = paste0("PPC - ", label)) +
     theme_EL()
-  if(!is.null(xlim)){
+  if (!is.null(xlim)) {
     p <- p + coord_cartesian(xlim = xlim) +
       scale_x_continuous(expand = c(0, 0))
   }
@@ -496,49 +443,36 @@ ppc_check <- function(fit, y_obs, label, xlim = NULL) {
 }
 
 p_biomass <- ppc_check(fit_biomass, sd_biomass$y_cont, "Biomass")
-p_inflo <- ppc_check(
-  fit_inflo,
-  sd_inflo$y,
-  "Inflo count",
-  xlim = c(-1, 50)   # adjust as needed
-)
-p_inflo <- p_inflo + scale_x_continuous(expand = c(0, 0))+scale_y_continuous(expand = c(0, 0))
+p_inflo   <- ppc_check(fit_inflo,   sd_inflo$y,        "Inflo count", xlim = c(-1, 50))
+p_inflo   <- p_inflo +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0))
+p_avgspi  <- ppc_check(fit_avgspi,  sd_avgspi$y,       "Avg spikelets")
 
-p_avgspi <- ppc_check(
-  fit_avgspi,
-  sd_avgspi$y,
-  "Avg spikelets"
-)
 ppc_panel <- (p_biomass | p_inflo | p_avgspi) +
   plot_annotation(tag_levels = "A")
-# ggsave(
-#   filename = file.path(fig_dir, "PPC_models_soilendo.pdf"),
-#   plot = ppc_panel,
-#   width = 12,   # adjust width
-#   height = 4,   # adjust height
-#   device = cairo_pdf   # high-quality PDF
-# )
+
 # =============================================================================
-# PART 3 FIGURES
+# PART 3 — FIGURES
 # =============================================================================
 
-# ── 3.1  Extract posterior fitted means per Site × Endo ──────────────────────
+# ── 3.1  Extract posterior fitted means per Site × Symbiont ──────────────────
 extract_posterior_means <- function(fit, sd_obj, link = "identity") {
-  draws_beta <- as.matrix(fit, pars = "beta")    # iter × K
-  draws_upop <- as.matrix(fit, pars = "u_pop")   # iter × n_pop
-
+  draws_beta <- as.matrix(fit, pars = "beta")
+  draws_upop <- as.matrix(fit, pars = "u_pop")
+  
   d      <- sd_obj$d_used
   X      <- sd_obj$X
   pop    <- sd_obj$pop_id
   n_iter <- nrow(draws_beta)
-
+  
   grid <- d %>%
-    dplyr::select(Site, Endo, Pop) %>%
+    dplyr::select(Site, Symbiont, Pop) %>%
     mutate(pop_int = as.integer(Pop)) %>%
     distinct()
-
+  
   result <- map_dfr(seq_len(nrow(grid)), function(i) {
-    rows <- which(d$Site == grid$Site[i] & d$Endo == grid$Endo[i])
+    rows <- which(d$Site == grid$Site[i] & d$Symbiont == grid$Symbiont[i])
     if (length(rows) == 0) return(NULL)
     eta_mat <- matrix(NA_real_, nrow = n_iter, ncol = length(rows))
     for (j in seq_along(rows)) {
@@ -547,10 +481,10 @@ extract_posterior_means <- function(fit, sd_obj, link = "identity") {
     }
     eta_mean <- rowMeans(eta_mat)
     mu <- switch(link,
-      log      = exp(eta_mean),
-      identity = eta_mean
+                 log      = exp(eta_mean),
+                 identity = eta_mean
     )
-    tibble(Site = grid$Site[i], Endo = grid$Endo[i],
+    tibble(Site = grid$Site[i], Symbiont = grid$Symbiont[i],
            draw = seq_len(n_iter), mu = mu)
   })
   result
@@ -561,13 +495,13 @@ post_inflo   <- extract_posterior_means(fit_inflo,   sd_inflo,   "log")
 post_totspi  <- extract_posterior_means(fit_totspi,  sd_totspi,  "log")
 post_avgspi  <- extract_posterior_means(fit_avgspi,  sd_avgspi,  "log")
 
-# ── 3.2  Posterior contrast E+ minus E- per site ─────────────────────────────
+# ── 3.2  Posterior contrast S+ minus S- per site ─────────────────────────────
 endo_contrast <- function(post_df) {
   post_df %>%
-    dplyr::group_by(Site, draw, Endo) %>%
+    dplyr::group_by(Site, draw, Symbiont) %>%
     summarise(mu = mean(mu), .groups = "drop") %>%
-    pivot_wider(names_from = Endo, values_from = mu) %>%
-    mutate(contrast = `E+` - `E-`)
+    pivot_wider(names_from = Symbiont, values_from = mu) %>%
+    mutate(contrast = `S+` - `S-`)
 }
 
 cont_biomass <- endo_contrast(post_biomass)
@@ -579,23 +513,26 @@ cont_avgspi  <- endo_contrast(post_avgspi)
 make_EL_figure <- function(post_df, raw_df, response_col,
                            y_label, contrast_df, tag_prefix = "A") {
   site_lev    <- site_order[site_order %in% levels(factor(post_df$Site))]
-  post_df     <- post_df %>% mutate(Site = factor(Site, levels = site_lev),
-                                    Endo = factor(Endo, levels = endo_levels))
-  raw_sub     <- raw_df  %>% filter(!is.na(.data[[response_col]]),
-                                    .data[[response_col]] > 0) %>%   # drop zeros
-    mutate(Site = factor(Site, levels = site_lev),
-           Endo = factor(Endo, levels = endo_levels))
-  contrast_df <- contrast_df %>% mutate(Site = factor(Site, levels = site_lev))
+  post_df     <- post_df %>%
+    mutate(Site     = factor(Site,     levels = site_lev),
+           Symbiont = factor(Symbiont, levels = endo_levels))
+  raw_sub     <- raw_df %>%
+    filter(!is.na(.data[[response_col]]),
+           .data[[response_col]] > 0) %>%
+    mutate(Site     = factor(Site,     levels = site_lev),
+           Symbiont = factor(Symbiont, levels = endo_levels))
+  contrast_df <- contrast_df %>%
+    mutate(Site = factor(Site, levels = site_lev))
   
   pA <- ggplot() +
     geom_jitter(data = raw_sub,
-                aes(x = Site, y = .data[[response_col]], colour = Endo),
+                aes(x = Site, y = .data[[response_col]], colour = Symbiont),
                 position = position_jitterdodge(jitter.width = 0.15,
                                                 dodge.width  = 0.7),
                 alpha = 0.55, size = 1, shape = 16) +
     stat_pointinterval(
       data          = post_df,
-      aes(x = Site, y = mu, colour = Endo, fill = Endo),
+      aes(x = Site, y = mu, colour = Symbiont, fill = Symbiont),
       .width        = c(0.50, 0.95),
       position      = position_dodge(0.7),
       point_size    = 2.5,
@@ -603,7 +540,7 @@ make_EL_figure <- function(post_df, raw_df, response_col,
       shape         = 21,
       point_alpha   = 1
     ) +
-    scale_colour_manual(values = endo_col, name = "Endophyte") +
+    scale_colour_manual(values = endo_col, name = "Symbiont") +
     scale_fill_manual(values   = endo_col) +
     guides(
       colour = guide_legend(
@@ -639,7 +576,7 @@ make_EL_figure <- function(post_df, raw_df, response_col,
     ) +
     scale_x_discrete(name = "Soil origin (site)") +
     scale_y_continuous(
-      name   = paste0("\u0394 ", y_label, "\n(E+ \u2212 E\u2212)"),
+      name   = paste0("\u0394 ", y_label, "\n(S+ \u2212 S\u2212)"),
       expand = expansion(mult = c(0.05, 0.05))
     ) +
     theme_EL() +
@@ -648,11 +585,9 @@ make_EL_figure <- function(post_df, raw_df, response_col,
   pA / pB + plot_layout(heights = c(2, 1))
 }
 
-# Re-extract with back-transformation
 post_biomass <- extract_posterior_means(fit_biomass, sd_biomass, "identity") %>%
-  mutate(mu = exp(mu))   # grams scale
+  mutate(mu = exp(mu))
 
-# Rebuild figures
 fig_biomass <- make_EL_figure(post_biomass, aghysoils, "calc_abg_mass_tot",
                               "Aboveground biomass (g)",         cont_biomass, "A")
 fig_inflo   <- make_EL_figure(post_inflo,   aghysoils, "calc_total_inflo",
@@ -661,12 +596,8 @@ fig_totspi  <- make_EL_figure(post_totspi,  aghysoils, "calc_total_spik",
                               "Total spikelets (projected)",     cont_totspi,  "A")
 fig_avgspi  <- make_EL_figure(post_avgspi,  aghysoils, "calc_avg_spikelet",
                               "Avg spikelets per inflorescence", cont_avgspi,  "A")
-# save_EL(fig_biomass, "Fig1_Biomass.pdf",              174, 150)
-# save_EL(fig_inflo,   "Fig2_Inflo.pdf",                174, 150)
-# save_EL(fig_totspi,  "Fig3_TotalSpikelets.pdf",       174, 150)
-# save_EL(fig_avgspi,  "Fig4_AvgSpikelets.pdf",         174, 150)
 
-# ── 3.5  Combined 3-panel figure + legend in D slot ──────────────────────────
+# ── 3.5  Combined 3-panel figure ─────────────────────────────────────────────
 extract_panelA <- function(fig) fig[[1]]
 
 fig_all <- ((extract_panelA(fig_biomass) + labs(tag = "A")) +
@@ -682,15 +613,12 @@ fig_all <- ((extract_panelA(fig_biomass) + labs(tag = "A")) +
                 legend.title          = element_text(face = "plain", hjust = 0.5),
                 legend.text           = element_text(size = 10),
                 legend.key.size       = unit(1.2, "cm"),
-                legend.spacing.x      = unit(0.1, "cm"),   
-                legend.spacing.y      = unit(0.2, "cm"),   
+                legend.spacing.x      = unit(0.1, "cm"),
+                legend.spacing.y      = unit(0.2, "cm"),
                 legend.box.margin     = margin(t = 10, r = 0, b = 0, l = 0)
               ))
 
 save_EL(fig_all, "Fig_AllResponses_combined.pdf", 174, 120)
-
-message("\nPart 3 complete — figures saved to: ", fig_dir, "\n")
-
 
 # =============================================================================
 # PART 4 — STATISTICAL SUMMARY TABLES
@@ -699,15 +627,15 @@ message("\nPart 3 complete — figures saved to: ", fig_dir, "\n")
 # ── 4.1  Posterior summary for one model ─────────────────────────────────────
 posterior_table <- function(fit, sd_obj, model_label) {
   coef_names <- colnames(sd_obj$X)
-  coef_names <- gsub("\\(Intercept\\)", "Intercept",          coef_names)
-  coef_names <- gsub("EndoE\\+",        "Endo[E+]",           coef_names)
-  coef_names <- gsub("Site",            "Site:",              coef_names)
-  coef_names <- gsub("EndoE\\+:Site",   "Endo[E+] × Site:",  coef_names)
-  coef_names <- gsub("age_std",         "Age (standardised)", coef_names)
-
+  coef_names <- gsub("\\(Intercept\\)",    "Intercept",          coef_names)
+  coef_names <- gsub("SymbiontS\\+",       "Sym[S+]",            coef_names)
+  coef_names <- gsub("Site",               "Site:",              coef_names)
+  coef_names <- gsub("SymbiontS\\+:Site",  "Sym[S+]:Site:",      coef_names)
+  coef_names <- gsub("age_std",            "Age (standardised)", coef_names)
+  
   draws_beta <- as.data.frame(as.matrix(fit, pars = "beta"))
   colnames(draws_beta) <- coef_names
-
+  
   draws_beta %>%
     pivot_longer(everything(), names_to = "Parameter", values_to = "draw") %>%
     group_by(Parameter) %>%
@@ -725,15 +653,14 @@ posterior_table <- function(fit, sd_obj, model_label) {
 
 tab_biomass <- posterior_table(fit_biomass, sd_biomass, "Biomass (Gaussian)")
 tab_inflo   <- posterior_table(fit_inflo,   sd_inflo,   "Inflo count (NB)")
-tab_totspi  <- posterior_table(fit_totspi,  sd_totspi,  "Total spikelets projected (NB)")  # ← label updated
+tab_totspi  <- posterior_table(fit_totspi,  sd_totspi,  "Total spikelets projected (NB)")
 tab_avgspi  <- posterior_table(fit_avgspi,  sd_avgspi,  "Avg spikelets (NB)")
 
 all_tabs <- bind_rows(tab_biomass, tab_inflo, tab_totspi, tab_avgspi)
 
-# ── 4.2  Print to console ─────────────────────────────────────────────────────
 cat("\n\n")
 cat("=============================================================\n")
-cat(" BAYESIAN POSTERIOR SUMMARY — All models\n")
+cat(" BAYESIAN POSTERIOR SUMMARY - All models\n")
 cat(" Median, Mean, SD, 95% CrI, P(effect > 0)\n")
 cat("=============================================================\n\n")
 for (mod_label in unique(all_tabs$Model)) {
@@ -742,24 +669,22 @@ for (mod_label in unique(all_tabs$Model)) {
   cat("\n")
 }
 
-# ── 4.3  Save as CSV ──────────────────────────────────────────────────────────
 write.csv(all_tabs,
           file      = file.path(output_dir, "Table1_PosteriorSummary.csv"),
           row.names = FALSE)
-message("Posterior summary table saved.")
 
 # ── 4.4  Interaction summary ──────────────────────────────────────────────────
 interaction_summary <- function(fit, sd_obj, model_label) {
   coef_names   <- colnames(sd_obj$X)
-  interact_idx <- grep("EndoE\\+:Site", coef_names)
-
+  interact_idx <- grep("SymbiontS\\+:Site", coef_names)
+  
   if (length(interact_idx) == 0) {
     message(model_label, ": no interaction terms found.")
     return(NULL)
   }
-
+  
   draws_beta <- as.matrix(fit, pars = "beta")
-
+  
   map_dfr(interact_idx, function(k) {
     d <- draws_beta[, k]
     tibble(
@@ -786,7 +711,7 @@ int_tabs <- bind_rows(
 )
 
 cat("\n=============================================================\n")
-cat(" SITE × ENDOPHYTE INTERACTION SUMMARY\n")
+cat(" SITE x SYMBIONT INTERACTION SUMMARY\n")
 cat(" (Core ecological question)\n")
 cat("=============================================================\n\n")
 print(int_tabs, n = Inf)
@@ -794,11 +719,6 @@ print(int_tabs, n = Inf)
 write.csv(int_tabs,
           file      = file.path(output_dir, "Table2_Interactions.csv"),
           row.names = FALSE)
-message("Interaction table saved.")
-
-message("\n\n=== ALL PARTS COMPLETE ===\n")
-message("Figures: ", fig_dir)
-message("Tables:  ", output_dir)
 
 # =============================================================================
 # End of script

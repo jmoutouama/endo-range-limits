@@ -6,11 +6,11 @@ Endo,"Endophyte status, E+ (endophyte present), E- (endophyte absent)"
 Site,"Site that each soil came from BAS (Bastrop), BFL (Brackenridge Field Laboratory), HUN (Huntsville)"
 Var1,"Row of tray (A , B, C, D, E, F, or G)"
 Var2,"Coumn of tray (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, or 14)"
-Location,"Position in Tray, a combination of Var 1 and Var 2"
-Location,"Location of each plant within a tray, a combination of Var 1 and Var 2"
+Location,"Position of each plant within a tray, a combination of Var 1 and Var 2"
 Birthday,Date each seedling was transplated from agar to a conetainer of soil within a tray
 Jan8_census,"census of alive and dead plants taken on Jan 8, 2025. Dead plants were replaced if possible"
 Replacement_(NEW BIRTHDAY),"When an plant dies, it is replaced in the experiment. In this clolumn the date that the new plant is planted is recoded"
+n_Inflo,Number of inflorescences measured for spikelet count
 1st_date_collect,1st date developed inflorescneces were collected
 2nd_date_collect,2nd date developed inflorescneces were collected
 3rd_date_collect,3rd date developed inflorescneces were collected
@@ -27,8 +27,8 @@ spike_infl_j,number of spikelets counted from the 10th inflorescence measured
 spike_inflos_unk,"number of spikelets and seeds counted, cannot be traced back to a specific inflorescence"
 tot_spikelet,Sum of the count of spikelets from each inflorescene counted. 
 avg_spikelet,mean number of spikelets among the inflorescences that were measured for number of spikelets
-total_inflo,total number of inflorescences collected from each plant
-total_spik,total number of spikelets calculated by multiplying average spikelet count and inflorescence count of each plant
+total_inflo,"total number of inflorescences collected from each plant, sometimes higher value than ""n_inflo"""
+total_spik_calc,total number of spikelets calculated by multiplying average spikelet count and inflorescence count of each plant
 abg_mass_sans_inflo,aboveground biomass excluding the mass of inflorescences and seeds
 seed save,mass of inflorescences and seeds collected with the intention of using for future experiments
 seed squash,mass of inflorescenses and seeds collected with the intention of being tested for endophyte presence/absemce

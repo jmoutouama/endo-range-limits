@@ -1,80 +1,124 @@
-data {
-  // indices
-  int<lower=1> nSpp;         
-  int<lower=1> nsite_year;   
-  int<lower=1> nPop;         
-  int<lower=1> N;            
-  int<lower=1> nPlot;        
+// Hierarchical Bayesian survival/flowering model (Bernoulli-logit)
+// Response: spike count (integer count, not 0/1 anymore)
+// Species-specific fixed effects with global hyperpriors
+// Random effects for site-year, plot, and source population
+// Only main effects for endophyte and climate, and their interaction
 
-  // Survival/flowering data
-  int<lower=1> Spp[N];       
-  int<lower=1> site_year[N]; 
-  int<lower=1> plot[N];      
-  int<lower=1> pop[N];       
-  int<lower=0> y[N];         
-  int<lower=0,upper=1> endo[N];  
-  vector[N] clim;            
+data {
+  int<lower=1> N;            // Number of observations
+  int<lower=1> nSpp;         // Number of species
+  int<lower=1> nsite_year;   // Number of site_year combinations
+  int<lower=1> nPop;         // Number of source populations
+  int<lower=1> nPlot;        // Number of plots
+
+  array[N] int<lower=1, upper=nSpp> Spp;
+  array[N] int<lower=1, upper=nsite_year> site_year;
+  array[N] int<lower=1, upper=nPop> pop;
+  array[N] int<lower=1, upper=nPlot> plot;
+
+  array[N] int<lower=0> y;       // Spike count
+  array[N] int<lower=0, upper=1> endo; // Endophyte status
+
+  vector[N] clim;   // Climate covariate
 }
 
 parameters {
-  // Fixed effects
-  vector[nSpp] b0;              
-  vector[nSpp] bendo;           
-  vector[nSpp] bclim;           
-  vector[nSpp] bendoclim;       
+  // Global means for species-level effects
+  real mu_b0;
+  real mu_bclim;
+  real mu_bendo;
+  real mu_bendoclim; // Endophyte * climate interaction
 
-  // Random effects
-  real<lower=0> plot_tau;              
-  vector[nPlot] plot_rfx;              
-  real<lower=0> pop_tau;               
-  vector[nPop] pop_rfx;                
-  vector<lower=0>[nSpp] site_year_tau; 
-  matrix[nSpp, nsite_year] site_year_rfx; 
+  // Species-level SDs
+  real<lower=0> sigma_b0;
+  real<lower=0> sigma_bclim;
+  real<lower=0> sigma_bendo;
+  real<lower=0> sigma_bendoclim;
 
-  // Negative binomial dispersion
-  real<lower=0> phi; 
+  // Non-centered species deviations
+  vector[nSpp] z_b0;
+  vector[nSpp] z_bclim;
+  vector[nSpp] z_bendo;
+  vector[nSpp] z_bendoclim;
+
+  // Random-effect SDs
+  real<lower=0> sigma_site_year;
+  real<lower=0> sigma_plot;
+  real<lower=0> sigma_pop;
+
+  // Non-centered random effects
+  matrix[nSpp, nsite_year] z_site_year;
+  vector[nPlot] z_plot;
+  vector[nPop] z_pop;
+
+  // Dispersion parameter for Negative Binomial
+  real<lower=0> phi;
 }
 
 transformed parameters {
-  vector[N] predF; // Predicted flowering response
+  // Species-specific coefficients
+  vector[nSpp] b0        = mu_b0        + sigma_b0        * z_b0;
+  vector[nSpp] bclim     = mu_bclim     + sigma_bclim     * z_bclim;
+  vector[nSpp] bendo     = mu_bendo     + sigma_bendo     * z_bendo;
+  vector[nSpp] bendoclim = mu_bendoclim + sigma_bendoclim * z_bendoclim;
 
+  // Random effects
+  matrix[nSpp, nsite_year] site_year_rfx = sigma_site_year * z_site_year;
+  vector[nPlot] plot_rfx = sigma_plot * z_plot;
+  vector[nPop]  pop_rfx  = sigma_pop  * z_pop;
+
+  // Linear predictor
+  vector[N] predF;
   for (i in 1:N) {
-    predF[i] = b0[Spp[i]] + 
-               bendo[Spp[i]] * endo[i] +
-               bclim[Spp[i]] * clim[i] +
-               bendoclim[Spp[i]] * endo[i] * clim[i] +
-               plot_rfx[plot[i]] +
-               pop_rfx[pop[i]] +
-               site_year_rfx[Spp[i], site_year[i]];
+    predF[i] =
+      b0[Spp[i]]
+      + bclim[Spp[i]]     * clim[i]
+      + bendo[Spp[i]]     * endo[i]
+      + bendoclim[Spp[i]] * endo[i] * clim[i]
+      + site_year_rfx[Spp[i], site_year[i]]
+      + plot_rfx[plot[i]]
+      + pop_rfx[pop[i]];
   }
 }
 
 model {
-  // Priors
-  b0 ~ normal(0, 1);    
-  bendo ~ normal(0, 1);   
-  bclim ~ normal(0, 1);  
-  bendoclim ~ normal(0, 1);  
-  phi ~ gamma(2,1);
+  // Priors for global means
+  mu_b0        ~ normal(0, 2);
+  mu_bclim     ~ normal(0, 2);
+  mu_bendo     ~ normal(0, 2);
+  mu_bendoclim ~ normal(0, 2);
 
-  // Random effects
-  plot_tau ~ inv_gamma(0.1,0.1);
-  plot_rfx ~ normal(0, plot_tau);  
+  // Priors for species SDs
+  sigma_b0        ~ normal(0, 1);
+  sigma_bclim     ~ normal(0, 1);
+  sigma_bendo     ~ normal(0, 1);
+  sigma_bendoclim ~ normal(0, 1);
 
-  pop_tau ~ inv_gamma(0.1,0.01);
-  pop_rfx ~ normal(0, pop_tau);    
+  // Non-centered species deviations
+  z_b0        ~ normal(0, 1);
+  z_bclim     ~ normal(0, 1);
+  z_bendo     ~ normal(0, 1);
+  z_bendoclim ~ normal(0, 1);
 
-  site_year_tau ~ inv_gamma(0.1,0.1);
-  for (s in 1:nSpp)
-    site_year_rfx[s] ~ normal(0, site_year_tau[s]);
+  // Random-effect SD priors
+  sigma_site_year ~ normal(0, 1);
+  sigma_plot      ~ normal(0, 1);
+  sigma_pop       ~ normal(0, 1);
+
+  // Non-centered random effects
+  to_vector(z_site_year) ~ normal(0, 1);
+  z_plot                 ~ normal(0, 1);
+  z_pop                  ~ normal(0, 1);
+
+  // Dispersion for Negative Binomial
+  phi ~ exponential(1);
 
   // Likelihood
   y ~ neg_binomial_2_log(predF, phi);
 }
 
 generated quantities {
-  vector[N] log_lik; 
-  for (i in 1:N) {
+  vector[N] log_lik;
+  for (i in 1:N)
     log_lik[i] = neg_binomial_2_log_lpmf(y[i] | predF[i], phi);
-  }
 }

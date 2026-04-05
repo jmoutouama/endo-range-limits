@@ -3,49 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v3.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 357 of file References.bib
- : @article{fowler2025increasing
- :                              ,
-I'm skipping whatever remains of this entry
-You've used 72 entries,
+You've used 76 entries,
             1935 wiz_defined-function locations,
-            906 strings with 17267 characters,
-and the built_in function-call counts, 30774 in all, are:
-= -- 3050
-> -- 1344
+            927 strings with 18576 characters,
+and the built_in function-call counts, 33080 in all, are:
+= -- 3243
+> -- 1546
 < -- 33
-+ -- 474
-- -- 458
-* -- 2818
-:= -- 5333
-add.period$ -- 215
-call.type$ -- 72
-change.case$ -- 585
-chr.to.int$ -- 70
-cite$ -- 72
-duplicate$ -- 1019
-empty$ -- 2080
-format.name$ -- 554
-if$ -- 5896
++ -- 550
+- -- 534
+* -- 3062
+:= -- 5763
+add.period$ -- 227
+call.type$ -- 76
+change.case$ -- 641
+chr.to.int$ -- 74
+cite$ -- 76
+duplicate$ -- 1075
+empty$ -- 2181
+format.name$ -- 634
+if$ -- 6310
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 67
-newline$ -- 362
-num.names$ -- 216
-pop$ -- 439
+missing$ -- 71
+newline$ -- 382
+num.names$ -- 228
+pop$ -- 487
 preamble$ -- 1
-purify$ -- 589
+purify$ -- 645
 quote$ -- 0
-skip$ -- 781
+skip$ -- 823
 stack$ -- 0
-substring$ -- 2511
-swap$ -- 103
+substring$ -- 2590
+swap$ -- 107
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 428
+type$ -- 452
 warning$ -- 0
-while$ -- 269
+while$ -- 282
 width$ -- 0
-write$ -- 928
-(There was 1 error message)
+write$ -- 980

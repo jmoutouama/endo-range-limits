@@ -393,7 +393,7 @@ plot(aghy, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_aghy, add=TRUE, pch=3, col="black", cex=2)
 plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
-mtext("A", side=3, adj=0, cex=1.25, line=0.2)
+mtext("(a)", side=3, adj=0, cex=1.25, line=0.2)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -410,7 +410,7 @@ plot(elvi, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_elvi, add=TRUE, pch=3, col="black", cex=2)
 plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
-mtext("B", side=3, adj=0, cex=1.25, line=0.2)
+mtext("(b)", side=3, adj=0, cex=1.25, line=0.2)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -428,7 +428,7 @@ plot(poau, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
 plot(garden_poau, add=TRUE, pch=3, col="black", cex=2)
 plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
 mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
-mtext("C", side=3, adj=0, cex=1.25, line=0.3)
+mtext("(c)", side=3, adj=0, cex=1.25, line=0.3)
 mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
 map.scale(
   x = -95,       # longitude position of scale bar
@@ -491,7 +491,7 @@ bp <- barplot(
   ylab = "Annual Precipitation (mm)"
 )
 
-mtext("D", side=3, adj=-0.06, cex=1.25, line=0.5)
+mtext("(d)", side=3, adj=-0.06, cex=1.25, line=0.5)
 box()
 
 # Add legend
@@ -509,7 +509,8 @@ par(mar=c(4,2,2,1))
 #plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
 plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.8), axes=FALSE, xlab="", ylab="", main="", asp=1)
 
-mtext("E", side=3, adj=0.07, cex=1.25, line=-1.75)
+#mtext("(e)", side=3, adj=0.07, cex=1.25, line=-1.75)
+mtext("(e)", side = 3, adj = -0.01, cex = 1.25, line = 0.55)
 
 # fenced
 #rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
@@ -517,11 +518,12 @@ rect(0.1, 0.2, 1.6, 1.5, border="black", lwd=2)
 plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
 plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
-set.seed(13)  
-signs1 <- sample(c("+", "−"), length(plants1_x), replace = TRUE)
+set.seed(13)
+n1 <- length(plants1_x)
+signs1 <- sample(rep(c("+", "−"), each = n1/2))
 text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
 
-mtext("Fenced", side=3, at=0.85, line=-4, cex=1.2)
+mtext("Herbivory exclusion", side=3, at=0.85, line=-4, cex=1)
 
 # unfenced
 # rect(1.9, 0.1, 3.4, 1.6, border=NA)
@@ -534,20 +536,21 @@ plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
 plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
 # points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
 set.seed(13)
-signs2 <- sample(c("+", "−"), length(plants2_x), replace = TRUE)
+n2 <- length(plants2_x)
+signs2 <- sample(rep(c("+", "−"), each = n2/2))
 text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 
-mtext("Unfenced", side=3, at=2.65, line=-4, cex=1.2)
+mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)
 
 ### Panel F
 par(mar=c(4,2,2,1))  # same for both E and F
-mtext("F", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
+mtext("(f)", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
 
 bp <- barplot(
   height = mean_matrix,
   beside = TRUE,
   names.arg = ordered_sites,
-  col = c("grey80","grey15"),  # use herbivory colors
+  col = c("#E69F00","#009E73"),  # use herbivory colors
   ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
   xlab = "Sites",
   ylab = "Proportion of damaged plants",
@@ -568,8 +571,8 @@ box()
 # Add clear legend
 legend(
   "topright",
-  legend = c("Unfenced", "Fenced"),
-  fill = c("grey80","grey15"),
+  legend = c("Herbivory access", "Herbivory exclusion"),
+  fill = c("#E69F00","#009E73"),
   bty = "n",
   cex = 1.2
 )
@@ -579,7 +582,7 @@ dev.off()
 ## Herbivory for 2024 and 2025
 # Define herbivory levels and colors
 herb_levels <- c(1,0)  # 1 = Fenced, 0 = Unfenced
-colors <- c("grey15","grey80")
+colors <- c("#E69F00","#009E73")
 names(colors) <- herb_levels
 
 # Function to summarize data per year
@@ -684,14 +687,14 @@ arrows(
 )
 box()
 # Shared legend
-legend("topleft", legend = c("Fenced","Unfenced"), fill = colors, bty = "n", cex = 0.9)
+legend("topleft", legend = c("Herbivory exclusion","Herbivory access"), fill = colors, bty = "n", cex = 0.9)
 
 dev.off()
 
 ## Herbivory per species  and per year
 # Define herbivory levels and colors
 herb_levels <- c(0,1)  # 0 = Fenced, 1 = Unfenced
-colors <- c("grey80","grey15")
+colors <- c("#E69F00","#009E73")
 names(colors) <- herb_levels
 
 # Function to summarize herbivory per dataset
@@ -795,7 +798,7 @@ for(species in species_list){
     box()
     # Add legend only on first panel
     if(species == species_list[1] & yr==years[1]){
-      legend("topright", legend=c("Unfenced","Fenced"), fill=colors, bty="n", cex=1)
+      legend("topright", legend=c("Herbivory access","Herbivory exclusion"), fill=colors, bty="n", cex=1)
     }
   }
 }

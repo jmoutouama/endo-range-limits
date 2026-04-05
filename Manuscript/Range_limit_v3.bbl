@@ -203,11 +203,12 @@ Haine, E.~R. (2008).
 \newblock {\em Proceedings of the Royal Society B: Biological Sciences},
   275(1633):353--361.
 
-\bibitem[Hammarlund and Harcombe, 2019]{hammarlund2019refining}
-Hammarlund, S.~P. and Harcombe, W.~R. (2019).
-\newblock Refining the stress gradient hypothesis in a microbial community.
-\newblock {\em Proceedings of the National Academy of Sciences},
-  116(32):15760--15762.
+\bibitem[Hannula et~al., 2021]{hannula2021persistence}
+Hannula, S.~E., Heinen, R., Huberty, M., Steinauer, K., De~Long, J.~R., Jongen,
+  R., and Bezemer, T.~M. (2021).
+\newblock Persistence of plant-mediated microbial soil legacy effects in soil
+  and inside roots.
+\newblock {\em Nature communications}, 12(1):5686.
 
 \bibitem[Hart and Bell, 2015]{PRISM2024}
 Hart, E.~M. and Bell, K. (2015).
@@ -291,17 +292,24 @@ Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
 \newblock {\em Trends in ecology \& evolution}, 30(12):780--792.
 
+\bibitem[Maestre et~al., 2009]{maestre2009refining}
+Maestre, F.~T., Callaway, R.~M., Valladares, F., and Lortie, C.~J. (2009).
+\newblock Refining the stress-gradient hypothesis for competition and
+  facilitation in plant communities.
+\newblock {\em Journal of ecology}, 97(2):199--205.
+
+\bibitem[Marangon et~al., 2025]{marangon2025destabilization}
+Marangon, E., R{\"a}decker, N., Li, J.~Y., Terzin, M., Buerger, P., Webster,
+  N.~S., Bourne, D.~G., and Laffy, P.~W. (2025).
+\newblock Destabilization of mutualistic interactions shapes the early heat
+  stress response of the coral holobiont.
+\newblock {\em Microbiome}, 13(1):31.
+
 \bibitem[Oberhofer et~al., 2014]{oberhofer2014effects}
 Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
 \newblock Effects of natural hybrid and non-hybrid epichlo{\"e} endophytes on
   the response of hordelymus europaeus to drought stress.
 \newblock {\em New Phytologist}, 201(1):242--253.
-
-\bibitem[Piccardi et~al., 2019]{piccardi2019toxicity}
-Piccardi, P., Vessman, B., and Mitri, S. (2019).
-\newblock Toxicity drives facilitation between 4 bacterial species.
-\newblock {\em Proceedings of the National Academy of Sciences},
-  116(32):15979--15984.
 
 \bibitem[Porter et~al., 2020]{porter2020beneficial}
 Porter, S.~S., Bantay, R., Friel, C.~A., Garoutte, A., Gdanetz, K., Ibarreta,
@@ -403,6 +411,13 @@ Toby~Kiers, E., Palmer, T.~M., Ives, A.~R., Bruno, J.~F., and Bronstein, J.~L.
 \newblock Mutualisms in a changing world: an evolutionary perspective.
 \newblock {\em Ecology letters}, 13(12):1459--1474.
 
+\bibitem[Van~der Putten et~al., 2013]{van2013plant}
+Van~der Putten, W.~H., Bardgett, R.~D., Bever, J.~D., Bezemer, T.~M., Casper,
+  B.~B., Fukami, T., Kardol, P., Klironomos, J.~N., Kulmatiski, A., Schweitzer,
+  J.~A., et~al. (2013).
+\newblock Plant--soil feedbacks: the past, the present and future challenges.
+\newblock {\em Journal of ecology}, 101(2):265--276.
+
 \bibitem[Vega, 2008]{vega2008insect}
 Vega, F.~E. (2008).
 \newblock Insect pathology and fungal endophytes.
@@ -414,12 +429,25 @@ Vehtari, A., Gelman, A., and Gabry, J. (2017).
   cross-validation and waic.
 \newblock {\em Statistics and computing}, 27:1413--1432.
 
+\bibitem[Vidal-Dupiol et~al., 2009]{vidal2009coral}
+Vidal-Dupiol, J., Adjeroud, M., Roger, E., Foure, L., Duval, D., Mone, Y.,
+  Ferrier-Pages, C., Tambutte, E., Tambutte, S., Zoccola, D., et~al. (2009).
+\newblock Coral bleaching under thermal stress: putative involvement of
+  host/symbiont recognition mechanisms.
+\newblock {\em BMC physiology}, 9(1):14.
+
 \bibitem[White~Jr, 1994]{white1994endophyte}
 White~Jr, J.~F. (1994).
 \newblock Endophyte-host associations in grasses. xx. structural and
   reproductive studies of epichlo{\"e} amarillans sp. nov. and comparisons to
   e. typhina.
 \newblock {\em Mycologia}, 86(4):571--580.
+
+\bibitem[Wurst and Ohgushi, 2015]{wurst2015plant}
+Wurst, S. and Ohgushi, T. (2015).
+\newblock Do plant-and soil-mediated legacy effects impact future biotic
+  interactions?
+\newblock {\em Functional Ecology}, 29(11):1373--1382.
 
 \bibitem[Yule et~al., 2013]{yule2013costs}
 Yule, K.~M., Miller, T.~E., and Rudgers, J.~A. (2013).

@@ -187,11 +187,12 @@ This research was supported by National Science Foundation Division of Environme
 %-------------------------------------------------------------------------
 \spacing{1.25}
 \section*{Abstract}
-%150 words limit for Ecology letter. The number now is 146
+%150 words limit for Ecology letter. The number now is 153
 Plant–microbe symbioses are predicted to enhance host fitness under stress, yet how these effects change across stress gradients remains unresolved. 
 Using field experiments along a natural precipitation gradient with and without herbivore exclusion, combined with a greenhouse experiment manipulating soil origin, we tested how aridity and herbivory modify the fitness effects of seed-transmitted fungal endophytes in three cool-season grasses. 
-Host fitness declined with aridity overall, but endophyte-symbiotic plants showed disproportionately greater reductions in survival and reproduction at the driest sites. Aridity primarily mediated endophyte effects on survival and growth, while herbivory more strongly influenced reproductive output. 
-Soil origin further modified symbiont effects, revealing precipitation-driven soil legacies as a mechanism underlying climate-dependent outcomes. 
+Host fitness declined with aridity overall, but endophyte-symbiotic plants showed disproportionately greater reductions in survival and reproduction at the driest sites. 
+Aridity primarily mediated endophyte effects on survival and growth, while herbivory more strongly influenced reproductive output. 
+Greenhouse experiments showed that soil origin did not modify symbiont effects, suggesting that precipitation-driven soil properties do not explain variation in endophyte benefits.
 Contrary to the stress-gradient hypothesis, endophyte benefits were most consistent under benign conditions and weakened under increasing stress, indicating that plant–fungal symbioses shift from mutualistic to neutral or costly when hosts are physiologically constrained.
 
 %--------------------------------------------------------------------
@@ -439,11 +440,11 @@ Inflorescence production was best predicted by the \textit{Endophyte}~$\times$~\
 ($\Delta \mathrm{ELPD} = -1.4$, SE = 2.8).
 Similarly, spikelet production was best supported by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, with the \textit{Endophyte}~$\times$~\textit{Climate} model performing similarly ($\Delta \mathrm{ELPD} = -0.1$, SE = 2.4), whereas the full three-way interaction model showed notably lower predictive performance ($\Delta \mathrm{ELPD} = -4.2$, SE = 1.7).
 
-A similar pattern emerged in the greenhouse experiment using soils collected along the climatic gradient (Table~\ref{tab:posterior_soil}). 
-Endophyte benefits on biomass were strongest in soils from the three wettest sites (posterior medians = 0.734--0.943, $P(>0) = 0.84$--0.97), 
-with weaker or uncertain effects in soils from drier sites. 
-Inflorescence count was similarly elevated for $E^+$ plants in soils from wetter sites (posterior medians = 0.597--0.974, $P(>0) = 0.85$--0.95), whereas effects were negative or uncertain in soils from the two driest sites (posterior medians = $-0.949$ to $-0.457$, $P(>0) = 0.11$--0.26). 
-Average spikelet number showed generally small effects across soil origins, with the exception of one intermediate site where $E^+$ plants produced more spikelets per inflorescence (median $= 0.608$, $P(>0) = 0.95$).
+In the greenhouse experiment, the effect of endophyte symbiosis on host demography was largely independent of soil origin. 
+Aboveground biomass did not differ between $\mathrm{S}^{+}$ and $\mathrm{S}^{-}$ plants across soils (Table~\ref{tab:posterior_soil}). 
+Inflorescence production showed no consistent trend, although $\mathrm{S}^{+}$ plants produced fewer inflorescences in the driest soils (posterior probability $P(\beta<0)=0.97$; Table~\ref{tab:interactions}). 
+Spikelets per inflorescence also showed no clear directional trend, with the largest difference at intermediate-moisture soils (1.64$\times$ higher in $\mathrm{S}^{+}$; 95\% CrI $[0.74,3.67]$, $P(\beta>0)=0.93$), but this effect remained uncertain.
+
 
 \section*{Discussion}
 
@@ -615,12 +616,13 @@ extend beyond their observed precipitation range.}
 \captionsetup[figure]{list=no}
 \begin{figure}[t]
 \centering
-\includegraphics[width=1\textwidth]{../Figure/Fig_AllResponses_combined.pdf}
-\caption{Combined effects of symbiont status ($S^{+}$ vs $S^{-}$) on plant performance across soils along a precipitation gradient. 
-Panels show (A) aboveground biomass (g), (B) total inflorescences per plant, and (C) average spikelets per inflorescence. 
-Data points represent observed values and symbols indicate model predictions. 
-Soils are ordered from wet to dry along the x-axis.}
-\label{fig:soil}
+\includegraphics[width=1\textwidth]{../Figure/Fig_Biomass_Inflo_combined.pdf}
+\caption{Endophyte symbiont effects on plant performance vary with soil origin.
+Upper panels show observed values (points) and posterior fitted means with 50\% and 95\% credible intervals (filled circles and lines) for \textit{Agrostis hyemalis} grown in soils from seven sites spanning a precipitation gradient (wet to dry, left to right), for (A) aboveground biomass (g) and (B) total inflorescences per plant.
+Lower panels (C, D) show the posterior contrast (S$^{+}$ $-$ S$^{-}$) per soil origin site; dashed line indicates no effect.
+Point estimates are posterior medians; horizontal bars span 50\% and 95\% credible intervals.
+Colours denote symbiont status: endophyte-symbiotic (S$^{+}$, blue) and endophyte-free (S$^{-}$, red).}
+\label{fig:biomass_inflo}
 \end{figure}
 
 \clearpage

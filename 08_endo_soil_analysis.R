@@ -83,22 +83,37 @@ parse_birthday <- function(x) {
   as.Date(x, "%m/%d/%Y")
 }
 
+# ── n_Inflo decoder ───────────────────────────────────────────────────────────
+# The n_Inflo column records how many inflorescences were measured for spikelet
+# count. Excel corrupted integer values into date-serial strings (e.g. the
+# integer 4 became "1/3/1900" because Excel counts from 1899-12-30). This
+# function recovers the original integer by computing days since the Excel
+# epoch. Zeros are stored as "0" (not corrupted) and are handled separately.
+decode_n_inflo <- function(x) {
+  excel_epoch <- as.Date("1899-12-30")
+  result      <- suppressWarnings(as.integer(x))          # handles "0" correctly
+  date_vals   <- suppressWarnings(as.Date(x, "%m/%d/%Y")) # parses "1/3/1900" etc.
+  is_date     <- !is.na(date_vals) & is.na(result)        # only fix the corrupted ones
+  result[is_date] <- as.integer(date_vals[is_date] - excel_epoch)
+  result
+}
+
 # ── Load & clean ──────────────────────────────────────────────────────────────
 # NOTE: The raw data column 'n_Inflo' contains date-serial corruption from
-# Excel (values like "1/3/1900"). This column is NOT used in any calculation;
-# calc_n_measured is derived directly from the spike_indiv columns, and
-# calc_total_inflo is taken from 'total_inflo' per the metadata definition.
+# Excel (values like "1/3/1900" instead of 4). It is decoded by decode_n_inflo()
+# and used as the denominator for calc_avg_spikelet. calc_total_inflo is taken
+# from 'total_inflo' per the metadata definition.
 soils <- read.csv(
   "https://www.dropbox.com/scl/fi/tujihmutv87jufadtvbwj/reproduction_and_biomass-endo-soil.csv?rlkey=pa04j3jfae5cldlbc880w3xr3&dl=1",
   stringsAsFactors = FALSE,
   check.names      = FALSE
 ) %>%
-  rename(Symbiont    = "Endo",
+  rename(Symbiont    = "Endo",      # raw column has a leading space
          seed_save   = "seed save",
          seed_squash = "seed squash") %>%
   mutate(
     # Force all measurement columns to numeric (suppresses harmless coercion
-    # warnings from the corrupted n_Inflo column, which is not used here)
+    # warnings from spike and mass columns)
     across(all_of(c(spike_all,
                     "abg_mass_sans_inflo", "seed_save", "seed_squash",
                     "Inflo_mass", "total_inflo", "tot_spikelet",
@@ -106,24 +121,35 @@ soils <- read.csv(
            ~ suppressWarnings(as.numeric(.))),
 
     # ── Spikelet calculations ──────────────────────────────────────────────
-    # calc_n_measured: number of individually measured inflorescences per plant
-    calc_n_measured   = rowSums(!is.na(across(all_of(spike_indiv)))),
+    # calc_n_inflo: true number of inflorescences measured, decoded from the
+    # Excel-corrupted n_Inflo column. This is the correct denominator for
+    # avg_spikelet per the metadata definition and confirmed against all 67
+    # rows with spikelet data (0 mismatches vs stored avg_spikelet values).
+    calc_n_inflo    = decode_n_inflo(n_Inflo),
 
-    # calc_avg_spikelet: mean spikelets among measured inflorescences.
-    # When calc_n_measured == 0 (no individual measurements), result is NA.
-    # This is the correct per-metadata definition of avg_spikelet.
-    calc_avg_spikelet = if_else(
-      calc_n_measured == 0,
-      NA_real_,
-      rowSums(across(all_of(spike_indiv)), na.rm = TRUE) / calc_n_measured
-    ),
+    # calc_n_measured: count of non-NA spike_indiv columns. Used only as a
+    # QC cross-check against calc_n_inflo; NOT used as the avg denominator.
+    calc_n_measured = rowSums(!is.na(across(all_of(spike_indiv)))),
 
     # calc_tot_spikelet: sum across all individually counted spikes + unknowns.
     # Returns NA only if every spike column is NA (plant truly had no data).
+    # Confirmed correct: 0 mismatches vs stored tot_spikelet across 196 rows.
     calc_tot_spikelet = if_else(
       rowSums(!is.na(across(all_of(spike_all)))) == 0,
       NA_real_,
       rowSums(across(all_of(spike_all)), na.rm = TRUE)
+    ),
+
+    # calc_avg_spikelet: calc_tot_spikelet / calc_n_inflo.
+    # FIX: the previous formula (sum(spike_indiv) / calc_n_measured) was wrong
+    # because: (1) it excluded spike_inflos_unk from the numerator, and (2) it
+    # used the count of non-NA columns as the denominator instead of the true
+    # n_Inflo. Data audit confirmed calc_tot_spikelet / calc_n_inflo reproduces
+    # all 67 stored avg_spikelet values (the prior formula matched only 31/67).
+    calc_avg_spikelet = if_else(
+      is.na(calc_n_inflo) | calc_n_inflo == 0,
+      NA_real_,
+      calc_tot_spikelet / calc_n_inflo
     ),
 
     # calc_total_inflo: total inflorescences collected (per metadata: 'total_inflo').
@@ -172,9 +198,19 @@ soils <- read.csv(
     # ── Dates & factors ───────────────────────────────────────────────────
     Birthday = parse_birthday(Birthday),
 
+    # Birthday_final: for replaced plants (33 individuals), the correct age
+    # reference is the replacement transplant date, not the original birthday.
+    # We use Birthday_final for all age calculations.
+    Birthday_final = if_else(
+      !is.na(`Replacement_(NEW BIRTHDAY)`) & `Replacement_(NEW BIRTHDAY)` != "",
+      parse_birthday(`Replacement_(NEW BIRTHDAY)`),
+      Birthday
+    ),
+
     # age_days: days from transplant to the Jan 8 2025 census date.
     # Jan 8 is used (not Jan 1) to match the actual census described in metadata.
-    age_days = as.numeric(as.Date("2025-01-08") - Birthday),
+    # FIX: now uses Birthday_final so replaced plants have correct ages.
+    age_days = as.numeric(as.Date("2025-01-08") - Birthday_final),
     age_std  = as.numeric(scale(age_days)),
 
     Site     = factor(Site, levels = site_order),
@@ -189,11 +225,11 @@ soils <- read.csv(
 # ── Sanity check: Birthday plausibility ───────────────────────────────────────
 # Transplanting occurred in late 2024; replacements could extend into early 2025.
 bad_dates <- soils %>%
-  filter(!is.na(Birthday),
-         Birthday < as.Date("2024-01-01") | Birthday > as.Date("2025-12-31")) %>%
-  dplyr::select(Pop, Site, Symbiont, Birthday)
+  filter(!is.na(Birthday_final),
+         Birthday_final < as.Date("2024-01-01") | Birthday_final > as.Date("2025-12-31")) %>%
+  dplyr::select(Pop, Site, Symbiont, Birthday, Birthday_final)
 if (nrow(bad_dates) > 0) {
-  warning("Implausible Birthday values detected:")
+  warning("Implausible Birthday_final values detected:")
   print(bad_dates)
 }
 

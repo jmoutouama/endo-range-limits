@@ -187,14 +187,13 @@ This research was supported by National Science Foundation Division of Environme
 %-------------------------------------------------------------------------
 \spacing{1.25}
 \section*{Abstract}
-%150 words limit for Ecology letter. The number now is 153
-Plant–microbe symbioses are predicted to enhance host fitness under stress, yet how these effects change across stress gradients remains unresolved. 
-Using field experiments along a natural precipitation gradient with and without herbivore exclusion, combined with a greenhouse experiment manipulating soil origin, we tested how aridity and herbivory modify the fitness effects of seed-transmitted fungal endophytes in three cool-season grasses. 
-Host fitness declined with aridity overall, but endophyte-symbiotic plants showed disproportionately greater reductions in survival and reproduction at the driest sites. 
-Aridity primarily mediated endophyte effects on survival and growth, while herbivory more strongly influenced reproductive output. 
-Greenhouse experiments showed that soil origin did not modify symbiont effects, suggesting that precipitation-driven soil properties do not explain variation in endophyte benefits.
-Contrary to the stress-gradient hypothesis, endophyte benefits were most consistent under benign conditions and weakened under increasing stress, indicating that plant–fungal symbioses shift from mutualistic to neutral or costly when hosts are physiologically constrained.
-
+%150 words limit for Ecology letter. The number now is 145
+Plant–microbe symbioses are predicted to enhance host fitness under stress, yet how effects vary across stress gradients remains unclear. 
+We combined field experiments along a natural precipitation gradient with herbivore exclusion and a greenhouse experiment manipulating soil origin to test how aridity and herbivory modify fitness effects of seed-transmitted fungal endophytes in three cool-season grasses. 
+Both symbiont-free and endophyte-symbiotic plants showed declining fitness with aridity, but symbiotic plants suffered disproportionately larger reductions in survival and reproduction at the driest sites. 
+Aridity mainly mediated endophyte effects on survival and growth, whereas herbivory influenced reproduction. 
+Soil origin did not modify symbiont effects, ruling out precipitation-driven soil properties as an explanation for variation in endophyte benefits. 
+Contrary to the stress-gradient hypothesis, endophyte benefits were strongest under benign conditions and weakened under stress, suggesting plant–fungal symbioses can shift from mutualistic to neutral or costly when hosts are physiologically constrained.
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
@@ -218,6 +217,7 @@ Maintaining symbionts requires that hosts allocate valuable carbon and nutrients
 Vertically transmitted endophytes can similarly impose costs, such as producing stromata that abort inflorescences or otherwise consume host resources, leading to fewer tillers and lower biomass under low nutrient or water conditions \citep{saikkonen2004evolution, ahlholm2002vertically}. 
 Analogously, in coral bleaching, heat stress disrupts the mutualism between corals and algal symbionts \citep{vidal2009coral, marangon2025destabilization}.
 However, across systems, the frequency of such symbiosis breakdowns and the environmental or biological thresholds that trigger them remain poorly understood. Quantifying these limits is essential for predicting when stress will enhance mutualistic outcomes and when it will impose demographic costs on hosts.
+\jacob{}{I considered adding a sentence here on soil microbial communities to motivate the greenhouse experiment, but decided against it. Since the soil origin result is a null finding, extensive theoretical motivation in the intro feels disproportionate to its role in the paper, and it would disrupt the flow of this paragraph. I introduce the rationale briefly in the Methods instead. Please let me know if you disagree.}
 
 %\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
 %Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
@@ -399,22 +399,26 @@ Differences in expected log predictive density ($\Delta$ELPD), along with associ
 When the difference in ELPD between two models ($\Delta$ELPD) was small relative to its standard error (SE), we considered their predictive performance to be effectively similar. 
 Accordingly, model rankings were interpreted cautiously, focusing on consistent trends across vital rates rather than on small differences between closely ranked models.
 
-Patterns in the field may arise from multiple mechanisms, including soil legacy effects that co-vary with the precipitation gradient. 
-To test whether soil origin independently modulates endophyte effects on host demography, we conducted a common garden experiment with \textit{Agrostis hyemalis} grown in soils collected across the full abiotic gradient. 
-For each fitness component (aboveground biomass, inflorescence count, and average spikelets per inflorescence), we fitted hierarchical Bayesian models including endophyte status, soil origin, and their interaction (\textit{Endophyte}~$\times$~\textit{Soil origin}) as predictors, with population included as a random effect. Posterior summaries of the interaction terms reported as median estimates and 95\% credible intervals were used to assess whether endophyte effects varied systematically across soils from sites differing in long-term precipitation.
+Patterns in the field may arise from multiple mechanisms, including soil legacy effects that co-vary with precipitation. 
+To test whether soil origin independently modulates endophyte effects on host demography, we conducted a greenhouse experiment with \emph{Agrostis hyemalis} grown in soils collected across the full aridity gradient. 
+For each fitness component (aboveground biomass, inflorescence count, and spikelets per inflorescence), we fitted hierarchical Bayesian models: biomass (log-transformed) used a Student-t likelihood, and count data used negative binomial likelihoods. 
+Fixed effects included symbiont status, soil origin, and their interaction, with plant age as a covariate; source population was included as a random effect. 
+Models were fitted in Stan with four chains of 6,000 iterations (2,000 warmup). 
+Endophyte effects across soils were evaluated via posterior summaries of the interaction terms, reported as medians with 95\% credible intervals and posterior probabilities.
+All Bayesian models converged correctly, and posterior predictive checks indicated an adequate fit to the observed data (Fig.~\ref{sup:ppc_models_soil}).
 
 
 \section*{Results}
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
 %Our results confirmed that the herbivory treatment was effective (Fig.~\ref{fig:site}F).}{I recommend moving the methods to data collection methods below (you will also need to define what you mean by ``damage'' and move the result to results).}
 Wetter conditions increased host survival, and endophyte effects on survival consistently increased as abiotic stress decreased across the three grasses, contrary to our original prediction.
-In \textit{A. hyemalis} and \textit{E. virginicus}, endophytes shifted from neutral or slightly negative effects under low precipitation to positive effects under wetter conditions (Fig.~\ref{fig:Surv}a, b; Fig.~\ref{fig:allstat}).
+In \textit{A. hyemalis} and \textit{E. virginicus}, endophytes shifted from neutral or slightly negative effects under low precipitation to positive effects under wetter conditions (Fig.~\ref{fig:Surv}a, b; Fig.~\ref{sup:allstat}).
 Under herbivore access, \textit{A. hyemalis} showed slightly negative median $\Delta (S^+ - S^-)$ at low precipitation ($\Delta=-0.03$ to $-0.01$, $\mathrm{Pr}(\Delta>0)=0.21$--0.38), approaching zero at intermediate precipitation and becoming slightly positive under wetter conditions ($\Delta=0.01$ to 0.04, $\mathrm{Pr}(\Delta>0)=0.63$--0.73).
 \textit{E. virginicus} increased gradually from near zero at low precipitation ($\Delta=-0.02$ to $0.00$, $\mathrm{Pr}(\Delta>0)=0.28$--0.46) to moderately positive at high precipitation ($\Delta=0.03$--0.05, $\mathrm{Pr}(\Delta>0)=0.69$--0.73).
 Herbivore exclusion amplified positive effects at higher precipitation, particularly in \textit{E. virginicus} ($\Delta=-0.08$ to 0.08, $\mathrm{Pr}(\Delta>0)=0.07$--0.95).
 In contrast, \textit{P. autumnalis} exhibited minimal endophyte effects on survival, with median $\Delta$ near zero under access ($-0.02$ to 0.00, $\mathrm{Pr}(\Delta>0)=0.29$--0.52) and weakly positive under exclusion at higher precipitation ($\Delta=0.03$--0.05, $\mathrm{Pr}(\Delta>0)=0.67$--0.75).  
 
-Endophytes enhanced growth across all three species, with the strongest positive effects at wetter conditions  and a decline toward low precipitation that was species-specific (Fig.~\ref{fig:growth}; Fig.~\ref{fig:allstat}).
+Endophytes enhanced growth across all three species, with the strongest positive effects at wetter conditions  and a decline toward low precipitation that was species-specific (Fig.~\ref{fig:growth}; Fig.~\ref{sup:allstat}).
 In \textit{A. hyemalis}, endophytes increased growth across the precipitation gradient ($\Delta=0.11$--0.47, $\mathrm{Pr}(\Delta>0)=0.66$--0.99), with the largest effects under low-to-intermediate precipitation and a gradual decline under the wettest conditions.
 Exclusion slightly reduced growth benefits at low precipitation ($\Delta=-0.02$--0.05, $\mathrm{Pr}(\Delta>0)=0.47$--0.63) but positive effects were still observed at higher precipitation ($\Delta=0.13$--0.30, $\mathrm{Pr}(\Delta>0)=0.84$--0.91).
 In \textit{E. virginicus}, endophyte effects were positive across the full precipitation gradient ($\Delta=0.18$--0.25, $\mathrm{Pr}(\Delta>0)=0.72$--0.95) and declined only slightly under the wettest conditions.
@@ -422,7 +426,7 @@ Exclusion produced smaller, nearly uniform positive effects ($\Delta=0.09$, $\ma
 \textit{P. autumnalis} showed moderate positive effects under access at low-to-intermediate precipitation ($\Delta=0.07$--0.10, $\mathrm{Pr}(\Delta>0)=0.66$--0.74), which declined toward higher precipitation.
 Under exclusion, positive effects occurred at low precipitation ($\Delta=-0.02$--0.17, $\mathrm{Pr}(\Delta>0)=0.45$--0.76) but shifted to negative at the highest precipitation ($\Delta=-0.12$ to $-0.21$, $\mathrm{Pr}(\Delta>0)=0.13$--0.19).
 
-Endophytes generally enhanced reproduction across the grasses under wetter conditions, while effects were neutral or negative under drier conditions, with herbivore exclusion often amplifying positive effects (Figs.~\ref{fig:flowering}, \ref{sup:spikelet}; Fig.~\ref{sup:allstat}).
+Endophytes generally enhanced reproduction across the grasses under wetter conditions, while effects were neutral or negative under drier conditions, with herbivore exclusion often amplifying positive effects (Figs.~\ref{fig:inflo}, \ref{sup:spikelet}; Fig.~\ref{sup:allstat}).
 In \textit{A. hyemalis}, median $\Delta$ under herbivore access shifted from negative at low precipitation ($\Delta=-0.11$ to $-0.08$, $\mathrm{Pr}(\Delta>0)=0.24$--0.35) to strongly positive at high precipitation ($\Delta=0.50$--1.38, $\mathrm{Pr}(\Delta>0)=0.87$--0.93).
 Exclusion followed a similar trend, from slightly negative or near-neutral effects at low precipitation ($\Delta=-0.07$ to $-0.01$, $\mathrm{Pr}(\Delta>0)=0.38$--0.49) to moderately positive at high precipitation ($\Delta=0.71$--1.65, $\mathrm{Pr}(\Delta>0)=0.86$--0.89).
 \textit{E. virginicus} showed weak or negative effects at low precipitation ($\Delta=-0.18$ to $-0.10$, $\mathrm{Pr}(\Delta>0)=0.23$--0.30) under access, increasing modestly at higher precipitation ($\Delta=0.16$--0.31, $\mathrm{Pr}(\Delta>0)=0.82$--0.88).
@@ -441,9 +445,10 @@ Inflorescence production was best predicted by the \textit{Endophyte}~$\times$~\
 Similarly, spikelet production was best supported by the \textit{Endophyte}~$\times$~\textit{Herbivory} model, with the \textit{Endophyte}~$\times$~\textit{Climate} model performing similarly ($\Delta \mathrm{ELPD} = -0.1$, SE = 2.4), whereas the full three-way interaction model showed notably lower predictive performance ($\Delta \mathrm{ELPD} = -4.2$, SE = 1.7).
 
 In the greenhouse experiment, the effect of endophyte symbiosis on host demography was largely independent of soil origin. 
-Aboveground biomass did not differ between $\mathrm{S}^{+}$ and $\mathrm{S}^{-}$ plants across soils (Table~\ref{tab:posterior_soil}). 
-Inflorescence production showed no consistent trend, although $\mathrm{S}^{+}$ plants produced fewer inflorescences in the driest soils (posterior probability $P(\beta<0)=0.97$; Table~\ref{tab:interactions}). 
-Spikelets per inflorescence also showed no clear directional trend, with the largest difference at intermediate-moisture soils (1.64$\times$ higher in $\mathrm{S}^{+}$; 95\% CrI $[0.74,3.67]$, $P(\beta>0)=0.93$), but this effect remained uncertain.
+Aboveground biomass did not differ between $S^{+}$ and $S^{-}$ plants across soils (Table~\ref{tab:posterior_soil}; Fig.~\ref{fig:biomass_inflo}C). 
+Inflorescence production exhibited a site-specific pattern: $S^{+}$ plants produced fewer inflorescences in the driest soils ($P(\beta<0)=0.97$), but the absolute difference remained small (Fig.~\ref{fig:biomass_inflo}D). 
+Spikelets per inflorescence were generally similar across soils, with the largest difference at intermediate-moisture sites, where $S^{+}$ plants produced 1.6$\times$ more spikelets than $S^{-}$ (95\% CI [0.74, 3.67], $P(\beta>0)=0.93$). 
+%Overall, soil origin did not systematically modify endophyte effects, indicating that precipitation-driven soil properties do not explain the field patterns.
 
 
 \section*{Discussion}
@@ -507,17 +512,12 @@ Persistent stress can destabilize microbial communities, limiting their capacity
 Unlike neighboring plants, which can modify the local environment through shading, moisture retention, or nutrient cycling, endophytes live entirely within their host and cannot directly alter external conditions. 
 Consequently, the benefits they provide depend on the host’s ability to cope with stress: when survival, growth, or reproduction is strongly limited by drought, the endophyte’s capacity to enhance fitness may be reduced.
 
-The greenhouse experiment provides a complementary mechanistic perspective on these field patterns, suggesting that soil legacy along the precipitation gradient independently modulates endophyte-mediated host performance. 
-Endophyte benefits on biomass and inflorescence production were strongest in soils from wetter sites and weakened or reversed in soils from drier sites, mirroring the climate-dependence observed in the field. 
-This correspondence is consistent with the hypothesis that soil properties co-varying with precipitation, including microbial community composition, nutrient availability, and water retention, shape the conditions under which endophyte benefits can be expressed \citep{van2013plant}. 
-Soil microbial legacies, shaped by the plant communities and climate conditions that historically dominated a site, can persist for months 
-and influence plant growth even after the original conditioning community has been replaced \citep{hannula2021persistence}. 
-Critically, these legacies are not only detectable in bulk soil but are conserved inside plant roots, where they shape the endophytic community 
-acquired during early ontogeny and feed back to influence host performance \citep{hannula2021persistence}. 
-In our system, soils from drier sites may therefore harbour microbial legacies less capable of supporting the metabolic and mutualistic pathways through which endophytes enhance host growth and reproduction, independently of ambient climate. 
-Above- and belowground legacy effects can generate long-term consequences for biotic interactions and functional processes in terrestrial ecosystems \citep{wurst2015plant}, suggesting that the precipitation-driven soil legacies we document here may have broader implications for how grass-endophyte symbioses respond to ongoing climate change. 
-The exception for spikelet production at one intermediate site suggests that soil legacy effects are not strictly linear along the gradient and may reflect site-specific edaphic properties that locally favour endophyte-mediated reproductive benefits, consistent with the versatile and context-dependent nature of microbial soil legacies 
-\citep{hannula2021persistence}.
+The greenhouse experiment indicates that soil legacy along the precipitation gradient does not independently modulate endophyte-mediated host performance. 
+Aboveground biomass and inflorescence production were largely similar between $S^{+}$ and $S^{-}$ plants across soils, and the modest reduction in inflorescence production in the driest soils was small in absolute terms. 
+These results rule out precipitation-driven soil properties, including microbial composition, nutrient availability, and water retention as primary drivers of the field patterns \citep{van2013plant}. 
+Although soil microbial legacies can persist for months and influence plant growth \citep{hannula2021persistence}, our data suggest they do not generate systematic differences in endophyte costs or benefits across the gradient. 
+The exception higher spikelet production in $S^{+}$ plants at an intermediate-moisture site may reflect local edaphic conditions that favor endophyte-mediated reproductive benefits, but the high uncertainty warrants caution. 
+Overall, precipitation appears to affect endophyte outcomes primarily via direct effects on host physiology rather than through soil legacy.
 
 Our study illustrates how variation in environmental conditions, such as precipitation, can directly influence the outcomes of host-microbe interactions (Fig.~\ref{fig:prediction}). 
 By connecting the demographic consequences of symbioses to environmental gradients, we contribute to a growing understanding of how mutualisms respond to environmental change. 
@@ -858,8 +858,7 @@ Spikelet      & Quadratic & -0.332 & 0.579 \\
 \begin{table}[ht]
     \centering
     \small
-        \caption{Geographic coordinates and descriptions of source populations for study species.
-    For each source population, the table shows the total number of plants included in the experiment, the number of unique genotypes, and the average clonal replication per genotype.}
+       \caption{Posterior summaries of the interaction between endophyte presence (S$^+$) and source population (Site) for each fitness component. For each model, the table reports the median estimate, 95\% credible interval (Lower and Upper), and the posterior probability that the effect is greater than zero (P($>0$)).}
     \label{tab:posterior_soil}
     \input{posterior_soil.tex}
 \end{table}
@@ -919,7 +918,7 @@ Spikelet      & Quadratic & -0.332 & 0.579 \\
     Density overlays show observed data (solid line) and 200 posterior predictive draws (shaded lines) for (A) aboveground biomass,
     (B) inflorescence count, and (C) average spikelets per plant.
     Models adequately capture the distribution of observed data across all response variables.}
-    \label{fig:ppc_models}
+    \label{sup:ppc_models_soil}
 \end{figure}
 \clearpage
 

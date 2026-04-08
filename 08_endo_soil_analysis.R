@@ -1027,9 +1027,342 @@ cat(" NB: log rate ratio\n")
 cat("=============================================================\n\n")
 print(log_tabs, n = Inf)
 
-write.csv(log_tabs,
-          file      = file.path(output_dir, "Table4_LogScaleTotalEffect.csv"),
-          row.names = FALSE)
+# write.csv(log_tabs,
+#           file      = file.path(output_dir, "Table4_LogScaleTotalEffect.csv"),
+#           row.names = FALSE)
+
+# Response variables of interest
+RESPONSES <- c(
+  abg_mass   = "calc_abg_mass_tot",
+  inflo      = "calc_total_inflo",
+  spikelet_n = "calc_tot_spikelet",
+  spikelet_avg = "calc_avg_spikelet"
+)
+
+RESP_LABELS <- c(
+  calc_abg_mass_tot   = "Aboveground biomass (g)",
+  calc_total_inflo    = "Total inflorescences",
+  calc_tot_spikelet   = "Total spikelets",
+  calc_avg_spikelet   = "Avg spikelets per inflo"
+)
+
+
+# METHODS PARAGRAPH NUMBERS
+# Overall N
+N_total <- nrow(aghysoils)
+N_Sm    <- sum(aghysoils$Symbiont == "S-")
+N_Sp    <- sum(aghysoils$Symbiont == "S+")
+sites   <- levels(aghysoils$Site)
+n_sites <- length(sites)
+pops    <- levels(aghysoils$Pop)
+n_pops  <- length(pops)
+
+cat(sprintf("Species:            %s\n",
+            unique(aghysoils$Species)))
+cat(sprintf("Total pots (N):     %d\n", N_total))
+cat(sprintf("  S-:               %d\n", N_Sm))
+cat(sprintf("  S+:               %d\n", N_Sp))
+cat(sprintf("Sites (soil origin):%d  —  %s\n",
+            n_sites, paste(sites, collapse = ", ")))
+cat(sprintf("Seed source pops:   %d  —  %s\n",
+            n_pops, paste(pops, collapse = ", ")))
+
+# N per Pop (seed source) x Symbiont
+pop_counts <- aghysoils %>%
+  count(Pop, Symbiont) %>%
+  pivot_wider(names_from = Symbiont, values_from = n, values_fill = 0) %>%
+  mutate(Total = rowSums(across(where(is.numeric))))
+cat("\nPlants per seed source population x Symbiont:\n")
+print(pop_counts, n = Inf)
+
+# Full factorial: Pop x Site x Symbiont — planted N
+pop_site_sym <- aghysoils %>%
+  count(Pop, Site, Symbiont) %>%
+  complete(Pop, Site, Symbiont, fill = list(n = 0))
+cat("\nFull design: N planted per Pop x Site x Symbiont:\n")
+print(pivot_wider(pop_site_sym, names_from = c(Site, Symbiont),
+                  values_from = n), n = Inf)
+
+# Compact version: Pop x Site totals (collapsed across Symbiont)
+pop_site_n <- aghysoils %>%
+  count(Pop, Site) %>%
+  complete(Pop, Site, fill = list(n = 0))
+cat("\nN per Pop x Site (both symbiont levels combined):\n")
+print(pivot_wider(pop_site_n, names_from = Site, values_from = n), n = Inf)
+
+# Replicates per cell (Site x Symbiont x Pop)
+reps_per_cell <- aghysoils %>%
+  count(Site, Symbiont, Pop) %>%
+  summarise(min = min(n), max = max(n),
+            modal = as.integer(names(which.max(table(n)))),
+            .groups = "drop")
+cat(sprintf("Replicates per cell (Site x Symbiont x Pop):\n"))
+cat(sprintf("  Modal = %d | Range = %d–%d\n",
+            reps_per_cell$modal, reps_per_cell$min, reps_per_cell$max))
+
+# Experiment duration
+# ── Diagnostic: show raw date values so you can confirm the format ────────────
+cat("Date format check (first 6 non-NA values):\n")
+cat("  Birthday_final: ",
+    head(na.omit(as.character(aghysoils$Birthday_final)), 6), "\n")
+cat("  date_collect:   ",
+    head(na.omit(as.character(aghysoils$date_collect)),   6), "\n")
+
+# ── Robust multi-format date parser ──────────────────────────────────────────
+# Tries the most common spreadsheet export formats in order.
+# Add or reorder formats if your dates still fail.
+parse_date_robust <- function(x) {
+  if (inherits(x, "Date") || inherits(x, "POSIXct")) return(as.Date(x))
+  x <- as.character(x)
+  formats <- c(
+    "%Y-%m-%d",   # 2023-03-15  (ISO, default)
+    "%m/%d/%Y",   # 3/15/2023   (US Excel)
+    "%d/%m/%Y",   # 15/03/2023  (European)
+    "%m-%d-%Y",   # 3-15-2023
+    "%d-%m-%Y",   # 15-03-2023
+    "%d-%b-%Y",   # 15-Mar-2023
+    "%d/%b/%Y",   # 15/Mar/2023
+    "%b %d %Y",   # Mar 15 2023
+    "%B %d, %Y",  # March 15, 2023
+    "%m/%d/%y",   # 3/15/23     (2-digit year)
+    "%d/%m/%y"    # 15/03/23
+  )
+  for (fmt in formats) {
+    parsed <- suppressWarnings(as.Date(x, format = fmt))
+    if (mean(!is.na(parsed), na.rm = TRUE) > 0.8)   # >80% parsed → good format
+      return(parsed)
+  }
+  # Last resort: lubridate::parse_date_time (handles mixed formats)
+  if (requireNamespace("lubridate", quietly = TRUE)) {
+    cat("  [date parser] falling back to lubridate::parse_date_time\n")
+    return(as.Date(lubridate::parse_date_time(x,
+                                              orders = c("ymd","mdy","dmy","dby","bdy"))))
+  }
+  warning("Could not parse dates — returning NA. Check format above.")
+  return(as.Date(rep(NA, length(x))))
+}
+
+if ("Birthday_final" %in% names(aghysoils) &&
+    "date_collect"   %in% names(aghysoils)) {
+  
+  dur <- aghysoils %>%
+    mutate(
+      birth_parsed   = parse_date_robust(Birthday_final),
+      collect_parsed = parse_date_robust(date_collect),
+      duration       = as.numeric(collect_parsed - birth_parsed)
+    ) %>%
+    filter(!is.na(duration), duration > 0) %>%   # drop negatives / bad parses
+    summarise(
+      mean_days = round(mean(duration)),
+      min_days  = min(duration),
+      max_days  = max(duration),
+      n_parsed  = n()
+    )
+  
+  cat(sprintf("Experiment duration (Birthday_final -> date_collect):\n"))
+  cat(sprintf("  Mean = %d days | Range = %d-%d days  (n = %d plants)\n",
+              dur$mean_days, dur$min_days, dur$max_days, dur$n_parsed))
+  
+} else if ("age_days" %in% names(aghysoils)) {
+  
+  # age_days already computed — use directly
+  dur <- aghysoils %>%
+    summarise(
+      mean_days = round(mean(age_days, na.rm = TRUE)),
+      min_days  = min(age_days,  na.rm = TRUE),
+      max_days  = max(age_days,  na.rm = TRUE),
+      n_parsed  = sum(!is.na(age_days))
+    )
+  cat(sprintf("Experiment duration (age_days column):\n"))
+  cat(sprintf("  Mean = %d days | Range = %d-%d days  (n = %d plants)\n",
+              dur$mean_days, dur$min_days, dur$max_days, dur$n_parsed))
+}
+
+# Survival (plants with any biomass or inflo data)
+n_survived <- aghysoils %>%
+  filter(!is.na(calc_abg_mass_tot) | calc_total_inflo > 0) %>%
+  nrow()
+cat(sprintf("Plants with biomass data (survived to harvest): %d / %d (%.1f%%)\n",
+            n_survived, N_total, n_survived / N_total * 100))
+
+# Reproductive plants
+n_repro <- aghysoils %>%
+  filter(!is.na(calc_avg_spikelet)) %>%
+  nrow()
+cat(sprintf("Plants that reproduced (spikelet data available): %d / %d (%.1f%%)\n",
+            n_repro, N_total, n_repro / N_total * 100))
+
+# =============================================================================
+# 2. TABLE S_design — N per Site × Symbiont × response variable
+# =============================================================================
+
+cat("\n", strrep("=", 60), "\n")
+cat("  TABLE S_design — sample sizes per cell\n")
+cat(strrep("=", 60), "\n\n")
+
+design_table <- map_dfr(names(RESPONSES), function(resp_name) {
+  col <- RESPONSES[resp_name]
+  aghysoils %>%
+    filter(!is.na(.data[[col]])) %>%
+    count(Site, Symbiont) %>%
+    complete(Site, Symbiont, fill = list(n = 0)) %>%
+    mutate(Response = RESP_LABELS[col]) %>%
+    arrange(Site)
+}) %>%
+  pivot_wider(names_from = Response, values_from = n) %>%
+  arrange(Site, Symbiont)
+
+print(design_table, n = Inf)
+
+# =============================================================================
+# 2b. TABLE S_design_pop — N per Pop × Site × Symbiont (biomass only)
+#     This is the full crossed design table for the Methods / SM
+# =============================================================================
+
+cat("\n", strrep("=", 60), "\n")
+cat("  TABLE S_design_pop — N per Pop x Site x Symbiont (biomass)\n")
+cat(strrep("=", 60), "\n\n")
+
+design_pop <- aghysoils %>%
+  filter(!is.na(calc_abg_mass_tot)) %>%
+  count(Pop, Site, Symbiont) %>%
+  complete(Pop, Site, Symbiont, fill = list(n = 0)) %>%
+  arrange(Pop, Site, Symbiont)
+
+# Long version (easy to read, good for SM)
+cat("Long format (one row per Pop x Site x Symbiont):\n")
+print(design_pop, n = Inf)
+
+# Wide version (Pop x Site, split by Symbiont — good for a manuscript table)
+design_pop_wide <- design_pop %>%
+  mutate(col = paste0(Site, "_", Symbiont)) %>%
+  select(Pop, col, n) %>%
+  pivot_wider(names_from = col, values_from = n) %>%
+  mutate(Total = rowSums(across(where(is.numeric))))
+cat("\nWide format (Pop rows, Site x Symbiont columns):\n")
+print(design_pop_wide, n = Inf)
+
+# =============================================================================
+# 3. TABLE S_means — descriptive stats per Site × Symbiont
+# =============================================================================
+
+cat("\n", strrep("=", 60), "\n")
+cat("  TABLE S_means — mean ± SE per Site × Symbiont\n")
+cat(strrep("=", 60), "\n\n")
+
+means_table <- aghysoils %>%
+  group_by(Site, Symbiont) %>%
+  summarise(
+    N_biomass    = sum(!is.na(calc_abg_mass_tot)),
+    mean_biomass = round(mean(calc_abg_mass_tot, na.rm = TRUE), 3),
+    se_biomass   = round(sd(calc_abg_mass_tot,   na.rm = TRUE) /
+                           sqrt(sum(!is.na(calc_abg_mass_tot))), 3),
+    
+    N_inflo      = sum(!is.na(calc_total_inflo)),
+    mean_inflo   = round(mean(calc_total_inflo,  na.rm = TRUE), 2),
+    se_inflo     = round(sd(calc_total_inflo,    na.rm = TRUE) /
+                           sqrt(sum(!is.na(calc_total_inflo))), 2),
+    
+    N_spikelet   = sum(!is.na(calc_avg_spikelet)),
+    mean_spikelet = round(mean(calc_avg_spikelet, na.rm = TRUE), 2),
+    se_spikelet  = round(sd(calc_avg_spikelet,    na.rm = TRUE) /
+                           sqrt(sum(!is.na(calc_avg_spikelet))), 2),
+    
+    N_tot_spik   = sum(!is.na(calc_tot_spikelet)),
+    mean_tot_spik = round(mean(calc_tot_spikelet, na.rm = TRUE), 1),
+    se_tot_spik  = round(sd(calc_tot_spikelet,    na.rm = TRUE) /
+                           sqrt(sum(!is.na(calc_tot_spikelet))), 1),
+    .groups = "drop"
+  )
+
+print(means_table, n = Inf)
+
+# ── 3b. Pop x Symbiont means (seed source effect) ────────────────────────────
+cat("\n--- Means per seed source population (Pop x Symbiont) ---\n\n")
+
+means_pop <- aghysoils %>%
+  group_by(Pop, Symbiont) %>%
+  summarise(
+    N_biomass     = sum(!is.na(calc_abg_mass_tot)),
+    mean_biomass  = round(mean(calc_abg_mass_tot,  na.rm = TRUE), 3),
+    se_biomass    = round(sd(calc_abg_mass_tot,    na.rm = TRUE) /
+                            sqrt(sum(!is.na(calc_abg_mass_tot))), 3),
+    
+    N_inflo       = sum(!is.na(calc_total_inflo)),
+    mean_inflo    = round(mean(calc_total_inflo,   na.rm = TRUE), 2),
+    se_inflo      = round(sd(calc_total_inflo,     na.rm = TRUE) /
+                            sqrt(sum(!is.na(calc_total_inflo))), 2),
+    
+    N_spikelet    = sum(!is.na(calc_avg_spikelet)),
+    mean_spikelet = round(mean(calc_avg_spikelet,  na.rm = TRUE), 2),
+    se_spikelet   = round(sd(calc_avg_spikelet,    na.rm = TRUE) /
+                            sqrt(sum(!is.na(calc_avg_spikelet))), 2),
+    
+    N_tot_spik    = sum(!is.na(calc_tot_spikelet)),
+    mean_tot_spik = round(mean(calc_tot_spikelet,  na.rm = TRUE), 1),
+    se_tot_spik   = round(sd(calc_tot_spikelet,    na.rm = TRUE) /
+                            sqrt(sum(!is.na(calc_tot_spikelet))), 1),
+    .groups = "drop"
+  )
+
+print(means_pop, n = Inf)
+
+# ── 3c. Pop x Site x Symbiont means (full crossed table) ─────────────────────
+cat("\n--- Means per Pop x Site x Symbiont (full design) ---\n\n")
+
+means_full <- aghysoils %>%
+  group_by(Pop, Site, Symbiont) %>%
+  summarise(
+    N             = sum(!is.na(calc_abg_mass_tot)),
+    mean_biomass  = round(mean(calc_abg_mass_tot,  na.rm = TRUE), 3),
+    se_biomass    = round(sd(calc_abg_mass_tot,    na.rm = TRUE) /
+                            sqrt(pmax(sum(!is.na(calc_abg_mass_tot)), 1)), 3),
+    mean_inflo    = round(mean(calc_total_inflo,   na.rm = TRUE), 2),
+    se_inflo      = round(sd(calc_total_inflo,     na.rm = TRUE) /
+                            sqrt(pmax(sum(!is.na(calc_total_inflo)), 1)), 2),
+    mean_spikelet = round(mean(calc_avg_spikelet,  na.rm = TRUE), 2),
+    se_spikelet   = round(sd(calc_avg_spikelet,    na.rm = TRUE) /
+                            sqrt(pmax(sum(!is.na(calc_avg_spikelet)), 1)), 2),
+    .groups = "drop"
+  )
+
+print(means_full, n = Inf)
+
+
+# TABLE S_missing — missing data by variable
+
+
+cat("\n", strrep("=", 60), "\n")
+cat("  TABLE S_missing — missing data accounting\n")
+cat(strrep("=", 60), "\n\n")
+
+missing_table <- tibble(
+  Variable    = names(RESP_LABELS),
+  Label       = RESP_LABELS,
+  N_total     = N_total,
+  N_observed  = sapply(names(RESP_LABELS),
+                       function(v) sum(!is.na(aghysoils[[v]]))),
+  N_missing   = sapply(names(RESP_LABELS),
+                       function(v) sum(is.na(aghysoils[[v]]))),
+  Pct_missing = round(sapply(names(RESP_LABELS),
+                             function(v) mean(is.na(aghysoils[[v]])) * 100), 1)
+)
+print(missing_table)
+
+
+# =============================================================================
+# 6. EXPORT TABLES TO CSV
+# =============================================================================
+
+write_csv(design_table,     "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/TableS_design_replication.csv")
+write_csv(design_pop,       "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/TableS_design_pop_site_symbiont.csv")
+write_csv(design_pop_wide,  "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/TableS_design_pop_wide.csv")
+# write_csv(means_table,      "TableS_means_by_site_symbiont.csv")
+# write_csv(means_pop,        "TableS_means_by_pop_symbiont.csv")
+# write_csv(means_full,       "TableS_means_full_pop_site_symbiont.csv")
+# write_csv(missing_table,    "TableS_missing_data.csv")
+# 
+
 
 # =============================================================================
 # End of script

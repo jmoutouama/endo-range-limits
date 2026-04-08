@@ -48,7 +48,7 @@
 \definecolor{errorcolor}{rgb}{1, 0, 0}
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
-\usepackage{alltt}
+%\usepackage{alltt}
 \usepackage{amsmath,amsfonts,amssymb,graphicx,authblk}
 \usepackage[font={footnotesize,singlespacing},labelfont=bf]{caption}
 \usepackage{titlesec,blkarray, bm} 
@@ -58,7 +58,6 @@
 \usepackage[authoryear,sort]{natbib}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[nodisplayskipstretch]{setspace} 
-\usepackage{hyperref}
 \usepackage[section]{placeins}
 \usepackage{gensymb}
 \usepackage{enumitem}
@@ -73,7 +72,6 @@
 \usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{makecell} % 
-\usepackage{float} 
 \setlist{topsep=.125em,itemsep=-0.15em,leftmargin=0.75cm}
 \setlength{\parindent}{0.35in}
 
@@ -150,7 +148,7 @@
 \noindent\textbf{Keywords:} demography, parasitism, plant-fungi interactions, range limits, stress gradient hypothesis, symbiosis
 
 \bigskip 
-\noindent\textbf{Submitted to:} \textit{Ecology letters} (Letter) or New Phytologist
+\noindent\textbf{Submitted to:} \textit{Ecology letters} (Letter)
 
 \bigskip 
 \noindent\textbf{Data accessibility statement:} 
@@ -176,7 +174,7 @@ This research was supported by National Science Foundation Division of Environme
 
 \bigskip
 \noindent\textbf{Abstract:} 146\\
-\noindent\textbf{Main Text:} 4951\\
+\noindent\textbf{Main Text:} 5646\\
 \noindent\textbf{Figures:} 6\\
 \noindent\textbf{Tables:} 1\\
 \noindent\textbf{References}: 69
@@ -199,7 +197,7 @@ Contrary to the stress-gradient hypothesis, endophyte benefits were strongest un
 \section*{Introduction}
 Mutualistic interactions are widespread and ecologically important, often mediating stress tolerance and defense against natural enemies. 
 These interactions are famously context-dependent, with the direction and strength of outcomes shaped by the environment in which they occur \citep{hoeksema2015context, bronstein1994conditional,hoang2024impacts}. 
-The stress-gradient hypothesis (SGH) is a classic and influential framework for predicting that the context-dependency of interaction outcomes, predicting the frequency of positive interactions increases under stressful conditions \citep{louthan2015and,bertness1994positive,holmgren2010strong,maestre2009refining}.
+The stress-gradient hypothesis (SGH) is a classic  framework that predicts the frequency of positive interactions increases under stressful conditions \citep{louthan2015and,bertness1994positive,holmgren2010strong,maestre2009refining}.
 %, but actual outcomes depend on the type and intensity of biotic and abiotic stress
 For example, microbial symbionts that benefit host plants under drought stress may be costly to maintain under more benign conditions \citep{giauque2019endophyte}. 
 %Variation in the nature and intensity of biotic and abiotic stress is thus a key driver of these context-dependent outcomes. 
@@ -236,7 +234,7 @@ However, across systems, the frequency of such symbiosis breakdowns and the envi
 
 Despite growing interest in the role of symbiosis in shaping host demography, few studies have tested how abiotic and biotic stressors synergistically influence the demographic effects of symbionts. 
 Furthermore, it remains unclear how the relative roles of these stressors shape the benefits and costs of symbionts. 
-Most work has been conducted in controlled environment.
+Most work has been conducted under controlled conditions.
 In \emph{Ammophila breviligulata}, herbivory reduced plant performance, but endophyte-infected plants were more resistant to both herbivory and aridity, which did not interact to intensify growth reductions \citep{emery2010variation}.
 Studying the combined effects of abiotic and biotic stressors under natural conditions is particularly important in the context of global change \citep{louthan2015and}, as shifting climate patterns and altered herbivore pressures may change the balance of costs and benefits in plant–microbe interactions, potentially influencing species distributions and ecosystem function \citep{reynolds2003grassroots}.
 Understanding how abiotic stress, biotic stress, and microbial symbiosis interact requires experiments that manipulate all three factors simultaneously, yet such fully factorial studies remain rare outside controlled settings.
@@ -302,7 +300,7 @@ In cases where two or more methods were used on the same plants ($N=253$), there
 For genotypes that were vegetatively propagated, we tested the endophyte status of a single clonal replicate and assume that its status applied equally to all clones. 
 
 All $S^-$ plants used in the experiment described below came from heated-treated  lineages, while $S^+$ plants came from both control and heat lineages depending on the efficacy of the removal treatment. 
-While heat treatment was effective at reducing endophyte prevalence relative to controls, our confidence that individual $S^-$ plants were experimentally disinfected, as opposed to naturally endophyte-free, varied due to among-population variation in endophyte prevalence (mean: 68\% $S^+$) and the effectiveness of the heat treatment (Table \ref{tab:heat_treatment}). 
+While heat treatment was effective at reducing endophyte prevalence relative to controls, our confidence that individual $S^-$ plants were experimentally disinfected, as opposed to naturally symbiont-free, varied due to among-population variation in endophyte prevalence (mean: 68\% $S^+$) and the effectiveness of the heat treatment (Table \ref{tab:heat_treatment}). 
 For example, for the SJC population of \emph{A. hyemalis}, control and heat lineages yielded plants were 100\% and 5\% $S^+$, respectively -- giving us high confidence that $S^-$ plants are derived from successful symbiont removal. 
 For the SFAEF population of \emph{P. autumnalis}, on the other hand, control and heat lineages yielded plants were 35\% and 26\% $S^+$, respectively -- meaning that these $S^-$ plants were quite likely from naturally $S^-$ lineages.
 
@@ -328,11 +326,13 @@ For each species at each site along the precipitation gradient, we planted a tot
 Plots at the two westernmost site (KER and SON) were destroyed by deer and subsequently replanted in 2024 with stronger fencing. 
 
 \subsection*{Greenhouse experiment}
-To test whether soil community composition mediates endophyte effects across the precipitation gradient, we complemented the field experiment with a greenhouse experiment manipulating 
-soil origin across the precipitation gradient using one focal species: \textit{Agrostis hyemalis}. 
-We implemented a fully factorial design crossing endophyte status ($S^{+}$/$S^{-}$), seed source population (seven sites spanning the precipitation gradient; Table~X), and soil origin (the same seven sites: SON, KER, BFL, BAS, COL, HUN, LAF), with seven replicates per treatment combination (total $N = X$ pots).
-Seedlings were grown under controlled greenhouse conditions ([temperature range], [photoperiod]) and transplanted into field-collected soils after [X] weeks of growth. 
-Plants were maintained for eight months, encompassing a full growing season. At harvest, we recorded survival, number of inflorescences, spikelet production, and aboveground biomass.
+To test whether soil community composition mediates endophyte effects across the precipitation gradient, we conducted a greenhouse experiment using \textit{Agrostis hyemalis}. 
+We implemented a fully factorial design crossing symbiont status ($S^{+}$/$S^{-}$), seed source population (see Source populations), and soil origin (seven field sites spanning the precipitation gradient(Fig.~\ref{fig:site}d), with seven replicates per treatment combination (total $N = 196$ pots; Table~S1).
+Seedlings were grown under controlled greenhouse conditions at Rice University and transplanted into field-collected soils. 
+Plants were maintained for eight months, encompassing a full growing season.
+At harvest, we recorded survival, number of inflorescences, spikelet production, and aboveground biomass. 
+Spikelet data were restricted to plants that produced at least one inflorescence ($n = 67$ of 196),reflecting natural variation in reproductive success across the
+precipitation gradient.
 Detailed protocols for soil collection, seedling preparation, and trait measurements are provided in the Supplementary Materials.
 
 \subsection*{Demographic data collection}
@@ -377,7 +377,7 @@ For each vital rate model, the expected value for the $i^{th}$ observation ($\mu
 \noindent Here, $precip_i$ is total precipitation (mm) accumulated over the 12 months preceding the census, $endo_i$ indicates endophyte presence ($endo_i=1$) or absence ($endo_i=0$), and $herb_i$ indicates fencing treatment: herbivore access ($herb_i=0$) or exclusion ($herb_i=1$).
 The model includes random effects accounting for background variation at multiple hierarchical levels: $\phi_{\text{site}[i],Sp_i}$ captures site-to-site heterogeneity that is not explained by precipitation, $\rho_{\text{plot}[i]}$ captures plot-to-plot variation within sites, and $\omega_{\text{source}[i]}$ captures variation associated with the provenance of transplants (the latter two are unique to species and therefore not indexed by species).
 Random effect for site, plot, and source are host species-specific but the variance parameters ($\sigma_{\text{site}}$, $\sigma_{\text{source}}$, $\sigma_{\text{plot}}$) are shared across species; this assumes, for example, that site-to-site heterogeneity is of a similar magnitude across species, even as the model allows for ``better'' and ``worse'' sites to differ by species. 
-This hierarchical structure allows the model to``borrow strength'' across species \citep{gelman2007data}, improving estimates of fixed effects while still capturing species-specific responses to environmental gradient.
+This hierarchical structure allows the model to ``borrow strength'' across species \citep{gelman2007data}, improving estimates of fixed effects while still capturing species-specific responses to environmental gradient.
 
 All models were implemented in R \citep{RCoreTeam} using Stan via the \texttt{rstan} interface \citep{Rstan}. 
 Models were fit using four Markov chains with 3,000 iterations each, including a burn-in period of 1,000 warm-up iterations, which was sufficient to ensure convergence.
@@ -686,10 +686,10 @@ Spikelet
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\tablename}{Table}
 
-\section{Supporting Information}
+\section*{Supporting Information}
 
-\subsection{Supporting Methods}
-\subsection*{Candidate models for abiotic and biotic drivers of
+\subsection*{Supporting Methods}
+\subsubsection*{Candidate models for abiotic and biotic drivers of
 cool-season grass species}
 \label{sec:models}
 \begin{enumerate}
@@ -749,9 +749,36 @@ $\beta_{\text{sym}\times \text{herb}}[\text{Sp}_i]$, and the three-way interacti
 All models include hierarchical random effects for site-year, source population, and plot: $\phi_{\text{site}[i],\text{Sp}_i} \sim \mathcal{N}(0, \sigma_{\text{site}})$, $\omega_{\text{source}[i]} \sim \mathcal{N}(0, \sigma_{\text{source}})$,
 and $\rho_{\text{plot}[i]} \sim \mathcal{N}(0, \sigma_{\text{plot}})$.
 
+\subsection*{Greenhouse experiment}
+
+\subsubsection*{Experimental design}
+
+To examine whether soil community composition mediates plant performance across the precipitation gradient, we conducted a greenhouse experiment
+manipulating soil origin and endophyte status.
+Soils were collected during summer 2024 from the seven field sites used in the range‐limits experiment.
+These sites span the precipitation gradient from the wettest site to the driest site. 
+After collection, soils were stored in a cold room at 3.3°C until the start of the experiment.
+Seeds of \textit{Agrostis hyemalis} were obtained from the seed stock used to generate plants in the range-limits field experiment. 
+Seeds originated from two source populations (LPEF and SJC) and were grouped according to endophyte status as endophyte-symbiotic ($E^{+}$) or endophyte-free ($E^{-}$).
+Seeds were germinated on agar plates (18.2 g agar per 1000 mL deionized water) in a growth chamber and subsequently transplanted as seedlings
+into pots containing soils from each field site. Plants were randomly assigned to greenhouse trays and maintained under controlled greenhouse
+conditions with automated irrigation.
+The experimental design crossed seed source population, endophyte status,and soil origin. Each treatment combination was replicated seven times,
+yielding a nearly fully balanced design (Table~\ref{tab:soil_pop}).
+
+\subsubsection*{Data collection}
+
+Plants were monitored regularly for survival and reproductive development. 
+Reproductive output was quantified as inflorescence number and spikelet production. Plants were checked at least twice per week for the presence of seed-bearing inflorescences. 
+Mature inflorescences were collected as they developed to avoid repeated counts. For each plant, spikelets were counted on at least three inflorescences when available.
+For individuals producing many inflorescences, mean spikelet number per inflorescence was used to estimate total spikelet production.
+After eight months of growth, plants were harvested to quantify aboveground biomass. Plant material was dried at 60°C in a drying oven and weighed using an analytical balance. 
+Because inflorescences were collected prior to harvest, they were dried separately and added to the total aboveground biomass.
+
+
 \clearpage
 
-\subsection{Supporting Tables}
+\subsection*{Supporting Tables}
 \begin{sidewaystable}[ht]
     \centering
     \small
@@ -792,6 +819,18 @@ TAMU Sonora Station                              & SON & 30.273467 & -100.561463
 \end{tabular}
 \end{table}
 \clearpage
+
+
+\begin{table}[ht]
+ \caption{Sample sizes for each combination of seed source population, soil-origin site, and endophyte treatment in the greenhouse experiment.
+The experiment crossed two seed source populations (LPEF and SJC), seven soil-origin sites along the precipitation gradient, and two symbiont treatments ($S^{-}$ and $S^{+}$). Most treatment combinations included seven replicates, except LPEF $\times$ BFL $\times$ $S^{-}$ where $n = 6$ due to early mortality.}   
+    \centering
+    \small
+    \input{soil_sample.tex}
+    \label{tab:soil_pop}
+\end{table}
+\clearpage
+
 
 \begin{table}[ht]
 \centering

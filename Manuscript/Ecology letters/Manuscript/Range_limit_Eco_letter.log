@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  11 APR 2026 07:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  13 APR 2026 10:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1241,10 +1241,6 @@ Package microtype Info: Loading generic protrusion settings for font family
 
 [9]
 
-Package hyperref Warning: Suppressing empty link on input line 371.
-
-
-
 [10]
 
 [11]
@@ -1268,63 +1264,91 @@ Package hyperref Warning: Suppressing empty link on input line 371.
 [20])
 
 [21]
-<../Figure/Prediction.png, id=420, 1500.60625pt x 801.99625pt>
-File: ../Figure/Prediction.png Graphic file (type png)
-<use ../Figure/Prediction.png>
-Package pdftex.def Info: ../Figure/Prediction.png  used on input line 491.
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Prediction.png, id=425, 1500.60625pt x 801.99625pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Prediction.png Graphic file (type png)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Prediction.png>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Prediction.png  used on input line 489.
 (pdftex.def)             Requested size: 469.75502pt x 251.05151pt.
 
 
 [22
 
- <../Figure/Prediction.png>]
-<../Figure/clim_map1.pdf, id=431, 650.43pt x 758.835pt>
-File: ../Figure/clim_map1.pdf Graphic file (type pdf)
-<use ../Figure/clim_map1.pdf>
-Package pdftex.def Info: ../Figure/clim_map1.pdf  used on input line 503.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/Prediction.png>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/clim_map1.pdf, id=436, 650.43pt x 758.835pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/clim_map1.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/clim_map1.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/clim_map1.pdf  used on input line 501.
 (pdftex.def)             Requested size: 432.17375pt x 504.21368pt.
 
 
-[23 <../Figure/clim_map1.pdf>]
-<../Figure/PrSurvival_diff.pdf, id=467, 433.62pt x 505.89pt>
-File: ../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
-<use ../Figure/PrSurvival_diff.pdf>
-Package pdftex.def Info: ../Figure/PrSurvival_diff.pdf  used on input line 520.
-
+[23 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/clim_map1.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/PrSurvival_diff.pdf, id=472, 433.62pt x 505.89pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/PrSurvival_diff.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/PrSurvival_diff.pdf  used on input line 518.
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
 
 
-[24 <../Figure/PrSurvival_diff.pdf>]
-<../Figure/Growth_diff.pdf, id=500, 505.89pt x 722.7pt>
-File: ../Figure/Growth_diff.pdf Graphic file (type pdf)
-<use ../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../Figure/Growth_diff.pdf  used on input line 536.
+[24 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/PrSurvival_diff.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Growth_diff.pdf, id=505, 505.89pt x 722.7pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Growth_diff.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Growth_diff.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Growth_diff.pdf  used on input line 534.
 (pdftex.def)             Requested size: 422.77664pt x 603.97615pt.
 
 
-LaTeX Warning: Float too large for page by 23.54614pt on input line 544.
+LaTeX Warning: Float too large for page by 23.54614pt on input line 542.
 
 
 
-[25 <../Figure/Growth_diff.pdf>]
-<../Figure/Inflorescence_diff_v.pdf, id=533, 505.89pt x 650.43pt>
-File: ../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
-<use ../Figure/Inflorescence_diff_v.pdf>
-Package pdftex.def Info: ../Figure/Inflorescence_diff_v.pdf  used on input line
- 551.
+[25 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Growth_diff.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Inflorescence_diff_v.pdf, id=538, 505.89pt x 650.43pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Inflorescence_diff_v.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Inflorescence_diff_v.pdf  used on input line 549.
 (pdftex.def)             Requested size: 446.26582pt x 573.77956pt.
 
 
-[26 <../Figure/Inflorescence_diff_v.pdf>]
-<../Figure/Fig_Biomass_Inflo_combined.pdf, id=565, 511.9125pt x 397.485pt>
-File: ../Figure/Fig_Biomass_Inflo_combined.pdf Graphic file (type pdf)
-<use ../Figure/Fig_Biomass_Inflo_combined.pdf>
-Package pdftex.def Info: ../Figure/Fig_Biomass_Inflo_combined.pdf  used on inpu
-t line 567.
+[26 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Inflorescence_diff_v.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Fig_Biomass_Inflo_combined.pdf, id=570, 511.9125pt x 397.485pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Fig_Biomass_Inflo_combined.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Fig_Biomass_Inflo_combined.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Fig_Biomass_Inflo_combined.pdf  used on input line
+ 565.
 (pdftex.def)             Requested size: 469.75502pt x 364.75053pt.
 
 
-[27 <../Figure/Fig_Biomass_Inflo_combined.pdf>]
+[27 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Fig_Biomass_Inflo_combined.pdf>]
 
 [28
 
@@ -1422,112 +1446,149 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--14
 [41
 
 ]
-<../Figure/temp_census_years.pdf, id=647, 578.16pt x 289.08pt>
-File: ../Figure/temp_census_years.pdf Graphic file (type pdf)
-<use ../Figure/temp_census_years.pdf>
-Package pdftex.def Info: ../Figure/temp_census_years.pdf  used on input line 86
-0.
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/temp_census_years.pdf, id=652, 578.16pt x 289.08pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/temp_census_years.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/temp_census_years.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/temp_census_years.pdf  used on input line 849.
 (pdftex.def)             Requested size: 375.80544pt x 187.89977pt.
 
 
 [42
 
- <../Figure/temp_census_years.pdf>]
-<../Figure/prop_damage_barplot_24_25.pdf, id=657, 578.16pt x 289.08pt>
-File: ../Figure/prop_damage_barplot_24_25.pdf Graphic file (type pdf)
-<use ../Figure/prop_damage_barplot_24_25.pdf>
-Package pdftex.def Info: ../Figure/prop_damage_barplot_24_25.pdf  used on input
- line 869.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/temp_census_years.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/prop_damage_barplot_24_25.pdf, id=662, 578.16pt x 289.08pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/prop_damage_barplot_24_25.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/prop_damage_barplot_24_25.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/prop_damage_barplot_24_25.pdf  used on input line 
+858.
 (pdftex.def)             Requested size: 469.75502pt x 234.8769pt.
 
 
 [43
 
- <../Figure/prop_damage_barplot_24_25.pdf>]
-<../Figure/prop_damage_species_years.pdf, id=669, 867.24pt x 578.16pt>
-File: ../Figure/prop_damage_species_years.pdf Graphic file (type pdf)
-<use ../Figure/prop_damage_species_years.pdf>
-Package pdftex.def Info: ../Figure/prop_damage_species_years.pdf  used on input
- line 880.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/prop_damage_barplot_24_25.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/prop_damage_species_years.pdf, id=674, 867.24pt x 578.16pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/prop_damage_species_years.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/prop_damage_species_years.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/prop_damage_species_years.pdf  used on input line 
+869.
 (pdftex.def)             Requested size: 469.75502pt x 313.17216pt.
 
 
 [44
 
- <../Figure/prop_damage_species_years.pdf>]
-<../Figure/combined_ppc_plots_linear.pdf, id=680, 505.89pt x 433.62pt>
-File: ../Figure/combined_ppc_plots_linear.pdf Graphic file (type pdf)
-<use ../Figure/combined_ppc_plots_linear.pdf>
-Package pdftex.def Info: ../Figure/combined_ppc_plots_linear.pdf  used on input
- line 893.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/prop_damage_species_years.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/combined_ppc_plots_linear.pdf, id=685, 505.89pt x 433.62pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/combined_ppc_plots_linear.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/combined_ppc_plots_linear.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/combined_ppc_plots_linear.pdf  used on input line 
+882.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [45
 
- <../Figure/combined_ppc_plots_linear.pdf>]
-<../Figure/PPC_models_soilendo.pdf, id=694, 867.24pt x 289.08pt>
-File: ../Figure/PPC_models_soilendo.pdf Graphic file (type pdf)
-<use ../Figure/PPC_models_soilendo.pdf>
-Package pdftex.def Info: ../Figure/PPC_models_soilendo.pdf  used on input line 
-903.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/combined_ppc_plots_linear.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/PPC_models_soilendo.pdf, id=699, 867.24pt x 289.08pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/PPC_models_soilendo.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/PPC_models_soilendo.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/PPC_models_soilendo.pdf  used on input line 892.
 (pdftex.def)             Requested size: 469.75502pt x 156.58607pt.
 
 
 [46
 
- <../Figure/PPC_models_soilendo.pdf>]
-<../Figure/Spikelet_diff.pdf, id=720, 722.7pt x 433.62pt>
-File: ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
-<use ../Figure/Spikelet_diff.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff.pdf  used on input line 914.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/PPC_models_soilendo.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Spikelet_diff.pdf, id=725, 722.7pt x 433.62pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Spikelet_diff.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Spikelet_diff.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Spikelet_diff.pdf  used on input line 903.
 (pdftex.def)             Requested size: 469.75502pt x 281.85628pt.
 
 
 [47
 
- <../Figure/Spikelet_diff.pdf>]
-<../Figure/Spikelet_diff_stat.pdf, id=753, 505.89pt x 433.62pt>
-File: ../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
-<use ../Figure/Spikelet_diff_stat.pdf>
-Package pdftex.def Info: ../Figure/Spikelet_diff_stat.pdf  used on input line 9
-29.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/Spikelet_diff.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/Spikelet_diff_stat.pdf, id=758, 505.89pt x 433.62pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/Spikelet_diff_stat.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/Spikelet_diff_stat.pdf  used on input line 918.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [48
 
- <../Figure/Spikelet_diff_stat.pdf>]
-<../Figure/All_traits_diff_stat_lower.pdf, id=780, 2457.18pt x 867.24pt>
-File: ../Figure/All_traits_diff_stat_lower.pdf Graphic file (type pdf)
-<use ../Figure/All_traits_diff_stat_lower.pdf>
-Package pdftex.def Info: ../Figure/All_traits_diff_stat_lower.pdf  used on inpu
-t line 941.
+ </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
+igure/Spikelet_diff_stat.pdf>]
+</Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
+gure/All_traits_diff_stat_lower.pdf, id=785, 2457.18pt x 867.24pt>
+File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
+../Figure/All_traits_diff_stat_lower.pdf Graphic file (type pdf)
+<use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/All_traits_diff_stat_lower.pdf>
+Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
+ange-limits/Figure/../Figure/All_traits_diff_stat_lower.pdf  used on input line
+ 930.
 (pdftex.def)             Requested size: 469.75502pt x 165.79625pt.
 
 
-[49 <../Figure/All_traits_diff_stat_lower.pdf>] (./Range_limit_Eco_letter.aux)
+[49 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
+./Figure/All_traits_diff_stat_lower.pdf>] (./Range_limit_Eco_letter.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `Range_limit_Eco_letter.out' has not changed.
 
-(rerunfilecheck)             Checksum: A90433C204F771E0B77120102C525561;145.
+(rerunfilecheck)             Checksum: 3EA4AD90B2E5F215C42151A43066BE93;777.
  )
 (\end occurred inside a group at level 2)
 
-### simple group (level 2) entered at line 579 ({)
+### simple group (level 2) entered at line 577 ({)
 ### semi simple group (level 1) entered at line 186 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 31049 strings out of 473190
- 568796 string characters out of 5715801
- 970747 words of memory out of 5000000
- 52595 multiletter control sequences out of 15000+600000
- 686525 words of font info for 870 fonts, out of 8000000 for 9000
+ 31064 strings out of 473190
+ 576785 string characters out of 5715801
+ 976863 words of memory out of 5000000
+ 52617 multiletter control sequences out of 15000+600000
+ 686256 words of font info for 866 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,15n,101p,1300b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,15n,101p,1300b,986s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmitt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
@@ -1539,10 +1600,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_Eco_letter.pdf (49 pages, 61930125 bytes).
+Output written on Range_limit_Eco_letter.pdf (49 pages, 61931560 bytes).
 PDF statistics:
- 892 PDF objects out of 1000 (max. 8388607)
- 724 compressed objects within 8 object streams
- 156 named destinations out of 1000 (max. 500000)
- 191579 words of extra memory for PDF output out of 221844 (max. 10000000)
+ 897 PDF objects out of 1000 (max. 8388607)
+ 729 compressed objects within 8 object streams
+ 154 named destinations out of 1000 (max. 500000)
+ 191595 words of extra memory for PDF output out of 221844 (max. 10000000)
 

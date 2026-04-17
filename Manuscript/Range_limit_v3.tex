@@ -115,8 +115,8 @@
 % I cannot get \orcidlink working on my computer so for now replacing this with \textit
 
 %-------------------------------------------------------------------------
-\title{\Large When mutualism weakens: aridity and herbivory shape endophyte benefits in cool-season grasses}
-\author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
+\title{\Large Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses}
+\author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jacob.moutouama@botany.ubc.ca}}
 \author[2]{Josh C. Fowler}
 \author[3]{Akiem Gough}
 \author[3]{Julia Martin}
@@ -142,7 +142,7 @@
 \maketitle
 % \bigskip 
 %45 character limit on running head
-\noindent\textbf{Running header:} Stress and Grass-Endophyte Interactions
+\noindent\textbf{Running header:} Stress and Grass-Endophyte Symbioses
 \bigskip 
 
 \noindent\textbf{Keywords:} demography, parasitism, plant-fungi interactions, range limits, stress gradient hypothesis, symbiosis
@@ -162,7 +162,7 @@ All analysis scripts (Stan and R) are available at \url{https://github.com/jmout
 
 \bigskip
 \noindent\textbf{Acknowledgments}
-This research was supported by National Science Foundation Division of Environmental Biology award 2208857.
+This research was supported by National Science Foundation Division of Environmental Biology award 2208857. We gratefully acknowledge the individuals and institutions who hosted our geographically-distributed experiment, including the University of Louisiana, Sam Houston State University, Texas A\&M University, and University of Texas at Austin. 
 
 
 \bigskip
@@ -186,36 +186,39 @@ This research was supported by National Science Foundation Division of Environme
 \spacing{1.25}
 \section*{Abstract}
 %150 words limit for Ecology letter. The number now is 145
-Plant–microbe symbioses are predicted to enhance host fitness under stress, yet how effects vary across stress gradients remains unclear. 
-We combined field experiments along a natural precipitation gradient with herbivore exclusion and a greenhouse experiment manipulating soil origin to test how aridity and herbivory modify fitness effects of seed-transmitted fungal endophytes in three cool-season grasses. 
-Both symbiont-free and endophyte-symbiotic plants showed declining fitness with aridity, but symbiotic plants suffered disproportionately larger reductions in survival and reproduction at the driest sites. 
-Aridity mainly mediated endophyte effects on survival and growth, whereas herbivory influenced reproduction. 
-Soil origin did not modify symbiont effects, ruling out precipitation-driven soil properties as an explanation for variation in endophyte benefits. 
-Contrary to the stress-gradient hypothesis, endophyte benefits were strongest under benign conditions and weakened under stress, suggesting plant–fungal symbioses can shift from mutualistic to neutral or costly when hosts are physiologically constrained.
+Plant–microbe symbioses are generally predicted to enhance host fitness under stress, yet how effects vary across different types of stress gradients remains unclear. 
+We replicated herbivore exclusion field experiments along a geographic precipitation gradient in the south-central US to test how aridity and herbivory modify fitness effects of seed-transmitted fungal endophytes in three cool-season grass species. 
+Both endophyte-symbiotic and experimentally endophyte-free host-plants showed declining demographic rates with aridity, but symbiotic plants suffered disproportionately larger reductions in performance at the driest sites. 
+\tom{Aridity mainly mediated endophyte effects on survival and growth, whereas herbivory had an overall weaker effect on the symbiosis and mainly influenced host reproduction. }{This sentence does not fully describe the relative importance of aridity and herbivory, which I think is important to do. I also think the abstract needs to better describe the herbivory results -- did herbivore exclusion help or hurt plants, and did it make endophytes more or less beneficial?}
+A follow-up greenhouse experiment demonstrated that soil origin did not modify symbiont effects, supporting a role of precipitation and ruling out soil properties as an explanation for variation in endophyte benefits. 
+Contrary to predictions of the stress-gradient hypothesis, endophyte benefits were strongest under benign conditions and \tom{weakened under stress}{Unclear if you are saying that they became less beneficial under stress, or switched from beneficial to costly under stress -- that's an important distinction.}, suggesting plant–fungal symbioses can shift from mutualistic to neutral or costly when hosts are physiologically constrained.
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
-Mutualistic interactions are widespread and ecologically important, often mediating stress tolerance and defense against natural enemies. 
-These interactions are famously context-dependent, with the direction and strength of outcomes shaped by the environment in which they occur \citep{hoeksema2015context, bronstein1994conditional,hoang2024impacts}. 
-The stress-gradient hypothesis (SGH) is a classic  framework that predicts the frequency of positive interactions increases under stressful conditions \citep{louthan2015and,bertness1994positive,holmgren2010strong,maestre2009refining}.
+\tom{Mutualistic symbioses}{It seems like your introduction is actually about symbiosis and not mutualism per se, so I have tried to add clarity.} are widespread and ecologically important, often mediating stress tolerance and defense against natural enemies for host organisms. 
+Like mutualisms more broadly, host-symbiont interactions may be strongly context-dependent, with the direction and strength of outcomes shaped by the environment in which they occur \citep{hoeksema2015context, bronstein1994conditional,hoang2024impacts,rudgers2020climate}. 
+The stress-gradient hypothesis (SGH) is a classic conceptual framework for variation in interaction outcomes, predicting that the frequency of positive interactions increases under stressful conditions \citep{louthan2015and,bertness1994positive,holmgren2010strong,maestre2009refining}.
 %, but actual outcomes depend on the type and intensity of biotic and abiotic stress
-For example, microbial symbionts that benefit host plants under drought stress may be costly to maintain under more benign conditions \citep{giauque2019endophyte}. 
+For example, microbial symbionts that are costly to maintain under benign conditions may benefit host plants under drought stress  \citep{giauque2019endophyte}. 
+Stress can take many forms, including abiotic and biotic factors, and it remains unclear how predictions of the SGH for host-symbiont interactions play out over different dimensions of environmental stress. 
 %Variation in the nature and intensity of biotic and abiotic stress is thus a key driver of these context-dependent outcomes. 
 
 %As symbiotic interactions shift along stress gradients, their effects are predicted to become increasingly beneficial under biotic and abiotic stress, enhancing host resilience to stress.
-Under biotic stress, such as attack by natural enemies, symbionts can mediate defensive traits that reduce enemy performance, survival, or reproduction across diverse taxa \citep{atala2022fungal,bastias2017epichloe,vega2008insect,haine2008symbiont,florez2015defensive}.
+Under biotic stress, such as competition or attack by natural enemies, symbionts can mediate defensive traits that reduce enemy performance, survival, or reproduction across diverse taxa \citep{atala2022fungal,bastias2017epichloe,vega2008insect,haine2008symbiont,florez2015defensive}.
 Similarly, under abiotic stress, including drought, nutrient limitation, and thermal extremes, symbiotic partners often enhance host tolerance through improved resource acquisition, physiological regulation, and stress-responsive metabolism \citep{clay2002evolutionary, afkhami2008symbiosis,cesar2024defensive}. 
-In plants specifically, microbial symbionts such as mycorrhizae, rhizobia, and endophytic bacteria and fungi can increase water and nutrient uptake, promote nitrogen fixation, and stimulate antioxidant production, allowing hosts to maintain growth and function under harsh conditions \citep{amijee1989development}.
+In plants specifically, microbial symbionts such as mycorrhizae, rhizobia, and endophytic bacteria and fungi can promote water and nutrient uptake, nitrogen fixation, antioxidant production, and resistance to herbivores, allowing hosts to maintain growth and function under harsh conditions \tom{\citep{amijee1989development}.}{I would beef up references to match the content of this sentence.}
 Many symbionts also stimulate the production of antioxidant enzymes, reducing oxidative damage caused by stressors such as drought, salinity, and heat \citep{ruiz1996superoxide}. 
 By improving resource acquisition, modulating plant physiology, and enhancing stress-responsive metabolism, these symbiotic interactions help host plants buffer against environmental stochasticity and extreme conditions across a wide range of ecosystems \citep{fowler2023geographic,rudgers2020climate,li2026climate}.
 
 %Although microbial symbioses often enhance plant performance, they can also impose substantial costs, particularly in resource-limited environments. 
 While stress is often thought to enhance the benefits of symbiotic microbes, growing evidence suggests it can also increase the costs of hosting them. 
-Maintaining symbionts requires that hosts allocate valuable carbon and nutrients; for example, mycorrhizal fungi can demand up to 20\% of a host’s photosynthetically fixed carbon \citep{thirkell2020carbon,soudzilovskaia2015quantitative}, and under abiotic stress, this investment may outweigh benefits, reducing survival, growth, reproduction, or competitive ability \citep{johnson1997functioning, bronstein2001exploitation, klironomos2003variation}. 
-Vertically transmitted endophytes can similarly impose costs, such as producing stromata that abort inflorescences or otherwise consume host resources, leading to fewer tillers and lower biomass under low nutrient or water conditions \citep{saikkonen2004evolution, ahlholm2002vertically}. 
+In plants, maintaining symbionts requires that hosts allocate valuable carbon and nutrients; for example, mycorrhizal fungi can demand up to 20\% of a host’s photosynthetically fixed carbon \citep{thirkell2020carbon,soudzilovskaia2015quantitative}, and under abiotic stress, this investment may outweigh benefits, reducing survival, growth, reproduction, or competitive ability \citep{johnson1997functioning, bronstein2001exploitation, klironomos2003variation}. 
+\tom{Vertically transmitted endophytes can similarly impose costs, such as producing stromata that abort inflorescences or otherwise consume host resources, leading to fewer tillers and lower biomass under low nutrient or water conditions \citep{saikkonen2004evolution, ahlholm2002vertically}. }{I don't see that this sentence is necessary. It uses specific terminology that will not be meaningful to non-specialist readers (stromata, tillers), and does not set up anything in this study that the preceding sentences did not already cover. I suggest deleting it.}
 Analogously, in coral bleaching, heat stress disrupts the mutualism between corals and algal symbionts \citep{vidal2009coral, marangon2025destabilization}.
-However, across systems, the frequency of such symbiosis breakdowns and the environmental or biological thresholds that trigger them remain poorly understood. Quantifying these limits is essential for predicting when stress will enhance mutualistic outcomes and when it will impose demographic costs on hosts.
+However, across systems, the frequency of such symbiosis breakdown and the environmental or biological thresholds that trigger them remain poorly understood. 
+Quantifying these limits is essential for predicting when stress will enhance mutualistic outcomes and when it will impose demographic costs on hosts.
 \jacob{}{I considered adding a sentence here on soil microbial communities to motivate the greenhouse experiment, but decided against it. Since the soil origin result is a null finding, extensive theoretical motivation in the intro feels disproportionate to its role in the paper, and it would disrupt the flow of this paragraph. I introduce the rationale briefly in the Methods instead. Please let me know if you disagree.}
+\tom{}{I agree.}
 
 %\tom{However, in many plant-microbe interactions, host protection is not guaranteed solely by the presence of a symbionts; rather, the density of the symbiont can determine the effectiveness of this protection \citep{laughton2014combined}. 
 %Higher endophyte densities may lead to increased resource exploitation by the symbiont, potentially imposing costs on the host, such as reduced growth or reproduction \citep{faeth2009asexual}.}{I like these sentences and the idea is really interesting and important -- but if we are not using the endo density data in this paper then I would remove.}
@@ -232,40 +235,40 @@ However, across systems, the frequency of such symbiosis breakdowns and the envi
 %However, populations with lower prevalence may experience higher symbiont loss among offspring \citep{afkhami2008symbiosis}. 
 %Thus, overlooking symbiont dynamics could result in inaccurate predictions of host population responses to global change.}{Again, I really like this paragraph, but we need to think about whether and how the symbiont density data will be used here. Is that what you are pointing towards here? Otherwise I am not sure why you are bringing up symbiont prevalence, since I did not think the prevalence data were going into this paper.}
 
-Despite growing interest in the role of symbiosis in shaping host demography, few studies have tested how abiotic and biotic stressors synergistically influence the demographic effects of symbionts. 
-Furthermore, it remains unclear how the relative roles of these stressors shape the benefits and costs of symbionts. 
-Most work has been conducted under controlled conditions.
-In \emph{Ammophila breviligulata}, herbivory reduced plant performance, but endophyte-infected plants were more resistant to both herbivory and aridity, which did not interact to intensify growth reductions \citep{emery2010variation}.
+Despite growing interest in the role of symbiosis in shaping host demography, few studies have tested how abiotic and biotic stressors synergistically influence the demographic outcomes of symbiosis. 
+It therefore remains unclear how the relative roles of these stressors shape the benefits and costs of symbionts. 
+\tom{Most work has been conducted under controlled conditions.
+In \emph{Ammophila breviligulata}, herbivory reduced plant performance, but endophyte-symbiotic plants were more resistant to both herbivory and aridity, which did not interact to intensify growth reductions \citep{emery2010variation}.}{Can you clarify the relationship between these sentences? Was the Ammophila work conducted under controlled conditions? If so I would add something like ``In a greenhouse study,...''}
 Studying the combined effects of abiotic and biotic stressors under natural conditions is particularly important in the context of global change \citep{louthan2015and}, as shifting climate patterns and altered herbivore pressures may change the balance of costs and benefits in plant–microbe interactions, potentially influencing species distributions and ecosystem function \citep{reynolds2003grassroots}.
 Understanding how abiotic stress, biotic stress, and microbial symbiosis interact requires experiments that manipulate all three factors simultaneously, yet such fully factorial studies remain rare outside controlled settings.
-Here, we address this gap by examining the  effects of biotic and abiotic stress on the demographic effects of endophyte symbiosis on three grass host species spanning a natural range-core/range-edge precipitation gradient.
+Here, we address this gap by examining the demographic effects of endophyte symbiosis on three grass host species spanning a natural range-core/range-edge precipitation gradient and in the presence/absence of herbivores.
 %providing insight into how these biotic and abiotic stressors influence endophyte prevalence, host fitness component such as survival, growth and reproduction under realistic environmental conditions.
 
 Symbioses between cool-season grasses and seed-transmitted fungal endophytes (\textit{Epichloë} spp.) provide a powerful experimental model for studying how abiotic and biotic elements of ecological context influence host–symbiont interactions \citep{schardl2004symbioses,saikkonen2010defensive,oberhofer2014effects,clay2005herbivores}. 
 Because vertical transmission links host and symbiont fitness, it is expected to favor the evolution of mutualistic interactions \citep{gundel2024temporal,gundel2011incorporating}. 
-Environmental conditions, including long-term variation in precipitation and temperature, strongly influence both the prevalence of \textit{Epichloë} infection and the benefits conferred to hosts \citep{rudgers2016long,fowler2025increasing}. 
+Environmental conditions, including long-term variation in precipitation, temperature, and herbivore exposure, strongly influence both the prevalence of \textit{Epichloë} infection and the benefits conferred to hosts \citep{rudgers2016long,fowler2025increasing}. 
 For example, grasses hosting endophytes often outperform endophyte-free individuals under water limitation, though the magnitude of these benefits depends on both host and symbiont identity \citep{decunta2021systematic}. 
-A key benefit of \textit{Epichloë}  symbiosis is the production of fungal alkaloids that deter or reduce herbivore performance, thereby mediating plant–herbivore interactions \citep{clay2005herbivores,saikkonen2010defensive}.
-Endophytes may impose costs on their hosts, including the carbon resources required to sustain the fungus and reduced fitness if the fungus is not reliably transmitted to offspring.
+A key benefit of \textit{Epichloë}  symbiosis is the production of fungal alkaloids that deter or reduce herbivore performance, thereby mediating plant–herbivore interactions \citep{clay2005herbivores,saikkonen2010defensive}, \tom{and may also modify host osmotic balance in ways that promote water use efficiency (cite)}{Check papers by Decunta and Malinowski -- this idea is out there that alkaloids may be key to both herbivore resistance and water use efficiency.}. 
+Endophytes may impose costs on their hosts, including the carbon resources required to sustain the fungus \tom{and reduced fitness if the fungus is not reliably transmitted to offspring}{I am not sure what you mean here or why this is a cost.}.
 Finally, \textit{Epichloë} endophyte effects can differ across host vital rates, which makes it important to consider multiple vital rates in assessing costs and benefits: symbiosis may not improve survival under stress, but can still enhance growth and reproduction \citep{yule2013costs,rudgers2012there}. 
-Soil microbial communities represent an additional layer of context: precipitation gradients shape soil community composition, which can in turn modify nutrient availability and the rhizosphere environment experienced by endophyte-infected roots \citep{}.
+\tom{Soil microbial communities represent an additional layer of context: precipitation gradients shape soil community composition, which can in turn modify nutrient availability and the rhizosphere environment experienced by endophyte-infected roots \citep{}.}{Similar to your rationale above, I would not dedicate any Intro material to the soil context idea. I think it's role in this paper is quite narrow, serving to follow up on whether the field results are likely explained by precipitation versus other factors that vary across sites. I will try to add this rationale below if it's not already there, but I would probably delete this sentence.}
 %Together, these features make grass-\textit{Epichloë} symbioses an ideal system for investigating how abiotic stressors, such as drought, interact with biotic stressors, like herbivory, to determine the outcome of symbiosis.
 %Moreover, variation in endophyte effects across life-history pathways highlights the importance of considering multiple host traits when evaluating mutualistic outcomes \citep{rudgers2012there}.
 
 We established experimental gardens of three species of native cool-season grasses across an aridity gradient in the south-central United States to investigate how endophyte symbiosis affects multiple host vital rates under varying abiotic and biotic stress. 
-This gradient, from mesic conditions in the east to increasingly arid conditions in the west, provides a biologically realistic stress gradient, and coincides with the westernmost range limits of many eastern North American grass species. 
 Although endophytes often benefit hosts under stressful conditions, these associations can become costly when environmental stressors such as drought or herbivory exceed the resources a host can allocate to maintaining the symbiont. 
 In such cases, symbioses may shift from mutualistic to parasitic, as observed in previous work on plant-microbe interactions \citep{johnson1997functioning}.
 At each of seven sites along the gradient, we manipulated vertebrate and invertebrate herbivory (allowing herbivore access versus exclusion) to test its interaction with abiotic stress.
-Across these abiotic and biotic contexts, we quantified effects of symbiosis by comparing the demographic performance of symbiotic (S+) and  symbiont-free (S-) plants. 
+Across these abiotic and biotic contexts, we quantified effects of symbiosis by comparing the demographic performance of symbiotic (S+) and experimentally symbiont-free (S-) plants. 
 We asked whether endophyte symbiosis is beneficial for host grasses, whether symbiont benefits are amplified under exposure to abiotic or biotic stressors, as predicted by the SGH, and how these two forms of stress combine to influence the demographic outcomes of endophyte symbiosis.
-Specifically, we tested the following predictions (Fig.~\ref{fig:prediction}): 
+Specifically, we tested the following predictions \tom{(Fig.~\ref{fig:prediction}): }{Figure comments: the y axis is labeled `endophyte effect on host fitness', but it's not the effect you are showing, it's host fitness. Can you make the "X" over the deer larger in panel A?}
 \begin{enumerate}
 	\item Endophyte symbiosis will generally be beneficial for the demography of these native grass hosts.
 	\item Because endophytes can improve drought tolerance (e.g., by enhancing water use efficiency or root growth), they will be most beneficial in arid environments, and neutral or costly in mesic environments.
 	\item Because endophytes produce defensive compounds (e.g., alkaloids), they will be most beneficial under herbivore exposure, and neutral or costly under herbivore exclusion.
 	\item The combined stresses of herbivory and low precipitation will amplify the physiological demands on the host plant, such that costs of maintaining endophyte associations will dampen net benefits relative to each stressor in isolation.
 \end{enumerate}
+Finally, to supplement the geographically-distributed field experiment and isolate the causal role of climatic factors, we used a greenhouse experiment with one host species to assess the influence of edaphic factors that co-vary with precipitation across experimental sites. 
 %--------------------------------------------------------------------
 \section*{Materials and methods}
 \subsection*{Study system}
@@ -306,6 +309,7 @@ For the SFAEF population of \emph{P. autumnalis}, on the other hand, control and
 
 \subsection*{Common garden experimental design and climate data}
 To examine how the outcome of endophyte symbioses varied across an abiotic stress gradient, we established common garden experiments with S+ and S- hosts at seven sites along an aridity gradient from Louisiana to central Texas, US (Fig.~\ref{fig:site}, Table~\ref{tab:exp_sites}).
+\tom{This gradient, from mesic conditions in the east to increasingly arid conditions in the west, provides a biologically realistic stress gradient, and coincides with the westernmost range limits of many eastern North American grass species. }{I moved this sentence here because it really needs the context of the map.}
 From west to east, mean annual precipitation increases more than three-fold across these sites while mean annual temperature is relatively consistent, based on climate data collected during the same period as our demographic surveys (Fig.~\ref{fig:site}d, Fig. \ref{sup:temp}).
 For this reason, we focus on precipitation as the primary abiotic factor that varied across sites.  
 This geographic gradient overlaps and exceeds the natural range edges of our focal species, ensuring exposure to realistic climatic and biotic conditions (Fig.~\ref{fig:site}a, b, c). 

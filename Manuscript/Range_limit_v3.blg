@@ -1,48 +1,50 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99e
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_v3.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: References.bib
 Warning--I didn't find a database entry for ""
-You've used 76 entries,
+You've used 75 entries,
             1935 wiz_defined-function locations,
-            927 strings with 18576 characters,
-and the built_in function-call counts, 33080 in all, are:
-= -- 3243
-> -- 1546
-< -- 33
-+ -- 550
-- -- 534
-* -- 3062
-:= -- 5763
-add.period$ -- 227
-call.type$ -- 76
-change.case$ -- 641
-chr.to.int$ -- 74
-cite$ -- 76
-duplicate$ -- 1075
-empty$ -- 2181
-format.name$ -- 634
-if$ -- 6310
+            922 strings with 18438 characters,
+and the built_in function-call counts, 32658 in all, are:
+= -- 3199
+> -- 1533
+< -- 32
++ -- 546
+- -- 530
+* -- 3023
+:= -- 5693
+add.period$ -- 224
+call.type$ -- 75
+change.case$ -- 634
+chr.to.int$ -- 73
+cite$ -- 75
+duplicate$ -- 1061
+empty$ -- 2149
+format.name$ -- 627
+if$ -- 6227
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 71
-newline$ -- 382
-num.names$ -- 228
-pop$ -- 487
+missing$ -- 70
+newline$ -- 377
+num.names$ -- 225
+pop$ -- 483
 preamble$ -- 1
-purify$ -- 645
+purify$ -- 638
 quote$ -- 0
-skip$ -- 823
+skip$ -- 812
 stack$ -- 0
-substring$ -- 2590
-swap$ -- 107
+substring$ -- 2547
+swap$ -- 106
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 452
+type$ -- 446
 warning$ -- 0
-while$ -- 282
+while$ -- 278
 width$ -- 0
-write$ -- 980
+write$ -- 967
 (There was 1 warning)

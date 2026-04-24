@@ -229,8 +229,8 @@ climate_monthly_all <- climate_garden_wide_1995_2025 %>%
   mutate(date = as.Date(paste(year, month, "01", sep = "-")))
 
 climate_census_window_2023_2024 <- climate_monthly_all %>%
-  inner_join(census_windows_by_site_species_23_24, by = c("site" = "Site"),
-             relationship = "many-to-many") %>%
+  cross_join(census_windows_by_site_species_23_24 %>% distinct(Species)) %>%
+  inner_join(census_windows_by_site_species_23_24, by = c("site" = "Site", "Species" = "Species")) %>%
   filter(
     (year > start_year | (year == start_year & month >= start_month)) &
       (year < end_year   | (year == end_year & month <= end_month))
@@ -243,8 +243,8 @@ climate_census_window_2023_2024 <- climate_monthly_all %>%
   )
 
 climate_census_window_2024_2025 <- climate_monthly_all %>%
-  inner_join(census_windows_by_site_species_24_25, by = c("site" = "Site"),
-             relationship = "many-to-many") %>%
+  cross_join(census_windows_by_site_species_24_25 %>% distinct(Species)) %>%
+  inner_join(census_windows_by_site_species_24_25, by = c("site" = "Site", "Species" = "Species")) %>%
   filter(
     (year > start_year | (year == start_year & month >= start_month)) &
       (year < end_year   | (year == end_year & month <= end_month))
@@ -261,27 +261,27 @@ climate_census_year_summary <- bind_rows(
   climate_census_window_2024_2025
 )
 
-census_2023_unique %>%
-  mutate(date_23 = as.Date(date_23)) %>%
-  filter(lubridate::year(date_23) != 2023)
-
-census_windows_by_site_species_23_24 %>%
-  filter(Site == "LAF") %>%
-  arrange(Species)
-
-climate_census_year_summary %>%
-  filter(Species == "ELVI", census_year == 2024) %>%
-  arrange(desc(cum_ppt))
-
-climate_census_year_summary %>%
-  group_by(Species, census_year) %>%
-  summarise(
-    min_ppt = min(cum_ppt),
-    max_ppt = max(cum_ppt),
-    n       = n(),
-    .groups = "drop"
-  ) %>%
-  print(n = Inf)
+# census_2023_unique %>%
+#   mutate(date_23 = as.Date(date_23)) %>%
+#   filter(lubridate::year(date_23) != 2023)
+# 
+# census_windows_by_site_species_23_24 %>%
+#   filter(Site == "LAF") %>%
+#   arrange(Species)
+# 
+# climate_census_year_summary %>%
+#   filter(Species == "ELVI", census_year == 2024) %>%
+#   arrange(desc(cum_ppt))
+# 
+# climate_census_year_summary %>%
+#   group_by(Species, census_year) %>%
+#   summarise(
+#     min_ppt = min(cum_ppt),
+#     max_ppt = max(cum_ppt),
+#     n       = n(),
+#     .groups = "drop"
+#   ) %>%
+#   print(n = Inf)
 
 saveRDS(climate_census_year_summary, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
 

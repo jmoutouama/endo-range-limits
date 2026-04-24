@@ -66,6 +66,9 @@ clean_tag <- function(df) {
 }
 datini <-clean_tag(datini)
 dat23 <- clean_tag(dat23)
+# Fix D_LE4_1 stale planting date — correct to actual 2023 census date for LAF Plot 4
+dat23 <- dat23 %>%
+  mutate(date_23 = if_else(Tag_ID == "D_LE4_1", "2023-06-13", date_23))
 dat24 <-clean_tag(dat24)
 dat25<-clean_tag(dat25)
 dat24_ini<-clean_tag(dat24_ini)
@@ -346,6 +349,17 @@ demography_climate %>%
     total_rows = n(),
     n_unique_Tag = n_distinct(Tag_ID)
   )
+# Precipitation range per species matches what you verified in 01
+demography_climate %>%
+  group_by(Species, census_year) %>%
+  summarise(
+    min_ppt = min(cum_ppt, na.rm = TRUE),
+    max_ppt = max(cum_ppt, na.rm = TRUE),
+    n_obs   = n(),
+    .groups = "drop"
+  ) %>%
+  print(n = Inf)
+
 # table(demography_climate$Species,demography_climate$Site)
 # table(demography_climate$Species,demography_climate$Population)
 # table(demography_climate$Species,demography_climate$Plot)
@@ -361,16 +375,16 @@ demo_plot <- subset(demo_tmp,
 correlation <- cor(demo_plot$ppt_scaled,
                    demo_plot$clim2_tmp)
 # ggplot
-ggplot(demo_plot,
-       aes(x = ppt_scaled,
-           y = clim2_tmp)) +
-  geom_point(alpha = 0.4) +
-  geom_smooth(method = "loess", se = FALSE, linewidth = 1) +
-  labs(x = "clim (ppt_scaled)",
-       y = "clim^2",
-       title = "",
-       subtitle = paste("r =", round(correlation, 3))) +
-  theme_classic()
+# ggplot(demo_plot,
+#        aes(x = ppt_scaled,
+#            y = clim2_tmp)) +
+#   geom_point(alpha = 0.4) +
+#   geom_smooth(method = "loess", se = FALSE, linewidth = 1) +
+#   labs(x = "clim (ppt_scaled)",
+#        y = "clim^2",
+#        title = "",
+#        subtitle = paste("r =", round(correlation, 3))) +
+#   theme_classic()
 
 # saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
 
@@ -381,13 +395,13 @@ ggplot(demo_plot,
 #   filter(tag_rep>1)
 
 ## Explore the surival rate per species
-# demography_climate %>%
-#   group_by(Species) %>%
-#   summarise(
-#     n_total = n(),
-#     n_survived = sum(surv1, na.rm = TRUE),
-#     survival_rate = n_survived / n_total
-#   )
+demography_climate %>%
+  group_by(Species) %>%
+  summarise(
+    n_total = n(),
+    n_survived = sum(surv1, na.rm = TRUE),
+    survival_rate = n_survived / n_total
+  )
 # names(demography_climate)
 # view(demography_climate)
 # summary(demography_climate)
@@ -455,7 +469,6 @@ fit_surv_abio_bio_endo_linear <- stan(
   seed = 13
 )
 
-# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Desktop/Pooling/output/fit_surv_abio_bio_endo_linear.rds')
 
 #check_hmc_diagnostics(fit_surv_abio_bio_endo_linear)
 posterior_surv_abio_bio_endo_linear <- as.array(fit_surv_abio_bio_endo_linear) # Converts to an array
@@ -532,13 +545,24 @@ fit_surv_endo_herb <- stan(
   seed = 13
 )
 
+fit_surv_no3way <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_no3way.stan",
+  data = demography_surv_ppt,
+  warmup = sim_pars$warmup,
+  control = sim_pars$control,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  seed = 13
+)
 
 ## Save RDS file for further use
+saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
 saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
 saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
 saveRDS(fit_surv_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear_wi.rds')
 saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
 saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
+saveRDS(fit_surv_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_no3way.rds')
 
 # Growth----
 ## Read and format survival data to build the model
@@ -632,9 +656,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
                       )
 ) + theme_bw()
 
-
 # summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
-
 fit_grow_abio_bio_endo_linear_wi <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_main.stan",
   data = demography_grow_ppt,
@@ -663,12 +685,22 @@ fit_grow_endo_herb <- stan(
   control = sim_pars$control,
   seed = 13)
 
+fit_grow_no3way <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_no3way.stan",
+  data = demography_grow_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
 ## Save RDS file for further use
 # saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
 # saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
 # saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
 # saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
 # saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
+# saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
 
 # Inflorescence----
 demography_climate %>%
@@ -789,12 +821,22 @@ fit_inf_endo_herb <- stan(
   control = sim_pars$control,
   seed = 13)
 
+fit_inf_endo_no3way <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_no3way.stan",
+  data = demography_inf_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
 ## Save RDS file for further use
 saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
 saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
 saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
 saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
 saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
+saveRDS(fit_inf_endo_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_no3way.rds')
 
 # Spikelet----
 demography_climate %>%
@@ -917,12 +959,23 @@ fit_spik_endo_herb <- stan(
   chains = sim_pars$chains,
   control =sim_pars$control,
   seed = 13)
+
+fit_spik_no3way <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_no3way.stan",
+  data = demography_spik_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control =sim_pars$control,
+  seed = 13)
+
 ## Save RDS file for further use
 saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
 saveRDS(fit_spik_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear_wi.rds')
 saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
 saveRDS(fit_spik_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_clim.rds')
 saveRDS(fit_spik_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_herb.rds')
+saveRDS(fit_spik_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_no3way.rds')
 
 # Posterior predictive check----
 # Quadratic models

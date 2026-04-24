@@ -48,6 +48,7 @@ quote_bare <- function(...) {
     eval() %>%
     sapply(deparse)
 }
+set.seed(13)
 # Demographic data -----
 demography_climate<-readRDS(url("https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"))
 climate_max<-readRDS(url("https://www.dropbox.com/scl/fi/h8m15t64sxkkghgsnsypp/prism_edge_yr_means.rds?rlkey=ljjf16kqvvoe15qmhrqh8qfah&dl=1"))
@@ -97,23 +98,6 @@ demography_climate_surv <- demography_climate %>%
 
 # summary(demography_climate_surv$cum_ppt)
 # any(demography_climate_surv$cum_ppt <= 0)
-
-# DIAGNOSTIC: check back-transformed precipitation range per species
-# (co-author flag: ELVI should not exceed ~2300 mm — investigate if it does)
-cat("=== Precipitation range per species (back-transformed to mm) ===\n")
-demography_climate_surv %>%
-  mutate(
-    species_int = as.integer(factor(Species)),
-    clim_mm = exp(ppt_scaled * ppt_sd + ppt_mean)
-  ) %>%
-  group_by(Species, species_int) %>%
-  summarise(
-    min_mm  = round(min(clim_mm), 0),
-    max_mm  = round(max(clim_mm), 0),
-    n_obs   = n(),
-    .groups = "drop"
-  ) %>%
-  print()
 demography_surv_ppt <- list(
   nSpp       = n_distinct(demography_climate_surv$Species),
   nSite      = n_distinct(demography_climate_surv$Site),
@@ -126,8 +110,8 @@ demography_surv_ppt <- list(
   pop        = demography_climate_surv$Population,
   plot       = demography_climate_surv$site_species_plot,
   clim       = as.vector(demography_climate_surv$ppt),
-  endo       = demography_climate_surv$Endo,      
-  herb       = demography_climate_surv$Herbivory, 
+  endo       = demography_climate_surv$Endo,      # already 0/1
+  herb       = demography_climate_surv$Herbivory, # already 0/1
   size       = demography_climate_surv$log_size_t0,
   y          = demography_climate_surv$surv_t1,
   N          = nrow(demography_climate_surv)
@@ -135,21 +119,18 @@ demography_surv_ppt <- list(
 
 # Load model and data
 fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"))
-# Prediction grid — species-specific ranges to avoid extrapolation beyond data
-# (Fix: do not extrapolate fitted functions beyond the limits of each species' data)
-climate_range_per_species_surv <- lapply(1:3, function(sp) {
-  sp_clim <- demography_surv_ppt$clim[demography_surv_ppt$Spp == sp]
-  seq(min(sp_clim), max(sp_clim), length.out = 30)
-})
-
-predictions <- do.call(rbind, lapply(1:3, function(sp) {
-  expand.grid(
-    clim    = climate_range_per_species_surv[[sp]],
-    endo    = c(0, 1),
-    herb    = c(0, 1),
-    species = sp
-  )
-}))
+fit_surv_ppt <- readRDS("/Users/jacobmoutouama/Desktop/Pooling/output/fit_surv_abio_bio_endo_linear.rds")
+# Prediction grid
+climate_range <- seq(min(demography_surv_ppt$clim),
+                     max(demography_surv_ppt$clim),
+                     length.out = 30)
+predictions <- expand.grid(
+  clim = climate_range,
+  endo = c(0, 1),
+  herb = c(0, 1),
+  species = 1:3
+)
+climate_range_mm <- exp(climate_range * ppt_sd + ppt_mean)
 
 # Extract posterior samples
 posterior_samples_survival <- rstan::extract(fit_surv_ppt)
@@ -310,7 +291,7 @@ ggplot(plot_data_survival) +
     data = observed_data_survival,
     aes(
       x = climate_mm,
-      y = y_plot_mean,  # no clamping — y limits set to -0.05/1.05 to show boundary points
+      y = pmin(pmax(y_plot_mean, 0.01), 0.99),  # clamp to 0.01–0.99
       color = factor(endo),
       size = n_obs
     ),
@@ -318,7 +299,7 @@ ggplot(plot_data_survival) +
     position = position_jitter(width = 0.05, height = 0),
     show.legend = FALSE
   ) +
-  scale_size_continuous(range = c(0.5, 4)) +
+  scale_size_continuous(range = c(0.2, 1.2)) +
   
   # Δ panel
   geom_line(
@@ -355,14 +336,13 @@ ggplot(plot_data_survival) +
       panel == "Δ (S+ - S-)" ~ scale_y_continuous(
         limits = c(-0.3, 0.35),
         expand = c(0,0),
-        breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3),
+        breaks = 0,
+        labels = 0,
         minor_breaks = NULL
       ),
       panel == "Pr (survival)" ~ scale_y_continuous(
-        limits = c(-0.05, 1.05),
-        expand = c(0,0),
-        breaks = c(0, 0.25, 0.5, 0.75, 1),
-        labels = c("0", "0.25", "0.5", "0.75", "1")
+        limits = c(0, 1),
+        expand = c(0,0)
       )
     )
   ) +
@@ -543,7 +523,7 @@ Cairo::CairoPDF(
 )
 
 ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(linewidth = 0.5) +
+  geom_line(size = 0.5) +
   geom_hline(
     data = delta_long_surv %>% filter(metric == "Median Δ (S+ − S−)"),
     aes(yintercept = 0),
@@ -570,13 +550,13 @@ ggplot(delta_long_surv, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
 dev.off()
@@ -682,21 +662,16 @@ demography_grow_ppt <- list(
 )
 
 fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"))
-
-# Prediction grid — species-specific ranges to avoid extrapolation beyond data
-climate_range_per_species_grow <- lapply(1:3, function(sp) {
-  sp_clim <- demography_grow_ppt$clim[demography_grow_ppt$Spp == sp]
-  seq(min(sp_clim), max(sp_clim), length.out = 30)
-})
-
-predictions <- do.call(rbind, lapply(1:3, function(sp) {
-  expand.grid(
-    clim    = climate_range_per_species_grow[[sp]],
-    endo    = c(0, 1),
-    herb    = c(0, 1),
-    species = sp
-  )
-}))
+predictions <- expand.grid(
+  clim = seq(
+    min(demography_grow_ppt$clim),
+    max(demography_grow_ppt$clim),
+    length.out = 30
+  ),
+  endo = c(0, 1),
+  herb = c(0, 1),
+  species = 1:3
+)
 # Extract posterior samples
 posterior_samples_grow <- rstan::extract(fit_grow_ppt)
 # Prediction function for growth
@@ -849,7 +824,7 @@ ggplot(plot_data_grow) +
   geom_line(
     data = subset(plot_data_grow, panel == "Growth"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    linewidth = 0.5
+    size = 0.5
   ) +
   geom_ribbon(
     data = subset(plot_data_grow, panel == "Growth"),
@@ -869,13 +844,13 @@ ggplot(plot_data_grow) +
     position = position_jitter(width = 5, height = 0.05),
     show.legend = FALSE  # hide size legend
   ) +
-  # optional: control relative sizes — stronger range for visible size variation
-  scale_size_continuous(range = c(0.5, 4)) +
+  # optional: control relative sizes
+  scale_size_continuous(range = c(0.5, 2))+
 
   # Lower panel: Δ(S+ − S−) differences
   geom_line(
     data = subset(plot_data_grow, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, y = mean), color = "black", linewidth = 0.5
+    aes(x =climate_mm, y = mean), color = "black", size = 0.5
   ) +
   geom_ribbon(
     data = subset(plot_data_grow, panel == "Δ (S+ - S-)"),
@@ -899,9 +874,11 @@ ggplot(plot_data_grow) +
   # Dynamic y-axis scales
   ggh4x::facetted_pos_scales(
     y = list(
-      # Lower panels (Δ(S+ − S−)) – full axis scale with breaks
+      # Lower panels (Δ(S+ − S−)) – only 0 tick, no labels
       panel == "Δ (S+ - S-)" & species == "italic('Agrostis hyemalis')" ~
         scale_y_continuous(
+          breaks = 0,
+          labels = 0,
           minor_breaks = NULL,
           limits = c(
             y_limits$ymin[y_limits$species == "italic('Agrostis hyemalis')"],
@@ -911,6 +888,8 @@ ggplot(plot_data_grow) +
         ),
       panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(
+          breaks = 0,
+          labels = 0,
           minor_breaks = NULL,
           limits = c(
             y_limits$ymin[y_limits$species == "italic('Elymus virginicus')"],
@@ -920,6 +899,8 @@ ggplot(plot_data_grow) +
         ),
       panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(
+          breaks = 0,
+          labels = 0,
           minor_breaks = NULL,
           limits = c(
             y_limits$ymin[y_limits$species == "italic('Poa autumnalis')"],
@@ -943,22 +924,22 @@ ggplot(plot_data_grow) +
   scale_fill_manual(values = c("0" = "tomato", "1" = "cornflowerblue"), labels = c("S-", "S+")) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = c(0.37, 0.23),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.ticks.x = element_line(color = "black", linewidth = 0.2),
-    axis.ticks.y = element_line(color = "black", linewidth = 0.2),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
     #  axis.line.y = element_line(color = "black", size = 0.01),
     # axis.line.x = element_line(color = "black", size = 0.01),
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   ) +
   # Add facet labels (a–f) only on top panels
   geom_text(
@@ -1105,7 +1086,7 @@ Cairo::CairoPDF(
 )
 
 ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(linewidth = 0.5) +
+  geom_line(size = 0.5) +
   geom_hline(
     data = delta_long_grow %>% filter(metric == "Median Δ (S+ − S−)"),
     aes(yintercept = 0),
@@ -1132,13 +1113,13 @@ ggplot(delta_long_grow, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
 dev.off()
@@ -1237,21 +1218,16 @@ demography_inf_ppt <- list(
 )
 
 fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
-
-# Prediction grid — species-specific ranges to avoid extrapolation beyond data
-climate_range_per_species_inf <- lapply(1:3, function(sp) {
-  sp_clim <- demography_inf_ppt$clim[demography_inf_ppt$Spp == sp]
-  seq(min(sp_clim), max(sp_clim), length.out = 30)
-})
-
-predictions <- do.call(rbind, lapply(1:3, function(sp) {
-  expand.grid(
-    clim    = climate_range_per_species_inf[[sp]],
-    endo    = c(0, 1),
-    herb    = c(0, 1),
-    species = sp
-  )
-}))
+predictions <- expand.grid(
+  clim = seq(
+    min(demography_inf_ppt$clim),
+    max(demography_inf_ppt$clim),
+    length.out = 30
+  ),
+  endo = c(0, 1),
+  herb = c(0, 1),
+  species = 1:3
+)
 # Extract posterior samples
 posterior_samples_inf <- rstan::extract(fit_inf_ppt)
 # Prediction function for infering
@@ -1472,20 +1448,20 @@ ggplot(plot_data_inf) +
       # Δ panels
       panel == "Δ (S+ - S-)" & species == "italic('Agrostis hyemalis')" ~
         scale_y_continuous(
-          minor_breaks = NULL,
+          breaks = 0, labels = 0, minor_breaks = NULL,
           limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
                      y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]),
           expand = c(0, 0)
         ),
       panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(
-          minor_breaks = NULL,
+          breaks = 0, labels = 0, minor_breaks = NULL,
           limits = c(-1.5, 3.2),
           expand = c(0, 0)
         ),
       panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
         scale_y_continuous(
-          minor_breaks = NULL,
+          breaks = 0, labels = 0, minor_breaks = NULL,
           limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
                      y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]),
           expand = c(0, 0)
@@ -1678,7 +1654,7 @@ Cairo::CairoPDF(
 )
 
 ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(linewidth = 0.5) +
+  geom_line(size = 0.5) +
   geom_hline(
     data = delta_long_inf %>% filter(metric == "Median Δ (S+ − S−)"),
     aes(yintercept = 0),
@@ -1705,13 +1681,13 @@ ggplot(delta_long_inf, aes(x = clim_mm, y = value, color = herb, group = herb)) 
   ) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = "bottom",
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
 dev.off()
@@ -1810,21 +1786,16 @@ demography_spik_ppt <- list(
 
 fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
-
-# Prediction grid — species-specific ranges to avoid extrapolation beyond data
-climate_range_per_species_spik <- lapply(1:2, function(sp) {
-  sp_clim <- demography_spik_ppt$clim[demography_spik_ppt$Spp == sp]
-  seq(min(sp_clim), max(sp_clim), length.out = 30)
-})
-
-predictions <- do.call(rbind, lapply(1:2, function(sp) {
-  expand.grid(
-    clim    = climate_range_per_species_spik[[sp]],
-    endo    = c(0, 1),
-    herb    = c(0, 1),
-    species = sp
-  )
-}))
+predictions <- expand.grid(
+  clim = seq(
+    min(demography_spik_ppt$clim),
+    max(demography_spik_ppt$clim),
+    length.out = 30
+  ),
+  endo = c(0, 1),
+  herb = c(0, 1),
+  species = 1:2
+)
 
 # Prediction function
 get_predictions_spik <- function(clim, endo, herb, species_index, posterior_samples_spik) {
@@ -1970,7 +1941,7 @@ ggplot(plot_data_spik) +
   geom_line(
     data = subset(plot_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    linewidth = 0.5
+    size = 0.5
   ) +
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Spikelets"),
@@ -1983,12 +1954,12 @@ ggplot(plot_data_spik) +
   geom_line(
     data = subset(plot_data_spik, panel == "Δ (S+ - S-)"),
     aes(x = climate_mm, y = mean),
-    color = "black", linewidth = 0.5
+    color = "black", size = 0.5
   ) +
   geom_hline(
     data = subset(plot_data_spik, panel == "Δ (S+ - S-)"),
     aes(yintercept = 0),
-    color = "black", linetype = "dashed", linewidth = 0.3
+    color = "black", linetype = "dashed", size = 0.3
   ) +
   geom_point(
     data = subset(observed_data_spik, panel == "Spikelets"),
@@ -2002,7 +1973,7 @@ ggplot(plot_data_spik) +
     position = position_jitter(width = 5, height = 0.05),
     show.legend = FALSE   # hide size legend
   ) +
-  scale_size_continuous(range = c(0.5, 4)) +
+  scale_size_continuous(range = c(0.5, 3))+
   geom_ribbon(
     data = subset(plot_data_spik, panel == "Δ (S+ - S-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
@@ -2023,12 +1994,12 @@ ggplot(plot_data_spik) +
   ggh4x::facetted_pos_scales(
     y = list(
       panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(minor_breaks = NULL, limits = c(
+        scale_y_continuous(breaks = 0, labels = 0, limits = c(
           y_limits_spik$ymin[y_limits_spik$species == "italic('Elymus virginicus')"],
           y_limits_spik$ymax[y_limits_spik$species == "italic('Elymus virginicus')"]
         ), expand = c(0, 0)),
       panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(minor_breaks = NULL, limits = c(
+        scale_y_continuous(breaks = 0, labels = 0, limits = c(
           y_limits_spik$ymin[y_limits_spik$species == "italic('Poa autumnalis')"],
           y_limits_spik$ymax[y_limits_spik$species == "italic('Poa autumnalis')"]
         ), expand = c(0, 0)),
@@ -2050,20 +2021,20 @@ ggplot(plot_data_spik) +
                     labels = c("S-", "S+")) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = c(0.1, 0.88),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
     axis.title = element_text(size = 10),
     axis.text = element_text(size = 6),
-    axis.ticks.x = element_line(color = "black", linewidth = 0.2),
-    axis.ticks.y = element_line(color = "black", linewidth = 0.2),
+    axis.ticks.x = element_line(color = "black", size = 0.2),
+    axis.ticks.y = element_line(color = "black", size = 0.2),
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 12, color = "black"),
     strip.text.y = element_text(size = 10, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )+
   geom_text(
     data = panel_labels_spik,
@@ -2215,7 +2186,7 @@ Cairo::CairoPDF(
 )
 
 ggplot(delta_long_spik, aes(x = clim_mm, y = value, color = herb, group = herb)) +
-  geom_line(linewidth = 0.5) +
+  geom_line(size = 0.5) +
   geom_hline(
     data = delta_long_spik %>% filter(metric == "Median Δ (S+ − S−)"),
     aes(yintercept = 0),
@@ -2242,14 +2213,14 @@ ggplot(delta_long_spik, aes(x = clim_mm, y = value, color = herb, group = herb))
   ) +
   theme_classic() +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     axis.title = element_text(size = 10),
     legend.position = "bottom",
     text = element_text(family = "Arial"),
     strip.text.x = element_text(size = 10, color = "black"),
     strip.text.y = element_text(size = 8, color = "black"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
 dev.off()
@@ -2373,8 +2344,8 @@ delta_long_all <- delta_long_all %>%
 #   ) +
 #   theme_classic(base_size = 18, base_family = "Arial") +
 #   theme(
-#     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-#     axis.line = element_line(color = "black", linewidth = 0.1),
+#     panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+#     axis.line = element_line(color = "black", size = 0.1),
 #     legend.position = "bottom",
 #     legend.title = element_text(size = 30),
 #     legend.text  = element_text(size = 30),
@@ -2385,7 +2356,7 @@ delta_long_all <- delta_long_all %>%
 #     #  axis.line.y = element_line(color = "black", size = 0.01),
 #     # axis.line.x = element_line(color = "black", size = 0.01),
 #     text = element_text(family = "Arial"),
-#     strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+#     strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
 #   ) 
 # 
 # 
@@ -2425,8 +2396,8 @@ p_lower <- delta_long_all %>%
   ) +
   theme_classic(base_size = 18, base_family = "Arial") +
   theme(
-    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
-    axis.line = element_line(color = "black", linewidth = 0.1),
+    panel.border = element_rect(color = "black", fill = NA, size = 0.2),
+    axis.line = element_line(color = "black", size = 0.1),
     legend.position = c(0.998, 0.95),       # top-right inside last panel
     legend.justification = c(1, 1),        # align top-right corner
     legend.background = element_rect(fill = alpha('white', 0.7), color = "black"),
@@ -2437,7 +2408,7 @@ p_lower <- delta_long_all %>%
     axis.text    = element_text(size = 20),
     strip.text.x = element_text(size = 32, color = "black"),
     text = element_text(family = "Arial"),
-    strip.background = element_rect(color = "black", fill = "grey80", linewidth = 0.2)
+    strip.background = element_rect(color = "black", fill = "grey80", size = 0.2)
   )
 
 Cairo::CairoPDF("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf", width = 34, height = 12)

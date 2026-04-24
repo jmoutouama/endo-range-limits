@@ -79,6 +79,10 @@ census_2023_raw <- read.csv(
   "https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1"
 ) %>% clean_tag()
 
+# Fix D_LE4_1 stale planting date — correct to actual 2023 census date for LAF Plot 4
+census_2023_raw <- census_2023_raw %>%
+  mutate(date_23 = if_else(Tag_ID == "D_LE4_1", "2023-06-13", date_23))
+
 census_2023_metadata <- right_join(
   x = census_initial_plantings,
   y = census_2023_raw,
@@ -142,8 +146,11 @@ census_2025_with_metadata <- census_2025_raw %>%
 
 ##  Census dates & windows
 census_dates_2023 <- census_2023_unique %>%
+  mutate(date_23 = as.Date(date_23)) %>%
+  filter(lubridate::year(date_23) == 2023) %>%
   group_by(Site, Species) %>%
-  summarise(date_23 = min(as.Date(date_23)), .groups = "drop")
+  summarise(date_23 = min(date_23), .groups = "drop")
+
 
 census_dates_2024 <- census_2024_with_metadata %>%
   dplyr::select(Site, Plot, Species, date_24) %>%
@@ -253,6 +260,28 @@ climate_census_year_summary <- bind_rows(
   climate_census_window_2023_2024,
   climate_census_window_2024_2025
 )
+
+census_2023_unique %>%
+  mutate(date_23 = as.Date(date_23)) %>%
+  filter(lubridate::year(date_23) != 2023)
+
+census_windows_by_site_species_23_24 %>%
+  filter(Site == "LAF") %>%
+  arrange(Species)
+
+climate_census_year_summary %>%
+  filter(Species == "ELVI", census_year == 2024) %>%
+  arrange(desc(cum_ppt))
+
+climate_census_year_summary %>%
+  group_by(Species, census_year) %>%
+  summarise(
+    min_ppt = min(cum_ppt),
+    max_ppt = max(cum_ppt),
+    n       = n(),
+    .groups = "drop"
+  ) %>%
+  print(n = Inf)
 
 saveRDS(climate_census_year_summary, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
 

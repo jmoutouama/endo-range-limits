@@ -343,8 +343,8 @@ ggplot(plot_data_survival) +
   # Facets
   ggh4x::facet_nested(
     species + panel ~ herb,
-    scales = "free_y",
-    space = "free_y",
+    scales = "free",
+    space = "free",
     labeller = labeller(
       species = label_parsed,
       herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
@@ -377,7 +377,7 @@ ggplot(plot_data_survival) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
     axis.line = element_line(color = "black", linewidth = 0.1),
-    legend.position = c(0.42, 0.20),
+    legend.position = c(0.93, 0.5295),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -836,13 +836,13 @@ panel_labels_grow <- data.frame(
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Growth",
   # manually tweak y positions
-  ymax = c(0.8, 0.8, 1.25, 1.25, 2.4, 2.4)   # tweak last one slightly higher
+  ymax = c(1, 1, 1.25, 1.25, 2.2, 2.2)   # tweak last one slightly higher
 )
 
 # Plot
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
-  width = 7, height = 10
+  width = 7, height = 8
 )
 ggplot(plot_data_grow) +
   # Upper panel: predicted growth
@@ -889,8 +889,8 @@ ggplot(plot_data_grow) +
   # Facets
   ggh4x::facet_nested(
     species + panel ~ herb,
-    scales = "free_y",
-    space = "free_y",
+    scales = "free",
+    space = "free",
     labeller = labeller(
       species = label_parsed,
       herb = c("0" = "Herbivory access", "1" = "Herbivory exclusion")
@@ -930,11 +930,11 @@ ggplot(plot_data_grow) +
       
       # Upper panels (Growth) – manually reduced per species
       panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(-2.5, 0.8), expand = c(0, 0)),
+        scale_y_continuous(limits = c(-2.5, 1), expand = c(0, 0)),
       panel == "Growth" & species == "italic('Elymus virginicus')" ~
         scale_y_continuous(limits = c(-1.1, 1.25), expand = c(0, 0)),
       panel == "Growth" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(-4, 2.5), expand = c(0, 0))
+        scale_y_continuous(limits = c(-2.8, 2.2), expand = c(0, 0))
     )
   ) +
   # Labels and theme
@@ -945,7 +945,7 @@ ggplot(plot_data_grow) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
     axis.line = element_line(color = "black", linewidth = 0.1),
-    legend.position = c(0.37, 0.23),
+    legend.position = c(0.40, 0.15),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -963,7 +963,7 @@ ggplot(plot_data_grow) +
   # Add facet labels (a–f) only on top panels
   geom_text(
     data = panel_labels_grow,
-    aes(x = 490, y = ymax * 0.80, label = label),
+    aes(x = 490, y = ymax * 0.70, label = label),
     hjust = 0,
     size = 3.5,
     inherit.aes = FALSE
@@ -1362,11 +1362,11 @@ observed_data_inf <- demography_inf_ppt %>%  # or your dataset for inflorescence
     y = .$y
   ) %>%
   group_by(plot, species, herb, clim, endo) %>%
-  # summarise(
-  #   y_plot_mean = mean(y, na.rm = TRUE),
-  #   n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
-  #   .groups = "drop"
-  # ) %>%
+  summarise(
+    y_plot_mean = mean(y, na.rm = TRUE),
+    n_obs = sum(!is.na(y)),  # count of non-missing observations per plot
+    .groups = "drop"
+  ) %>%
   mutate(
     panel = "Inflorescences",
     climate_mm = exp(clim * ppt_sd + ppt_mean)
@@ -1408,13 +1408,13 @@ panel_labels_inf <- data.frame(
   herb = rep(c(0, 1), times = 3),
   label = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel = "Inflorescences",
-  ymax = rep(c(60, 16, 90), each = 2)   # 👈 from your facetted scales
+  ymax = rep(c(20, 7, 65), each = 2)   
 )
 
 #Plot with updated panel labels
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_v.pdf",
-  width = 7, height = 9
+  width = 6, height = 7
 )
 ggplot(plot_data_inf) +
   # Upper panel: predicted inflorescences
@@ -1432,8 +1432,9 @@ ggplot(plot_data_inf) +
     data = subset(observed_data_inf, panel == "Inflorescences"),
     aes(
       x = climate_mm,
-      y = y,
-      color = factor(endo)
+      y = y_plot_mean,
+      color = factor(endo),
+      size = n_obs
     ),
     alpha = 0.3,
     position = position_jitter(width = 0, height = 0),
@@ -1493,11 +1494,11 @@ ggplot(plot_data_inf) +
       
       # Upper panels – #Inflorescences per species
       panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 60)),
+        scale_y_continuous(limits = c(0, 20)),
       panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 16)),
+        scale_y_continuous(limits = c(0, 7)),
       panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 90))
+        scale_y_continuous(limits = c(0, 65))
     )
   ) +
   
@@ -1511,7 +1512,7 @@ ggplot(plot_data_inf) +
   theme(
     panel.border = element_rect(color = "black", fill = NA, linewidth = 0.2),
     axis.line = element_line(color = "black", linewidth = 0.1),
-    legend.position = c(0.11, 0.26),
+    legend.position = c(0.12, 0.26),
     legend.title = element_text(size = 6),
     legend.text = element_text(size = 6),
     panel.spacing.y = unit(0.2, "cm"),
@@ -1528,7 +1529,7 @@ ggplot(plot_data_inf) +
   # Add facet labels (a–f) on top panels
   geom_text(
     data = panel_labels_inf,
-    aes(x = 490, y = ymax * 0.93, label = label),
+    aes(x = 490, y = ymax * 0.8, label = label),
     hjust = 0,
     size = 3.5,
     inherit.aes = FALSE

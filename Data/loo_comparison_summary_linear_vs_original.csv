@@ -1,0 +1,9 @@
+Vital_rate,Model_type,ELPD_difference,SE_difference
+Survival,Linear,0,0
+Survival,Quadratic,-0.22988163967919384,0.7261715286772128
+Growth,Linear,0,0
+Growth,Quadratic,-0.6481610007565628,0.6152474870003409
+Inflorescence,Quadratic,0,0
+Inflorescence,Linear,-1.0652021412888848,0.7848663484459598
+Spikelet,Linear,0,0
+Spikelet,Quadratic,-0.39555175697484124,1.2044699285739586

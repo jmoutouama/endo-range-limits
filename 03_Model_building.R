@@ -695,12 +695,12 @@ fit_grow_no3way <- stan(
   seed = 13)
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
-# saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
-# saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
-# saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
-# saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
-# saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
+saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
+saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
+saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
+saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
+saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
+saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
 
 # Inflorescence----
 demography_climate %>%
@@ -1127,7 +1127,7 @@ ggsave(
   height = 6
 )
 
-### Herbivory on E+ and E_ fenced and unfenced. 
+### Herbivory on S+ and S_ fenced and unfenced. 
 # Add Plot to dat25_census based on Tag_ID from dat24_census
 # Filter and prepare the data
 # Prepare data for Stan model with site-year random effect

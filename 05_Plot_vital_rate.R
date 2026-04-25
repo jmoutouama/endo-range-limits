@@ -811,7 +811,7 @@ demography_inf_ppt <- list(
   N          = nrow(demography_climate_inf)
 )
 
-fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
+fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/v5kcirie79uae1dex6l1a/fit_inf_abio_bio_endo_hurdle_linear.rds?rlkey=pxp0pdptn95j5ubkjs819ou3x&dl=1"))
 
 climate_range_per_species_inf <- lapply(1:3, function(sp) {
   sp_clim <- demography_inf_ppt$clim[demography_inf_ppt$Spp == sp]
@@ -825,13 +825,28 @@ predictions <- do.call(rbind, lapply(1:3, function(sp) {
 
 posterior_samples_inf <- rstan::extract(fit_inf_ppt)
 
+# get_predictions_inf <- function(clim, endo, herb, species_index, ps) {
+#   with(ps, {
+#     eta <- b0[,species_index] + bendo[,species_index]*endo + bherb[,species_index]*herb +
+#       bclim[,species_index]*clim + bendoclim[,species_index]*clim*endo +
+#       bendoherb[,species_index]*endo*herb + bherbclim[,species_index]*herb*clim +
+#       bendoherbclim[,species_index]*endo*herb*clim
+#     (1 - zi) * exp(eta)
+#   })
+# }
+
 get_predictions_inf <- function(clim, endo, herb, species_index, ps) {
   with(ps, {
-    eta <- b0[,species_index] + bendo[,species_index]*endo + bherb[,species_index]*herb +
-      bclim[,species_index]*clim + bendoclim[,species_index]*clim*endo +
-      bendoherb[,species_index]*endo*herb + bherbclim[,species_index]*herb*clim +
-      bendoherbclim[,species_index]*endo*herb*clim
-    (1 - zi) * exp(eta)
+    eta <- b0[, species_index] +
+      bendo[, species_index] * endo +
+      bherb[, species_index] * herb +
+      bclim[, species_index] * clim +
+      bendoclim[, species_index] * clim * endo +
+      bendoherb[, species_index] * endo * herb +
+      bherbclim[, species_index] * herb * clim +
+      bendoherbclim[, species_index] * endo * herb * clim
+    
+    exp(eta)
   })
 }
 
@@ -1441,7 +1456,7 @@ p_lower <- delta_long_all %>%
   theme(
     panel.border     = element_rect(color="black", fill=NA, linewidth=0.2),
     axis.line        = element_line(color="black", linewidth=0.1),
-    legend.position  = c(0.5, 0.76),
+    legend.position  = c(0.22, 0.76),
     legend.title     = element_text(size=6),
     legend.text      = element_text(size=6),
     legend.spacing.y = unit(0.05, "cm"),

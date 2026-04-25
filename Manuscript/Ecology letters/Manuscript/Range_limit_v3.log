@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  25 APR 2026 08:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  25 APR 2026 10:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1327,30 +1327,26 @@ File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ./Figure/Growth_diff.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/../Figure/Growth_diff.pdf  used on input line 620.
-(pdftex.def)             Requested size: 422.77664pt x 483.18092pt.
+(pdftex.def)             Requested size: 469.75502pt x 536.87161pt.
 
 
 [30 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
 ./Figure/Growth_diff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/Inflorescence_diff_v.pdf, id=632, 433.62pt x 578.16pt>
+gure/Inflorescence_diff_v.pdf, id=632, 433.62pt x 505.89pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
 ./Figure/Inflorescence_diff_v.pdf>
 Package pdftex.def Info: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-r
 ange-limits/Figure/../Figure/Inflorescence_diff_v.pdf  used on input line 635.
-(pdftex.def)             Requested size: 446.26582pt x 595.0527pt.
-
-
-LaTeX Warning: Float too large for page by 14.6227pt on input line 644.
-
+(pdftex.def)             Requested size: 446.26582pt x 520.6711pt.
 
 
 [31 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
 ./Figure/Inflorescence_diff_v.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/Fig_Biomass_Inflo_combined.pdf, id=640, 511.9125pt x 397.485pt>
+gure/Fig_Biomass_Inflo_combined.pdf, id=665, 511.9125pt x 397.485pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/Fig_Biomass_Inflo_combined.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1461,7 +1457,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--14
 
 ]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/temp_census_years.pdf, id=727, 578.16pt x 289.08pt>
+gure/temp_census_years.pdf, id=752, 578.16pt x 289.08pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/temp_census_years.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1476,7 +1472,7 @@ ange-limits/Figure/../Figure/temp_census_years.pdf  used on input line 950.
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/temp_census_years.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/prop_damage_barplot_24_25.pdf, id=737, 578.16pt x 289.08pt>
+gure/prop_damage_barplot_24_25.pdf, id=762, 578.16pt x 289.08pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/prop_damage_barplot_24_25.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1492,7 +1488,7 @@ ange-limits/Figure/../Figure/prop_damage_barplot_24_25.pdf  used on input line
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/prop_damage_barplot_24_25.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/prop_damage_species_years.pdf, id=748, 867.24pt x 578.16pt>
+gure/prop_damage_species_years.pdf, id=773, 867.24pt x 578.16pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/prop_damage_species_years.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1508,7 +1504,7 @@ ange-limits/Figure/../Figure/prop_damage_species_years.pdf  used on input line
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/prop_damage_species_years.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/combined_ppc_plots_linear.pdf, id=760, 505.89pt x 433.62pt>
+gure/combined_ppc_plots_linear.pdf, id=785, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/combined_ppc_plots_linear.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1524,7 +1520,7 @@ ange-limits/Figure/../Figure/combined_ppc_plots_linear.pdf  used on input line
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/combined_ppc_plots_linear.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/PPC_models_soilendo.pdf, id=774, 867.24pt x 289.08pt>
+gure/PPC_models_soilendo.pdf, id=799, 867.24pt x 289.08pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/PPC_models_soilendo.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1539,7 +1535,7 @@ ange-limits/Figure/../Figure/PPC_models_soilendo.pdf  used on input line 993.
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/PPC_models_soilendo.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/Spikelet_diff.pdf, id=800, 722.7pt x 433.62pt>
+gure/Spikelet_diff.pdf, id=825, 722.7pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1554,7 +1550,7 @@ ange-limits/Figure/../Figure/Spikelet_diff.pdf  used on input line 1004.
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/Spikelet_diff.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/Spikelet_diff_stat.pdf, id=832, 505.89pt x 433.62pt>
+gure/Spikelet_diff_stat.pdf, id=857, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1569,7 +1565,7 @@ ange-limits/Figure/../Figure/Spikelet_diff_stat.pdf  used on input line 1019.
  </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../F
 igure/Spikelet_diff_stat.pdf>]
 </Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/../Fi
-gure/All_traits_diff_stat_lower.pdf, id=860, 505.89pt x 433.62pt>
+gure/All_traits_diff_stat_lower.pdf, id=885, 505.89pt x 433.62pt>
 File: /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/
 ../Figure/All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use /Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/.
@@ -1613,10 +1609,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on Range_limit_v3.pdf (54 pages, 61892696 bytes).
+Output written on Range_limit_v3.pdf (54 pages, 61949244 bytes).
 PDF statistics:
- 980 PDF objects out of 1000 (max. 8388607)
- 814 compressed objects within 9 object streams
+ 1005 PDF objects out of 1200 (max. 8388607)
+ 831 compressed objects within 9 object streams
  199 named destinations out of 1000 (max. 500000)
  191579 words of extra memory for PDF output out of 221844 (max. 10000000)
 

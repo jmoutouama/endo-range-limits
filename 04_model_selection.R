@@ -68,10 +68,12 @@ comp_grow
 # Inflorescence models ----
 fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/857ar8r838n5wauqo3dtz/fit_inf_abio_bio_endo.rds?rlkey=2mot44dp52xlxj19bov5jndly&dl=1"))
 fit_inf_abio_bio_endo_linear <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
-
+fit_inf_abio_bio_endo_hurdle_linear<-readRDS(url("https://www.dropbox.com/scl/fi/v5kcirie79uae1dex6l1a/fit_inf_abio_bio_endo_hurdle_linear.rds?rlkey=pxp0pdptn95j5ubkjs819ou3x&dl=1"))
 loo_inf <- compute_loo(fit_inf_abio_bio_endo)
 loo_inf_linear <- compute_loo(fit_inf_abio_bio_endo_linear)
+loo_inf_hurdle_linear <- compute_loo(fit_inf_abio_bio_endo_hurdle_linear)
 
+comp_inf_l <- loo::loo_compare(loo_inf_hurdle_linear, loo_inf_linear)
 comp_inf <- loo::loo_compare(loo_inf, loo_inf_linear)
 comp_inf
 

@@ -54,7 +54,7 @@ fit_grow_ppt <- readRDS(url(
 posterior_samples_grow <- rstan::extract(fit_grow_ppt)
 
 fit_inf_ppt <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"
+  "https://www.dropbox.com/scl/fi/v5kcirie79uae1dex6l1a/fit_inf_abio_bio_endo_hurdle_linear.rds?rlkey=pxp0pdptn95j5ubkjs819ou3x&dl=1"
 ))
 posterior_samples_inf <- rstan::extract(fit_inf_ppt)
 

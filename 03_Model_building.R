@@ -770,6 +770,17 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
+
+fit_inf_abio_bio_endo_hurdle_linear <- stan(
+  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_hurdle_l.stan",
+  data = demography_inf_ppt,
+  warmup = sim_pars$warmup,
+  iter = sim_pars$iter,
+  chains = sim_pars$chains,
+  control = sim_pars$control,
+  seed = 13)
+
+
 fit_inf_abio_bio_endo_linear_wi <- stan(
   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_main.stan",
   data = demography_inf_ppt,
@@ -832,11 +843,13 @@ fit_inf_endo_no3way <- stan(
 
 ## Save RDS file for further use
 saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
+saveRDS(fit_inf_abio_bio_endo_hurdle_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_hurdle_linear.rds')
 saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
 saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
 saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
 saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
 saveRDS(fit_inf_endo_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_no3way.rds')
+
 
 # Spikelet----
 demography_climate %>%

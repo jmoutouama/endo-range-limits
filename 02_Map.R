@@ -543,7 +543,8 @@ text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
 mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)
 
 ### Panel F
-par(mar=c(4,2,2,1))  # same for both E and F
+# par(mar=c(4,2,2,1))  # same for both E and F
+par(mar=c(4,6,2,1))
 mtext("(f)", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
 
 bp <- barplot(

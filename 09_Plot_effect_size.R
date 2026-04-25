@@ -15,7 +15,7 @@
 #
 # Stan models (companion .stan files):
 #   Survival      : survival_l.stan        – Bernoulli-logit, logit scale
-#   Growth        : growth_l.stan          – Normal,          log   scale
+#   Growth        : growth_l.stan          – Normal, identity scale (size units)
 #   Inflorescence : inflorescence_l.stan   – Zero-inflated NegBin, log scale
 #   Spikelet      : spikelet_l.stan        – NegBin, log scale (ELVI & POAU only)
 #
@@ -252,7 +252,7 @@ dummy_legend_plot <- ggplot(legend_data,
       "Two-way interaction"   = "Two-way interaction",
       "Three-way interaction" = "Three-way interaction",
       "filled_strong"         = "Strong  (P > 90 % on one side of 0)",
-      "open_uncertain"        = "Uncertain  (CI crosses 0)"
+      "open_uncertain"        = "Weak support (CI crosses 0)"
     ),
     guide = guide_legend(
       title        = NULL,
@@ -379,13 +379,13 @@ make_intercept_plot <- function(trait_name, x_label) {
 
 # ── Coefficient plots (no intercept) ─────────────────────────────────────────
 Fig_surv <- make_coef_plot("Survival",      "Coefficient (logit scale)")
-Fig_grow <- make_coef_plot("Growth",        "Coefficient (log scale)")
+Fig_grow <- make_coef_plot("Growth",        "Coefficient (size scale)")
 Fig_inf  <- make_coef_plot("Inflorescence", "Coefficient (log scale)")
 Fig_spik <- make_coef_plot("Spikelet",      "Coefficient (log scale)")
 
 # ── Intercept-only plots ──────────────────────────────────────────────────────
 Fig_surv_int <- make_intercept_plot("Survival",      "Coefficient (logit scale)")
-Fig_grow_int <- make_intercept_plot("Growth",        "Coefficient (log scale)")
+Fig_grow_int <- make_intercept_plot("Growth",        "Coefficient (size scale)")
 Fig_inf_int  <- make_intercept_plot("Inflorescence", "Coefficient (log scale)")
 Fig_spik_int <- make_intercept_plot("Spikelet",      "Coefficient (log scale)")
 
@@ -461,3 +461,33 @@ Cairo::CairoPDF(
 print(FigS_int_combined)
 dev.off()
 message("Saved: FigS_int_caterpillar_combined.pdf")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 10. EXPORT PLOTTED VALUES AS CSV
+#     One row per trait × species × coefficient.
+#     Columns match exactly what is plotted:
+#       median_est  = point (median posterior)
+#       lower_CI    = thick bar lower bound  (90 % CI)
+#       upper_CI    = thick bar upper bound  (90 % CI)
+#       lower_CI95  = thin whisker lower     (95 % CI)
+#       upper_CI95  = thin whisker upper     (95 % CI)
+#       prob_gt0    = P(coef > 0)
+#       prob_lt0    = P(coef < 0)
+#       strong_effect = filled circle (TRUE) vs open circle (FALSE)
+# ══════════════════════════════════════════════════════════════════════════════
+plotted_values <- all_summary %>%
+  dplyr::select(
+    trait, species, parameter, label, term_type,
+    median_est, lower_CI, upper_CI, lower_CI95, upper_CI95,
+    prob_gt0, prob_lt0, strong_effect
+  ) %>%
+  arrange(trait, species, label) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 4)))
+
+write.csv(
+  plotted_values,
+  file.path(out_dir, "plotted_coefficients.csv"),
+  row.names = FALSE
+)
+message("Saved: plotted_coefficients.csv")
+

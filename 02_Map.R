@@ -854,3 +854,42 @@ box()
 #mtext("Temperature", side = 3, adj = 0, line = 0.25, cex = 1.5)
 
 dev.off()
+
+# Export 30 years means 
+library(terra)
+
+# Convert SpatialPointsDataFrame objects to SpatVector
+garden_aghy_v <- terra::vect(garden_aghy)
+garden_elvi_v <- terra::vect(garden_elvi)
+garden_poau_v <- terra::vect(garden_poau)
+
+# Make sure CRS matches
+crs(garden_aghy_v) <- crs(crop_ppt_annual)
+crs(garden_elvi_v) <- crs(crop_ppt_annual)
+crs(garden_poau_v) <- crs(crop_ppt_annual)
+
+# Extract precipitation values
+aghy_ppt <- terra::extract(crop_ppt_annual, garden_aghy_v)
+elvi_ppt <- terra::extract(crop_ppt_annual, garden_elvi_v)
+poau_ppt <- terra::extract(crop_ppt_annual, garden_poau_v)
+
+# Get coordinates
+aghy_coords <- terra::crds(garden_aghy_v)
+elvi_coords <- terra::crds(garden_elvi_v)
+poau_coords <- terra::crds(garden_poau_v)
+
+# Combine coordinates + precipitation
+aghy_ppt <- cbind(aghy_coords, aghy_ppt)
+elvi_ppt <- cbind(elvi_coords, elvi_ppt)
+poau_ppt <- cbind(poau_coords, poau_ppt)
+
+# Rename columns
+colnames(aghy_ppt)[1:3] <- c("Longitude", "Latitude", "Precipitation")
+colnames(elvi_ppt)[1:3] <- c("Longitude", "Latitude", "Precipitation")
+colnames(poau_ppt)[1:3] <- c("Longitude", "Latitude", "Precipitation")
+
+# Export to CSV
+write.csv(aghy_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Agrostis_hyemalis_precipitation.csv", row.names = FALSE)
+write.csv(elvi_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Elymus_virginicus_precipitation.csv", row.names = FALSE)
+write.csv(poau_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Poa_autumnalis_precipitation.csv", row.names = FALSE)
+

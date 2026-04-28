@@ -4,12 +4,14 @@
 rm(list = ls(all=TRUE))
 
 ##tom's local wd
-setwd("C:/Users/tm9/Dropbox/github/endo-range-limits-prevalence")
+setwd("C:/Users/tm9/Dropbox/github/endo-range-limits")
 
 ##load packages
 library(tidyverse)
 library(googlesheets4)
 library(rstan)
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
 library(googledrive)
 library(readxl)
 library(bayesplot)
@@ -126,11 +128,182 @@ bind_rows(dat23 %>%
           dat25 %>% 
             mutate(Year=2025) %>% 
             select(Year,Site,Species,Plot,Herbivory,Tag_ID,Population,Endo,Tiller,AttachedInf,BrokenInf,TillerHerb)
-)->herb_dat_tidy
+) %>% 
+  mutate(Site=factor(Site,levels=c("SON","KER","BFL","BAS","COL","HUN","LAF")))->herb_dat_tidy
 
 #write.csv(herb_dat_tidy,"Data/herbivory_tidy_data.csv")
 
 
 # analysis ----------------------------------------------------------------
+herb_dat_tidy<-read.csv("Data/herbivory_tidy_data.csv")
+
+#quick visual of proportion of damaged tillers by endo
+herb_dat_tidy %>% 
+  mutate(TillerHerb=ifelse(TillerHerb>Tiller,Tiller,TillerHerb),
+         HerbProp=TillerHerb/Tiller) %>% 
+  filter(Herbivory=="Access") %>% 
+  ggplot()+
+  geom_boxplot(aes(x=Site,y=HerbProp,fill=as.factor(Endo)))+
+  facet_grid(cols=vars(Species))
+
+#quick visual of proportion of damaged tillers by fency
+herb_dat_tidy %>% 
+  mutate(TillerHerb=ifelse(TillerHerb>Tiller,Tiller,TillerHerb),
+         HerbProp=TillerHerb/Tiller) %>% 
+  ggplot()+
+  geom_boxplot(aes(x=Site,y=HerbProp,fill=as.factor(Herbivory)))+
+  facet_grid(cols=vars(Species))
+
+##combine endo and herbivory
+herb_dat_tidy %>% 
+  filter(Tiller>0 & !is.na(Species) & !is.na(Herbivory)) %>% 
+  mutate(TillerHerb=ifelse(TillerHerb>Tiller,Tiller,TillerHerb),
+         HerbProp=TillerHerb/Tiller) %>% 
+  ggplot()+
+  geom_boxplot(aes(x=Site,y=HerbProp,fill=as.factor(Endo)))+
+  facet_grid(Herbivory~Species)
+
+##inf damage
+herb_dat_tidy %>% 
+  filter(Year>2023) %>% 
+  filter(Species!="AGHY") %>% 
+  mutate(TotInf=BrokenInf+AttachedInf) %>% 
+  filter(TotInf>0) %>% 
+  mutate(InfDam = BrokenInf/TotInf) %>% 
+  ggplot()+
+  geom_boxplot(aes(x=Site,y=InfDam,fill=as.factor(Endo)))+
+  facet_grid(Herbivory~Species)
+
+##bundle data for stan
+
+herb_dat<-herb_dat_tidy %>% 
+  ##there are a few cases where damaged leaves were counted instead of tillers
+  mutate(TillerHerb=ifelse(TillerHerb>Tiller,Tiller,TillerHerb)) %>% 
+  ##keep only living plants
+  filter(Tiller>0) %>% 
+  select(Species,Site,Plot,Endo,Herbivory,Year,Tiller,TillerHerb) %>% 
+  drop_na() %>% 
+  ##convert species, sites, and years to integer
+  mutate(species=as.integer(as.factor(Species)),
+         fence=as.integer(as.factor(Herbivory))-1,
+         site=as.integer(as.factor(Site)),
+         year=Year-2022,
+         unique_plot=interaction(Species,Site,Plot),
+         plot_int=as.integer(as.factor(unique_plot))) 
+
+stan_dat<-list(n=nrow(herb_dat),
+               n_species=length(unique(herb_dat$species)),
+               n_endo=length(unique(herb_dat$Endo)),
+               n_fence=length(unique(herb_dat$fence)),
+               n_site=length(unique(herb_dat$site)),
+               n_year=length(unique(herb_dat$year)),
+               n_plot=max(herb_dat$plot_int),
+               y_tillers=herb_dat$Tiller,
+               y_damaged=herb_dat$TillerHerb,
+               species=herb_dat$species,
+               endo=herb_dat$Endo,
+               fence=herb_dat$fence,
+               site=herb_dat$site,
+               year=herb_dat$year,
+               plot=herb_dat$plot_int)
+
+##compile model
+herb_model<-stan_model("stan/herbivory.stan")
+
+##sample model
+herb_fit<-sampling(herb_model,data=stan_dat,chains=3,iter=5000,
+                   pars=c("beta0","beta_endo","beta_fence",
+                          "eps_site","eps_year","eps_plot",
+                          "sigma_site","sigma_year","sigma_plot",
+                          "y_rep"),include=T)
+
+##a few trace plots...
+mcmc_trace(herb_fit,pars=c("beta0[1]","beta0[2]","beta0[3]"))
+
+##posterior predictive check
+y_rep<-rstan::extract(herb_fit,pars="y_rep")
+ppc_dens_overlay(stan_dat$y_damaged,y_rep$y_rep[1:100,])
+
+species_names <- c("AGHY", "ELVI", "POAU")
+beta_draws <- herb_fit %>%
+  spread_draws(
+    beta0[species],
+    beta_endo[species],
+    beta_fence[species]
+  ) %>%
+  mutate(
+    species_name = species_names[species]
+  ) %>%
+  pivot_longer(
+    cols = c(beta0, beta_endo, beta_fence),
+    names_to = "parameter",
+    values_to = "estimate"
+  ) %>%
+  mutate(
+    parameter = recode(
+      parameter,
+      beta0 = "Intercept",
+      beta_endo = "Endophyte effect",
+      beta_fence = "Fence effect"
+    ),
+    parameter = factor(parameter, levels = c("Intercept", "Endophyte effect", "Fence effect"))
+  )
+
+beta_summary <- beta_draws %>%
+  group_by(parameter, species, species_name) %>%
+  median_qi(estimate, .width = 0.9) %>%
+  ungroup()
+
+ggplot(beta_summary,
+       aes(x = estimate, y = fct_reorder(species_name, estimate),
+           color = species_name)) +
+  geom_vline(xintercept = 0, linewidth = 0.4, linetype = "dashed") +
+  geom_linerange(
+    aes(xmin = .lower, xmax = .upper, linewidth = factor(.width)),
+    position = position_dodge(width = 0.5)
+  ) +
+  geom_point(size = 4) +
+  facet_wrap(~ parameter, scales = "free_x") +
+  scale_linewidth_manual(
+    values = c(`0.9` = 1.4),
+    name = "Credible interval"
+  ) +
+  labs(
+    x = "Posterior estimate",
+    y = NULL,
+    color = "Species"
+  ) +
+  theme_bw() +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "right"
+  )
 
 
+## site effects
+site_names <- c("SON","KER","BFL","BAS","COL","HUN","LAF")  
+site_draws <- herb_fit %>%
+  spread_draws(eps_site[site]) %>%
+  mutate(
+    site_name = site_names[site]
+  )
+
+site_summary <- site_draws %>%
+  group_by(site, site_name) %>%
+  median_qi(eps_site, .width = 0.95) %>%
+  ungroup()
+
+ggplot(site_summary,
+       aes(x = eps_site,
+           y = fct_reorder(site_name, eps_site))) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.4) +
+  geom_linerange(aes(xmin = .lower, xmax = .upper), linewidth = 1) +
+  geom_point(size = 2) +
+  labs(
+    x = "Site random effect",
+    y = NULL
+  ) +
+  theme_bw() +
+  theme(
+    panel.grid.minor = element_blank()
+  )

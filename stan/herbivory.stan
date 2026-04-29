@@ -55,6 +55,6 @@ model {
 generated quantities{
   array[n] int y_rep;
   for(i in 1:n){
-    y_rep[i]=binomial_rng(y_tillers[n],inv_logit(eta[n]));
+    y_rep[i]=binomial_rng(y_tillers[i],inv_logit(eta[i]));
   }
 }

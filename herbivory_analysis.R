@@ -217,12 +217,16 @@ herb_fit<-sampling(herb_model,data=stan_dat,chains=3,iter=5000,
                           "sigma_site","sigma_year","sigma_plot",
                           "y_rep"),include=T)
 
+##save/read stan model
+#write_rds(herb_fit,"stan/herbivory.rds")
+#herb_fit<-read_rds("stan/herbivory.rds")
+
 ##a few trace plots...
 mcmc_trace(herb_fit,pars=c("beta0[1]","beta0[2]","beta0[3]"))
 
 ##posterior predictive check
 y_rep<-rstan::extract(herb_fit,pars="y_rep")
-ppc_dens_overlay(stan_dat$y_damaged,y_rep$y_rep[1:100,])
+ppc_dens_overlay(stan_dat$y_damaged,y_rep$y_rep[1:100,])+xlim(0,25)
 
 species_names <- c("AGHY", "ELVI", "POAU")
 beta_draws <- herb_fit %>%

@@ -42,12 +42,12 @@ vr_theme <- function() {
     theme(
       panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.2),
       axis.line         = element_line(color = "black", linewidth = 0.1),
-      axis.title        = element_text(size = 8),
+      axis.title        = element_text(size = 14),
       axis.text         = element_text(size = 6),
       axis.ticks.x      = element_line(color = "black", linewidth = 0.2),
       axis.ticks.y      = element_line(color = "black", linewidth = 0.2),
-      legend.title      = element_text(size = 6),
-      legend.text       = element_text(size = 6),
+      legend.title      = element_text(size = 10),
+      legend.text       = element_text(size = 8),
       panel.spacing.y   = unit(0.2, "cm"),
       text              = element_text(family = "Arial"),
       strip.text.x      = element_text(size = 8, color = "black"),
@@ -63,12 +63,17 @@ vr_theme <- function() {
 output_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/"
 fig_dir    <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure"
 
-save_fig <- function(p, filename, width_mm = 174, height_mm = 110) {
+save_fig <- function(p, filename, width_mm = 200, height_mm = 110) {
   ggsave(file.path(fig_dir, filename), plot = p,
          width = width_mm, height = height_mm, units = "mm",
          dpi = 600, device = "pdf")
   message("Saved: ", filename)
 }
+
+TERM_COLORS <- c(
+  "Main effect" = "#4D4D4D",
+  "Interaction" = "#D55E00"
+)
 
 # =============================================================================
 # PART 1 — DATA PREPARATION & EXPLORATORY DIAGNOSTICS
@@ -639,7 +644,7 @@ make_upper_plot <- function(post_df, raw_df, response_col, y_label,
     geom_point(
       data = obs,
       aes(x = precip_mean, y = y_obs, color = Symbiont),
-      alpha = 0.45, size = 1, shape = 16,
+      alpha = 0.45, size = 2, shape = 16,
       show.legend = FALSE
     ) +
     scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS,
@@ -649,7 +654,7 @@ make_upper_plot <- function(post_df, raw_df, response_col, y_label,
     labs(x = NULL, y = y_label) +
     vr_theme() +
     theme(
-      legend.position = if (show_legend) c(0.5, 0.8) else "none",,
+      legend.position = if (show_legend) c(0.4, 0.8) else "none",,
       legend.key.size = unit(8, "pt"),
       axis.title.x    = element_blank(),
       axis.text.x     = element_blank(),
@@ -715,7 +720,8 @@ FOCAL_LABS <- c(
   "beta[3]" = "Precipitation (std)",
   "beta[5]" = "Symbiont \u00d7 Precipitation"
 )
-TERM_COLORS <- c("Main effect" = "#4575b4", "Interaction" = "#d95f02")
+
+
 
 extract_focal_betas <- function(fit, model_label) {
   as.matrix(fit, pars = "beta")[, FOCAL_IDX, drop = FALSE] %>%
@@ -795,7 +801,7 @@ fig_coef <- ggplot(coef_summary, aes(y = parameter, color = term_type)) +
     legend.position      = "none",
     legend.key.size      = unit(8, "pt"),
     panel.grid.major.y   = element_blank(),
-    strip.text.y.right   = element_text(size = 7, color = "black", angle = 90)
+    strip.text.y.right   = element_text(size = 14, color = "black", angle = 90)
   )
 
 # ── 4.7  Assemble 3-column figure with external panel tags ───────────────────
@@ -808,31 +814,34 @@ fig_coef <- ggplot(coef_summary, aes(y = parameter, color = term_type)) +
 # tag_prefix / tag_suffix can be added if brackets are preferred, e.g. "(A)".
 # plot.tag.position = "topleft" puts each letter outside and above the panel.
 
+col_biomass <- col_biomass + plot_annotation(tag_levels = list("A"))
+col_inflo   <- col_inflo   + plot_annotation(tag_levels = list("B"))
+fig_coef    <- fig_coef    + plot_annotation(tag_levels = list("C"))
+
 fig_greenhouse_combined <-
   (col_biomass | col_inflo | fig_coef) +
+  plot_layout(widths = c(1, 1, 1.4)) +
   plot_annotation(
-    tag_levels    = "A",
-    tag_prefix    = "",
-    tag_suffix    = ""
+    tag_levels = "a",
+    tag_prefix = "(",
+    tag_suffix = ")"
   ) &
   theme(
-    plot.tag          = element_text(size = 9, face = "bold"),
+    axis.text         = element_text(size = 10),
+    plot.tag = element_text(size = 12, face = "plain"),
     plot.tag.position = "topleft"
   )
 
 print(fig_greenhouse_combined)
 
-save_fig(fig_greenhouse_combined,
-         "Fig_Greenhouse_Combined.pdf",
-         width_mm  = 174,
-         height_mm = 160)
-pdf("Fig_Greenhouse_Combined.pdf",
-    width = 174 / 25.4,
-    height = 160 / 25.4)
-
-print(fig_greenhouse_combined)
-
-dev.off()
+ggsave(
+  file.path(fig_dir, "Fig_Greenhouse_Combined.pdf"),
+  plot   = fig_greenhouse_combined,
+  width  = 277,
+  height = 120,
+  units  = "mm",
+  device = cairo_pdf
+)
 
 # =============================================================================
 # PART 5 — STATISTICAL SUMMARY TABLES

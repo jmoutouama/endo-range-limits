@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Range_limit_Eco_letters.aux
+The style file: apalike.bst
+Database file #1: References.bib
+Warning--I didn't find a database entry for "carpenter2017stan"
+You've used 72 entries,
+            1935 wiz_defined-function locations,
+            908 strings with 17673 characters,
+and the built_in function-call counts, 30860 in all, are:
+= -- 3036
+> -- 1399
+< -- 32
++ -- 496
+- -- 480
+* -- 2835
+:= -- 5373
+add.period$ -- 215
+call.type$ -- 72
+change.case$ -- 595
+chr.to.int$ -- 70
+cite$ -- 72
+duplicate$ -- 1019
+empty$ -- 2057
+format.name$ -- 574
+if$ -- 5897
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 67
+newline$ -- 362
+num.names$ -- 216
+pop$ -- 450
+preamble$ -- 1
+purify$ -- 599
+quote$ -- 0
+skip$ -- 781
+stack$ -- 0
+substring$ -- 2430
+swap$ -- 103
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 428
+warning$ -- 0
+while$ -- 266
+width$ -- 0
+write$ -- 928
+(There was 1 warning)

@@ -556,13 +556,13 @@ fit_surv_no3way <- stan(
 )
 
 ## Save RDS file for further use
-saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
-saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
-saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
-saveRDS(fit_surv_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear_wi.rds')
-saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
-saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
-saveRDS(fit_surv_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_no3way.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
+# saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear_wi.rds')
+# saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
+# saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
+# saveRDS(fit_surv_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_no3way.rds')
 
 # Growth----
 ## Read and format survival data to build the model
@@ -695,12 +695,12 @@ fit_grow_no3way <- stan(
   seed = 13)
 
 ## Save RDS file for further use
-saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
-saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
-saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
-saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
-saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
-saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
+# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
+# saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
+# saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
+# saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
+# saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
+# saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
 
 # Inflorescence----
 demography_climate %>%
@@ -842,13 +842,13 @@ fit_inf_endo_no3way <- stan(
   seed = 13)
 
 ## Save RDS file for further use
-saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
-saveRDS(fit_inf_abio_bio_endo_hurdle_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_hurdle_linear.rds')
-saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
-saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
-saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
-saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
-saveRDS(fit_inf_endo_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_no3way.rds')
+# saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
+# saveRDS(fit_inf_abio_bio_endo_hurdle_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_hurdle_linear.rds')
+# saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
+# saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
+# saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
+# saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
+# saveRDS(fit_inf_endo_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_no3way.rds')
 
 
 # Spikelet----

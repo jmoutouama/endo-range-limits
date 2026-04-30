@@ -59,7 +59,7 @@ make_panel <- function(title,
     labs(
       title = title,
       x = if (show_x) "Precipitation" else NULL,
-      y = if (show_y) "Symbiont effect (\u0394)" else NULL
+      y = if (show_y) "Symbiont effect (S+ - S-)" else NULL
     ) +
     
     theme_classic(base_size = 11, base_family = "serif") +
@@ -72,7 +72,7 @@ make_panel <- function(title,
         colour = "#1A1A1A"
       ),
       
-      axis.title = element_text(size = 9.5),
+      axis.title = element_text(size = 12),
       axis.text  = element_text(size = 9, colour = "#2c2c2c"),
       
       axis.line = element_blank(),
@@ -131,15 +131,10 @@ final <- (p1 | p2) / (p3 | p4) +
   )
 
 # ── Save ──────────────────────────────────────────────────────────────────────
-ggsave("conceptual_figure.pdf",
+ggsave("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/conceptual_figure.pdf",
        plot = final,
        width = 7.5, height = 6.5,
        device = cairo_pdf)
 
-ggsave("conceptual_figure.png",
-       plot = final,
-       width = 7.5, height = 6.5,
-       dpi = 300,
-       bg = "white")
 
 message("Saved: conceptual_figure.pdf and conceptual_figure.png")

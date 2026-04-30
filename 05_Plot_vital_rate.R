@@ -1440,6 +1440,12 @@ delta_long_all <- dplyr::bind_rows(delta_long_surv, delta_long_grow, delta_long_
     )
   )
 
+panel_labels <- delta_long_all %>%
+  filter(metric == "Pr (Δ > 0)") %>%
+  distinct(trait, species_label) %>%
+  arrange(trait, species_label) %>%
+  mutate(label = paste0("(", letters[1:n()], ")"))
+
 p_lower <- delta_long_all %>%
   filter(metric == "Pr (Δ > 0)") %>%
   ggplot(aes(x=clim_mm, y=value, color=herb, group=herb)) +
@@ -1453,6 +1459,15 @@ p_lower <- delta_long_all %>%
                                "Herbivory exclusion"="#009E73")) +
   labs(x="Precipitation (mm)", y="P(Δ > 0)", color="Herbivore treatment") +
   theme_classic(base_size=10) +
+  geom_text(
+    data = panel_labels,
+    aes(x = -Inf, y = Inf, label = label),
+    inherit.aes = FALSE,
+    hjust = -0.2,
+    vjust = 1.2,
+    size = 4,
+    fontface = "plain"
+  )+
   theme(
     panel.border     = element_rect(color="black", fill=NA, linewidth=0.2),
     axis.line        = element_line(color="black", linewidth=0.1),

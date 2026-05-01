@@ -16,16 +16,6 @@
 # 3. Justified Student-t likelihood for biomass (see Section 2.2 comment).
 # 4. Reduced MCMC iterations from iter=6000/warmup=2000 to iter=2000/warmup=1000
 #    — adequate for this sample size and model complexity.
-#
-# BUG FIXES:
-# 5. extract_posterior_precip() now accepts a ref_df argument (always pass
-#    aghysoils). The back-transformation to mm/yr uses mean/SD from the FULL
-#    dataset so that the prediction line spans the same x-range as the observed
-#    points. Previously it used mean/SD from the filtered Stan dataset (d_used),
-#    which shifted/shrank the line relative to the raw data.
-# 6. Added standalone Fig_Spikelets_Combined.pdf: col_spike (upper predicted +
-#    lower contrast) side-by-side with fig_coef_spike (caterpillar for the three
-#    focal betas from fit_totspi).
 # =============================================================================
 rm(list = ls())
 
@@ -543,22 +533,13 @@ print(ppc_panel)
 # =============================================================================
 
 # ── 3.1  Extract posterior fitted means across precipitation gradient ─────────
-# FIX: Added ref_df argument. The back-transformation from precip_std to
-# precip_mean (mm/yr) now uses mean/SD from the FULL aghysoils dataset (ref_df)
-# rather than the filtered Stan dataset (d_used). This ensures that the
-# prediction line's x-range matches the observed points exactly.
-#
-# Previously, using d_used for the back-transformation shifted/compressed the
-# line because rows excluded by the Stan filter (those with NA in calc_total_spik
-# or age_std) often include the most extreme precipitation values — causing the
-# line to appear truncated relative to the raw observations.
+# For each Symbiont level, predict across the observed range of precip_std,
+# marginalising over age_std (set to 0 = mean age) and population random effects.
 extract_posterior_precip <- function(fit, sd_obj, link = "identity",
-                                     n_grid = 50, ref_df = NULL) {
+                                     n_grid = 50) {
   draws_beta <- as.matrix(fit, pars = "beta")
   draws_upop <- as.matrix(fit, pars = "u_pop")
   d          <- sd_obj$d_used
-  # Use full reference dataset for back-transform if supplied; fall back to d.
-  ref        <- if (!is.null(ref_df)) ref_df else d
   n_iter     <- nrow(draws_beta)
 
   precip_seq <- seq(min(d$precip_std), max(d$precip_std), length.out = n_grid)
@@ -575,8 +556,7 @@ extract_posterior_precip <- function(fit, sd_obj, link = "identity",
       tibble(
         Symbiont    = sym,
         precip_std  = p,
-        # FIX: use ref$precip_mean (full dataset) not d$precip_mean (filtered)
-        precip_mean = p * sd(ref$precip_mean) + mean(ref$precip_mean),
+        precip_mean = p * sd(d$precip_mean) + mean(d$precip_mean),
         draw        = seq_len(n_iter),
         mu          = as.numeric(mu)
       )
@@ -584,16 +564,11 @@ extract_posterior_precip <- function(fit, sd_obj, link = "identity",
   })
 }
 
-# Pass aghysoils as ref_df so back-transform uses the full dataset's mean/SD.
-post_precip_biomass <- extract_posterior_precip(fit_biomass, sd_biomass, "identity",
-                                                ref_df = aghysoils) %>%
+post_precip_biomass <- extract_posterior_precip(fit_biomass, sd_biomass, "identity") %>%
   mutate(mu = exp(mu))
-post_precip_inflo   <- extract_posterior_precip(fit_inflo,   sd_inflo,   "log",
-                                                ref_df = aghysoils)
-post_precip_totspi  <- extract_posterior_precip(fit_totspi,  sd_totspi,  "log",
-                                                ref_df = aghysoils)
-post_precip_avgspi  <- extract_posterior_precip(fit_avgspi,  sd_avgspi,  "log",
-                                                ref_df = aghysoils)
+post_precip_inflo   <- extract_posterior_precip(fit_inflo,   sd_inflo,   "log")
+post_precip_totspi  <- extract_posterior_precip(fit_totspi,  sd_totspi,  "log")
+post_precip_avgspi  <- extract_posterior_precip(fit_avgspi,  sd_avgspi,  "log")
 
 # =============================================================================
 # PART 4 — FIGURES
@@ -679,7 +654,7 @@ make_upper_plot <- function(post_df, raw_df, response_col, y_label,
     labs(x = NULL, y = y_label) +
     vr_theme() +
     theme(
-      legend.position = if (show_legend) c(0.4, 0.8) else "none",
+      legend.position = if (show_legend) c(0.4, 0.8) else "none",,
       legend.key.size = unit(8, "pt"),
       axis.title.x    = element_blank(),
       axis.text.x     = element_blank(),
@@ -746,6 +721,8 @@ FOCAL_LABS <- c(
   "beta[5]" = "Symbiont \u00d7 Precipitation"
 )
 
+
+
 extract_focal_betas <- function(fit, model_label) {
   as.matrix(fit, pars = "beta")[, FOCAL_IDX, drop = FALSE] %>%
     as.data.frame() %>%
@@ -758,8 +735,8 @@ extract_focal_betas <- function(fit, model_label) {
 
 coef_long <- bind_rows(
   extract_focal_betas(fit_biomass, "Aboveground\nbiomass (g)"),
-  extract_focal_betas(fit_inflo,   "Total\ninflorescences")
-  # extract_focal_betas(fit_totspi,  "Total\nspikelets (projected)")
+  extract_focal_betas(fit_inflo,   "Total\ninflorescences"),
+  extract_focal_betas(fit_totspi,  "Total\nspikelets (projected)")
 )
 
 coef_summary <- coef_long %>%
@@ -780,8 +757,7 @@ coef_summary <- coef_long %>%
                        levels = rev(paste0("beta[", FOCAL_IDX, "]"))),
     model     = factor(model,
                        levels = c("Aboveground\nbiomass (g)",
-                                  "Total\ninflorescences",
-                                  "Total\nspikelets (projected)")),
+                                  "Total\ninflorescences")),
     term_type = if_else(parameter == "beta[5]", "Interaction", "Main effect"),
     term_type = factor(term_type, levels = names(TERM_COLORS)),
     pt_fill   = if_else(strong_effect, as.character(term_type), "white")
@@ -868,31 +844,17 @@ ggsave(
   device = cairo_pdf
 )
 
-# =============================================================================
-# PART 4b — STANDALONE SPIKELETS FIGURE
-# =============================================================================
-# Two-panel figure for total spikelets (projected):
-#   Left  — col_spike: upper (posterior predicted lines + observed points) /
-#                      lower (Δ contrast S+ − S−), stacked 2:1
-#   Right — fig_coef_spike: caterpillar plot for the three focal betas from
-#                            fit_totspi (beta[2], beta[3], beta[5])
-#
-# This is the spikelet-only analogue of Fig_Greenhouse_Combined and is saved
-# separately as Fig_Spikelets_Combined.pdf.
-# =============================================================================
+# Spikelet
 
-# ── 4b.1  Spikelet predicted column ──────────────────────────────────────────
 col_spike <- make_vr_column(
   post_df      = post_precip_totspi,
   raw_df       = aghysoils,
   response_col = "calc_total_spik",
-  y_label      = "Total spikelets",
-  show_legend  = TRUE
+  y_label      = "Total spikelets (projected)",
+  show_legend  = FALSE
 )
-
-# ── 4b.2  Spikelet coefficient caterpillar ────────────────────────────────────
-# Extract focal betas from fit_totspi only.
-coef_spike <- extract_focal_betas(fit_totspi, "Total\nspikelets (projected)")
+coef_spike <- coef_long %>%
+  filter(model == "Total\nspikelets (projected)")
 
 coef_summary_spike <- coef_spike %>%
   group_by(model, parameter) %>%
@@ -915,67 +877,20 @@ coef_summary_spike <- coef_spike %>%
     pt_fill   = if_else(strong_effect, as.character(term_type), "white")
   )
 
-n_coef_spike  <- nlevels(coef_summary_spike$parameter)
-shade_rects_spike <- Filter(Negate(is.null), lapply(seq_len(n_coef_spike), function(i) {
-  if (i %% 2 == 1)
-    annotate("rect", xmin = -Inf, xmax = Inf,
-             ymin = i - 0.49, ymax = i + 0.49,
-             fill = "grey93", color = NA, alpha = 0.55)
-}))
-
 fig_coef_spike <- ggplot(coef_summary_spike, aes(y = parameter, color = term_type)) +
-  shade_rects_spike +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             color = "grey25", linewidth = 0.45) +
   geom_errorbar(aes(xmin = lo95, xmax = hi95), linewidth = 0.35, width = 0) +
-  geom_errorbar(aes(xmin = lo90, xmax = hi90), linewidth = 1.2,  width = 0) +
+  geom_errorbar(aes(xmin = lo90, xmax = hi90), linewidth = 1.2, width = 0) +
   geom_point(aes(x = median_est, fill = pt_fill),
              shape = 21, size = 3.0, stroke = 0.9) +
   scale_fill_manual(values = c(TERM_COLORS, "white" = "white"), guide = "none") +
-  scale_color_manual(
-    values = TERM_COLORS,
-    name   = NULL,
-    guide  = guide_legend(
-      override.aes = list(fill = unname(TERM_COLORS),
-                          shape = 21, size = 3, stroke = 0.9)
-    )
-  ) +
-  geom_vline(xintercept = 0, linetype = "dashed",
-             color = "grey25", linewidth = 0.45) +
-  scale_y_discrete(labels = FOCAL_LABS, expand = expansion(add = 0.6)) +
+  scale_color_manual(values = TERM_COLORS, name = NULL) +
+  scale_y_discrete(labels = FOCAL_LABS) +
   labs(x = "Posterior coefficient (spikelets)", y = NULL) +
   vr_theme() +
-  theme(
-    legend.position    = "right",
-    legend.key.size    = unit(8, "pt"),
-    panel.grid.major.y = element_blank()
-  )
-
-# ── 4b.3  Assemble and save spikelet figure ───────────────────────────────────
-fig_spikelets_combined <-
-  (col_spike | fig_coef_spike) +
-  plot_layout(widths = c(1, 1)) +
-  plot_annotation(
-    tag_levels = "a",
-    tag_prefix = "(",
-    tag_suffix = ")"
-  ) &
-  theme(
-    legend.position = "none",
-    axis.text         = element_text(size = 10),
-    plot.tag          = element_text(size = 12, face = "plain"),
-    plot.tag.position = "topleft"
-  )
-
-print(fig_spikelets_combined)
-
-ggsave(
-  file.path(fig_dir, "Fig_Spikelets_Combined.pdf"),
-  plot   = fig_spikelets_combined,
-  width  = 250,
-  height = 120,
-  units  = "mm",
-  device = cairo_pdf
-)
-
+  theme(legend.position = "none",
+        panel.grid.major.y = element_blank())
 # =============================================================================
 # PART 5 — STATISTICAL SUMMARY TABLES
 # =============================================================================

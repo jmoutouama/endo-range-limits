@@ -186,12 +186,13 @@ This research was supported by National Science Foundation Division of Environme
 \spacing{1.25}
 \section*{Abstract}
 %150 words limit for Ecology letter. The number now is 145
-Plant–microbe symbioses are generally predicted to enhance host fitness under stress, yet how effects vary across different types of stress gradients remains unclear. 
-We replicated herbivore exclusion field experiments along a geographic precipitation gradient in the south-central US to test how aridity and herbivory modify fitness effects of seed-transmitted fungal endophytes in three cool-season grass species. 
-Both endophyte-symbiotic and experimentally endophyte-free host-plants showed declining demographic rates with aridity, but symbiotic plants suffered disproportionately larger reductions in performance at the driest sites. 
-\tom{Aridity mainly mediated endophyte effects on survival and growth, whereas herbivory had an overall weaker effect on the symbiosis and mainly influenced host reproduction. }{This sentence does not fully describe the relative importance of aridity and herbivory, which I think is important to do. I also think the abstract needs to better describe the herbivory results -- did herbivore exclusion help or hurt plants, and did it make endophytes more or less beneficial?}
-A follow-up greenhouse experiment demonstrated that soil origin did not modify symbiont effects, supporting a role of precipitation and ruling out soil properties as an explanation for variation in endophyte benefits. 
-Contrary to predictions of the stress-gradient hypothesis, endophyte benefits were strongest under benign conditions and \tom{weakened under stress}{Unclear if you are saying that they became less beneficial under stress, or switched from beneficial to costly under stress -- that's an important distinction.}, suggesting plant–fungal symbioses can shift from mutualistic to neutral or costly when hosts are physiologically constrained.
+Plant–microbe symbioses are generally expected to enhance host fitness under stress, yet how effects vary across stress gradients remains unclear. 
+We tested how aridity and herbivory shape fitness effects of vertically transmitted fungal endophytes in three cool-season grasses using herbivore exclusion experiments along a precipitation gradient in the south-central United States. 
+Contrary to stress-gradient predictions, both endophyte-symbiotic and experimentally endophyte-free host-plants  showed declining demographic performance with increasing aridity, but symbiotic hosts experienced disproportionately stronger declines in the driest sites. 
+Herbivory had weaker, species-specific effects: exclusion increased endophyte benefits for reproduction but reduced or reversed growth benefits. 
+A follow-up  greenhouse experiment showed no effect of soil origin, indicating that climate rather than soil properties drives variation in symbiont effects. 
+Together, these results suggest that vertically transmitted fungal symbionts trend from neutral or weakly beneficial toward increasingly costly under drought, with herbivory playing a secondary role limited to reproductive fitness.
+
 %--------------------------------------------------------------------
 \newpage
 \section*{Introduction}
@@ -339,8 +340,9 @@ In \emph{A. hyemalis}, one spikelet yields one seed, while in \emph{P. autumnali
 
 We measured herbivore damage to assess the effects of herbivory treatment on realized herbivory.
 We assessed individual plants as damaged/undamaged based on the presence/absence of chewing damage to leaves, tillers, or inflorescences, and estimated the proportion of damaged plants by plot, site, and herbivore treatment.
-\jacob{Plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}, Fig.~\ref{sup:herbsp}), confirming the effectiveness of our experimental manipulations.}{I also compared herbivory on S+ vs.\ S- plants across the gradient, but these results are omitted here as they pertain to physical defense without corresponding chemical defense data. The figure is available here: \url{https://www.dropbox.com/scl/fi/5b6rnj1zxtfq7xfftegua/herb_endo_diff.pdf?rlkey=uvb6lxlz3h589trdxrv104vs9&dl=1}.}
-\tom{}{I do not understand your comment here ``these results are omitted here as they pertain to physical defense without corresponding chemical defense data''. I am also not sure what is plotted in the figure. If this is a count of damaged tillers, I think it would be better to show proportions rather than raw counts.}
+Plants in fenced plots experienced less herbivory than in unfenced plots (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}, Fig.~\ref{sup:herbsp}).
+Fencing strongly reduced the proportion of damaged tillers across all three species (\textit{A. hyemalis}: $\beta = -2.69$, 90\% CI: $-3.42$--$-1.94$; \textit{E. virginicus}: $\beta = -0.94$, 90\% CI: $-1.62$--$-0.25$; \textit{P. autumnalis}: $\beta = -1.66$, 90\% CI: $-2.34$--$-0.92$), confirming that the herbivore exclusion treatment was effective. 
+Endophyte effects on herbivory damage differed among species, reducing damage in \textit{A. hyemalis} and \textit{P. autumnalis} but increasing it in \textit{E. virginicus} (Fig.~\ref{sup:herbivory}).
 
 \subsection*{Statistical modeling}
 To assess how abiotic and biotic stress modify the demographic effects of endophyte symbiosis, we fit generalized linear mixed models for each vital rate response in a hierarchical Bayesian statistical framework. %first developed two candidate models for each vital rate: one quadratic and one monotonic.
@@ -413,115 +415,75 @@ We fitted the same hierarchical Bayesian models as the field analysis, with symb
 
 \section*{Results}
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
-Endophyte effects on host fitness varied among species and fitness components, tending to shift from negative or neutral under drier conditions to positive under wetter conditions, although effect sizes were often small (Figs.~\ref{fig:Surv}--\ref{fig:growth}; Figs.~\ref{sup:inflo}--\ref{sup:spikelet}; Fig.~\ref{sup:coef_caterpillar}; Fig.~\ref{sup:allstat}). 
-%Fitness itself generally increased with precipitation, with strongly supported effects in \textit{P. autumnalis} for survival and growth and in both \textit{A. hyemalis} and \textit{P. autumnalis} for inflorescence production; effects were weaker or negligible in \textit{E. virginicus} for growth and in both species for spikelet production (Fig.~\ref{sup:coef_caterpillar}).
+Endophyte effects on host fitness varied among species and fitness components, consistently shifting from negative or neutral under drier conditions to positive under wetter conditions, although effect sizes were often small (Figs.~\ref{fig:Surv}--\ref{fig:growth}; Figs.~\ref{sup:inflo}--\ref{sup:spikelet}; Fig.~\ref{sup:coef_caterpillar}; Fig.~\ref{fig:allstat}).
 
-Endophyte effects on survival depended most strongly on precipitation in \textit{E. virginicus}, shifting from negative under dry conditions ($\Delta = -0.13$, $\mathrm{Pr}(\Delta > 0) = 0.02$) to positive under wet conditions ($\Delta = 0.12$, $\mathrm{Pr}(\Delta > 0) = 0.97$) under herbivore exclusion; effects were smaller under herbivore access ($\Delta = -0.06$--$0.10$; Fig.~\ref{fig:Surv}; Fig.~\ref{sup:coef_caterpillar}). 
-A similar but weaker directional shift occurred in \textit{A. hyemalis} under both treatments, and effects were near zero across the gradient in \textit{P. autumnalis} (Fig.~\ref{sup:allstat}).
+For survival, endophyte effects depended most strongly on precipitation in \textit{E. virginicus}. 
+Under herbivore exclusion, effects shifted from strongly negative at dry sites ($\Delta = -0.13$, $\mathrm{Pr}(\Delta > 0) = 0.02$) to positive at wet sites ($\Delta = 0.12$, $\mathrm{Pr}(\Delta > 0) = 0.97$). 
+Under herbivore access the same directional shift occurred but with weaker support ($\Delta = -0.06$ to $0.10$, $\mathrm{Pr}(\Delta > 0) = 0.10$--$0.89$; Fig.~\ref{fig:Surv}). 
+A similar but weaker directional shift occurred in \textit{A. hyemalis} under both treatments, and effects were near zero across the gradient in \textit{P. autumnalis} regardless of herbivory treatment (Fig.~\ref{fig:allstat}).
 
-Endophyte effects on growth became more apparent under wetter conditions in \textit{A. hyemalis} and \textit{E. virginicus}, particularly under herbivore access (\textit{A. hyemalis}: $\Delta = 0.49$, $\mathrm{Pr}(\Delta > 0) = 0.99$; \textit{E. virginicus}: $\Delta = 0.32$, $\mathrm{Pr}(\Delta > 0) = 0.97$; Fig.~\ref{fig:growth}). 
-Under herbivore exclusion the same trend was apparent but with weaker support, and in \textit{P. autumnalis} effects were small under herbivore access and shifted from weakly positive to negative with increasing precipitation under herbivore exclusion ($\Delta = -0.22$, $\mathrm{Pr}(\Delta > 0) = 0.13$; Fig.~\ref{sup:allstat}).
+For growth, endophyte benefits increased with precipitation in \textit{A. hyemalis} and \textit{E. virginicus} under herbivore access, with strong support at the wettest sites (\textit{A. hyemalis}: $\Delta = 0.49$, $\mathrm{Pr}(\Delta > 0) = 0.99$; \textit{E. virginicus}: $\Delta = 0.32$, $\mathrm{Pr}(\Delta > 0) = 0.97$; Fig.~\ref{fig:growth}). 
+Under herbivore exclusion, \textit{A. hyemalis} showed a similar positive trend but with weaker support ($\Delta = 0.29$, $\mathrm{Pr}(\Delta > 0) = 0.90$), while \textit{E. virginicus} showed little variation across the gradient ($\Delta = 0.09$--$0.10$, $\mathrm{Pr}(\Delta > 0) = 0.60$--$0.75$). 
+In \textit{P. autumnalis}, effects were small and uncertain under herbivore access, but shifted from weakly positive to negative with increasing precipitation under herbivore exclusion ($\Delta = -0.22$, $\mathrm{Pr}(\Delta > 0) = 0.13$; Fig.~\ref{fig:allstat}).
 
-Endophyte effects on inflorescence production were strongly positive and increased with precipitation in \textit{P. autumnalis} under both herbivore access ($\Delta = 0.02$--$2.91$, $\mathrm{Pr}(\Delta > 0) = 0.68$--$0.99$) and exclusion ($\Delta = 0.19$--$4.97$, $\mathrm{Pr}(\Delta > 0) = 0.97$--$0.99$), whereas effects were small and uncertain across the gradient in \textit{A. hyemalis} and \textit{E. virginicus} (Fig.~\ref{sup:inflo}; Fig.~\ref{sup:allstat}).
+For inflorescence production, endophyte effects were strongly positive in \textit{P. autumnalis} and increased with precipitation under both treatments. 
+Under herbivore access, effects ranged from weak at dry sites ($\Delta = 0.02$, $\mathrm{Pr}(\Delta > 0) = 0.68$) to strongly positive at wet sites ($\Delta = 2.91$, $\mathrm{Pr}(\Delta > 0) = 0.99$). 
+Under herbivore exclusion, benefits were consistently strong across the gradient ($\Delta = 0.19$--$4.97$, $\mathrm{Pr}(\Delta > 0) = 0.97$--$0.99$). 
+Effects were small and uncertain across the gradient in \textit{A. hyemalis} and \textit{E. virginicus} under both treatments (Fig.~\ref{sup:inflo}; Fig.~\ref{sup:allstat}).
 
-Endophyte effects on spikelet production were generally weak, but under herbivore exclusion shifted from negative at low precipitation to positive at high precipitation in both \textit{A. hyemalis} ($\Delta = 3.20$, $\mathrm{Pr}(\Delta > 0) = 0.94$) and \textit{E. virginicus} ($\Delta = 2.73$--$3.46$, $\mathrm{Pr}(\Delta > 0) = 0.81$--$0.98$); under herbivore access effects remained weak throughout (Fig.~\ref{sup:spikelet}; Fig.~\ref{sup:coef_caterpillar}).
-
+For spikelet production, endophyte effects were generally weak under herbivore access in both \textit{A. hyemalis} ($\Delta = -2.33$ to $0.74$, $\mathrm{Pr}(\Delta > 0) = 0.23$--$0.62$) and \textit{E. virginicus} ($\Delta = -0.76$ to $0.84$, $\mathrm{Pr}(\Delta > 0) = 0.35$--$0.67$). 
+Under herbivore exclusion, however, effects shifted from negative at dry sites to positive at wet sites in \textit{A. hyemalis} ($\Delta = 3.20$, $\mathrm{Pr}(\Delta > 0) = 0.94$) and were consistently positive across the gradient in \textit{E. virginicus} ($\Delta = 2.73$--$3.46$, $\mathrm{Pr}(\Delta > 0) = 0.81$--$0.98$; Fig.~\ref{sup:spikelet}).
 \subsection*{Abiotic and biotic drivers of host fitness across a climatic gradient}
-Endophyte effects on host vital rates were largely independent of herbivory, and were best described by models in which climate, herbivory, and symbiont presence each contributed separately to host performance (Table~\ref{tab:model_comparison}). 
-This additive pattern held for three of four vital rates; survival was the exception, where endophyte benefits were strongest under high precipitation.
-Although herbivory modestly modified endophyte effects on growth in some species, this pattern was not consistent enough across host species to emerge clearly in cross-species model comparisons, suggesting that symbiont--herbivore interactions may be host-specific rather than general.
-
-For survival and growth, endophyte benefits tended to increase with precipitation, while effects on inflorescence and spikelet production were weaker and more variable across species and treatments. 
-
-\subsection*{Greenhouse experiment: soil legacy effects do not mediate endophyte responses}
-Fitness components increased strongly with the precipitation history of the soil origin: plants grown in soils from wetter sites produced greater aboveground
-biomass and more inflorescences than those from drier-origin soils under uniform greenhouse conditions (Figs.~\ref{fig:biomass_inflo}a--d). Yet despite this strong soil-origin effect, endophyte symbiosis did not interact with soil precipitation history for any fitness component (Fig.~\ref{fig:biomass_inflo}e).
+Climate was a more consistent modifier of endophyte effects than herbivory across vital rates, with herbivory playing a secondary role limited to reproduction (Table~\ref{tab:comp_table_driver}). 
+For survival and spikelet production, precipitation was the primary factor determining whether symbionts were beneficial or costly, consistent with the precipitation-dependent shifts in symbiont effect described above. 
+For inflorescence production, both precipitation and herbivory jointly modified symbiont effects, suggesting that reproduction was uniquely sensitive to both dimensions of environmental stress.
+ In contrast, endophyte effects on growth were consistent across the precipitation gradient and unaffected by herbivore pressure, notable given that growth showed some of the strongest species-level endophyte effects in the first analysis, suggesting these benefits were expressed regardless of environmental context. 
+ 
+ \subsection*{Greenhouse experiment: soil legacy effects do not mediate endophyte responses}
+Fitness components responded strongly to soil-origin precipitation even under uniform greenhouse conditions: plants grown in soils from wetter sites produced greater aboveground biomass and more inflorescences than those from drier-origin soils (Figs.~\ref{fig:biomass_inflo}a--d), confirming that soil properties co-vary with the field aridity gradient. 
+However, the symbiont $\times$ soil-origin precipitation interaction was negligible for both aboveground biomass (median~$= 0.01$, 95\% CI: $-0.39$--$0.43$, $P(>0) = 0.52$) and inflorescence count (median~$= 0.19$, 95\% CI: $-0.39$--$0.72$, $P(>0) = 0.76$; Fig.~\ref{fig:biomass_inflo}e). 
+The absence of this interaction when plants are decoupled from their soil's natal climate suggests that the symbiont $\times$ precipitation pattern observed in the field reflects a climate-mediated effect rather than an artefact of co-varying edaphic conditions.
 
 \section*{Discussion}
+Drawing on three years of field experiments and Bayesian demographic models, we evaluated how biotic and abiotic stressors jointly influence the demographic effects of vertically 
+transmitted \textit{Epichloë} endophytes on three cool-season perennial grasses across a natural climatic gradient. 
+We predicted that endophytes would enhance host fitness under aridity or herbivore pressure (Fig.~\ref{fig:prediction}), consistent with stress amelioration and defense scenarios, but found little evidence for either. 
+Instead, endophyte-mediated benefits were strongest under benign, mesic conditions and weakened as abiotic stress intensified toward the arid range edges of these host species. 
+Climate drove survival and spikelet production, herbivory influenced inflorescence count, and growth remained largely invariant, suggesting that endophyte effects on vegetative performance are relatively insensitive to environmental variation, whereas reproductive effects are environmentally contingent. 
+These results contradict predictions of the Stress Gradient Hypothesis and instead support a more general principle: the demographic benefits of symbionts are constrained by host condition, declining as abiotic stress reduces the resources available to maintain the association.
 
-Drawing on three years of field experiments and Bayesian demographic models, we evaluated how biotic and abiotic stressors jointly influence the demographic effects of vertically transmitted \textit{Epichloë} endophytes on three cool-season perennial grasses across a natural climatic gradient in the southern United States and in response to herbivore access or exclusion.  
-We predicted that endophytes would enhance host fitness in arid environments or under herbivore access, representing an endophyte-driven stress amelioration and defense scenarios (Fig.~\ref{fig:prediction}A), but that the combined effects of aridity and herbivory would reduce or reverse endophyte benefits due to compounded metabolic costs (Fig.~\ref{fig:prediction}B).  
-Contrary to these expectations, we found little evidence that endophytes protected hosts against declining precipitation, even when herbivores were excluded.  
-Instead, endophyte-mediated benefits were often strongest under benign, mesic conditions and weakened as abiotic stress intensified toward the arid range edges of these host species.  
-\tom{Model comparisons confirmed that the effects of endophytes on host fitness were primarily shaped by climate,}{For two our of four vital rates, the symbiont*herbivory model was best, so this statement that endo effects are primarily shaped by climate does not feel well supported.} with endophytes enhancing survival and growth most strongly under favorable or moderate climatic conditions. 
-The herbivore access/exclusion treatment had a weaker and more variable influence on the symbiosis, mainly affecting reproductive traits, suggesting that herbivore pressure can modulate the reproductive benefits provided by symbionts.
-These patterns do not support Stress Gradient Hypothesis predictions; instead, increasing abiotic stress appears to constrain both host performance and the capacity of endophytes to confer demographic benefits.
-%Endophyte presence often enhances host performance when abiotic resources, such as water, are sufficient to support both host and fungus, a pattern widely documented across grass-\textit{Epichloë} systems \citep{clay1990fungal}.  
-%Endophytes can increase host growth, reproduction, and survival \citep{rodriguez2009fungal}, with benefits typically strongest under low abiotic stress, such as wetter conditions \citep{gibert2012fungal,clay1988fungal}, because hosts must invest carbon to maintain the symbiosis.  
-%Endophytes may also help hosts cope with environmental stress by promoting compounds that reduce oxidative damage during drought, pathogen attack, or other stressors \citep{white2010plant}.  
-%%Herbivore exclusion only occasionally affected endophyte-mediated host performance, sometimes enhancing benefits, but effects were weak and inconsistent, indicating herbivory was not the main driver of demography.  
-%Although endophytes often confer benefits under favorable conditions, these advantages can decline as abiotic stress increases. 
-%Under low-precipitation conditions, reduced water availability may limit nutrient uptake and increase the metabolic burden of maintaining the endophyte, potentially tipping the cost-benefit balance against symbiotic plants \citep{ahlholm2002vertically, bronstein2001exploitation, faeth2002endophytic}. 
-%One possible mechanism is that severe drought can activate plant defense pathways, including elevated phytohormone production and reactive oxygen species, which may inhibit endophyte growth or reduce its functional contributions to the host \citep{bastias2023plant, eaton2011triggers}.
-%Importantly, in our study system, mutualism weakening occurred even in the absence of herbivores, indicating that abiotic stress alone can disrupt the host-endophyte relationship. 
-%\tom{This contrasts with studies emphasizing herbivore-mediated context dependence \citep{bastias2017epichloe, afkhami2009endophyte} and suggests that environmental limitations can independently generate similar outcomes.}{This is a well-written paragraph, but it makes it sound like we already knew that endophytes were more beneficial in benign environments, in which case the predictions we make in the Intro are completely wrong! I think we need to fine-tune this so that we can first present the results as surprising (see for example the Decunta et al. review showing endophyte drought benefits), but then pointing to literature that could help explain the surprise.} 
+Endophyte presence is often assumed to enhance host performance under unfavorable environmental conditions, with meta-analyses reporting increased growth, reproduction, and survival across grass-\textit{Epichloë} systems \citep{decunta2021systematic}. 
+The mechanisms underlying the decline in endophyte benefits with aridity observed here remain uncertain, but several non-exclusive processes may contribute. 
+Reduced water availability could limit the host's capacity to benefit from the symbiosis, whether through constrained nutrient uptake, reduced carbon gain, or drought-induced shifts in host physiology that limit endophyte function \citep{ahlholm2002vertically, bronstein2001exploitation, faeth2002endophytic}. 
+This is broadly consistent with the microbial mitigation-exacerbation continuum framework \citep{david2018microbial}, which predicts 
+that host-associated microbes shift from beneficial to costly as environmental stress exceeds the host's capacity to sustain the symbiosis, and with patterns documented in other grass-\textit{Epichloë} systems along precipitation gradients 
+\citep{kannadan2008endophyte}. 
+Notably, because vertically transmitted endophytes cannot be shed or downregulated when conditions deteriorate, any decline in symbiotic benefit under stress cannot be avoided by the host, in contrast to more flexible mutualistic 
+partnerships \citep{afkhami2009endophyte}. 
+Species differences in this response likely reflect variation in host-symbiont compatibility and life history: \textit{P. autumnalis} showed consistently strong endophyte benefits for inflorescence production regardless 
+of climate, suggesting some host-symbiont combinations are more buffered against abiotic stress, while \textit{E. virginicus} showed the strongest climate-dependent survival effects, possibly reflecting greater physiological sensitivity to water limitation at the arid range edge.
 
-Endophyte presence is often assumed to enhance host performance under unfavorable environmental conditions, with studies reporting increased growth, reproduction, or survival in grass-\textit{Epichloë} systems \citep{clay1990fungal, rodriguez2009fungal, gibert2012fungal, clay1988fungal, decunta2021systematic}. 
-Surprisingly, in our study, endophyte benefits were reduced under low precipitation, despite evidence that these symbioses can mitigate aridity stress. 
-This unexpected pattern suggests that environmental stress can shift the costs and benefits of the symbiosis, potentially limiting the advantages endophytes provide under harsher conditions. 
-Reduced water availability may constrain nutrient uptake and increase the metabolic costs of maintaining the symbiosis, tipping the cost-benefit balance against the host \citep{ahlholm2002vertically, bronstein2001exploitation, faeth2002endophytic}. 
-One specific mechanism that could contribute to this decline is the activation of plant defense pathways under severe drought, including elevated phytohormone production and reactive oxygen species, which may inhibit endophyte growth or reduce its functional contributions to the host \citep{bastias2023plant, eaton2011triggers}. 
-Importantly, these effects occurred even in the absence of herbivores, indicating that abiotic stress alone can weaken the host-endophyte relationship. 
-\tom{This contrasts with previous work emphasizing herbivore-mediated context dependence \citep{bastias2017epichloe, afkhami2009endophyte}, highlighting that drought itself can reduce endophyte benefits.}{This sentence is well-written, but I do not really understand the point you are making -- most of the paragraph was about precipitation, but here you are bringing in herbivory.//
-I also think that this paragraph should acknowledge and cite other papers that have shown endophyte benefits decline under drier conditions. Some of Jenn Rudgers' work has shown this -- see Kannadan and Rudgers. Michelle Afkhami's stress exacerbation paper is also relevant to cite.}
+Although model comparisons identified herbivory as a secondary modulator of endophyte effects relative to climate, the direction of herbivore treatment effects was not 
+consistent across vital rates or species: herbivore exclusion strengthened endophyte benefits for spikelet production in \textit{A. hyemalis} and \textit{E. virginicus}, 
+but weakened or reversed growth benefits in \textit{E. virginicus} and \textit{P. autumnalis}, suggesting that the reproductive and vegetative consequences of hosting a symbiont 
+respond differently to herbivore pressure. 
+The herbivore exclusion treatment confirmed that fencing effectively reduced herbivory across all three host species 
+(Fig.~\ref{sup:herbivory}), validating that these contrasts reflect genuine biological responses rather than treatment failure. 
+Endophytes reduced herbivory damage in \textit{A. hyemalis} and \textit{P. autumnalis}, consistent with alkaloid-mediated defense, but increased damage in \textit{E. virginicus} (Fig.~\ref{sup:herbivory}), possibly because endophyte-symbiotic plants were more vigorous and therefore more 
+attractive to herbivores. 
+This species-specific reversal suggests that endophyte effects on herbivory depend on host condition rather than being a fixed symbiont trait, and that the demographic consequences of endophyte-mediated defense are filtered through the specific environmental currency limiting each fitness component.
 
-%Drought simultaneously restricts water and nutrient availability while increasing metabolic demands.
-%Thus, the host’s carbon budget may be a key factor shaping the net costs and benefits of symbiosis. 
-%Water-stressed plants close stomata to conserve water, reducing photosynthetic carbon gain while still expending C to maintain cellular homeostasis \citep{dietze2014nonstructural}. 
-%Under these conditions, sustaining an endophyte may represent a relatively high carbon cost.
-%Similar to other nutritional mutualisms, such as nitrogen-fixing rhizobia, water stress could reduce C allocation to the symbiont, although microbial partners may partially offset these costs by enhancing photosynthesis or water-use efficiency \citep{toby2010mutualisms, pringle2016integrating}.
-%While carbon is a primary integrative currency, other factors including nutrient limitation and shifts in plant hormones also likely influence symbiosis outcomes. 
-%Future studies could quantify these costs by measuring nonstructural carbohydrates (NSCs) across tissues and over time along precipitation gradients, providing a clearer picture of how carbon limitation, in combination with other stressors, shapes the net outcome of endophyte-host interactions. 
-%Such approaches would improve understanding of the energetic balance of these interactions under varying abiotic conditions and help predict how environmental change may shift mutualism outcomes, with implications for both ecological theory and the management of plant-microbe systems.
+The greenhouse experiment revealed that the endophyte-climate interaction observed in the field is driven by the direct physiological effects of precipitation on the host, 
+rather than by soil properties that co-vary with aridity. When plants were grown in soils from contrasting sites but under a common watering regime, the symbiont $\times$ soil-origin precipitation interaction disappeared for both aboveground biomass and inflorescence count, ruling out soil microbial composition, nutrient availability, and water retention as primary drivers \citep{van2013plant}. 
+This decoupling points to a dynamic, real-time mechanism: endophyte costs and benefits are modulated by how much water the host is currently receiving, not by the historical conditions that shaped its soil environment. 
+Notably, plants from the driest sites performed poorly even under favorable watering, suggesting that edaphic and climatic stressors compound at range 
+margins, but that the endophyte component of this stress response is physiologically mediated rather than legacy-driven.
 
-Drought simultaneously restricts water and nutrient availability while increasing metabolic demands, which is particularly relevant for cool-season grasses hosting \textit{Epichloë} endophytes. 
-In these systems, the host’s carbon budget may be a key factor shaping the net costs and benefits of symbiosis. 
-Water-stressed grasses close stomata to conserve water, reducing photosynthetic carbon gain while still expending C to maintain cellular homeostasis \citep{dietze2014nonstructural}. 
-Under such conditions, sustaining an \textit{Epichloë} endophyte may represent a relatively high carbon cost, potentially outweighing any growth or reproductive benefits. 
-Similar to other nutritional mutualisms, such as nitrogen-fixing rhizobia, water stress could reduce C allocation to the endophyte, although the symbiont may partially offset these costs by enhancing host photosynthesis, water-use efficiency, or drought tolerance \citep{toby2010mutualisms, pringle2016integrating}. 
-While carbon is a primary integrative currency, other factors including nutrient limitation and drought-induced hormonal shifts likely influence the outcome of grass–endophyte interactions. 
-Future studies could quantify these costs by measuring nonstructural carbohydrates in different tissues and across precipitation gradients, providing a clearer picture of how carbon limitation, in combination with abiotic stress, shapes the net outcome of \textit{Epichloë}-host interactions. 
-Such approaches would improve understanding of the energetic balance in these interactions under changing climates and help predict when endophytes provide net benefits to cool-season grasses.
-%Across the precipitation gradient, endophyte presence had little effect on overall inflorescence production, whereas spikelet production at the driest sites tended to be lower in endophyte-symbiotic plants. 
-%Although these effects were modest and uncertain, they suggest that drought-driven resource limitation may disproportionately constrain specific reproductive components. 
-%In low-resource environments, plants often delay reproduction, grow to a larger size before allocating energy to flowers and seeds, and may ultimately produce fewer reproductive structures \citep{wilson1989comparative}. 
-%Consistent with this, spikelet production was more sensitive to resource limitation than inflorescence initiation, whereas overall vegetative growth remained unaffected by endophyte presence.
-%This indicates that late-stage reproductive investment is constrained under high abiotic stress, even when vegetative growth is maintained. 
-%Such trait-specific sensitivity highlights the importance of examining multiple fitness components when evaluating symbiotic costs and benefits and aligns with demographic compensation, whereby reductions in one component may be partially offset by stability in others \citep{cheplick2009ecology}.
-%\tom{}{I found this paragraph challenging because I am not sure how much you are talking about direct effects of the precipitation gradient on plant investment, versus effects of the precipitation gradient on changes in the symbiosis. Different sentences mention these at different points.}
-
-Climatic variation emerged as a key driver of endophyte‐mediated effects across host species and fitness components, particularly for survival and growth, whereas herbivory had stronger effects on reproductive traits. 
-Water limitation strongly influenced host demography, with drier sites constraining survival, growth, and fertility. 
-Contrary to predictions of the Stress Gradient Hypothesis, which posits that biotic interactions should become more positive under stressful conditions \citep{louthan2015and,lortie2006re}, endophyte-mediated benefits were reduced under high abiotic stress. 
-This pattern aligns with previous work showing that microbial effects can exacerbate host limitations rather than mitigate them when hosts are strongly constrained by environmental stress \citep{david2018microbial}. 
-\jacob{Although these studies focused on Florida scrub herbaceous communities under allelopathic and xeric stress, the general principle that host-associated microbes depend on host condition to provide benefits is broadly applicable and consistent with our observations in cool-season grasses.}{I don't know if we need this precision here}
-Persistent stress can destabilize microbial communities, limiting their capacity to enhance host fitness \citep{hernandez2021environmental}. 
-Unlike neighboring plants, which can modify the local environment through shading, moisture retention, or nutrient cycling, endophytes live entirely within their host and cannot directly alter external conditions. 
-Consequently, the benefits they provide depend on the host’s ability to cope with stress: when survival, growth, or reproduction is strongly limited by drought, the endophyte’s capacity to enhance fitness may be reduced.\tom{}{I see you have the stress exacerabation paper here. I don't think this paragraph holds any new ideas. I suggest incorporating some of this into the paragraph above. Otherwise it feels like it is restating the same patterns without any new interpretation. }
-
-The greenhouse experiment indicates that soil legacy along the precipitation gradient does not strongly modulate endophyte-mediated host performance. 
-Aboveground biomass and inflorescence production were largely similar between S+ and S- plants across soils. 
-Interestingly, poor host demographic performance at the driest sites in our field experiment was matched by poor performance in soils from those sites even under a favorable greenhouse watering regime. 
-This suggests that climatic and edaphic conditions may act together in depressing performance at these species' westernmost range limits. 
-However, soils alone could not recapitulate effects of endophyte symbiosis observed in the field, supporting a causal role for variation in precipitation across experimental sites. 
-%These results rule out precipitation-driven soil properties, including microbial composition, nutrient availability, and water retention as primary drivers of the field patterns \citep{van2013plant}. 
-Although soil microbial legacies can persist for months and influence plant growth \citep{hannula2021persistence}, our data suggest they do not generate systematic differences in endophyte costs or benefits across the gradient. 
-\tom{The exception higher spikelet production in S+ plants at an intermediate-moisture site may reflect local edaphic conditions that favor endophyte-mediated reproductive benefits, but the high uncertainty warrants caution. }{This is not shown. Maybe cut.}
-Overall, precipitation appears to affect endophyte outcomes primarily via direct effects on host physiology rather than through soil legacy.
-
-Our study illustrates how variation in abiotic and biotic environmental conditions, and their interactions, can directly influence the outcomes of host-microbe symbiosis. 
-By connecting the demographic consequences of symbioses to environmental gradients related to climate and herbivory, this work contributes to a growing understanding of how mutualisms respond to environmental variation and change. 
-These findings are consistent with broader evidence that the benefits of microbial and other mutualistic interactions are context-dependent, varying across spatial and temporal scales. 
-Surprisingly, however, more stressful contexts did not consistently elicit stronger benefits of hosting symbionts; in fact, we often observed the opposite, with endophyte benefits declining with increasing aridity. 
-%For example, mutualisms can buffer hosts against stressors like drought or nutrient limitation, but their effectiveness often depends on local environmental conditions \citep{li2026climate}. 
-Historical and comparative analyses across species suggest that long-term environmental change has already re-shaped the distribution and prevalence of symbionts, underscoring the dynamic nature of these relationships \citep{fowler2025increasing}.
-Moving forward, quantifying how symbioses influence population growth under different environmental change scenarios  will be critical to predicting whether mutualisms are likely to be disrupted or strengthened across host ranges, and to understanding the implications for species distributions.
-
-\tom{}{The discussion is a little light, so here are a few things that might be worth adding.//
-I think it would be worth adding a discussion paragraph further addressing the effects of herbiviore treatment, which are not really discussed here, and acknowledging the difference between the abiotic and biotic treatments in this experiment. The fencing treatment relied on ambient herbivory patterns -- the treatment is only meaningful with respect to baseline herbivory at the site.\\
-Also, there is a lot of literature on anti-herbivore properties of fungal alkaloids...does this study support the hypothesis that endophytes provide protection from herbivores? What is the evidence for or against?\\
-I would also further discuss the way we handle precipitation and acknowledge that annual precipitation is a fairly coarse way to summarize climate and it may be worth considering seasonal variation.}
-
+Our findings suggest that transmission mode is a key but underappreciated axis shaping mutualism outcomes along environmental gradients: because vertically transmitted 
+endophytes cannot be shed, hosts bear symbiont costs regardless of conditions, and net benefits emerge only when resources are sufficient to offset them. This reframes SGH not 
+as inapplicable to symbioses, but as requiring modification to account for partner flexibility.
+Historical and comparative analyses suggest that long-term environmental change has already reshaped the distribution and prevalence of symbionts across host ranges \citep{fowler2025increasing}, and our results offer a demographic mechanism for why: as aridity intensifies, vertically transmitted symbionts may shift from mutualistic to costly precisely where hosts are most vulnerable. 
+Integrating transmission mode and host physiological condition into predictions about symbiosis outcomes under climate change represents a tractable next step for understanding whether grass-endophyte associations will buffer or amplify the demographic consequences of range contraction in cool-season grasses.
 %\section*{Acknowledgements}
 %This research was supported by National Science Foundation Division of Environmental Biology awards.
 
@@ -632,33 +594,45 @@ Predicted effects of herbivore exclusion on survival, growth, and inflorescence 
 
 \begin{table}[h]
 \centering
-\caption{Comparison of models assessing the drivers of grass--symbiont symbiosis across four fitness components (vital rates). 
-$\Delta$ELPD represents the difference in expected log predictive density relative to the best-fitting model, and SE denotes the standard error of this difference.}
+\caption{Comparison of models assessing the drivers of grass--symbiont interactions across four fitness components (vital rates). 
+$\Delta$ELPD represents the difference in expected log predictive density relative to the best-fitting model within each vital rate, and SE denotes the standard error of this difference.}
 \label{tab:comp_table_driver}
 \begin{tabular}{llrr}
 \toprule
 \textbf{Vital rate} & \textbf{Model type} & \textbf{$\Delta$ELPD} & \textbf{SE} \\
 \midrule
-Survival      
- & Symbiont $\times$ Climate                    & 0.00  & 0.00 \\
- & Symbiont $\times$ Herbivory                  & -2.10 & 2.40 \\
- & Symbiont $\times$ Climate $\times$ Herbivory & -2.10 & 1.80 \\
-Growth        
- & Symbiont $\times$ Climate                    & 0.00  & 0.00 \\
- & Symbiont $\times$ Climate $\times$ Herbivory & -0.10 & 2.90 \\
- & Symbiont $\times$ Herbivory                  & -0.60 & 2.70 \\
+
+Survival 
+& Endophyte $\times$ Climate & 0.00 & 0.00 \\
+& Endophyte $\times$ Climate + Endophyte $\times$ Herbivory & -0.65 & 1.00 \\
+& Endophyte $\times$ Climate $\times$ Herbivory & -1.22 & 1.42 \\
+& Endophyte & -2.43 & 2.79 \\
+& Endophyte $\times$ Herbivory & -3.69 & 2.97 \\
+
+Growth 
+& Endophyte & 0.00 & 0.00 \\
+& Endophyte $\times$ Climate & -0.73 & 1.84 \\
+& Endophyte $\times$ Herbivory & -1.25 & 2.01 \\
+& Endophyte $\times$ Climate $\times$ Herbivory & -1.90 & 3.40 \\
+& Endophyte $\times$ Climate + Endophyte $\times$ Herbivory & -2.03 & 2.76 \\
+
 Inflorescence 
- & Symbiont $\times$ Herbivory                  & 0.00  & 0.00 \\
- & Symbiont $\times$ Climate $\times$ Herbivory & -1.30 & 2.30 \\
- & Symbiont $\times$ Climate                    & -1.40 & 2.80 \\
-Spikelet      
- & Symbiont $\times$ Herbivory                  & 0.00  & 0.00 \\
- & Symbiont $\times$ Climate                    & -0.10 & 2.40 \\
- & Symbiont $\times$ Climate $\times$ Herbivory & -4.20 & 1.70 \\
+& Endophyte $\times$ Climate + Endophyte $\times$ Herbivory & 0.00 & 0.00 \\
+& Endophyte $\times$ Herbivory & -0.18 & 1.63 \\
+& Endophyte $\times$ Climate & -1.86 & 2.12 \\
+& Endophyte & -1.89 & 2.41 \\
+& Endophyte $\times$ Climate $\times$ Herbivory & -3.25 & 1.20 \\
+
+Spikelet 
+& Endophyte $\times$ Climate & 0.00 & 0.00 \\
+& Endophyte & -0.17 & 2.71 \\
+& Endophyte $\times$ Climate + Endophyte $\times$ Herbivory & -0.17 & 2.71 \\
+& Endophyte $\times$ Herbivory & -0.68 & 3.08 \\
+& Endophyte $\times$ Climate $\times$ Herbivory & -2.84 & 2.51 \\
+
 \bottomrule
 \end{tabular}
 \end{table}
-
 \clearpage
 \appendix
 
@@ -798,18 +772,14 @@ at each point along the observed precipitation range, marginalising over plantin
 These contrasts are summarised as posterior medians with 95\% credible intervals and displayed alongside the predicted responses for each symbiont 
 status (Fig.~\ref{sup:fig_greenhouse_combined}). 
 Posterior predictive checks indicated adequate fit for all models (Fig.~\ref{sup:ppc_models_soil}), and full posterior summaries are provided in Table~\ref{sup:tab_greenhouse_posterior}.
-
-
-
 \clearpage
 
 \subsection*{Supporting Tables}
-\begin{sidewaystable}[ht]
+\begin{sidewaystable}[htbp]
     \centering
     \small
     \input{source_table.tex}
-    \caption{Geographic coordinates and descriptions of source populations for study species.
-    For each source population, the table shows the total number of plants included in the experiment, the number of unique genotypes, and the average clonal replication per genotype.}
+    \caption{Geographic coordinates and descriptions of source populations for study species. For each source population, the table shows the total number of plants included in the experiment, the number of unique genotypes, and the average clonal replication per genotype.}
     \label{tab:source_pop}
 \end{sidewaystable}
 \clearpage
@@ -968,6 +938,20 @@ Spikelet      & Quadratic & -0.332 & 0.579 \\
 \end{figure}
 \clearpage
 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{../Figure/herb_endo_effect.pdf}
+    \caption{Posterior estimates (median and 90\% credible intervals) of fence and endophyte effects on the proportion of damaged tillers for three host grass species, 
+from a binomial model with site, year, and plot as random effects. 
+Negative values indicate reduced herbivory damage; positive values indicate increased damage. 
+Points and intervals are colored by species: \textit{Agrostis hyemalis} (green), \textit{Elymus virginicus} (orange), and \textit{Poa autumnalis} (purple). 
+Dashed vertical lines indicate no effect.}
+\label{sup:herbivory}
+
+\end{figure}
+\clearpage
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=1\textwidth]{../Figure/combined_ppc_plots_linear.pdf}
@@ -1005,7 +989,7 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{../Figure/Inflorescence_diff_v.pdf}
-    \caption{Predicted spikelet production (upper panels) and symbiont effect ($\Delta = S^{+} - S^{-}$; lower panels) across the precipitation
+    \caption{Predicted inflorescence  production (upper panels) and symbiont effect ($\Delta = S^{+} - S^{-}$; lower panels) across the precipitation
     gradient.
     Lines show posterior means with 90\% credible intervals.
     Points represent mean observed spikelets per plot, slightly jittered for visualization.
@@ -1043,17 +1027,17 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \end{figure}
 \clearpage
 
-\captionsetup[figure]{list=no}
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
-    \caption{Median $\Delta$ (S+ $-$ S-) and $P(\Delta > 0)$ for survival, growth, and inflorescence production across the precipitation
-    gradient.
-    Horizontal dashed lines denote $\Delta = 0$ and $P(\Delta > 0) = 0.5$.
-    Panels are arranged by species and vital rate.}
-    \label{sup:allstat}
-\end{figure}
-\clearpage
+%\captionsetup[figure]{list=no}
+%\begin{figure}[t]
+%    \centering
+%    \includegraphics[width=1\textwidth]{../Figure/All_traits_diff_stat_lower.pdf}
+%    \caption{Median $\Delta$ (S+ $-$ S-) and $P(\Delta > 0)$ for survival, growth, and inflorescence production across the precipitation
+%    gradient.
+%    Horizontal dashed lines denote $\Delta = 0$ and $P(\Delta > 0) = 0.5$.
+%    Panels are arranged by species and vital rate.}
+%    \label{sup:allstat}
+%\end{figure}
+%\clearpage
 
 
 

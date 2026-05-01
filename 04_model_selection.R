@@ -179,17 +179,40 @@ comp_spik_driver
 
 
 comp_table_driver <- bind_rows(
-  # Survival: model1, model5, model3, model4, model2
-  extract_loo_table(comp_surv_driver, c("Endophyte x climate", "Endophyte no3way", "Endophyte x climate x herb", "Endophyte + climate + herb", "Endophyte x herb"), "Survival"),
+  # Survival ranking: model1, model5, model3, model4, model2
+  extract_loo_table(comp_surv_driver, 
+                    c("Endophyte x climate",               # model1
+                      "Endophyte x climate + Endophyte x herb", # model5
+                      "Endophyte x climate x herb",        # model3
+                      "Endophyte",                         # model4
+                      "Endophyte x herb"),                 # model2
+                    "Survival"),
   
-  # Growth: model4, model1, model2, model3, model5
-  extract_loo_table(comp_grow_driver, c("Endophyte + climate + herb", "Endophyte x climate", "Endophyte x herb", "Endophyte x climate x herb", "Endophyte no3way"), "Growth"),
+  # Growth ranking: model4, model1, model2, model3, model5
+  extract_loo_table(comp_grow_driver, 
+                    c("Endophyte",                         # model4
+                      "Endophyte x climate",               # model1
+                      "Endophyte x herb",                  # model2
+                      "Endophyte x climate x herb",        # model3
+                      "Endophyte x climate + Endophyte x herb"), # model5
+                    "Growth"),
   
-  # Inflorescence: model4, model5, model2, model1, model3
-  extract_loo_table(comp_inf_driver, c("Endophyte + climate + herb", "Endophyte no3way", "Endophyte x herb", "Endophyte x climate", "Endophyte x climate x herb"), "Inflorescence"),
+  # Inflorescence ranking: model5, model2, model1, model4, model3
+  extract_loo_table(comp_inf_driver, 
+                    c("Endophyte x climate + Endophyte x herb", # model5
+                      "Endophyte x herb",                  # model2
+                      "Endophyte x climate",               # model1
+                      "Endophyte",                         # model4
+                      "Endophyte x climate x herb"),       # model3
+                    "Inflorescence"),
   
-  # Spikelet: model4, model5, model1, model2, model3
-  extract_loo_table(comp_spik_driver, c("Endophyte + climate + herb", "Endophyte no3way", "Endophyte x climate", "Endophyte x herb", "Endophyte x climate x herb"), "Spikelet")
+  # Spikelet ranking: model1, model4, model5, model2, model3
+  extract_loo_table(comp_spik_driver, 
+                    c("Endophyte x climate",               # model1
+                      "Endophyte",                         # model4
+                      "Endophyte x climate + Endophyte x herb", # model5
+                      "Endophyte x herb",                  # model2
+                      "Endophyte x climate x herb"),       # model3
+                    "Spikelet")
 )
-
 write.csv(comp_table_driver, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/comp_table_driver.csv", row.names = FALSE)

@@ -5,7 +5,8 @@ library(tidyverse)
 library(magrittr)
 library(readxl)
 library(xtable)
-setwd("C:/Users/tm9/Dropbox/github/endo-range-limits")
+#setwd("C:/Users/tm9/Dropbox/github/endo-range-limits")
+setwd("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits")
 
 ##read in original plant data (we should include these as csv's in the repo)
 datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
@@ -85,7 +86,7 @@ source_tab2 %>% summarise(mean(mean_clones))
 supp_table_sources<-left_join(sources %>% filter(Population!="WB"),#no WB in the experiment
           left_join(source_tab1,source_tab2,by=c("Species","Population")),
           by=c("Species","Population")) %>% 
-  select(Species2,Population,Lat,Long,msNotes,number_plants,number_genotypes,mean_clones) %>% 
+  dplyr::select(Species2,Population,Lat,Long,msNotes,number_plants,number_genotypes,mean_clones) %>% 
   rename(
     Species = Species2,
     Population = Population,
@@ -131,13 +132,13 @@ scored_greenhouse %>%
   group_by(SPECIES,`INDIVIDUAL ID`) %>% 
   summarise(genotype_endo=mean(endo_score)) %>% 
   filter(genotype_endo>0 & genotype_endo<1) %>% 
-  select(SPECIES,`INDIVIDUAL ID`)->problem_genotypes
+  dplyr::select(SPECIES,`INDIVIDUAL ID`)->problem_genotypes
 greenhouse %>% filter(`INDIVIDUAL ID` %in% problem_genotypes$`INDIVIDUAL ID`) %>% View
 ## these are false alarms -- all clones have the same genotype, they are just split score
 
 ## reduce database to genotypes, collapse clones
 scored_greenhouse %>% 
-  select(SPECIES,POPULATION,`INDIVIDUAL ID`,ENDOPHYTE,
+  dplyr::select(SPECIES,POPULATION,`INDIVIDUAL ID`,ENDOPHYTE,
          Leaf_peel_liberal,Leaf_peel_conservative,seed_score_liberal,
          seed_score_conservative,agrinostics_score_liberal,agrinostics_score_conservative) %>% 
   group_by(SPECIES,POPULATION,`INDIVIDUAL ID`,ENDOPHYTE) %>% 
@@ -189,7 +190,7 @@ treatment_table<-endo_scores %>%
   rename(Population=POPULATION,
         `\\%E+`=prevalence_liberal,
          N=count) %>% 
-  select(Species,Population,Treatment,N,`\\%E+`)%>% 
+  dplyr::select(Species,Population,Treatment,N,`\\%E+`)%>% 
   mutate(Species = paste0("\\textit{", Species, "}"))
 
 print(xtable(treatment_table),file = "Manuscript/treatment_table.tex",include.rownames=F,

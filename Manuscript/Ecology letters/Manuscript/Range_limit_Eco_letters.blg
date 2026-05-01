@@ -3,46 +3,47 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: Range_limit_Eco_letters.aux
 The style file: apalike.bst
 Database file #1: References.bib
+Warning--I didn't find a database entry for "kannadan2008endophyte"
 Warning--I didn't find a database entry for "carpenter2017stan"
-You've used 72 entries,
+You've used 61 entries,
             1935 wiz_defined-function locations,
-            908 strings with 17673 characters,
-and the built_in function-call counts, 30860 in all, are:
-= -- 3036
-> -- 1399
-< -- 32
-+ -- 496
-- -- 480
-* -- 2835
-:= -- 5373
-add.period$ -- 215
-call.type$ -- 72
-change.case$ -- 595
-chr.to.int$ -- 70
-cite$ -- 72
-duplicate$ -- 1019
-empty$ -- 2057
-format.name$ -- 574
-if$ -- 5897
+            848 strings with 15925 characters,
+and the built_in function-call counts, 26190 in all, are:
+= -- 2568
+> -- 1214
+< -- 26
++ -- 432
+- -- 418
+* -- 2409
+:= -- 4574
+add.period$ -- 182
+call.type$ -- 61
+change.case$ -- 508
+chr.to.int$ -- 59
+cite$ -- 61
+duplicate$ -- 856
+empty$ -- 1730
+format.name$ -- 497
+if$ -- 4993
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 67
-newline$ -- 362
-num.names$ -- 216
-pop$ -- 450
+missing$ -- 56
+newline$ -- 307
+num.names$ -- 183
+pop$ -- 388
 preamble$ -- 1
-purify$ -- 599
+purify$ -- 512
 quote$ -- 0
-skip$ -- 781
+skip$ -- 655
 stack$ -- 0
-substring$ -- 2430
-swap$ -- 103
-text.length$ -- 4
+substring$ -- 2042
+swap$ -- 83
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 428
+type$ -- 362
 warning$ -- 0
-while$ -- 266
+while$ -- 222
 width$ -- 0
-write$ -- 928
-(There was 1 warning)
+write$ -- 785
+(There were 2 warnings)

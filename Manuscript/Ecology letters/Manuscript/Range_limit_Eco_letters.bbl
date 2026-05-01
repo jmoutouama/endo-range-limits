@@ -32,12 +32,6 @@ Atala, C., Acu{\~n}a-Rodr{\'\i}guez, I.~S., Torres-D{\'\i}az, C., and
   eliminate the growth/defence trade-off.
 \newblock {\em New Phytologist}, 235(2).
 
-\bibitem[Bast{\'\i}as and Gundel, 2023]{bastias2023plant}
-Bast{\'\i}as, D.~A. and Gundel, P.~E. (2023).
-\newblock Plant stress responses compromise mutualisms with epichlo{\"e}
-  endophytes.
-\newblock {\em Journal of Experimental Botany}, 74(1):19--23.
-
 \bibitem[Bastias et~al., 2017]{bastias2017epichloe}
 Bastias, D.~A., Mart{\'\i}nez-Ghersa, M.~A., Ballar{\'e}, C.~L., and Gundel,
   P.~E. (2017).
@@ -66,17 +60,6 @@ Cesar, C.~S., Santos, E.~S., and Cogni, R. (2024).
   at low cost to hosts: a meta-analysis.
 \newblock {\em bioRxiv}, pages 2024--11.
 
-\bibitem[Clay, 1988]{clay1988fungal}
-Clay, K. (1988).
-\newblock Fungal endophytes of grasses: a defensive mutualism between plants
-  and fungi.
-\newblock {\em Ecology}, 69(1):10--16.
-
-\bibitem[Clay, 1990]{clay1990fungal}
-Clay, K. (1990).
-\newblock Fungal endophytes of grasses.
-\newblock {\em Annual review of Ecology and Systematics}, pages 275--297.
-
 \bibitem[Clay et~al., 2005]{clay2005herbivores}
 Clay, K., Holah, J., and Rudgers, J.~A. (2005).
 \newblock Herbivores cause a rapid increase in hereditary symbiosis and alter
@@ -101,18 +84,6 @@ Decunta, F.~A., P{\'e}rez, L.~I., Malinowski, D.~P., Molina-Montenegro, M.~A.,
 \newblock A systematic review on the effects of epichlo{\"e} fungal endophytes
   on drought tolerance in cool-season grasses.
 \newblock {\em Frontiers in Plant Science}, 12:644731.
-
-\bibitem[Dietze et~al., 2014]{dietze2014nonstructural}
-Dietze, M.~C., Sala, A., Carbone, M.~S., Czimczik, C.~I., Mantooth, J.~A.,
-  Richardson, A.~D., and Vargas, R. (2014).
-\newblock Nonstructural carbon in woody plants.
-\newblock {\em Annual review of plant biology}, 65(1):667--687.
-
-\bibitem[Eaton et~al., 2011]{eaton2011triggers}
-Eaton, C.~J., Cox, M.~P., and Scott, B. (2011).
-\newblock What triggers grass endophytes to switch from mutualism to
-  pathogenism?
-\newblock {\em Plant Science}, 180(2):190--195.
 
 \bibitem[Emery et~al., 2010]{emery2010variation}
 Emery, S.~M., Thompson, D., and Rudgers, J.~A. (2010).
@@ -170,12 +141,6 @@ Giauque, H., Connor, E.~W., and Hawkes, C.~V. (2019).
   habitat of origin predict effects on host plants.
 \newblock {\em New Phytologist}, 221(4):2239--2249.
 
-\bibitem[Gibert et~al., 2012]{gibert2012fungal}
-Gibert, A., Volaire, F., Barre, P., and Hazard, L. (2012).
-\newblock A fungal endophyte reinforces population adaptive differentiation in
-  its host grass species.
-\newblock {\em New Phytologist}, 194(2):561--571.
-
 \bibitem[Gundel et~al., 2011]{gundel2011incorporating}
 Gundel, P.~E., Rudgers, J.~A., and Ghersa, C.~M. (2011).
 \newblock Incorporating the process of vertical transmission into understanding
@@ -203,23 +168,10 @@ Haine, E.~R. (2008).
 \newblock {\em Proceedings of the Royal Society B: Biological Sciences},
   275(1633):353--361.
 
-\bibitem[Hannula et~al., 2021]{hannula2021persistence}
-Hannula, S.~E., Heinen, R., Huberty, M., Steinauer, K., De~Long, J.~R., Jongen,
-  R., and Bezemer, T.~M. (2021).
-\newblock Persistence of plant-mediated microbial soil legacy effects in soil
-  and inside roots.
-\newblock {\em Nature communications}, 12(1):5686.
-
 \bibitem[Hart and Bell, 2015]{PRISM2024}
 Hart, E.~M. and Bell, K. (2015).
 \newblock {\em prism: Download data from the Oregon prism project}.
 \newblock R package version 0.0.6.
-
-\bibitem[Hernandez et~al., 2021]{hernandez2021environmental}
-Hernandez, D.~J., David, A.~S., Menges, E.~S., Searcy, C.~A., and Afkhami,
-  M.~E. (2021).
-\newblock Environmental stress destabilizes microbial networks.
-\newblock {\em The ISME journal}, 15(6):1722--1734.
 
 \bibitem[Hoang et~al., 2024]{hoang2024impacts}
 Hoang, K.~L., Salguero-G{\'o}mez, R., Pike, V.~L., and King, K.~C. (2024).
@@ -281,12 +233,6 @@ Liu, M. (2023).
 \newblock Fungi canadenses no. 351: Epichloe elymi.
 \newblock {\em Canadian Journal of Plant Pathology}, 45(3):300--303.
 
-\bibitem[Lortie and Callaway, 2006]{lortie2006re}
-Lortie, C.~J. and Callaway, R.~M. (2006).
-\newblock Re-analysis of meta-analysis: support for the stress-gradient
-  hypothesis.
-\newblock {\em Journal of Ecology}, 94(1):7--16.
-
 \bibitem[Louthan et~al., 2015]{louthan2015and}
 Louthan, A.~M., Doak, D.~F., and Angert, A.~L. (2015).
 \newblock Where and when do species interactions set range limits?
@@ -311,11 +257,6 @@ Oberhofer, M., G{\"u}sewell, S., and Leuchtmann, A. (2014).
   the response of hordelymus europaeus to drought stress.
 \newblock {\em New Phytologist}, 201(1):242--253.
 
-\bibitem[Pringle, 2016]{pringle2016integrating}
-Pringle, E.~G. (2016).
-\newblock Integrating plant carbon dynamics with mutualism ecology.
-\newblock {\em New Phytologist}, 210(1):71--75.
-
 \bibitem[{R Core Team}, 2023]{RCoreTeam}
 {R Core Team} (2023).
 \newblock {\em R: A Language and Environment for Statistical Computing}.
@@ -326,11 +267,6 @@ Reynolds, H.~L., Packer, A., Bever, J.~D., and Clay, K. (2003).
 \newblock Grassroots ecology: plant--microbe--soil interactions as drivers of
   plant community structure and dynamics.
 \newblock {\em Ecology}, 84(9):2281--2291.
-
-\bibitem[Rodriguez et~al., 2009]{rodriguez2009fungal}
-Rodriguez, R., White~Jr, J., Arnold, A.~E., and Redman, a. R.~a. (2009).
-\newblock Fungal endophytes: diversity and functional roles.
-\newblock {\em New phytologist}, 182(2):314--330.
 
 \bibitem[Rudgers et~al., 2020]{rudgers2020climate}
 Rudgers, J.~A., Afkhami, M.~E., Bell-Dereske, L., Chung, Y.~A., Crawford,
@@ -393,11 +329,12 @@ Thirkell, T.~J., Pastok, D., and Field, K.~J. (2020).
   concentration.
 \newblock {\em Global change biology}, 26(3):1725--1738.
 
-\bibitem[Toby~Kiers et~al., 2010]{toby2010mutualisms}
-Toby~Kiers, E., Palmer, T.~M., Ives, A.~R., Bruno, J.~F., and Bronstein, J.~L.
-  (2010).
-\newblock Mutualisms in a changing world: an evolutionary perspective.
-\newblock {\em Ecology letters}, 13(12):1459--1474.
+\bibitem[Van~der Putten et~al., 2013]{van2013plant}
+Van~der Putten, W.~H., Bardgett, R.~D., Bever, J.~D., Bezemer, T.~M., Casper,
+  B.~B., Fukami, T., Kardol, P., Klironomos, J.~N., Kulmatiski, A., Schweitzer,
+  J.~A., et~al. (2013).
+\newblock Plant--soil feedbacks: the past, the present and future challenges.
+\newblock {\em Journal of ecology}, 101(2):265--276.
 
 \bibitem[Vega, 2008]{vega2008insect}
 Vega, F.~E. (2008).

@@ -1,21 +1,21 @@
 "Vital_rate","Model_type","ELPD_difference","SE_difference"
 "Survival","Endophyte x climate",0,0
-"Survival","Endophyte no3way",-0.647143948965724,0.997288802107058
+"Survival","Endophyte x climate + Endophyte x herb",-0.647143948965724,0.997288802107058
 "Survival","Endophyte x climate x herb",-1.22441053690678,1.42465547757161
-"Survival","Endophyte + climate + herb",-1.86887722739506,2.92586374737337
+"Survival","Endophyte",-2.43458889415498,2.79126676912786
 "Survival","Endophyte x herb",-3.68923929040036,2.96836848689481
-"Growth","Endophyte + climate + herb",0,0
-"Growth","Endophyte x climate",-1.03108765380565,2.18522194852242
-"Growth","Endophyte x herb",-1.55823187630074,1.7077911153005
-"Growth","Endophyte x climate x herb",-2.20252776352636,2.93980387347925
-"Growth","Endophyte no3way",-2.33310077060668,2.01248061018966
-"Inflorescence","Endophyte + climate + herb",0,0
-"Inflorescence","Endophyte no3way",-1.61009236400934,1.71173617751943
-"Inflorescence","Endophyte x herb",-1.78732721519171,1.32558773189466
-"Inflorescence","Endophyte x climate",-3.46924355668217,2.68464034627929
-"Inflorescence","Endophyte x climate x herb",-4.85661172833933,2.22920560132136
-"Spikelet","Endophyte + climate + herb",0,0
-"Spikelet","Endophyte no3way",0,0
-"Spikelet","Endophyte x climate",-0.118668004844409,2.7280916528672
-"Spikelet","Endophyte x herb",-0.79487435061959,1.2931449615351
-"Spikelet","Endophyte x climate x herb",-2.95872681629646,3.11115914926385
+"Growth","Endophyte",0,0
+"Growth","Endophyte x climate",-0.725427090809998,1.84027906646016
+"Growth","Endophyte x herb",-1.25257131330509,2.00677358799903
+"Growth","Endophyte x climate x herb",-1.8968672005307,3.4021617897731
+"Growth","Endophyte x climate + Endophyte x herb",-2.02744020761102,2.76392831807704
+"Inflorescence","Endophyte x climate + Endophyte x herb",0,0
+"Inflorescence","Endophyte x herb",-0.177234851182368,1.62641878322502
+"Inflorescence","Endophyte x climate",-1.85915119267283,2.11792441328086
+"Inflorescence","Endophyte",-1.8912415802429,2.41113910575206
+"Inflorescence","Endophyte x climate x herb",-3.24651936432999,1.19825541083248
+"Spikelet","Endophyte x climate",0,0
+"Spikelet","Endophyte",-0.169197258556489,2.71003565646803
+"Spikelet","Endophyte x climate + Endophyte x herb",-0.169197258556489,2.71003565646803
+"Spikelet","Endophyte x herb",-0.676206345775181,3.08028158142281
+"Spikelet","Endophyte x climate x herb",-2.84005881145205,2.50920906062758

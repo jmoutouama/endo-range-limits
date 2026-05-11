@@ -2,8 +2,8 @@ library(ggplot2)
 library(patchwork)
 
 # ── Palette (colorblind-safe, Ecology Letters compatible) ──────────────────────
-COL_HERB <- "#D55E00"   # vermillion  – herbivory access
-COL_EXCL <- "#0072B2"   # blue        – herbivory exclusion
+COL_HERB <- "#E69F00"
+COL_EXCL <- "#009E73"
 
 # ── Shared theme ───────────────────────────────────────────────────────────────
 theme_el <- function(show_legend = FALSE) {
@@ -32,7 +32,7 @@ theme_el <- function(show_legend = FALSE) {
       axis.ticks.length = unit(3, "pt"),
 
       # Legend – bottom of full figure (controlled at plot_annotation level)
-      legend.position   = if (show_legend) "bottom" else "none",
+      legend.position   = if (show_legend) c(0.70, 0.25) else "none",
       legend.background = element_blank(),
       legend.key        = element_blank(),
       legend.key.width  = unit(1.4, "cm"),
@@ -72,7 +72,7 @@ make_panel <- function(title,
     geom_hline(yintercept = 0,
                colour    = "#888888",
                linewidth = 0.55,
-               linetype  = "dotted") +
+               linetype  = "dashed") +
 
     # Slightly thicker lines for print legibility
     geom_line(linewidth = 1.3) +
@@ -84,7 +84,7 @@ make_panel <- function(title,
 
     scale_linetype_manual(
       values = c("Herbivory access"    = "solid",
-                 "Herbivory exclusion" = "dashed")
+                 "Herbivory exclusion" = "solid")
     ) +
 
     scale_x_continuous(
@@ -158,7 +158,7 @@ out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/F
 
 ggsave(out_path,
        plot   = final,
-       width  = 7.5,
+       width  = 8,
        height = 6.0,        # slightly tighter than before
        device = cairo_pdf)
 

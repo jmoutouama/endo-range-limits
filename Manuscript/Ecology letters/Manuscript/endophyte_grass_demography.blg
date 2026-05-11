@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: endophyte_grass_demography.aux
+The style file: apalike.bst
+Database file #1: References.bib
+You've used 70 entries,
+            1935 wiz_defined-function locations,
+            892 strings with 17631 characters,
+and the built_in function-call counts, 30101 in all, are:
+= -- 2943
+> -- 1410
+< -- 31
++ -- 502
+- -- 486
+* -- 2777
+:= -- 5261
+add.period$ -- 209
+call.type$ -- 70
+change.case$ -- 586
+chr.to.int$ -- 68
+cite$ -- 70
+duplicate$ -- 982
+empty$ -- 1984
+format.name$ -- 582
+if$ -- 5735
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 66
+newline$ -- 352
+num.names$ -- 210
+pop$ -- 449
+preamble$ -- 1
+purify$ -- 591
+quote$ -- 0
+skip$ -- 749
+stack$ -- 0
+substring$ -- 2320
+swap$ -- 92
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 414
+warning$ -- 0
+while$ -- 254
+width$ -- 0
+write$ -- 901

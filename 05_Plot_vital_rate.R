@@ -229,6 +229,8 @@ panel_labels_surv <- data.frame(
   label   = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)"),
   panel   = "Pr (survival)"
 )
+# Get n_obs range for caption
+range(observed_data_survival$n_obs)
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.pdf",
@@ -576,6 +578,9 @@ panel_labels_grow <- data.frame(
   panel   = "Growth",
   ymax    = c(1, 1, 1.25, 1.25, 2.2, 2.2)
 )
+
+# Get n_obs range for caption
+range(observed_data_grow$n_obs)
 
 Cairo::CairoPDF(
   "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",

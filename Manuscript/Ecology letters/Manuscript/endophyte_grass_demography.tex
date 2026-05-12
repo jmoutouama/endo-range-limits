@@ -390,11 +390,9 @@ Using data on biomass and seed production in the greenhouse, we fitted similar h
 \subsection*{Efficacy of aridity and herbivory treatments}
 During the study period, realized precipitation at seven experimental sites corresponded well to 30-year climate normals, with wetter eastern sites and drier western sites (Fig.~\ref{fig:site}d). 
 Virtually all host vital rates for all species declined with increasing aridity (see below), indicating that our geographically-distributed effectively captured an abiotic stress gradient. 
-Additionally, herbivore access/exclusion effectively modified biotic stress: the combination of fencing and insecticide led to lower fractions of damaged plants in herbivore-exclusion plots compared to herbivore-access (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}). 
-At the individual level, herbivore exclusion strongly reduced the proportion of tillers that were damaged for all host species (Fig.~\ref{sup:herbivory}). 
-S+ hosts experienced less herbivore damage than S- hosts for \textit{A. hyemalis} and \textit{P. autumnalis}, consistent with hypothesized anti-herbivore benefits of endophyte symbiosis. 
-Interestingly, S+ hosts of \textit{E. virginicus} experienced greater herbivore damage than S- hosts (Fig.~\ref{sup:herbivory}). 
-\tom{}{It would be good to provide some descriptive statistics about the herbivory results, i.e. plants in herbivore access plots experienced XX\% tiller damage while exclusion reduced that to XX\%. Similar for the endophyte effect. The broader point here is that it is often helpful to describe effects of treatments on response variables in absolute terms, rather than simply relying on standardized regression coefficients to say there was an effect or not. This really struck me while reading the next section, where results are reported in terms of pr(delta>0), but that does carry much information in terms of how S+ and S- hosts differ in terms of survival, growth, and reproduction. A review may well ask for more of this type of information.}
+Additionally, herbivore access/exclusion effectively modified biotic stress: plants in herbivore-access plots experienced 24\% tiller damage on average, compared to 14\% in exclusion plots (Fig.~\ref{fig:site}F, Fig.~\ref{sup:herb}). 
+S+ hosts experienced less herbivore damage than S- hosts in \textit{A. hyemalis} (19\% vs. 15\%) and \textit{P. autumnalis} (13\% vs. 18\%), consistent with 
+hypothesized anti-herbivore benefits of endophyte symbiosis, but not in  \textit{E. virginicus} (44\% vs. 42\%; Fig.~\ref{sup:herbivory}).
 
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
 
@@ -919,22 +917,6 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
     \label{sup:spike_delta}
 \end{figure}
 \clearpage
-
-\captionsetup[figure]{list=no}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{../../../Figure/Fig_Spikelets_Combined.pdf}
-    \caption{Endophyte effects on total spikelet production in \textit{Agrostis hyemalis} across a precipitation gradient in the greenhouse experiment.
-     (a) Predicted total spikelet counts for symbiotic (S+) and symbiont-free (S$-$) plants as a function of mean annual precipitation, with raw observed values overlaid. Shaded ribbons represent 90\% Bayesian credible intervals. 
-(b) Posterior estimates of focal model coefficients for total spikelet production. 
-Points indicate posterior medians; thick and thin horizontal bars represent 90\% and 95\% credible intervals, respectively. 
-Filled points indicate parameters with strong directional support (posterior probability $>$ 0.90). 
-The dashed vertical line at zero indicates no effect. 
-Colors distinguish main effects from the herbivory $\times$ precipitation interaction term.}
-\label{sup:spikelet_soil}
-\end{figure}
-\clearpage
-
 
 
 \end{document}

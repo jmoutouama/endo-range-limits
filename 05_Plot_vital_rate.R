@@ -614,7 +614,7 @@ ggplot(plot_data_grow) +
     aes(yintercept=0), linetype="dashed", color="black"
   ) +
   ggh4x::facet_nested(
-    species + panel ~ herb, scales="free", space="free",
+    species + panel ~ herb, scales="free",
     labeller=labeller(species=label_parsed,
                       herb=c("0"="Herbivory access","1"="Herbivory exclusion"))
   ) +
@@ -649,7 +649,7 @@ ggplot(plot_data_grow) +
   scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
   scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
-  theme(legend.position=c(0.40, 0.15)) +
+  theme(legend.position=c(0.05, 0.26)) +
   geom_text(data=panel_labels_grow,
             aes(x=490, y=ymax*0.70, label=label),
             hjust=0, size=3.5, inherit.aes=FALSE)

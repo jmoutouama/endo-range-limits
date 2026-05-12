@@ -326,3 +326,25 @@ ggplot(site_summary,
   theme(
     panel.grid.minor = element_blank()
   )
+
+# Descriptive stats for manuscript text (Tom's request)
+desc_stats <- herb_dat_tidy %>%
+  mutate(
+    TillerHerb = ifelse(TillerHerb > Tiller, Tiller, TillerHerb),
+    HerbProp = TillerHerb / Tiller
+  ) %>%
+  filter(Tiller > 0, !is.na(Species), !is.na(Herbivory), !is.na(Endo))
+
+# 1. Fence effect (collapsed across species and endo status)
+desc_stats %>%
+  group_by(Herbivory) %>%
+  summarise(mean_damage = mean(HerbProp, na.rm=TRUE),
+            median_damage = median(HerbProp, na.rm=TRUE))
+
+# 2. Endophyte effect within Access plots, by species
+desc_stats %>%
+  filter(Herbivory == "Access") %>%
+  group_by(Species, Endo) %>%
+  summarise(mean_damage = mean(HerbProp, na.rm=TRUE),
+            median_damage = median(HerbProp, na.rm=TRUE))
+

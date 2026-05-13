@@ -141,13 +141,7 @@ source("R/10_conceptual_figure.R")
 | Package | Role |
 |---|---|
 | `rstan` ≥ 2.21 | Stan interface for model fitting |
-| `loo` | LOO-CV model comparison |
-| `tidyverse` | Data wrangling and plotting |
-| `bayesplot` | Posterior predictive checks |
-| `prism` | PRISM climate data download |
-| `patchwork` | Figure assembly |
-| `googledrive` / `googlesheets4` | Read raw census data from Google Drive (`06`) |
-
+| `R`4.5.1 | Data cleaning, plotting and summary |
 ---
 
 ## Funding

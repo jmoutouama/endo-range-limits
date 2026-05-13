@@ -116,18 +116,18 @@
 
 %-------------------------------------------------------------------------
 \title{\Large Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses}
-\author[1]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
-\author[2]{Josh C. Fowler}
-\author[3]{Akiem Gough}
-\author[3]{Julia Martin}
-\author[3]{Chris Oxley}
-\author[3]{Karl Schrader}
-\author[3]{Karis Williams}
-\author[3]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
-
+\author[1, 2]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
+\author[3]{Josh C. Fowler}
+\author[4]{Akiem Gough}
+\author[4]{Julia Martin}
+\author[4]{Chris Oxley}
+\author[4]{Karl Schrader}
+\author[4]{Karis Williams}
+\author[4]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
 \affil[1]{Department of Botany, University of British Columbia, Vancouver, BC, Canada}
-\affil[2]{Department of Environmental Studies, University of Colorado Boulder, Boulder, CO, USA}
-\affil[3]{Program in Ecology and Evolutionary Biology, Department of BioSciences, Rice University, Houston, TX, USA}
+\affil[2]{African Centre for DNA Barcoding, University of Johannesburg, Johannesburg, South Africa}
+\affil[3]{Department of Environmental Studies, University of Colorado Boulder, Boulder, CO, USA}
+\affil[4]{Department of BioSciences, Rice University, Houston, TX, USA}
 \date{} % clear date
 
 
@@ -140,19 +140,20 @@
 %\SweaveOpts{concordance=TRUE}
 \renewcommand{\baselinestretch}{1.2}
 \maketitle
+\vspace{-2em}
 % \bigskip 
 %45 character limit on running head
-\noindent\textbf{Running header:} Stress and Grass-Endophyte Symbioses
-%\bigskip 
+\noindent\textbf{Running Title:} Stress and Grass-Endophyte Symbioses
+\bigskip 
 
 \noindent\textbf{Keywords:} demography, parasitism, plant-fungi interactions, range limits, stress gradient hypothesis, symbiosis
 
 \bigskip 
-\noindent\textbf{Submitted to:} \textit{Ecology letters} (Letter)
+\noindent\textbf{Article Type:} Letter
 
 \bigskip 
 \noindent\textbf{Data accessibility statement:} 
-Upon acceptance, all data and computer scripts supporting the results will be archived in a Zenodo package, with the DOI included at the end of the article. 
+Upon acceptance, all data and computer scripts supporting the results will be archived in a Zenodo package. 
 During peer review, all data files required to reproduce the analyses, including annual census data, are temporarily hosted via Dropbox and available at 
 \url{https://www.dropbox.com/scl/fo/fgxng2mcemjyv41bihul9/AGiZs5mPRGcCZURpGyvhjCE?rlkey=7mgdyrus3ga44yj3ygfncfmkd&dl=1}. 
 All analysis scripts (Stan and R) are available at \url{https://github.com/jmoutouama/endo-range-limits}.
@@ -163,21 +164,16 @@ All analysis scripts (Stan and R) are available at \url{https://github.com/jmout
 \bigskip
 \noindent\textbf{Acknowledgments}
 This research was supported by National Science Foundation Division of Environmental Biology award 2208857. We gratefully acknowledge the individuals and institutions who hosted our geographically-distributed experiment, including the University of Louisiana, Sam Houston State University, Texas A\&M University, and University of Texas at Austin. 
+JKM was supported by start-up research funds GR036071 from the University of British Columbia and by NSERC grants GR038661 and GR038746.
 
 
 \bigskip
-\noindent\textbf{Authorship statement:}
-%J.K.M., A.C. and T.E.X.M. designed the study.
-%A.C. and T.E.X.M. collected the data. 
-%All authors conducted the statistical analyses and modeling.
-%J.K.M. drafted the manuscript, and T.E.X.M contributed to revisions.
+\noindent\textbf{Authorship statement:} J.K.M. contributed to data collection, data analysis, and led manuscript drafting. J.C.F., A.G., J.M., C.O., K.S., and K.W. contributed to data collection and manuscript revisions. T.E.X.M. contributed to research conception, data collection, data analysis, and manuscript revisions.
+
 
 \bigskip
-\noindent\textbf{Abstract:} 146\\
-\noindent\textbf{Main Text:} 4745\\
-\noindent\textbf{Figures:} 6\\
-\noindent\textbf{Tables:} 1\\
-\noindent\textbf{References}: 72
+\noindent\textbf{This file contains:} Abstract (150 words), Main Text (4745 words), Figures (1-6),Supporting Information - Supplemental Methods, 
+Supplemental Figures S1-S10, References (72).
 
 \newpage
 %\SweaveOpts{concordance=TRUE}
@@ -185,7 +181,6 @@ This research was supported by National Science Foundation Division of Environme
 %-------------------------------------------------------------------------
 \spacing{1.25}
 \section*{Abstract}
-%150 words limit for Ecology letter. The number now is 149
 Plant–microbe symbioses are generally expected to enhance host resilience to environmental stress, yet whether effects differ across abiotic versus biotic stress dimensions remains unclear. 
 We tested how aridity and herbivory shape fitness effects of vertically transmitted fungal endophytes on three grass hosts using herbivore exclusion experiments along a precipitation gradient in the south-central United States.
 Contrary to theoretical predictions, endophyte-symbiotic hosts showed disproportionately stronger declines in demographic performance with increasing aridity than endophyte-free plants, suggesting abiotic stress exacerbated symbiont costs. 

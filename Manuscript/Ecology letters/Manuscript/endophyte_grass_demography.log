@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  12 MAY 2026 16:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  13 MAY 2026 10:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1125,50 +1125,50 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+zplm on input line 
-145.
+143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+zplm on input line 
-145.
+143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+zplm on input line 
-145.
+143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 145.
+(Font)              scaled to size 12.50409pt on input line 143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 145.
+(Font)              scaled to size 9.37807pt on input line 143.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 145.
+(Font)              scaled to size 7.29405pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 12.50409pt on input line 145.
+(Font)              scaled to size 12.50409pt on input line 143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 145.
+(Font)              scaled to size 9.37807pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 145.
+(Font)              scaled to size 7.29405pt on input line 143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OT1+zplm on input line 
-145.
+143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
@@ -1178,39 +1178,39 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for TS1+pplx on input line 
-145.
+143.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1pplx.fd
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 145.
+(Font)              scaled to size 11.40997pt on input line 143.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 145.
+(Font)              scaled to size 8.33606pt on input line 143.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 145.
+(Font)              scaled to size 6.25204pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 145.
+(Font)              scaled to size 11.40997pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 145.
+(Font)              scaled to size 8.33606pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 145.
+(Font)              scaled to size 6.25204pt on input line 143.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 145.
+(Font)              scaled to size 10.42007pt on input line 143.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 145.
+(Font)              scaled to size 7.91925pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 145.
+(Font)              scaled to size 10.42007pt on input line 143.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 145.
+(Font)              scaled to size 7.91925pt on input line 143.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--159
-[]$\OT1/cmtt/m/n/12/-25ls https : / / www . dropbox . com / scl / fo / fgxng2mc
-emjyv41bihul9 / AGiZs5mPRGcCZURpGyvhjCE ?
+Underfull \hbox (badness 1194) in paragraph at lines 155--160
+\OT1/cmtt/m/n/12/-25ls AGiZs5mPRGcCZURpGyvhjCE ? rlkey = 7mgdyrus3ga44yj3ygfncf
+mkd & dl = 1$[]\OT1/pplx/m/n/12/-25ls (+20) . All anal-y-sis scripts
  []
 
 
@@ -1268,7 +1268,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 File: ../../../Figure/conceptual_figure.pdf Graphic file (type pdf)
 <use ../../../Figure/conceptual_figure.pdf>
 Package pdftex.def Info: ../../../Figure/conceptual_figure.pdf  used on input l
-ine 490.
+ine 485.
 (pdftex.def)             Requested size: 469.75502pt x 352.31538pt.
 
 
@@ -1278,7 +1278,7 @@ ine 490.
 <../../../Figure/clim_map1.pdf, id=480, 650.43pt x 758.835pt>
 File: ../../../Figure/clim_map1.pdf Graphic file (type pdf)
 <use ../../../Figure/clim_map1.pdf>
-Package pdftex.def Info: ../../../Figure/clim_map1.pdf  used on input line 501.
+Package pdftex.def Info: ../../../Figure/clim_map1.pdf  used on input line 496.
 
 (pdftex.def)             Requested size: 432.17375pt x 504.21368pt.
 
@@ -1288,7 +1288,7 @@ Package pdftex.def Info: ../../../Figure/clim_map1.pdf  used on input line 501.
 File: ../../../Figure/PrSurvival_diff.pdf Graphic file (type pdf)
 <use ../../../Figure/PrSurvival_diff.pdf>
 Package pdftex.def Info: ../../../Figure/PrSurvival_diff.pdf  used on input lin
-e 518.
+e 513.
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
 
 
@@ -1296,8 +1296,8 @@ e 518.
 <../../../Figure/Growth_diff.pdf, id=550, 505.89pt x 578.16pt>
 File: ../../../Figure/Growth_diff.pdf Graphic file (type pdf)
 <use ../../../Figure/Growth_diff.pdf>
-Package pdftex.def Info: ../../../Figure/Growth_diff.pdf  used on input line 53
-2.
+Package pdftex.def Info: ../../../Figure/Growth_diff.pdf  used on input line 52
+7.
 (pdftex.def)             Requested size: 469.75502pt x 536.87161pt.
 
 
@@ -1306,7 +1306,7 @@ Package pdftex.def Info: ../../../Figure/Growth_diff.pdf  used on input line 53
 File: ../../../Figure/All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use ../../../Figure/All_traits_diff_stat_lower.pdf>
 Package pdftex.def Info: ../../../Figure/All_traits_diff_stat_lower.pdf  used o
-n input line 560.
+n input line 555.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1320,7 +1320,7 @@ n input line 560.
 File: ../../../Figure/Fig_Greenhouse_Combined.pdf Graphic file (type pdf)
 <use ../../../Figure/Fig_Greenhouse_Combined.pdf>
 Package pdftex.def Info: ../../../Figure/Fig_Greenhouse_Combined.pdf  used on i
-nput line 571.
+nput line 566.
 (pdftex.def)             Requested size: 469.75502pt x 197.9188pt.
 
 
@@ -1419,7 +1419,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--14
 File: ../../../Figure/temp_census_years.pdf Graphic file (type pdf)
 <use ../../../Figure/temp_census_years.pdf>
 Package pdftex.def Info: ../../../Figure/temp_census_years.pdf  used on input l
-ine 801.
+ine 796.
 (pdftex.def)             Requested size: 375.80544pt x 187.89977pt.
 
 
@@ -1431,7 +1431,7 @@ ine 801.
 File: ../../../Figure/prop_damage_barplot_24_25.pdf Graphic file (type pdf)
 <use ../../../Figure/prop_damage_barplot_24_25.pdf>
 Package pdftex.def Info: ../../../Figure/prop_damage_barplot_24_25.pdf  used on
- input line 810.
+ input line 805.
 (pdftex.def)             Requested size: 469.75502pt x 234.8769pt.
 
 
@@ -1442,7 +1442,7 @@ Package pdftex.def Info: ../../../Figure/prop_damage_barplot_24_25.pdf  used on
 File: ../../../Figure/prop_damage_species_years.pdf Graphic file (type pdf)
 <use ../../../Figure/prop_damage_species_years.pdf>
 Package pdftex.def Info: ../../../Figure/prop_damage_species_years.pdf  used on
- input line 821.
+ input line 816.
 (pdftex.def)             Requested size: 469.75502pt x 313.17216pt.
 
 
@@ -1453,7 +1453,7 @@ Package pdftex.def Info: ../../../Figure/prop_damage_species_years.pdf  used on
 File: ../../../Figure/herb_endo_effect.pdf Graphic file (type pdf)
 <use ../../../Figure/herb_endo_effect.pdf>
 Package pdftex.def Info: ../../../Figure/herb_endo_effect.pdf  used on input li
-ne 835.
+ne 830.
 (pdftex.def)             Requested size: 469.75502pt x 293.59616pt.
 
 
@@ -1463,7 +1463,7 @@ ne 835.
 <../../../Figure/PPC_linear.png, id=767, 573.14125pt x 485.815pt>
 File: ../../../Figure/PPC_linear.png Graphic file (type png)
 <use ../../../Figure/PPC_linear.png>
-Package pdftex.def Info: ../../../Figure/PPC_linear.png  used on input line 848
+Package pdftex.def Info: ../../../Figure/PPC_linear.png  used on input line 843
 .
 (pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
 
@@ -1475,7 +1475,7 @@ Package pdftex.def Info: ../../../Figure/PPC_linear.png  used on input line 848
 File: ../../../Figure/PPC_models_soilendo.pdf Graphic file (type pdf)
 <use ../../../Figure/PPC_models_soilendo.pdf>
 Package pdftex.def Info: ../../../Figure/PPC_models_soilendo.pdf  used on input
- line 858.
+ line 853.
 (pdftex.def)             Requested size: 469.75502pt x 156.58607pt.
 
 
@@ -1488,7 +1488,7 @@ File: ../../../Figure/FigS_coef_caterpillar_combined.pdf Graphic file (type pdf
 )
 <use ../../../Figure/FigS_coef_caterpillar_combined.pdf>
 Package pdftex.def Info: ../../../Figure/FigS_coef_caterpillar_combined.pdf  us
-ed on input line 869.
+ed on input line 864.
 (pdftex.def)             Requested size: 469.75502pt x 369.09924pt.
 
 
@@ -1499,7 +1499,7 @@ ed on input line 869.
 File: ../../../Figure/Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use ../../../Figure/Inflorescence_diff_v.pdf>
 Package pdftex.def Info: ../../../Figure/Inflorescence_diff_v.pdf  used on inpu
-t line 882.
+t line 877.
 (pdftex.def)             Requested size: 469.75502pt x 548.07445pt.
 
 
@@ -1510,7 +1510,7 @@ t line 882.
 File: ../../../Figure/Spikelet_diff.pdf Graphic file (type pdf)
 <use ../../../Figure/Spikelet_diff.pdf>
 Package pdftex.def Info: ../../../Figure/Spikelet_diff.pdf  used on input line 
-896.
+891.
 (pdftex.def)             Requested size: 469.75502pt x 281.85628pt.
 
 
@@ -1521,7 +1521,7 @@ Package pdftex.def Info: ../../../Figure/Spikelet_diff.pdf  used on input line
 File: ../../../Figure/Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use ../../../Figure/Spikelet_diff_stat.pdf>
 Package pdftex.def Info: ../../../Figure/Spikelet_diff_stat.pdf  used on input 
-line 911.
+line 906.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
@@ -1538,14 +1538,14 @@ ged.
  )
 (\end occurred inside a group at level 1)
 
-### semi simple group (level 1) entered at line 186 (\begingroup)
+### semi simple group (level 1) entered at line 182 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 31098 strings out of 473190
- 570335 string characters out of 5715801
- 974039 words of memory out of 5000000
+ 31101 strings out of 473190
+ 570361 string characters out of 5715801
+ 974103 words of memory out of 5000000
  52606 multiletter control sequences out of 15000+600000
- 688200 words of font info for 896 fonts, out of 8000000 for 9000
+ 688314 words of font info for 899 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,15n,101p,1322b,911s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1558,7 +1558,7 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on endophyte_grass_demography.pdf (51 pages, 2793205 bytes).
+Output written on endophyte_grass_demography.pdf (51 pages, 2793725 bytes).
 PDF statistics:
  1008 PDF objects out of 1200 (max. 8388607)
  817 compressed objects within 9 object streams

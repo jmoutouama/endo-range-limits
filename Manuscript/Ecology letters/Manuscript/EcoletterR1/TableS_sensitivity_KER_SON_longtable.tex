@@ -1,0 +1,97 @@
+% latex longtable (pivoted: Full data / Excl. KER-SON shown as paired columns)
+% requires \usepackage{longtable}, \usepackage{pdflscape}, \usepackage{booktabs}
+\begin{landscape}
+\small
+\setlength{\tabcolsep}{1pt}
+\begin{longtable}{llllcccc}
+\caption{Sensitivity of estimated endophyte effects to exclusion of sites KER and SON, which were destroyed by deer and subsequently replanted in 2024. For each combination of vital rate (Trait), species, herbivory treatment (Access = herbivory-access plots, Exclusion = herbivore-exclusion plots), and precipitation level (Low, Median, or High, evaluated at the 10th, 50th, and 90th percentiles of each species' observed precipitation range, given in the Precip.\ column in mm), the table reports the posterior median and 90\% credible interval [Med.\ $\Delta$ (90\% CI)] and the posterior probability of a positive endophyte effect [P($\Delta>0$)] for the full dataset and for the dataset excluding KER and SON. The endophyte effect $\Delta$ is defined as Pr(S+) $-$ Pr(S-) for survival, or the analogous difference on the response scale (S+ $-$ S-) for growth, inflorescence production, and spikelet production. Spikelet production was not modeled for \textit{A.\ hyemalis} because spikelets in this species were too numerous and small to count reliably (see Methods). Posterior estimates were nearly identical between the full dataset and the dataset excluding KER and SON across all species, vital rates, and herbivory treatments, indicating that the disturbance and replanting at these two sites did not meaningfully influence our conclusions.} \label{tab:sensitivity_KER_SON} \\
+\toprule
+& & & & \multicolumn{2}{c}{Full data} & \multicolumn{2}{c}{Excl.\ KER/SON} \\
+\cmidrule(lr){5-6} \cmidrule(lr){7-8}
+Trait & Species & Herbivory & Precip.\ & Med.\ $\Delta$ (90\% CI) & P($\Delta{>}0$) & Med.\ $\Delta$ (90\% CI) & P($\Delta{>}0$) \\
+\midrule
+\endfirsthead
+
+\multicolumn{8}{c}{{\tablename\ \thetable{} -- continued from previous page}} \\
+\toprule
+& & & & \multicolumn{2}{c}{Full data} & \multicolumn{2}{c}{Excl.\ KER/SON} \\
+\cmidrule(lr){5-6} \cmidrule(lr){7-8}
+Trait & Species & Herbivory & Precip.\ & Med.\ $\Delta$ (90\% CI) & P($\Delta{>}0$) & Med.\ $\Delta$ (90\% CI) & P($\Delta{>}0$) \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{8}{r}{{Continued on next page}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+  Growth & \textit{A. hyemalis} & Access & High (2472 mm) & 0.49 [0.16, 0.88] & 0.99 & 0.50 [0.16, 0.88] & 0.99 \\
+  Growth & \textit{A. hyemalis} & Access & Low (714 mm) & 0.05 [-0.37, 0.47] & 0.58 & 0.02 [-0.40, 0.44] & 0.53 \\
+  Growth & \textit{A. hyemalis} & Access & Median (1300 mm) & 0.27 [0.05, 0.51] & 0.98 & 0.25 [0.03, 0.50] & 0.97 \\
+  Growth & \textit{A. hyemalis} & Exclusion & High (2472 mm) & 0.29 [-0.07, 0.65] & 0.90 & 0.29 [-0.09, 0.65] & 0.90 \\
+  Growth & \textit{A. hyemalis} & Exclusion & Low (714 mm) & -0.01 [-0.38, 0.37] & 0.48 & -0.01 [-0.39, 0.38] & 0.49 \\
+  Growth & \textit{A. hyemalis} & Exclusion & Median (1300 mm) & 0.14 [-0.08, 0.35] & 0.85 & 0.13 [-0.09, 0.35] & 0.84 \\
+  Growth & \textit{E. virginicus} & Access & High (2433 mm) & 0.32 [0.05, 0.60] & 0.97 & 0.33 [0.06, 0.62] & 0.98 \\
+  Growth & \textit{E. virginicus} & Access & Low (633 mm) & 0.04 [-0.41, 0.47] & 0.56 & -0.03 [-0.49, 0.44] & 0.46 \\
+  Growth & \textit{E. virginicus} & Access & Median (1213 mm) & 0.17 [-0.05, 0.40] & 0.90 & 0.15 [-0.09, 0.38] & 0.85 \\
+  Growth & \textit{E. virginicus} & Exclusion & High (2433 mm) & 0.10 [-0.16, 0.37] & 0.74 & 0.10 [-0.16, 0.37] & 0.73 \\
+  Growth & \textit{E. virginicus} & Exclusion & Low (633 mm) & 0.09 [-0.34, 0.53] & 0.63 & 0.08 [-0.37, 0.52] & 0.62 \\
+  Growth & \textit{E. virginicus} & Exclusion & Median (1213 mm) & 0.10 [-0.11, 0.30] & 0.78 & 0.09 [-0.12, 0.30] & 0.77 \\
+  Growth & \textit{P. autumnalis} & Access & High (2472 mm) & 0.10 [-0.20, 0.38] & 0.70 & 0.11 [-0.19, 0.39] & 0.74 \\
+  Growth & \textit{P. autumnalis} & Access & Low (873 mm) & 0.04 [-0.33, 0.40] & 0.57 & 0.02 [-0.36, 0.39] & 0.53 \\
+  Growth & \textit{P. autumnalis} & Access & Median (1443 mm) & 0.07 [-0.16, 0.27] & 0.70 & 0.06 [-0.16, 0.26] & 0.69 \\
+  Growth & \textit{P. autumnalis} & Exclusion & High (2472 mm) & -0.22 [-0.56, 0.10] & 0.13 & -0.23 [-0.56, 0.10] & 0.13 \\
+  Growth & \textit{P. autumnalis} & Exclusion & Low (873 mm) & 0.17 [-0.21, 0.58] & 0.78 & 0.18 [-0.21, 0.59] & 0.77 \\
+  Growth & \textit{P. autumnalis} & Exclusion & Median (1443 mm) & -0.02 [-0.22, 0.20] & 0.45 & -0.02 [-0.23, 0.20] & 0.45 \\
+  Inflorescence & \textit{A. hyemalis} & Access & High (2472 mm) & 1.44 [-0.21, 6.22] & 0.92 & 1.47 [-0.14, 6.27] & 0.93 \\
+  Inflorescence & \textit{A. hyemalis} & Access & Low (714 mm) & -0.09 [-0.59, 0.18] & 0.25 & -0.09 [-0.60, 0.17] & 0.23 \\
+  Inflorescence & \textit{A. hyemalis} & Access & Median (1300 mm) & 0.06 [-0.45, 0.62] & 0.59 & 0.05 [-0.42, 0.58] & 0.58 \\
+  Inflorescence & \textit{A. hyemalis} & Exclusion & High (2472 mm) & 1.66 [-0.69, 7.73] & 0.88 & 1.70 [-0.68, 8.07] & 0.88 \\
+  Inflorescence & \textit{A. hyemalis} & Exclusion & Low (714 mm) & -0.07 [-0.74, 0.49] & 0.38 & -0.06 [-0.72, 0.49] & 0.40 \\
+  Inflorescence & \textit{A. hyemalis} & Exclusion & Median (1300 mm) & 0.20 [-0.47, 1.05] & 0.71 & 0.20 [-0.46, 1.01] & 0.71 \\
+  Inflorescence & \textit{E. virginicus} & Access & High (2433 mm) & 0.27 [-0.25, 1.44] & 0.82 & 0.31 [-0.25, 1.50] & 0.83 \\
+  Inflorescence & \textit{E. virginicus} & Access & Low (633 mm) & -0.09 [-0.58, 0.17] & 0.25 & -0.08 [-0.55, 0.14] & 0.22 \\
+  Inflorescence & \textit{E. virginicus} & Access & Median (1213 mm) & -0.01 [-0.33, 0.26] & 0.46 & -0.03 [-0.32, 0.24] & 0.43 \\
+  Inflorescence & \textit{E. virginicus} & Exclusion & High (2433 mm) & 0.15 [-0.91, 1.62] & 0.63 & 0.15 [-0.96, 1.73] & 0.63 \\
+  Inflorescence & \textit{E. virginicus} & Exclusion & Low (633 mm) & 0.03 [-0.81, 1.06] & 0.53 & 0.01 [-0.74, 1.02] & 0.52 \\
+  Inflorescence & \textit{E. virginicus} & Exclusion & Median (1213 mm) & 0.07 [-0.49, 0.72] & 0.59 & 0.06 [-0.48, 0.71] & 0.58 \\
+  Inflorescence & \textit{P. autumnalis} & Access & High (2472 mm) & 2.95 [0.56, 11.20] & 0.99 & 2.87 [0.52, 12.25] & 0.99 \\
+  Inflorescence & \textit{P. autumnalis} & Access & Low (873 mm) & 0.01 [-0.07, 0.20] & 0.66 & 0.01 [-0.07, 0.21] & 0.65 \\
+  Inflorescence & \textit{P. autumnalis} & Access & Median (1443 mm) & 0.26 [0.01, 0.78] & 0.96 & 0.25 [0.01, 0.80] & 0.96 \\
+  Inflorescence & \textit{P. autumnalis} & Exclusion & High (2472 mm) & 5.52 [1.19, 21.88] & 1.00 & 5.48 [1.05, 21.92] & 1.00 \\
+  Inflorescence & \textit{P. autumnalis} & Exclusion & Low (873 mm) & 0.18 [0.01, 0.89] & 0.97 & 0.19 [0.01, 0.96] & 0.97 \\
+  Inflorescence & \textit{P. autumnalis} & Exclusion & Median (1443 mm) & 1.00 [0.36, 2.44] & 1.00 & 1.00 [0.36, 2.52] & 1.00 \\
+  Spikelet & \textit{E. virginicus} & Access & High (2433 mm) & 0.74 [-3.23, 4.96] & 0.62 & 0.57 [-3.12, 4.57] & 0.60 \\
+  Spikelet & \textit{E. virginicus} & Access & Low (633 mm) & -2.09 [-8.18, 2.83] & 0.24 & -0.94 [-8.27, 6.13] & 0.41 \\
+  Spikelet & \textit{E. virginicus} & Access & Median (1213 mm) & -1.00 [-4.53, 2.31] & 0.30 & -0.19 [-4.01, 3.60] & 0.47 \\
+  Spikelet & \textit{E. virginicus} & Exclusion & High (2433 mm) & 3.20 [-0.17, 7.60] & 0.94 & 2.96 [-0.25, 6.88] & 0.93 \\
+  Spikelet & \textit{E. virginicus} & Exclusion & Low (633 mm) & -4.63 [-12.13, 1.94] & 0.12 & -5.10 [-13.33, 2.20] & 0.11 \\
+  Spikelet & \textit{E. virginicus} & Exclusion & Median (1213 mm) & -1.12 [-4.49, 2.23] & 0.28 & -1.12 [-4.60, 2.25] & 0.28 \\
+  Spikelet & \textit{P. autumnalis} & Access & High (2472 mm) & 0.84 [-2.35, 4.34] & 0.67 & 0.78 [-2.25, 4.28] & 0.67 \\
+  Spikelet & \textit{P. autumnalis} & Access & Low (873 mm) & -0.76 [-5.08, 3.35] & 0.35 & -0.52 [-5.12, 3.90] & 0.42 \\
+  Spikelet & \textit{P. autumnalis} & Access & Median (1443 mm) & -0.18 [-2.60, 2.28] & 0.45 & -0.01 [-2.58, 2.58] & 0.50 \\
+  Spikelet & \textit{P. autumnalis} & Exclusion & High (2472 mm) & 3.46 [-0.60, 8.59] & 0.92 & 3.45 [-0.69, 8.42] & 0.92 \\
+  Spikelet & \textit{P. autumnalis} & Exclusion & Low (873 mm) & 2.73 [-2.78, 9.74] & 0.81 & 2.99 [-3.03, 10.46] & 0.80 \\
+  Spikelet & \textit{P. autumnalis} & Exclusion & Median (1443 mm) & 3.13 [0.02, 6.92] & 0.95 & 3.28 [0.05, 7.07] & 0.95 \\
+  Survival & \textit{A. hyemalis} & Access & High (2472 mm) & 0.06 [-0.06, 0.20] & 0.81 & 0.07 [-0.05, 0.22] & 0.84 \\
+  Survival & \textit{A. hyemalis} & Access & Low (714 mm) & -0.04 [-0.18, 0.02] & 0.13 & -0.05 [-0.18, 0.01] & 0.07 \\
+  Survival & \textit{A. hyemalis} & Access & Median (1300 mm) & -0.01 [-0.08, 0.05] & 0.35 & -0.02 [-0.09, 0.04] & 0.26 \\
+  Survival & \textit{A. hyemalis} & Exclusion & High (2472 mm) & 0.08 [-0.05, 0.24] & 0.86 & 0.08 [-0.05, 0.24] & 0.84 \\
+  Survival & \textit{A. hyemalis} & Exclusion & Low (714 mm) & -0.07 [-0.23, -0.00] & 0.04 & -0.06 [-0.22, -0.00] & 0.05 \\
+  Survival & \textit{A. hyemalis} & Exclusion & Median (1300 mm) & -0.03 [-0.11, 0.04] & 0.25 & -0.03 [-0.10, 0.04] & 0.26 \\
+  Survival & \textit{E. virginicus} & Access & High (2433 mm) & 0.10 [-0.03, 0.27] & 0.89 & 0.12 [0.00, 0.30] & 0.95 \\
+  Survival & \textit{E. virginicus} & Access & Low (633 mm) & -0.06 [-0.23, 0.03] & 0.11 & -0.05 [-0.21, -0.00] & 0.03 \\
+  Survival & \textit{E. virginicus} & Access & Median (1213 mm) & -0.01 [-0.10, 0.07] & 0.38 & -0.03 [-0.11, 0.04] & 0.23 \\
+  Survival & \textit{E. virginicus} & Exclusion & High (2433 mm) & 0.12 [0.01, 0.33] & 0.97 & 0.10 [0.01, 0.31] & 0.98 \\
+  Survival & \textit{E. virginicus} & Exclusion & Low (633 mm) & -0.14 [-0.34, -0.01] & 0.03 & -0.09 [-0.30, -0.01] & 0.02 \\
+  Survival & \textit{E. virginicus} & Exclusion & Median (1213 mm) & -0.01 [-0.11, 0.09] & 0.44 & -0.01 [-0.11, 0.09] & 0.41 \\
+  Survival & \textit{P. autumnalis} & Access & High (2472 mm) & 0.01 [-0.12, 0.15] & 0.61 & 0.02 [-0.12, 0.17] & 0.65 \\
+  Survival & \textit{P. autumnalis} & Access & Low (714 mm) & -0.01 [-0.10, 0.03] & 0.20 & -0.02 [-0.10, 0.01] & 0.14 \\
+  Survival & \textit{P. autumnalis} & Access & Median (1300 mm) & -0.03 [-0.12, 0.05] & 0.26 & -0.04 [-0.12, 0.04] & 0.19 \\
+  Survival & \textit{P. autumnalis} & Exclusion & High (2472 mm) & 0.06 [-0.08, 0.24] & 0.78 & 0.05 [-0.09, 0.24] & 0.77 \\
+  Survival & \textit{P. autumnalis} & Exclusion & Low (714 mm) & -0.03 [-0.19, 0.04] & 0.19 & -0.02 [-0.17, 0.05] & 0.23 \\
+  Survival & \textit{P. autumnalis} & Exclusion & Median (1300 mm) & -0.01 [-0.11, 0.10] & 0.41 & -0.01 [-0.10, 0.09] & 0.44 \\
+\end{longtable}
+\end{landscape}

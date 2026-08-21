@@ -2,30 +2,6 @@
 # DOES SOIL INTERACT WITH SYMBIONT STATUS TO INFLUENCE DEMOGRAPHY?
 # Full Bayesian Analysis via rstan
 # Author: Jacob Moutouama
-#
-# REVISION NOTES (addressing coauthor comments):
-# 1. Added 30-year precipitation normals (mm/yr) for each soil-origin site as a
-#    fixed-effect covariate, replacing the categorical Site factor. This mirrors
-#    the field analysis structure and allows direct comparison between greenhouse
-#    and field results. The null expectation is that the Symbiont × Precip
-#    interaction disappears in the greenhouse (soil origin drives demography
-#    independently of endophyte status, because plants are not experiencing
-#    that climate directly).
-# 2. Clarified that realised N < 196 planted because some plants died or failed
-#    to germinate before harvest.
-# 3. Justified Student-t likelihood for biomass (see Section 2.2 comment).
-# 4. Reduced MCMC iterations from iter=6000/warmup=2000 to iter=2000/warmup=1000
-#    — adequate for this sample size and model complexity.
-#
-# BUG FIXES:
-# 5. extract_posterior_precip() now accepts a ref_df argument (always pass
-#    aghysoils). The back-transformation to mm/yr uses mean/SD from the FULL
-#    dataset so that the prediction line spans the same x-range as the observed
-#    points. Previously it used mean/SD from the filtered Stan dataset (d_used),
-#    which shifted/shrank the line relative to the raw data.
-# 6. Added standalone Fig_Spikelets_Combined.pdf: col_spike (upper predicted +
-#    lower contrast) side-by-side with fig_coef_spike (caterpillar for the three
-#    focal betas from fit_totspi).
 # =============================================================================
 rm(list = ls())
 
@@ -41,7 +17,7 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 # ── Colour palette ────────────────────────────────────────────────────────────
-ENDO_COLORS <- c("S-" = "tomato", "S+" = "cornflowerblue")
+ENDO_COLORS <- c("S-" = "#E2492D", "S+" = "#3E6DC9")
 ENDO_LABELS <- c("S-" = "S\u2212", "S+" = "S+")
 endo_levels <- c("S-", "S+")
 site_order  <- c("SON", "KER", "BFL", "BAS", "COL", "HUN", "LAF")
@@ -52,7 +28,7 @@ vr_theme <- function() {
     theme(
       panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.2),
       axis.line         = element_line(color = "black", linewidth = 0.1),
-      axis.title        = element_text(size = 14),
+      axis.title        = element_text(size = 8),
       axis.text         = element_text(size = 6),
       axis.ticks.x      = element_line(color = "black", linewidth = 0.2),
       axis.ticks.y      = element_line(color = "black", linewidth = 0.2),
@@ -65,7 +41,7 @@ vr_theme <- function() {
       strip.background  = element_rect(color = "black", fill = "grey80",
                                        linewidth = 0.2),
       plot.tag          = element_text(size = 9, face = "bold",
-                                       margin = margin(r = 4))
+                                       margin = margin(r = 0))
     )
 }
 
@@ -521,22 +497,57 @@ print(p_trace_inflo)
 
 # ── 2.8  Posterior predictive checks ─────────────────────────────────────────
 ppc_check <- function(fit, y_obs, label, xlim = NULL) {
-  y_rep     <- as.matrix(fit, pars = "y_rep")
-  y_rep_sub <- y_rep[sample(nrow(y_rep), 200), ]
+  y_rep <- as.matrix(fit, pars = "y_rep")
+  y_rep_sub <- y_rep[sample(nrow(y_rep), 500), ]
+  
   p <- ppc_dens_overlay(y_obs, y_rep_sub) +
-    labs(title = paste0("PPC \u2014 ", label)) +
+    labs(
+      title = label,
+      x = label,
+      y = "Density"
+    ) +
     vr_theme()
-  if (!is.null(xlim)) p <- p + coord_cartesian(xlim = xlim)
+  
+  if (!is.null(xlim))
+    p <- p + coord_cartesian(xlim = xlim)
+  
   p
 }
 
-p_ppc_biomass <- ppc_check(fit_biomass, sd_biomass$y_cont, "Biomass (log scale)")
-p_ppc_inflo   <- ppc_check(fit_inflo,   sd_inflo$y,        "Inflo count", xlim = c(-1, 50))
-p_ppc_avgspi  <- ppc_check(fit_avgspi,  sd_avgspi$y,       "Avg spikelets")
+p_ppc_biomass <- ppc_check(
+  fit_biomass,
+  sd_biomass$y,
+  "",
+  xlim = c(-8,5)
+) +
+  labs(x = "Log biomass", y = "Density")
 
-ppc_panel <- (p_ppc_biomass | p_ppc_inflo | p_ppc_avgspi) +
+p_ppc_inflo <- ppc_check(
+  fit_inflo,
+  sd_inflo$y,
+  "",
+  xlim = c(-1, 50)
+) +
+  labs(x = "Inflorescence count", y = "Density")
+
+p_ppc_avgspi <- ppc_check(
+  fit_avgspi,
+  sd_avgspi$y,
+  ""
+) +
+  labs(x = "Average spikelet production", y = "Density")
+ppc_panel <- (p_ppc_biomass | p_ppc_inflo ) +
   plot_annotation(tag_levels = "A")
 print(ppc_panel)
+ggsave(
+  file.path(fig_dir, "PPC_models_soilendo.pdf"),
+  plot   = ppc_panel,
+  width  = 170,
+  height = 100,
+  units  = "mm",
+  dpi    = 600,
+  device = cairo_pdf
+)
 
 # =============================================================================
 # PART 3 — POSTERIOR PREDICTIONS
@@ -669,7 +680,7 @@ make_upper_plot <- function(post_df, raw_df, response_col, y_label,
     geom_point(
       data = obs,
       aes(x = precip_mean, y = y_obs, color = Symbiont),
-      alpha = 0.45, size = 2, shape = 16,
+      alpha = 0.45, size = 2.5, shape = 16,
       show.legend = FALSE
     ) +
     scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS,
@@ -679,7 +690,7 @@ make_upper_plot <- function(post_df, raw_df, response_col, y_label,
     labs(x = NULL, y = y_label) +
     vr_theme() +
     theme(
-      legend.position = if (show_legend) c(0.4, 0.8) else "none",
+      legend.position = if (show_legend) c(0.2, 0.7) else "none",
       legend.key.size = unit(8, "pt"),
       axis.title.x    = element_blank(),
       axis.text.x     = element_blank(),
@@ -694,7 +705,7 @@ make_lower_plot <- function(post_df,
 
   ggplot(pd, aes(x = precip_mean)) +
     geom_ribbon(aes(ymin = lo95, ymax = hi95),
-                fill = "#9B6B96", alpha = 0.45, color = NA) +
+                fill = "#D9BFD6", alpha = 0.45, color = NA) +
     geom_line(aes(y = med), color = "black", linewidth = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed",
                linewidth = 0.4, color = "black") +
@@ -703,11 +714,7 @@ make_lower_plot <- function(post_df,
     theme(legend.position = "none")
 }
 
-# ── 4.4  Stack upper + lower into one labelled column ────────────────────────
-# Tags are assigned via plot_annotation() on the outer combined figure,
-# so each individual plot gets tag = "" here to avoid double-labelling.
-# The two sub-plots within each column receive consecutive letters via
-# the nested tagging in the final assembly below.
+# ── 4.4  Reusable column builder (kept for Part 4b / spikelets figure) ───────
 make_vr_column <- function(post_df, raw_df, response_col, y_label,
                            show_legend = TRUE) {
   upper <- make_upper_plot(post_df, raw_df, response_col, y_label,
@@ -716,22 +723,20 @@ make_vr_column <- function(post_df, raw_df, response_col, y_label,
   upper / lower + plot_layout(heights = c(2, 1))
 }
 
-# ── 4.5  Build predicted/Δ columns ───────────────────────────────────────────
-col_biomass <- make_vr_column(
-  post_df      = post_precip_biomass,
-  raw_df       = aghysoils,
-  response_col = "calc_abg_mass_tot",
-  y_label      = "Aboveground biomass (g)",
-  show_legend  = TRUE
-)
+# ── 4.5  Build predicted/Δ leaf plots ─────────────────────────────────────────
+# Kept as flat (non-nested) plot objects, rather than pre-combined columns, so
+# the final 3-row assembly in 4.7 can control every row's height explicitly
+# instead of two different internal height ratios (2:1 vs 1:1) fighting when
+# nested inside one outer plot_layout().
+upper_biomass <- make_upper_plot(post_precip_biomass, aghysoils,
+                                 "calc_abg_mass_tot", "Aboveground biomass (g)",
+                                 show_legend = TRUE)
+lower_biomass <- make_lower_plot(post_precip_biomass)
 
-col_inflo <- make_vr_column(
-  post_df      = post_precip_inflo,
-  raw_df       = aghysoils,
-  response_col = "calc_total_inflo",
-  y_label      = "Total inflorescences",
-  show_legend  = FALSE
-)
+upper_inflo <- make_upper_plot(post_precip_inflo, aghysoils,
+                               "calc_total_inflo", "Total inflorescences",
+                               show_legend = FALSE)
+lower_inflo <- make_lower_plot(post_precip_inflo)
 
 # ── 4.6  Coefficient caterpillar (third column) ───────────────────────────────
 # Focal betas from fit_biomass and fit_inflo:
@@ -826,45 +831,49 @@ fig_coef <- ggplot(coef_summary, aes(y = parameter, color = term_type)) +
     legend.position      = "none",
     legend.key.size      = unit(8, "pt"),
     panel.grid.major.y   = element_blank(),
-    strip.text.y.right   = element_text(size = 14, color = "black", angle = 90)
+    strip.text.y.right   = element_text(size = 8, color = "black", angle = 90,
+                                        lineheight = 0.85),
+    axis.text            = element_text(size = 8),
+    axis.title           = element_text(size = 9)
   )
 
-# ── 4.7  Assemble 3-column figure with external panel tags ───────────────────
-# col_biomass contains 2 sub-plots (upper = A, lower = B)
-# col_inflo   contains 2 sub-plots (upper = C, lower = D)
-# fig_coef    is a single plot           (        = E)
+# ── 4.7  Assemble 3-row figure with external panel tags ──────────────────────
+# Row 1 (upper, predicted):     upper_biomass | upper_inflo        (= a, b)
+# Row 2 (lower, Δ contrast):    lower_biomass | lower_inflo        (= c, d)
+# Row 3 (coefficient panel):    fig_coef, spanning the full width  (= e)
 #
-# plot_annotation(tag_levels = "A") walks every leaf plot in patchwork order
-# and assigns A, B, C, D, E from left to right, top to bottom.
-# tag_prefix / tag_suffix can be added if brackets are preferred, e.g. "(A)".
+# All three rows are flat leaf-level plots assembled in ONE plot_layout(), so
+# heights = c(2, 1, 2) is the single, explicit source of truth for row sizing
+# (2:1 matches the original upper:lower ratio; the coef row gets a comparable
+# weight to the top row rather than inheriting a mismatched internal ratio).
+#
+# plot_annotation(tag_levels = "a") walks every leaf plot in patchwork order
+# and assigns a, b, c, d, e from left to right, top to bottom.
 # plot.tag.position = "topleft" puts each letter outside and above the panel.
-
-col_biomass <- col_biomass + plot_annotation(tag_levels = list("A"))
-col_inflo   <- col_inflo   + plot_annotation(tag_levels = list("B"))
-fig_coef    <- fig_coef    + plot_annotation(tag_levels = list("C"))
-
 fig_greenhouse_combined <-
-  (col_biomass | col_inflo | fig_coef) +
-  plot_layout(widths = c(1, 1, 1.4)) +
+  (upper_biomass | upper_inflo) /
+  (lower_biomass | lower_inflo) /
+  ((plot_spacer() | fig_coef | plot_spacer()) +
+     plot_layout(widths = c(-0.27, 2, -0.06))) +
+  plot_layout(heights = c(2, 1, 3)) +
   plot_annotation(
     tag_levels = "a",
     tag_prefix = "(",
     tag_suffix = ")"
   ) &
   theme(
-    axis.text         = element_text(size = 10),
-    plot.tag = element_text(size = 12, face = "plain"),
+    plot.tag = element_text(size = 8, face = "plain"),
     plot.tag.position = "topleft"
   )
-
 print(fig_greenhouse_combined)
 
 ggsave(
   file.path(fig_dir, "Fig_Greenhouse_Combined.pdf"),
   plot   = fig_greenhouse_combined,
-  width  = 285,
-  height = 120,
+  width  = 170,
+  height = 150,
   units  = "mm",
+  dpi    = 600,
   device = cairo_pdf
 )
 
@@ -970,9 +979,10 @@ print(fig_spikelets_combined)
 ggsave(
   file.path(fig_dir, "Fig_Spikelets_Combined.pdf"),
   plot   = fig_spikelets_combined,
-  width  = 250,
-  height = 120,
+  width  = 173,
+  height = 82.8,
   units  = "mm",
+  dpi    = 600,
   device = cairo_pdf
 )
 

@@ -26,7 +26,7 @@ theme_el <- function(show_legend = FALSE) {
       ),
 
       # Axes
-      axis.title       = element_text(size = 10.5, colour = "#1A1A1A"),
+      axis.title       = element_text(size = 12, colour = "#1A1A1A"),
       axis.text        = element_text(size = 9,    colour = "#3C3C3C"),
       axis.ticks       = element_line(colour = "#3C3C3C", linewidth = 0.4),
       axis.ticks.length = unit(3, "pt"),
@@ -103,7 +103,7 @@ make_panel <- function(title,
     labs(
       title = title,
       x     = if (show_x) "Precipitation" else NULL,
-      y     = if (show_y) "Symbiont effect (S\u207a \u2212 S\u207b)" else NULL
+      y     = if (show_y) "Symbiont effect (S+ \u2212 S-)" else NULL
     ) +
 
     theme_el(show_legend = show_legend)

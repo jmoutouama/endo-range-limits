@@ -38,7 +38,7 @@ library(xtable)
 set.seed(13)
 # ── Shared color scheme (use consistently across ALL figures) ─────────────────
 # S- = tomato, S+ = cornflowerblue
-ENDO_COLORS <- c("0" = "tomato", "1" = "cornflowerblue")
+ENDO_COLORS <- c("0" = "#E2492D", "1" = "#3E6DC9")
 ENDO_LABELS <- c("0" = "S\u2212", "1" = "S+")
 
 # ── Shared theme ──────────────────────────────────────────────────────────────
@@ -270,7 +270,7 @@ ggplot(plot_data_survival) +
   geom_ribbon(
     data = subset(plot_data_survival, panel == "Δ (S+ - S-)"),
     aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#9B6B96", alpha = 0.6
+    fill = "#D9BFD6", alpha = 0.6
   ) +
   geom_hline(
     data = subset(plot_data_survival, panel == "Δ (S+ - S-)"),
@@ -603,8 +603,7 @@ ggplot(plot_data_grow) +
     alpha = 0.5,
     show.legend = FALSE
   ) +
-  scale_size_continuous(range=c(0.5, 4)) +
-
+  scale_size_continuous(range = c(0.7, 5.3))+   # was c(0.5, 4)
   geom_line(
     data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, y=mean), color="black", linewidth=0.5
@@ -612,7 +611,7 @@ ggplot(plot_data_grow) +
   geom_ribbon(
     data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
-    fill="#9B6B96", alpha=0.6
+    fill="#D9BFD6", alpha=0.6
   ) +
   geom_hline(
     data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
@@ -654,10 +653,25 @@ ggplot(plot_data_grow) +
   scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
   scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
-  theme(legend.position=c(0.05, 0.26)) +
-  geom_text(data=panel_labels_grow,
-            aes(x=490, y=ymax*0.70, label=label),
-            hjust=0, size=3.5, inherit.aes=FALSE)
+  theme(
+    panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.27),
+    axis.line         = element_line(color = "black", linewidth = 0.13),
+    axis.title        = element_text(size = 11),
+    axis.text         = element_text(size = 8),
+    axis.ticks.x      = element_line(color = "black", linewidth = 0.27),
+    axis.ticks.y      = element_line(color = "black", linewidth = 0.27),
+    legend.title      = element_text(size = 8),
+    legend.text       = element_text(size = 8),
+    panel.spacing.y   = unit(0.2, "cm"),
+    text              = element_text(family = "Arial"),
+    strip.text.x      = element_text(size = 13, color = "black"),
+    strip.text.y      = element_text(size = 11, color = "black"),
+    strip.background  = element_rect(color = "black", fill = "grey80", linewidth = 0.27),
+    legend.position   = c(0.055, 0.26)
+  ) +
+  geom_text(data = panel_labels_grow,
+            aes(x = 490, y = ymax * 0.70, label = label),
+            hjust = 0, size = 4.7, inherit.aes = FALSE)   # was size = 3.5
 dev.off()
 
 # ── Delta growth summary ───────────────────────────────────────────────────────
@@ -948,7 +962,7 @@ ggplot(plot_data_inf) +
   geom_ribbon(
     data=subset(plot_data_inf, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
-    fill="#9B6B96", alpha=0.6
+    fill="#D9BFD6", alpha=0.6
   ) +
   geom_hline(
     data=subset(plot_data_inf, panel=="Δ (S+ - S-)"),
@@ -1260,7 +1274,7 @@ ggplot(plot_data_spik) +
     aes(x=jitter_x, y=y_plot_mean, color=factor(endo), size=n_obs),
     alpha=0.5, show.legend=FALSE
   ) +
-  scale_size_continuous(range=c(0.5, 4)) +
+  scale_size_continuous(range = c(0.8, 6.7)) +  # was c(0.5, 4)
   geom_line(
     data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, y=mean), color="black", linewidth=0.5
@@ -1272,7 +1286,7 @@ ggplot(plot_data_spik) +
   geom_ribbon(
     data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
-    fill="#9B6B96", alpha=0.5
+    fill="#D9BFD6", alpha=0.5
   ) +
   ggh4x::facet_nested(
     panel ~ species + herb, scales="free_y", space="free_y",
@@ -1303,10 +1317,25 @@ ggplot(plot_data_spik) +
   scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
   scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
-  theme(legend.position=c(0.1, 0.88)) +
-  geom_text(data=panel_labels_spik,
-            aes(x=490, y=47, label=label),
-            fontface="plain", size=3.5, hjust=0, inherit.aes=FALSE)
+  theme(
+    panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.33),
+    axis.line         = element_line(color = "black", linewidth = 0.17),
+    axis.title        = element_text(size = 13),
+    axis.text         = element_text(size = 10),
+    axis.ticks.x      = element_line(color = "black", linewidth = 0.33),
+    axis.ticks.y      = element_line(color = "black", linewidth = 0.33),
+    legend.title      = element_text(size = 10),
+    legend.text       = element_text(size = 10),
+    panel.spacing.y   = unit(0.2, "cm"),
+    text              = element_text(family = "Arial"),
+    strip.text.x      = element_text(size = 17, color = "black"),
+    strip.text.y      = element_text(size = 13, color = "black"),
+    strip.background  = element_rect(color = "black", fill = "grey80", linewidth = 0.33),
+    legend.position   = c(0.1, 0.88)
+  )+
+  geom_text(data = panel_labels_spik,
+            aes(x = 490, y = 47, label = label),
+            fontface = "plain", size = 5.8, hjust = 0, inherit.aes = FALSE)   # was size = 3.5
 dev.off()
 
 # ── Delta spikelet summary ────────────────────────────────────────────────────

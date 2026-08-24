@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 AUG 2026 19:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 AUG 2026 19:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1450,11 +1450,11 @@ Package pdftex.def Info: temp_census_years.pdf  used on input line 815.
 
 
  <./temp_census_years.pdf>]
-<PPC.png, id=778, 573.14125pt x 485.815pt>
+<PPC.png, id=778, 505.89pt x 433.62pt>
 File: PPC.png Graphic file (type png)
 <use PPC.png>
 Package pdftex.def Info: PPC.png  used on input line 824.
-(pdftex.def)             Requested size: 469.75502pt x 398.18555pt.
+(pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [47
@@ -1583,7 +1583,7 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on EcolLett_R1.pdf (56 pages, 3537666 bytes).
+Output written on EcolLett_R1.pdf (56 pages, 3476827 bytes).
 PDF statistics:
  1100 PDF objects out of 1200 (max. 8388607)
  893 compressed objects within 9 object streams

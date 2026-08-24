@@ -407,12 +407,12 @@ demography_climate %>%
 # summary(demography_climate)
 
 ## Running the stan model
-sim_pars <- list(
-  warmup = 1000,
-  iter = 3000,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  chains = 3
-)
+# sim_pars <- list(
+#   warmup = 1000,
+#   iter = 3000,
+#   control = list(adapt_delta = 0.99, max_treedepth = 15),
+#   chains = 3
+# )
 
 # Survival----
 ## Read and format survival data to build the model
@@ -459,15 +459,15 @@ demography_surv_ppt <- list(
   y          = demography_climate_surv$surv_t1,
   N          = nrow(demography_climate_surv)
 )
-fit_surv_abio_bio_endo_linear <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_l.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_abio_bio_endo_linear <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_l.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
 
 #check_hmc_diagnostics(fit_surv_abio_bio_endo_linear)
@@ -487,15 +487,15 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
-fit_surv_abio_bio_endo <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_abio_bio_endo <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
 #rstan::check_hmc_diagnostics(fit_surv_abio_bio_endo)
 #summary(fit_surv_abio_bio_endo)$summary[, c("Rhat", "n_eff")]
@@ -514,46 +514,46 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
                       )
 ) + theme_bw()
 
-fit_surv_abio_bio_endo_linear_wi <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_main.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_abio_bio_endo_linear_wi <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_main.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
 
-fit_surv_endo_clim <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_clim.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_endo_clim <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_clim.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
-fit_surv_endo_herb <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_herb.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_endo_herb <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_herb.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
-fit_surv_no3way <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_no3way.stan",
-  data = demography_surv_ppt,
-  warmup = sim_pars$warmup,
-  control = sim_pars$control,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  seed = 13
-)
+# fit_surv_no3way <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_no3way.stan",
+#   data = demography_surv_ppt,
+#   warmup = sim_pars$warmup,
+#   control = sim_pars$control,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   seed = 13
+# )
 
 ## Save RDS file for further use
 # saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
@@ -610,14 +610,14 @@ demography_grow_ppt <- list(
   N = nrow(demography_climate_grow)
 )
 
-fit_grow_abio_bio_endo_linear <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_l.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_grow_abio_bio_endo_linear <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_l.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 posterior_grow_abio_bio_endo_linear <- as.array(fit_grow_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
@@ -633,14 +633,14 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
-fit_grow_abio_bio_endo <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_grow_abio_bio_endo <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 posterior_grow_abio_bio_endo <- as.array(fit_grow_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
@@ -657,42 +657,42 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 ) + theme_bw()
 
 # summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
-fit_grow_abio_bio_endo_linear_wi <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_main.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_grow_abio_bio_endo_linear_wi <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_main.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 
-fit_grow_endo_clim <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_clim.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-fit_grow_endo_herb <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_herb.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-fit_grow_no3way <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_no3way.stan",
-  data = demography_grow_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_grow_endo_clim <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_clim.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# fit_grow_endo_herb <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_herb.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# fit_grow_no3way <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_no3way.stan",
+#   data = demography_grow_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 ## Save RDS file for further use
 # saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
@@ -747,14 +747,14 @@ demography_inf_ppt <- list(
   N = nrow(demography_climate_inf)
 )
 
-fit_inf_abio_bio_endo_linear <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_l.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_inf_abio_bio_endo_linear <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_l.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 posterior_inf_abio_bio_endo_linear <- as.array(fit_inf_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
@@ -770,34 +770,34 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
-
-fit_inf_abio_bio_endo_hurdle_linear <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_hurdle_l.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-
-fit_inf_abio_bio_endo_linear_wi <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_main.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-fit_inf_abio_bio_endo <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# 
+# fit_inf_abio_bio_endo_hurdle_linear <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_hurdle_l.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# 
+# fit_inf_abio_bio_endo_linear_wi <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_main.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# fit_inf_abio_bio_endo <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 #summary(fit_flow_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_inf_abio_bio_endo <- as.array(fit_inf_abio_bio_endo) # Converts to an array
@@ -814,32 +814,32 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
                       )
 ) + theme_bw()
 
-fit_inf_endo_clim <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_clim.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-fit_inf_endo_herb <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_herb.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
-
-fit_inf_endo_no3way <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_no3way.stan",
-  data = demography_inf_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+# fit_inf_endo_clim <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_clim.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# fit_inf_endo_herb <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_herb.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
+# 
+# fit_inf_endo_no3way <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_no3way.stan",
+#   data = demography_inf_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control = sim_pars$control,
+#   seed = 13)
 
 ## Save RDS file for further use
 # saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
@@ -897,14 +897,14 @@ demography_spik_ppt <- list(
   N = nrow(demography_climate_spik)
 )
 
-fit_spik_abio_bio_endo_linear <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_l.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
+# fit_spik_abio_bio_endo_linear <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_l.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
 
 posterior_spik_abio_bio_endo_linear <- as.array(fit_spik_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
@@ -920,14 +920,14 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
                       )
 ) + theme_bw()
 
-fit_spik_abio_bio_endo <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
+# fit_spik_abio_bio_endo <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
 
 # summary(fit_spik_ppt)$summary[, c("Rhat", "n_eff")]
 posterior_spik_abio_bio_endo <- as.array(fit_spik_abio_bio_endo) # Converts to an array
@@ -945,42 +945,42 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 ) + theme_bw()
 
 
-fit_spik_abio_bio_endo_linear_wi <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_main.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
-
-
-fit_spik_endo_clim <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_clim.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
-
-fit_spik_endo_herb <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_herb.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
-
-fit_spik_no3way <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_no3way.stan",
-  data = demography_spik_ppt,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control =sim_pars$control,
-  seed = 13)
+# fit_spik_abio_bio_endo_linear_wi <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_main.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
+# 
+# 
+# fit_spik_endo_clim <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_clim.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
+# 
+# fit_spik_endo_herb <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_herb.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
+# 
+# fit_spik_no3way <- stan(
+#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_no3way.stan",
+#   data = demography_spik_ppt,
+#   warmup = sim_pars$warmup,
+#   iter = sim_pars$iter,
+#   chains = sim_pars$chains,
+#   control =sim_pars$control,
+#   seed = 13)
 
 ## Save RDS file for further use
 saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
@@ -1092,8 +1092,12 @@ post_surv_linear <- rstan::extract(fit_surv_linear)
 pred_surv_linear <- post_surv_linear$predS
 y_surv_linear <- demography_surv_ppt$y
 y_rep_surv_linear <- simulate_ppc(pred_surv_linear, family = "bernoulli")
-p_surv_linear <- ppc_dens_overlay(y_surv_linear, y_rep_surv_linear) + ggtitle("Survival")
-
+p_surv_linear <- ppc_dens_overlay(y_surv_linear, y_rep_surv_linear) +
+  ggtitle("") +
+  labs(
+    x = "Survival status",
+    y = "Density"
+  )
 ## Growth Model linear ----
 fit_grow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"))
 post_grow_linear <- rstan::extract(fit_grow_linear)
@@ -1101,8 +1105,12 @@ pred_grow_linear <- post_grow_linear$predG
 sigma_grow_linear <- post_grow_linear$sigma
 y_grow_linear <- demography_grow_ppt$y
 y_rep_grow_linear <- simulate_ppc(pred_grow_linear, phi = sigma_grow_linear, family = "normal")
-p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear) + ggtitle("Growth")
-
+p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear) +
+  ggtitle("") +
+  labs(
+    x = "Growth",
+    y = "Density"
+  )
 # ## Inflorescence Model linear ----
 fit_inf_linear <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
 post_inf_linear <- rstan::extract(fit_inf_linear)
@@ -1111,7 +1119,16 @@ zi_inf_linear <- post_inf_linear$zi           # scalar zero-inflation
 phi_inf_linear <- post_inf_linear$phi
 y_inf_linear <- demography_inf_ppt$y
 y_rep_inf_linear <- simulate_ppc(pred_inf_linear, zi =zi_inf_linear,phi = phi_inf_linear, family = "zinb")
-p_inf_linear <- ppc_dens_overlay(y_inf_linear, y_rep_inf_linear[1:500, ]) + ggtitle("Inflorescence")+xlim(0,100)
+p_inf_linear <- ppc_dens_overlay(
+  y_inf_linear,
+  y_rep_inf_linear[1:500, ]
+) +
+  ggtitle("") +
+  xlim(0, 100) +
+  labs(
+    x = "Inflorescence count",
+    y = "Density"
+  )
 
 ## Spikelet Model linear ----
 fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"))
@@ -1120,15 +1137,33 @@ pred_spik_linear <- post_spik_linear$predF
 zi_spik_linear <- post_spik_linear$zi           # scalar zero-inflation
 phi_spik_linear <- post_spik_linear$phi
 y_spik_linear <- demography_spik_ppt$y
-y_rep_spik_linear <- simulate_ppc(pred_spik_linear,zi =y_spik_linear, phi = phi_spik_linear, family = "negbinomial")
-p_spik_linear <- ppc_dens_overlay(y_spik_linear, y_rep_spik_linear) + ggtitle("Spikelet")
-
+y_rep_spik_linear <- simulate_ppc(
+  pred_spik_linear,
+  phi = phi_spik_linear,
+  family = "negbinomial"
+)
+p_spik_linear <- ppc_dens_overlay(
+  y_spik_linear,
+  y_rep_spik_linear
+) +
+  ggtitle("") +
+  labs(
+    x = "Spikelet count",
+    y = "Density"
+  )
 ## Combine all PPC plots linear ----
-combined_plot_linear <- (p_surv_linear | p_grow_linear) / (p_inf_linear | p_spik_linear) +
-  plot_annotation(title = "") +
+combined_plot_linear <- 
+  (p_surv_linear | p_grow_linear) / 
+  (p_inf_linear | p_spik_linear) +
+  plot_annotation(
+    title = "",
+    tag_levels = "A"
+  ) +
   plot_layout(guides = "collect") &
-  theme_light() +
-  theme(legend.position = "bottom")
+  theme_light() &
+  theme(
+    legend.position = "bottom"
+  )
 
 print(combined_plot_linear)
 

@@ -583,7 +583,7 @@ dev.off()
 ## Herbivory for 2024 and 2025
 # Define herbivory levels and colors
 herb_levels <- c(1,0)  # 1 = Fenced, 0 = Unfenced
-colors <- c("#E69F00","#009E73")
+colors <- c("#009E73","#E69F00")
 names(colors) <- herb_levels
 
 # Function to summarize data per year

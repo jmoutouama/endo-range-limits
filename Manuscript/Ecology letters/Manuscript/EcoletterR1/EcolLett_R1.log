@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  21 AUG 2026 12:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 AUG 2026 18:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1287,7 +1287,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 [20])
 
 [21]
-<conceptual_figure.pdf, id=494, 578.16pt x 433.62pt>
+<conceptual_figure.pdf, id=496, 578.16pt x 433.62pt>
 File: conceptual_figure.pdf Graphic file (type pdf)
 <use conceptual_figure.pdf>
 Package pdftex.def Info: conceptual_figure.pdf  used on input line 501.
@@ -1297,7 +1297,7 @@ Package pdftex.def Info: conceptual_figure.pdf  used on input line 501.
 [22
 
  <./conceptual_figure.pdf>]
-<clim_map1.pdf, id=520, 650.43pt x 758.835pt>
+<clim_map1.pdf, id=522, 650.43pt x 758.835pt>
 File: clim_map1.pdf Graphic file (type pdf)
 <use clim_map1.pdf>
 Package pdftex.def Info: clim_map1.pdf  used on input line 512.
@@ -1305,7 +1305,7 @@ Package pdftex.def Info: clim_map1.pdf  used on input line 512.
 
 
 [23 <./clim_map1.pdf>]
-<PrSurvival_diff.pdf, id=556, 433.62pt x 505.89pt>
+<PrSurvival_diff.pdf, id=558, 433.62pt x 505.89pt>
 File: PrSurvival_diff.pdf Graphic file (type pdf)
 <use PrSurvival_diff.pdf>
 Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 529.
@@ -1313,7 +1313,7 @@ Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 529.
 
 
 [24 <./PrSurvival_diff.pdf>]
-<Growth_diff.pdf, id=588, 505.89pt x 578.16pt>
+<Growth_diff.pdf, id=590, 505.89pt x 578.16pt>
 File: Growth_diff.pdf Graphic file (type pdf)
 <use Growth_diff.pdf>
 Package pdftex.def Info: Growth_diff.pdf  used on input line 543.
@@ -1321,7 +1321,7 @@ Package pdftex.def Info: Growth_diff.pdf  used on input line 543.
 
 
 [25 <./Growth_diff.pdf>]
-<All_traits_diff_stat_lower.pdf, id=621, 505.89pt x 433.62pt>
+<All_traits_diff_stat_lower.pdf, id=623, 505.89pt x 433.62pt>
 File: All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use All_traits_diff_stat_lower.pdf>
 Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 571
@@ -1335,7 +1335,7 @@ Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 571
 
 
  <./All_traits_diff_stat_lower.pdf>]
-<Fig_Greenhouse_Combined.pdf, id=654, 482.80376pt x 426.59375pt>
+<Fig_Greenhouse_Combined.pdf, id=656, 482.80376pt x 426.59375pt>
 File: Fig_Greenhouse_Combined.pdf Graphic file (type pdf)
 <use Fig_Greenhouse_Combined.pdf>
 Package pdftex.def Info: Fig_Greenhouse_Combined.pdf  used on input line 582.
@@ -1439,7 +1439,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--14
 ] (./posterior_soil.tex)
 
 [45]
-<temp_census_years.pdf, id=766, 578.16pt x 289.08pt>
+<temp_census_years.pdf, id=768, 578.16pt x 289.08pt>
 File: temp_census_years.pdf Graphic file (type pdf)
 <use temp_census_years.pdf>
 Package pdftex.def Info: temp_census_years.pdf  used on input line 815.
@@ -1450,7 +1450,7 @@ Package pdftex.def Info: temp_census_years.pdf  used on input line 815.
 
 
  <./temp_census_years.pdf>]
-<combined_ppc_plots_linear.pdf, id=776, 505.89pt x 433.62pt>
+<combined_ppc_plots_linear.pdf, id=778, 505.89pt x 433.62pt>
 File: combined_ppc_plots_linear.pdf Graphic file (type pdf)
 <use combined_ppc_plots_linear.pdf>
 Package pdftex.def Info: combined_ppc_plots_linear.pdf  used on input line 824.
@@ -1461,7 +1461,7 @@ Package pdftex.def Info: combined_ppc_plots_linear.pdf  used on input line 824.
 [47
 
  <./combined_ppc_plots_linear.pdf>]
-<PPC_models_soilendo.pdf, id=790, 482.80376pt x 284.06125pt>
+<PPC_models_soilendo.pdf, id=792, 482.80376pt x 284.06125pt>
 File: PPC_models_soilendo.pdf Graphic file (type pdf)
 <use PPC_models_soilendo.pdf>
 Package pdftex.def Info: PPC_models_soilendo.pdf  used on input line 834.
@@ -1471,7 +1471,7 @@ Package pdftex.def Info: PPC_models_soilendo.pdf  used on input line 834.
 [48
 
  <./PPC_models_soilendo.pdf>]
-<prop_damage_barplot_24_25.pdf, id=815, 578.16pt x 289.08pt>
+<prop_damage_barplot_24_25.pdf, id=817, 578.16pt x 289.08pt>
 File: prop_damage_barplot_24_25.pdf Graphic file (type pdf)
 <use prop_damage_barplot_24_25.pdf>
 Package pdftex.def Info: prop_damage_barplot_24_25.pdf  used on input line 846.
@@ -1482,7 +1482,7 @@ Package pdftex.def Info: prop_damage_barplot_24_25.pdf  used on input line 846.
 [49
 
  <./prop_damage_barplot_24_25.pdf>]
-<prop_damage_species_years.pdf, id=827, 867.24pt x 578.16pt>
+<prop_damage_species_years.pdf, id=829, 867.24pt x 578.16pt>
 File: prop_damage_species_years.pdf Graphic file (type pdf)
 <use prop_damage_species_years.pdf>
 Package pdftex.def Info: prop_damage_species_years.pdf  used on input line 857.
@@ -1493,7 +1493,7 @@ Package pdftex.def Info: prop_damage_species_years.pdf  used on input line 857.
 [50
 
  <./prop_damage_species_years.pdf>]
-<herb_endo_effect.pdf, id=838, 578.16pt x 361.35pt>
+<herb_endo_effect.pdf, id=840, 578.16pt x 361.35pt>
 File: herb_endo_effect.pdf Graphic file (type pdf)
 <use herb_endo_effect.pdf>
 Package pdftex.def Info: herb_endo_effect.pdf  used on input line 871.
@@ -1503,7 +1503,7 @@ Package pdftex.def Info: herb_endo_effect.pdf  used on input line 871.
 [51
 
  <./herb_endo_effect.pdf>]
-<FigS_sensitivity_KER_SON_combined.pdf, id=857, 1011.78pt x 794.97pt>
+<FigS_sensitivity_KER_SON_combined.pdf, id=859, 1011.78pt x 794.97pt>
 File: FigS_sensitivity_KER_SON_combined.pdf Graphic file (type pdf)
 <use FigS_sensitivity_KER_SON_combined.pdf>
 Package pdftex.def Info: FigS_sensitivity_KER_SON_combined.pdf  used on input l
@@ -1514,7 +1514,7 @@ ine 885.
 [52
 
  <./FigS_sensitivity_KER_SON_combined.pdf>]
-<FigS_coef_caterpillar_combined.pdf, id=896, 1011.78pt x 794.97pt>
+<FigS_coef_caterpillar_combined.pdf, id=898, 1011.78pt x 794.97pt>
 File: FigS_coef_caterpillar_combined.pdf Graphic file (type pdf)
 <use FigS_coef_caterpillar_combined.pdf>
 Package pdftex.def Info: FigS_coef_caterpillar_combined.pdf  used on input line
@@ -1525,7 +1525,7 @@ Package pdftex.def Info: FigS_coef_caterpillar_combined.pdf  used on input line
 [53
 
  <./FigS_coef_caterpillar_combined.pdf>]
-<Inflorescence_diff_v.pdf, id=928, 433.62pt x 505.89pt>
+<Inflorescence_diff_v.pdf, id=930, 433.62pt x 505.89pt>
 File: Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use Inflorescence_diff_v.pdf>
 Package pdftex.def Info: Inflorescence_diff_v.pdf  used on input line 907.
@@ -1535,7 +1535,7 @@ Package pdftex.def Info: Inflorescence_diff_v.pdf  used on input line 907.
 [54
 
  <./Inflorescence_diff_v.pdf>]
-<Spikelet_diff.pdf, id=960, 722.7pt x 433.62pt>
+<Spikelet_diff.pdf, id=962, 722.7pt x 433.62pt>
 File: Spikelet_diff.pdf Graphic file (type pdf)
 <use Spikelet_diff.pdf>
 Package pdftex.def Info: Spikelet_diff.pdf  used on input line 921.
@@ -1545,7 +1545,7 @@ Package pdftex.def Info: Spikelet_diff.pdf  used on input line 921.
 [55
 
  <./Spikelet_diff.pdf>]
-<Spikelet_diff_stat.pdf, id=993, 505.89pt x 433.62pt>
+<Spikelet_diff_stat.pdf, id=995, 505.89pt x 433.62pt>
 File: Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use Spikelet_diff_stat.pdf>
 Package pdftex.def Info: Spikelet_diff_stat.pdf  used on input line 936.
@@ -1559,10 +1559,6 @@ Package pdftex.def Info: Spikelet_diff_stat.pdf  used on input line 936.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `EcolLett_R1.out' has not changed.
 (rerunfilecheck)             Checksum: 67D9510E848C8399B0D9B516F1149AE4;1484.
  )
@@ -1571,11 +1567,11 @@ Package rerunfilecheck Info: File `EcolLett_R1.out' has not changed.
 ### semi simple group (level 1) entered at line 186 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 31400 strings out of 473190
- 573292 string characters out of 5715801
- 1019561 words of memory out of 5000000
+ 31416 strings out of 473190
+ 573469 string characters out of 5715801
+ 1019598 words of memory out of 5000000
  52823 multiletter control sequences out of 15000+600000
- 692061 words of font info for 949 fonts, out of 8000000 for 9000
+ 692842 words of font info for 962 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,15n,101p,1497b,914s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1588,10 +1584,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on EcolLett_R1.pdf (56 pages, 59343024 bytes).
+Output written on EcolLett_R1.pdf (56 pages, 59342982 bytes).
 PDF statistics:
- 1105 PDF objects out of 1200 (max. 8388607)
- 898 compressed objects within 9 object streams
+ 1107 PDF objects out of 1200 (max. 8388607)
+ 900 compressed objects within 9 object streams
  175 named destinations out of 1000 (max. 500000)
  197290 words of extra memory for PDF output out of 221844 (max. 10000000)
 

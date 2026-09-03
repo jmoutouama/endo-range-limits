@@ -1,9 +1,11 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99e
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: EcolLett_RESPONSE.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: References.bib
-Repeated entry---line 1005 of file References.bib
+Repeated entry---line 2009 of file References.bib
  : @article{davitt2011understanding
  :                                 ,
 I'm skipping whatever remains of this entry

@@ -1,51 +1,53 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99e
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: EcolLett_R1.aux
+Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: References.bib
-Repeated entry---line 1005 of file References.bib
+Repeated entry---line 2031 of file References.bib
  : @article{davitt2011understanding
  :                                 ,
 I'm skipping whatever remains of this entry
-You've used 74 entries,
+You've used 75 entries,
             1935 wiz_defined-function locations,
-            913 strings with 18385 characters,
-and the built_in function-call counts, 31831 in all, are:
-= -- 3113
-> -- 1486
+            918 strings with 18586 characters,
+and the built_in function-call counts, 32291 in all, are:
+= -- 3158
+> -- 1509
 < -- 35
-+ -- 528
-- -- 512
-* -- 2932
-:= -- 5559
-add.period$ -- 221
-call.type$ -- 74
-change.case$ -- 619
-chr.to.int$ -- 72
-cite$ -- 74
-duplicate$ -- 1043
-empty$ -- 2100
-format.name$ -- 616
-if$ -- 6072
++ -- 536
+- -- 520
+* -- 2977
+:= -- 5639
+add.period$ -- 224
+call.type$ -- 75
+change.case$ -- 628
+chr.to.int$ -- 73
+cite$ -- 75
+duplicate$ -- 1057
+empty$ -- 2130
+format.name$ -- 625
+if$ -- 6159
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 70
-newline$ -- 372
-num.names$ -- 222
-pop$ -- 473
+missing$ -- 71
+newline$ -- 377
+num.names$ -- 225
+pop$ -- 480
 preamble$ -- 1
-purify$ -- 624
+purify$ -- 633
 quote$ -- 0
-skip$ -- 798
+skip$ -- 808
 stack$ -- 0
-substring$ -- 2446
-swap$ -- 101
+substring$ -- 2483
+swap$ -- 102
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 438
+type$ -- 444
 warning$ -- 0
-while$ -- 270
+while$ -- 274
 width$ -- 0
-write$ -- 953
+write$ -- 966
 (There was 1 error message)

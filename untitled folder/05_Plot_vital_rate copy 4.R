@@ -1,7 +1,7 @@
 # Purpose: Plot vital rate models (survival, growth, flowering and spikelet) as
 #          function of climate or distance from niche center.
 # Authors: Jacob Moutouama
-# Date last modified (2026-09-06):
+# Date last modified (Y-M-D):
 
 rm(list = ls())
 
@@ -261,7 +261,7 @@ range(observed_data_survival$n_obs)
 # ── Create visible dash segments for the zero line ───────────────────────────
 make_dashes <- function(xmin, xmax, n = 16, dash_prop = 0.65) {
   step <- (xmax - xmin) / n
-
+  
   tibble(
     x    = xmin + (0:(n - 1)) * step,
     xend = xmin + (0:(n - 1)) * step + step * dash_prop,
@@ -624,14 +624,8 @@ plot_data_grow$species <- factor(plot_data_grow$species, levels=1:3, labels=spec
 
 # ── Observed growth: plot means only ─────────────────────────────────────────
 observed_data_grow <- demography_grow_ppt %>%
-  data.frame(
-    clim    = .$clim,
-    endo    = .$endo,
-    herb    = .$herb,
-    species = .$Spp,
-    plot    = .$plot,
-    y       = .$y
-  ) %>%
+  data.frame(clim=.$clim, endo=.$endo, herb=.$herb,
+             species=.$Spp, plot=.$plot, y=.$y) %>%
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm=TRUE),
@@ -687,34 +681,30 @@ Cairo::CairoTIFF(
 )
 ggplot(plot_data_grow) +
   geom_line(
-    data = subset(plot_data_grow, panel == "Growth"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    linewidth = 0.5
+    data = subset(plot_data_grow, panel=="Growth"),
+    aes(x=climate_mm, y=mean, color=factor(endo), group=endo), linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_grow, panel == "Growth"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90,
-        fill = factor(endo), group = endo),
-    alpha = 0.2, color = NA
+    data = subset(plot_data_grow, panel=="Growth"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90, fill=factor(endo), group=endo),
+    alpha=0.2, color=NA
   ) +
   # ── Observed: plot means only, size ∝ n_obs ──────────────────────────────
   geom_point(
-    data = subset(observed_data_grow, panel == "Growth"),
-    aes(x = jitter_x, y = y_plot_mean, color = factor(endo), size = n_obs),
+    data = subset(observed_data_grow, panel=="Growth"),
+    aes(x=jitter_x, y=y_plot_mean, color=factor(endo), size=n_obs),
     alpha = 0.5,
     show.legend = FALSE
   ) +
-  scale_size_continuous(range = c(0.7, 5.3)) +   # was c(0.5, 4)
-  # ── Δ panel ──
+  scale_size_continuous(range = c(0.7, 5.3))+   # was c(0.5, 4)
   geom_line(
-    data = subset(plot_data_grow, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, y = mean),
-    color = "black", linewidth = 0.5
+    data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, y=mean), color="black", linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_grow, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#D9BFD6", alpha = 0.6
+    data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
+    fill="#D9BFD6", alpha=0.6
   ) +
   geom_segment(
     data = zero_dashes_grow,
@@ -724,58 +714,44 @@ ggplot(plot_data_grow) +
     lineend = "butt",
     inherit.aes = FALSE
   ) +
-  # ── Facets ──
   ggh4x::facet_nested(
-    species + panel ~ herb,
-    scales = "free",
-    labeller = labeller(
-      species = label_parsed,
-      herb    = c("0" = "Herbivory access", "1" = "Herbivory exclusion"),
-      panel   = ggplot2::as_labeller(PANEL_LABELS, default = label_parsed)
-    )
+    species + panel ~ herb, scales="free",
+    labeller=labeller(species=label_parsed,
+                      herb=c("0"="Herbivory access","1"="Herbivory exclusion"),
+                      panel=ggplot2::as_labeller(PANEL_LABELS, default = label_parsed))
   ) +
-  ggh4x::facetted_pos_scales(
-    y = list(
-      panel == "Δ (S+ - S-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits$ymin[y_limits$species == "italic('Agrostis hyemalis')"],
-                     y_limits$ymax[y_limits$species == "italic('Agrostis hyemalis')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits$ymin[y_limits$species == "italic('Elymus virginicus')"],
-                     y_limits$ymax[y_limits$species == "italic('Elymus virginicus')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits$ymin[y_limits$species == "italic('Poa autumnalis')"],
-                     y_limits$ymax[y_limits$species == "italic('Poa autumnalis')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Growth" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(-2.5, 1), expand = c(0, 0)),
-      panel == "Growth" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(-1.1, 1.25), expand = c(0, 0)),
-      panel == "Growth" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(-2.8, 2.2), expand = c(0, 0))
-    )
-  ) +
-  labs(
-    x = "Precipitation (mm)",
-    y = expression(paste("Log size ratio / ", Delta, " growth (",
-                          italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
-    color = "Symbiont", fill = "Symbiont"
-  ) +
-  scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS) +
-  scale_fill_manual(values  = ENDO_COLORS, labels = ENDO_LABELS) +
+  ggh4x::facetted_pos_scales(y=list(
+    panel=="Δ (S+ - S-)" & species=="italic('Agrostis hyemalis')" ~
+      scale_y_continuous(minor_breaks=NULL,
+        limits=c(y_limits$ymin[y_limits$species=="italic('Agrostis hyemalis')"],
+                 y_limits$ymax[y_limits$species=="italic('Agrostis hyemalis')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Δ (S+ - S-)" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(minor_breaks=NULL,
+        limits=c(y_limits$ymin[y_limits$species=="italic('Elymus virginicus')"],
+                 y_limits$ymax[y_limits$species=="italic('Elymus virginicus')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Δ (S+ - S-)" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(minor_breaks=NULL,
+        limits=c(y_limits$ymin[y_limits$species=="italic('Poa autumnalis')"],
+                 y_limits$ymax[y_limits$species=="italic('Poa autumnalis')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Growth" & species=="italic('Agrostis hyemalis')" ~
+      scale_y_continuous(limits=c(-2.5, 1),  expand=c(0,0)),
+    panel=="Growth" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(limits=c(-1.1, 1.25), expand=c(0,0)),
+    panel=="Growth" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(limits=c(-2.8, 2.2), expand=c(0,0))
+  )) +
+  labs(x="Precipitation (mm)",
+       y = expression(paste("Log size ratio / ", Delta, " growth (",
+                             italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
+       color="Symbiont", fill="Symbiont") +
+  scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
+  scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
   theme(
     panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.27),
@@ -796,11 +772,9 @@ ggplot(plot_data_grow) +
     legend.direction  = "horizontal",
     legend.justification = "center"
   ) +
-  geom_text(
-    data = panel_labels_grow,
-    aes(x = 490, y = ymax * 0.70, label = label),
-    hjust = 0, size = 4.7, inherit.aes = FALSE
-  )   # was size = 3.5
+  geom_text(data = panel_labels_grow,
+            aes(x = 490, y = ymax * 0.70, label = label),
+            hjust = 0, size = 4.7, inherit.aes = FALSE)   # was size = 3.5
 dev.off()
 
 # ── Delta growth summary ───────────────────────────────────────────────────────
@@ -993,7 +967,7 @@ get_predictions_inf <- function(clim, endo, herb, species_index, ps) {
       bendoherb[, species_index] * endo * herb +
       bherbclim[, species_index] * herb * clim +
       bendoherbclim[, species_index] * endo * herb * clim
-
+    
     exp(eta)
   })
 }
@@ -1029,14 +1003,8 @@ plot_data_inf$species <- factor(plot_data_inf$species, levels=1:3, labels=specie
 
 # ── Observed inflorescence: plot means only ───────────────────────────────────
 observed_data_inf <- demography_inf_ppt %>%
-  data.frame(
-    clim    = .$clim,
-    endo    = .$endo,
-    herb    = .$herb,
-    species = .$Spp,
-    plot    = .$plot,
-    y       = .$y
-  ) %>%
+  data.frame(clim=.$clim, endo=.$endo, herb=.$herb,
+             species=.$Spp, plot=.$plot, y=.$y) %>%
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm=TRUE),
@@ -1090,33 +1058,29 @@ Cairo::CairoTIFF(
 )
 ggplot(plot_data_inf) +
   geom_line(
-    data = subset(plot_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    linewidth = 0.5
+    data=subset(plot_data_inf, panel=="Inflorescences"),
+    aes(x=climate_mm, y=mean, color=factor(endo), group=endo), linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_inf, panel == "Inflorescences"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90,
-        fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
+    data=subset(plot_data_inf, panel=="Inflorescences"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90, fill=factor(endo), group=endo),
+    alpha=0.3, color=NA
   ) +
   # ── Observed: plot means only, size ∝ n_obs ──────────────────────────────
   geom_point(
-    data = subset(observed_data_inf, panel == "Inflorescences"),
-    aes(x = jitter_x, y = y_plot_mean, color = factor(endo), size = n_obs),
-    alpha = 0.5, show.legend = FALSE
+    data=subset(observed_data_inf, panel=="Inflorescences"),
+    aes(x=jitter_x, y=y_plot_mean, color=factor(endo), size=n_obs),
+    alpha=0.5, show.legend=FALSE
   ) +
-  scale_size_continuous(range = c(0.5, 4)) +
-  # ── Δ panel ──
+  scale_size_continuous(range=c(0.5, 4)) +
   geom_line(
-    data = subset(plot_data_inf, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, y = mean),
-    color = "black", linewidth = 0.5
+    data=subset(plot_data_inf, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, y=mean), color="black", linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_inf, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#D9BFD6", alpha = 0.6
+    data=subset(plot_data_inf, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
+    fill="#D9BFD6", alpha=0.6
   ) +
   geom_segment(
     data = zero_dashes_inf,
@@ -1126,68 +1090,49 @@ ggplot(plot_data_inf) +
     lineend = "butt",
     inherit.aes = FALSE
   ) +
-  # ── Facets ──
   ggh4x::facet_nested(
-    species + panel ~ herb,
-    scales = "free_y",
-    labeller = labeller(
-      species = label_parsed,
-      herb    = c("0" = "Herbivory access", "1" = "Herbivory exclusion"),
-      panel   = ggplot2::as_labeller(PANEL_LABELS, default = label_parsed)
-    )
+    species + panel ~ herb, scales="free_y",
+    labeller=labeller(species=label_parsed,
+                      herb=c("0"="Herbivory access","1"="Herbivory exclusion"),
+                      panel=ggplot2::as_labeller(PANEL_LABELS, default = label_parsed))
   ) +
-  ggh4x::facetted_pos_scales(
-    y = list(
-      panel == "Δ (S+ - S-)" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Agrostis hyemalis')"],
-                     y_limits_inf$ymax[y_limits_inf$species == "italic('Agrostis hyemalis')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          minor_breaks = NULL, limits = c(-1.5, 3.2),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits_inf$ymin[y_limits_inf$species == "italic('Poa autumnalis')"],
-                     y_limits_inf$ymax[y_limits_inf$species == "italic('Poa autumnalis')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Inflorescences" & species == "italic('Agrostis hyemalis')" ~
-        scale_y_continuous(limits = c(0, 20)),
-      panel == "Inflorescences" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 7)),
-      panel == "Inflorescences" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 65))
-    )
-  ) +
-  labs(
-    x = "Precipitation (mm)",
-    y = expression(paste("Number of inflorescences / ", Delta, " inflorescences (",
-                          italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
-    color = "Symbiont", fill = "Symbiont"
-  ) +
-  scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS) +
-  scale_fill_manual(values  = ENDO_COLORS, labels = ENDO_LABELS) +
+  ggh4x::facetted_pos_scales(y=list(
+    panel=="Δ (S+ - S-)" & species=="italic('Agrostis hyemalis')" ~
+      scale_y_continuous(minor_breaks=NULL,
+        limits=c(y_limits_inf$ymin[y_limits_inf$species=="italic('Agrostis hyemalis')"],
+                 y_limits_inf$ymax[y_limits_inf$species=="italic('Agrostis hyemalis')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Δ (S+ - S-)" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(minor_breaks=NULL, limits=c(-1.5,3.2),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Δ (S+ - S-)" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(minor_breaks=NULL,
+        limits=c(y_limits_inf$ymin[y_limits_inf$species=="italic('Poa autumnalis')"],
+                 y_limits_inf$ymax[y_limits_inf$species=="italic('Poa autumnalis')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
+    panel=="Inflorescences" & species=="italic('Agrostis hyemalis')" ~
+      scale_y_continuous(limits=c(0,20)),
+    panel=="Inflorescences" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(limits=c(0,7)),
+    panel=="Inflorescences" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(limits=c(0,65))
+  )) +
+  labs(x="Precipitation (mm)",
+       y = expression(paste("Number of inflorescences / ", Delta, " inflorescences (",
+                             italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
+       color="Symbiont", fill="Symbiont") +
+  scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
+  scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
-  theme(
-    legend.position = c(0.8, 0.46),
-    legend.direction = "horizontal",
-    legend.justification = "center",
-    axis.title.y = element_text(size = 10)
-  ) +
-  geom_text(
-    data = panel_labels_inf,
-    aes(x = 490, y = ymax * 0.8, label = label),
-    hjust = 0, size = 3.5, inherit.aes = FALSE
-  )
+  theme(legend.position=c(0.8, 0.46),
+        legend.direction = "horizontal",
+        legend.justification = "center",
+        axis.title.y    = element_text(size = 10)) +
+  geom_text(data=panel_labels_inf, aes(x=490, y=ymax*0.8, label=label),
+            hjust=0, size=3.5, inherit.aes=FALSE)
 dev.off()
 
 # ── Delta inflorescence summary ───────────────────────────────────────────────
@@ -1402,14 +1347,8 @@ plot_data_spik <- plot_data_spik %>%
 
 # ── Observed spikelets: plot means only ───────────────────────────────────────
 observed_data_spik <- demography_spik_ppt %>%
-  data.frame(
-    clim    = .$clim,
-    endo    = .$endo,
-    herb    = .$herb,
-    species = .$Spp,
-    plot    = .$plot,
-    y       = .$y
-  ) %>%
+  data.frame(clim=.$clim, endo=.$endo, herb=.$herb,
+             species=.$Spp, plot=.$plot, y=.$y) %>%
   group_by(plot, species, herb, clim, endo) %>%
   summarise(
     y_plot_mean = mean(y, na.rm=TRUE),
@@ -1472,39 +1411,36 @@ zero_dashes_spik <- expand.grid(
   ) %>%
   tidyr::unnest(dashes)
 
+
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "Spikelet_diff.tiff"),
   width = 7, height = 5.5, units = "in", dpi = 600
 )
 ggplot(plot_data_spik) +
   geom_line(
-    data = subset(plot_data_spik, panel == "Spikelets"),
-    aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
-    linewidth = 0.5
+    data=subset(plot_data_spik, panel=="Spikelets"),
+    aes(x=climate_mm, y=mean, color=factor(endo), group=endo), linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_spik, panel == "Spikelets"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90,
-        fill = factor(endo), group = endo),
-    alpha = 0.3, color = NA
+    data=subset(plot_data_spik, panel=="Spikelets"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90, fill=factor(endo), group=endo),
+    alpha=0.3, color=NA
   ) +
   # ── Observed: plot means only, size ∝ n_obs ──────────────────────────────
   geom_point(
-    data = subset(observed_data_spik, panel == "Spikelets"),
-    aes(x = jitter_x, y = y_plot_mean, color = factor(endo), size = n_obs),
-    alpha = 0.5, show.legend = FALSE
+    data=subset(observed_data_spik, panel=="Spikelets"),
+    aes(x=jitter_x, y=y_plot_mean, color=factor(endo), size=n_obs),
+    alpha=0.5, show.legend=FALSE
   ) +
   scale_size_continuous(range = c(0.8, 6.7)) +  # was c(0.5, 4)
-  # ── Δ panel ──
   geom_line(
-    data = subset(plot_data_spik, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, y = mean),
-    color = "black", linewidth = 0.5
+    data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, y=mean), color="black", linewidth=0.5
   ) +
   geom_ribbon(
-    data = subset(plot_data_spik, panel == "Δ (S+ - S-)"),
-    aes(x = climate_mm, ymin = lower_90, ymax = upper_90),
-    fill = "#D9BFD6", alpha = 0.5
+    data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
+    aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
+    fill="#D9BFD6", alpha=0.5
   ) +
   geom_segment(
     data = zero_dashes_spik,
@@ -1514,48 +1450,36 @@ ggplot(plot_data_spik) +
     lineend = "butt",
     inherit.aes = FALSE
   ) +
-  # ── Facets ──
   ggh4x::facet_nested(
-    panel ~ species + herb,
-    scales = "free_y", space = "fixed",
-    labeller = labeller(
-      species = label_parsed,
-      herb    = c("0" = "Herbivory access", "1" = "Herbivory exclusion"),
-      panel   = ggplot2::as_labeller(PANEL_LABELS, default = label_parsed)
-    )
+    panel ~ species + herb, scales="free_y", space="fixed",
+    labeller=labeller(species=label_parsed,
+                      herb=c("0"="Herbivory access","1"="Herbivory exclusion"),
+                      panel=ggplot2::as_labeller(PANEL_LABELS, default = label_parsed))
   ) +
-  ggh4x::facetted_pos_scales(
-    y = list(
-      panel == "Δ (S+ - S-)" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits_spik$ymin[y_limits_spik$species == "italic('Elymus virginicus')"],
-                     y_limits_spik$ymax[y_limits_spik$species == "italic('Elymus virginicus')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Δ (S+ - S-)" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(
-          minor_breaks = NULL,
-          limits = c(y_limits_spik$ymin[y_limits_spik$species == "italic('Poa autumnalis')"],
-                     y_limits_spik$ymax[y_limits_spik$species == "italic('Poa autumnalis')"]),
-          breaks = scales::pretty_breaks(n = 4),
-          expand = c(0, 0)
-        ),
-      panel == "Spikelets" & species == "italic('Elymus virginicus')" ~
-        scale_y_continuous(limits = c(0, 50), expand = c(0, 0)),
-      panel == "Spikelets" & species == "italic('Poa autumnalis')" ~
-        scale_y_continuous(limits = c(0, 60), expand = c(0, 0))
-    )
-  ) +
-  labs(
-    x = "Precipitation (mm)",
-    y = expression(paste("Number of spikelets per inflorescence / ", Delta, " spikelets (",
-                          italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
-    color = "Symbiont", fill = "Symbiont"
-  ) +
-  scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS) +
-  scale_fill_manual(values  = ENDO_COLORS, labels = ENDO_LABELS) +
+  ggh4x::facetted_pos_scales(y=list(
+    panel=="Δ (S+ - S-)" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(minor_breaks=NULL,
+                         limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Elymus virginicus')"],
+                                  y_limits_spik$ymax[y_limits_spik$species=="italic('Elymus virginicus')"]),
+                         breaks = scales::pretty_breaks(n = 4),
+                         expand=c(0,0)),
+    panel=="Δ (S+ - S-)" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(minor_breaks=NULL,
+                         limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Poa autumnalis')"],
+                                  y_limits_spik$ymax[y_limits_spik$species=="italic('Poa autumnalis')"]),
+                         breaks = scales::pretty_breaks(n = 4),
+                         expand=c(0,0)),
+    panel=="Spikelets" & species=="italic('Elymus virginicus')" ~
+      scale_y_continuous(limits=c(0,50), expand=c(0,0)),
+    panel=="Spikelets" & species=="italic('Poa autumnalis')" ~
+      scale_y_continuous(limits=c(0,60), expand=c(0,0))
+  )) +
+  labs(x="Precipitation (mm)",
+       y = expression(paste("Number of spikelets per inflorescence / ", Delta, " spikelets (",
+                            italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
+       color="Symbiont", fill="Symbiont") +
+  scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
+  scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
   theme(
     panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.27),
@@ -1575,12 +1499,10 @@ ggplot(plot_data_spik) +
     legend.position   = c(0.12, 0.88),
     #legend.direction  = "horizontal",
     legend.justification = "center"
-  ) +
-  geom_text(
-    data = panel_labels_spik,
-    aes(x = 490, y = 47, label = label),
-    fontface = "plain", size = 4, hjust = 0, inherit.aes = FALSE
-  )
+  )+
+  geom_text(data = panel_labels_spik,
+            aes(x = 490, y = 47, label = label),
+            fontface = "plain", size = 4, hjust = 0, inherit.aes = FALSE)
 dev.off()
 
 # ── Delta spikelet summary ────────────────────────────────────────────────────
@@ -1744,6 +1666,7 @@ reference_dashes <- make_dashes(
   y = 0.5
 )
 
+
 p_lower <- delta_long_all %>%
   filter(metric == "Pr (Δ > 0)") %>%
   ggplot(aes(x=clim_mm, y=value, color=herb, group=herb)) +
@@ -1809,11 +1732,10 @@ delta_long_spik <- delta_long_spik %>%
     )
   )
 
-
-# ── Create dashed reference lines ─────────────────────────────────────────────
-
+# Create dashed reference line
 make_dashes <- function(xmin, xmax, y, n = 14, dash_prop = 0.70) {
   step <- (xmax - xmin) / n
+  
   tibble(
     x    = xmin + (0:(n - 1)) * step,
     xend = xmin + (0:(n - 1)) * step + step * dash_prop,
@@ -1821,7 +1743,6 @@ make_dashes <- function(xmin, xmax, y, n = 14, dash_prop = 0.70) {
     yend = y
   )
 }
-
 
 global_xmin <- min(delta_long_spik$clim_mm, na.rm = TRUE)
 global_xmax <- max(delta_long_spik$clim_mm, na.rm = TRUE)
@@ -1832,10 +1753,7 @@ reference_dashes_zero <- make_dashes(
   global_xmax,
   y = 0
 ) %>%
-  mutate(
-    metric = "Median Δ (S+ − S−)"
-  )
-
+  mutate(metric = "Median Δ (S+ − S−)")
 
 # Dashes at 0.5 for Pr(Δ > 0) panel
 reference_dashes_half <- make_dashes(
@@ -1843,142 +1761,73 @@ reference_dashes_half <- make_dashes(
   global_xmax,
   y = 0.5
 ) %>%
-  mutate(
-    metric = "Pr (Δ > 0)"
-  )
+  mutate(metric = "Pr (Δ > 0)")
 
-
-# ── Panel labels (a)–(d) ──────────────────────────────────────────────────────
-
-panel_labels_spike <- delta_long_spik %>%
-  filter(!is.na(species_label)) %>%
-  distinct(metric, species_label) %>%
-  arrange(metric, species_label) %>%
-  mutate(
-    label = paste0("(", letters[1:n()], ")")
-  )
-
-
-# ── Parsed facet labels ───────────────────────────────────────────────────────
-# IMPORTANT: These names must exactly match the values in `metric`.
-
-PANEL_LABELS <- c(
-  "Median Δ (S+ − S−)" = 
-    "Delta~(italic(S)^{\"+\"} - italic(S)^{\"\u2212\"})",
-  
-  "Pr (Δ > 0)" =
-    "Pr~(Delta > 0)"
-)
-
-
-# ── Save figure ──────────────────────────────────────────────────────────────
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "Spike_diff_stat.tiff"),
-  width = 6,
-  height = 5,
-  units = "in",
-  dpi = 600
+  width = 6, height = 5, units = "in", dpi = 600
 )
-
-
-# ── Plot ──────────────────────────────────────────────────────────────────────
 
 ggplot(
   delta_long_spik %>%
     filter(!is.na(species_label)),
-  aes(
-    x = clim_mm,
-    y = value,
-    color = herb,
-    group = herb
-  )
+  aes(x = clim_mm, y = value, color = herb, group = herb)
 ) +
   
-  # Response lines
-  geom_line(
-    linewidth = 0.5
-  ) +
+  geom_line(linewidth = 0.5) +
   
-  # ── Reference line: Median Δ = 0 ────────────────────────────────────────────
+  # Reference line: Median Δ = 0
   geom_segment(
     data = reference_dashes_zero,
     aes(
-      x = x,
-      xend = xend,
-      y = y,
-      yend = y
+      x = x, xend = xend,
+      y = y, yend = y
     ),
     inherit.aes = FALSE,
     color = "black",
     linewidth = 0.3
   ) +
   
-  # ── Reference line: Pr(Δ > 0) = 0.5 ─────────────────────────────────────────
+  # Reference line: Pr(Δ > 0) = 0.5
   geom_segment(
     data = reference_dashes_half,
     aes(
-      x = x,
-      xend = xend,
-      y = y,
-      yend = y
+      x = x, xend = xend,
+      y = y, yend = y
     ),
     inherit.aes = FALSE,
     color = "black",
     linewidth = 0.3
   ) +
   
-  # ── Facets ──────────────────────────────────────────────────────────────────
   facet_grid(
     metric ~ species_label,
     scales = "free_y",
     labeller = labeller(
       species_label = label_parsed,
-      metric = as_labeller(
-        PANEL_LABELS,
-        label_parsed
-      )
+      metric = label_value
     )
   ) +
   
-  # ── Colors ──────────────────────────────────────────────────────────────────
   scale_color_manual(
     values = c(
-      "Herbivory access"    = "#E69F00",
+      "Herbivory access" = "#E69F00",
       "Herbivory exclusion" = "#009E73"
     )
   ) +
   
-  # ── Axis labels ─────────────────────────────────────────────────────────────
   labs(
     x = "Precipitation (mm)",
     y = NULL,
-    color = "Herbivore treatment"
+    color = "Herbivore exclusion"
   ) +
   
-  # ── Your existing theme ─────────────────────────────────────────────────────
   vr_theme() +
   
-  # ── Panel labels (a)–(d) ────────────────────────────────────────────────────
-  geom_text(
-    data = panel_labels_spike,
-    aes(
-      x = -Inf,
-      y = Inf,
-      label = label
-    ),
-    inherit.aes = FALSE,
-    hjust = -0.2,
-    vjust = 1.2,
-    size = 4,
-    fontface = "plain"
-  ) +
-  
-  # ── Legend ──────────────────────────────────────────────────────────────────
   theme(
-    legend.position = c(0.8, 0.65),
-    legend.justification = "center"
+    legend.position = "bottom",
+    panel.spacing.y = unit(0.02, "cm")
   )
-
 
 dev.off()

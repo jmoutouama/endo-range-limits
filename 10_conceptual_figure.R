@@ -157,17 +157,35 @@ final <- (p1 | p2) / (p3 | p4) +
 # Update path to your local directory
 out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/conceptual_figure.pdf"
 
-ggsave(out_path,
-       plot   = final,
-       width  = 8,
-       height = 6.0,        # slightly tighter than before
-       device = cairo_pdf)
+# ── Save PDF for LaTeX ────────────────────────────────────────────────────────
+ggsave(
+  out_path,
+  plot   = final,
+  width  = 8,
+  height = 6.0,
+  device = cairo_pdf
+)
 
-# Also save a high-res PNG for quick preview
-ggsave(sub("\\.pdf$", ".png", out_path),
-       plot   = final,
-       width  = 7.5,
-       height = 6.0,
-       dpi    = 300)
+# ── Save high-resolution TIFF for journal production ──────────────────────────
+tiff_path <- sub("\\.pdf$", ".tiff", out_path)
 
-message("Saved: conceptual_figure.pdf and conceptual_figure.png")
+Cairo::CairoTIFF(
+  tiff_path,
+  width  = 8,
+  height = 6.0,
+  units  = "in",
+  dpi    = 600
+)
+
+print(final)
+dev.off()
+
+# ── Save PNG for quick preview ────────────────────────────────────────────────
+ggsave(
+  sub("\\.pdf$", ".png", out_path),
+  plot   = final,
+  width  = 8,
+  height = 6.0,
+  dpi    = 300
+)
+

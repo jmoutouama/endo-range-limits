@@ -212,24 +212,23 @@ stan_dat<-list(n=nrow(herb_dat),
 herb_model<-stan_model("stan/herbivory.stan")
 
 ##sample model
-herb_fit<-sampling(herb_model,data=stan_dat,chains=3,iter=5000,
-                   pars=c("beta0","beta_endo","beta_fence",
-                          "eps_site","eps_year","eps_plot",
-                          "sigma_site","sigma_year","sigma_plot",
-                          "y_rep"),include=T)
+# herb_fit<-sampling(herb_model,data=stan_dat,chains=3,iter=5000,
+#                    pars=c("beta0","beta_endo","beta_fence",
+#                           "eps_site","eps_year","eps_plot",
+#                           "sigma_site","sigma_year","sigma_plot",
+#                           "y_rep"),include=T)
 
 ##save/read stan model
-#write_rds(herb_fit,"stan/herbivory.rds")
-#herb_fit<-read_rds("stan/herbivory.rds")
+# write_rds(herb_fit,"stan/herbivory.rds")
+# herb_fit<-read_rds("stan/herbivory.rds")
 
 ##a few trace plots...
 mcmc_trace(herb_fit,pars=c("beta0[1]","beta0[2]","beta0[3]"))
 
 ##posterior predictive check
 y_rep<-rstan::extract(herb_fit,pars="y_rep")
-ppc_dens_overlay(stan_dat$y_damaged,y_rep$y_rep[1:100,])+xlim(0,25)
-
 species_names <- c("AGHY", "ELVI", "POAU")
+
 beta_draws <- herb_fit %>%
   spread_draws(
     beta0[species],
@@ -248,10 +247,17 @@ beta_draws <- herb_fit %>%
     parameter = recode(
       parameter,
       beta0 = "Intercept",
-      beta_endo = "Endophyte effect",
-      beta_fence = "Fence effect"
+      beta_endo = "Symbiont effect",
+      beta_fence = "Herbivore exclusion effect"
     ),
-    parameter = factor(parameter, levels = c("Intercept", "Endophyte effect", "Fence effect"))
+    parameter = factor(
+      parameter,
+      levels = c(
+        "Intercept",
+        "Symbiont effect",
+        "Herbivore exclusion effect"
+      )
+    )
   )
 
 beta_summary <- beta_draws %>%
@@ -259,13 +265,25 @@ beta_summary <- beta_draws %>%
   median_qi(estimate, .width = 0.9) %>%
   ungroup()
 
-herbendo<-ggplot(beta_summary,
-       aes(x = estimate, 
-           y = fct_reorder(species_name, estimate),
-           color = species_name)) +
-  geom_vline(xintercept = 0, linewidth = 0.4, linetype = "dashed") +
+herbendo <- ggplot(
+  beta_summary,
+  aes(
+    x = estimate,
+    y = fct_reorder(species_name, estimate),
+    color = species_name
+  )
+) +
+  geom_vline(
+    xintercept = 0,
+    linewidth = 0.4,
+    linetype = "dashed"
+  ) +
   geom_linerange(
-    aes(xmin = .lower, xmax = .upper, linewidth = factor(.width)),
+    aes(
+      xmin = .lower,
+      xmax = .upper,
+      linewidth = factor(.width)
+    ),
     position = position_dodge(width = 0.5)
   ) +
   geom_point(size = 4) +
@@ -287,7 +305,7 @@ herbendo<-ggplot(beta_summary,
       "ELVI" = expression(italic("Elymus virginicus")),
       "POAU" = expression(italic("Poa autumnalis"))
     )
-  )+
+  ) +
   labs(
     x = "Posterior estimate",
     y = NULL
@@ -298,7 +316,23 @@ herbendo<-ggplot(beta_summary,
     legend.position = "none"
   )
 
-ggsave("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_effect.pdf", plot = herbendo, width = 8, height = 5, device = cairo_pdf)
+ggsave(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_effect.pdf",
+  plot = herbendo,
+  width = 8,
+  height = 5,
+  device = cairo_pdf
+)
+
+ggsave(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_effect.tiff",
+  plot = herbendo,
+  width = 8,
+  height = 5,
+  dpi = 600,
+  compression = "lzw",
+  device = "tiff"
+)
 ## site effects
 site_names <- c("SON","KER","BFL","BAS","COL","HUN","LAF")  
 site_draws <- herb_fit %>%

@@ -1,6 +1,12 @@
 # Purpose: Plot vital rate models (survival, growth, flowering and spikelet) as
 #          function of climate or distance from niche center.
 # Authors: Jacob Moutouama
+# Changes from previous version:
+#   - Consistent S+/S- color scheme: tomato (S-) / cornflowerblue (S+)
+#   - Observed data: SD bars removed; clean plot means only (size ∝ n_obs)
+#   - Point size range dramatically widened (c(1, 8)) so sample size is obvious
+#   - Delta panels now have proper y-axis tick marks and breaks (not just y=0)
+#   - Stronger jitter via pre-computed jitter_x column
 # Date last modified (Y-M-D):
 
 rm(list = ls())
@@ -41,12 +47,6 @@ Cairo::CairoFonts(
   italic     = "Arial:style=Italic",
   bolditalic = "Arial:style=Bold Italic"
 )
-
-# ── Shared output path for manuscript figures ──────────────────────────────────
-# Set this once here; every figure below is saved into it via file.path(FIG_DIR, ...)
-# so you never have to retype the full path again.
-FIG_DIR <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/EcoletterR1"
-if (!dir.exists(FIG_DIR)) dir.create(FIG_DIR, recursive = TRUE)
 
 set.seed(13)
 # ── Shared color scheme (use consistently across ALL figures) ─────────────────
@@ -285,7 +285,7 @@ zero_dashes <- plot_data_survival %>%
   tidyr::unnest(dashes)
 
 Cairo::CairoTIFF(
-  file.path(FIG_DIR, "PrSurvival_diff.tiff"),
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/PrSurvival_diff.tiff",
   width = 6,
   height = 7,
   units = "in",
@@ -660,24 +660,9 @@ panel_labels_grow <- data.frame(
 # Get n_obs range for caption
 range(observed_data_grow$n_obs)
 
-# ── Zero-line dashes (same style as survival, for harmony across figures) ─────
-global_xmin_grow <- min(plot_data_grow$climate_mm, na.rm = TRUE)
-global_xmax_grow <- max(plot_data_grow$climate_mm, na.rm = TRUE)
-
-zero_dashes_grow <- plot_data_grow %>%
-  filter(panel == "Δ (S+ - S-)") %>%
-  distinct(species, herb, panel) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_grow, global_xmax_grow)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
-
-Cairo::CairoTIFF(
-  file.path(FIG_DIR, "Growth_diff.tiff"),
-  width = 7, height = 8, units = "in", dpi = 600
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Growth_diff.pdf",
+  width=7, height=8
 )
 ggplot(plot_data_grow) +
   geom_line(
@@ -706,13 +691,9 @@ ggplot(plot_data_grow) +
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
     fill="#D9BFD6", alpha=0.6
   ) +
-  geom_segment(
-    data = zero_dashes_grow,
-    aes(x = x, xend = xend, y = y, yend = yend),
-    linewidth = 0.45,
-    color = "black",
-    lineend = "butt",
-    inherit.aes = FALSE
+  geom_hline(
+    data=subset(plot_data_grow, panel=="Δ (S+ - S-)"),
+    aes(yintercept=0), linetype="dashed", color="black"
   ) +
   ggh4x::facet_nested(
     species + panel ~ herb, scales="free",
@@ -761,16 +742,14 @@ ggplot(plot_data_grow) +
     axis.text         = element_text(size = 8),
     axis.ticks.x      = element_line(color = "black", linewidth = 0.27),
     axis.ticks.y      = element_line(color = "black", linewidth = 0.27),
-    legend.title      = element_text(size = 10),
-    legend.text       = element_markdown(size = 10),
+    legend.title      = element_text(size = 8),
+    legend.text       = element_markdown(size = 8),
     panel.spacing.y   = unit(0.2, "cm"),
     text              = element_text(family = "Arial"),
     strip.text.x      = element_text(size = 13, color = "black"),
     strip.text.y      = element_text(size = 11, color = "black"),
-    strip.background  = element_rect(color = "black", fill = "grey90", linewidth = 0.27),
-    legend.position   = c(0.82, 0.37),
-    legend.direction  = "horizontal",
-    legend.justification = "center"
+    strip.background  = element_rect(color = "black", fill = "grey80", linewidth = 0.27),
+    legend.position   = c(0.055, 0.26)
   ) +
   geom_text(data = panel_labels_grow,
             aes(x = 490, y = ymax * 0.70, label = label),
@@ -1037,24 +1016,9 @@ panel_labels_inf <- data.frame(
   ymax    = rep(c(20, 7, 65), each=2)
 )
 
-# ── Zero-line dashes (same style as survival, for harmony across figures) ─────
-global_xmin_inf <- min(plot_data_inf$climate_mm, na.rm = TRUE)
-global_xmax_inf <- max(plot_data_inf$climate_mm, na.rm = TRUE)
-
-zero_dashes_inf <- plot_data_inf %>%
-  filter(panel == "Δ (S+ - S-)") %>%
-  distinct(species, herb, panel) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_inf, global_xmax_inf)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
-
-Cairo::CairoTIFF(
-  file.path(FIG_DIR, "Inflorescence_diff_v.tiff"),
-  width = 6, height = 7, units = "in", dpi = 600
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Inflorescence_diff_v.pdf",
+  width=6, height=7
 )
 ggplot(plot_data_inf) +
   geom_line(
@@ -1082,13 +1046,9 @@ ggplot(plot_data_inf) +
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
     fill="#D9BFD6", alpha=0.6
   ) +
-  geom_segment(
-    data = zero_dashes_inf,
-    aes(x = x, xend = xend, y = y, yend = yend),
-    linewidth = 0.45,
-    color = "black",
-    lineend = "butt",
-    inherit.aes = FALSE
+  geom_hline(
+    data=subset(plot_data_inf, panel=="Δ (S+ - S-)"),
+    aes(yintercept=0), linetype="dashed", color="black"
   ) +
   ggh4x::facet_nested(
     species + panel ~ herb, scales="free_y",
@@ -1127,10 +1087,8 @@ ggplot(plot_data_inf) +
   scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
   scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
-  theme(legend.position=c(0.8, 0.46),
-        legend.direction = "horizontal",
-        legend.justification = "center",
-        axis.title.y    = element_text(size = 10)) +
+  theme(legend.position=c(0.12, 0.26),
+        axis.title.y    = element_text(size = 8)) +
   geom_text(data=panel_labels_inf, aes(x=490, y=ymax*0.8, label=label),
             hjust=0, size=3.5, inherit.aes=FALSE)
 dev.off()
@@ -1365,18 +1323,14 @@ observed_data_spik$species <- factor(observed_data_spik$species,
 plot_data_spik <- plot_data_spik %>% mutate(climate_mm = exp(clim * ppt_sd + ppt_mean))
 
 # Pre-compute jitter offset
-set.seed(13)
+set.seed(42)
 observed_data_spik <- observed_data_spik %>%
   mutate(jitter_x = climate_mm + runif(n(), -20, 20))
 
 y_limits_spik <- plot_data_spik %>%
-  filter(panel == "Δ (S+ - S-)") %>%
+  filter(panel=="Δ (S+ - S-)") %>%
   group_by(species) %>%
-  summarise(
-    ymin = min(0, min(lower_90, na.rm = TRUE)),
-    ymax = max(0, max(upper_90, na.rm = TRUE)),
-    .groups = "drop"
-  )
+  summarise(ymin=min(lower_90,na.rm=TRUE), ymax=max(upper_90,na.rm=TRUE), .groups="drop")
 
 panel_labels_spik <- data.frame(
   species = rep(species_levels_2, each=2),
@@ -1385,36 +1339,9 @@ panel_labels_spik <- data.frame(
   panel   = "Spikelets"
 )
 
-# ── Zero-line segments ────────────────────────────────────────────────────────
-make_dashes <- function(xmin, xmax, n = 8, dash_prop = 0.45) {
-  step <- (xmax - xmin) / n
-  tibble(
-    x = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y = 0,
-    yend = 0
-  )
-}
-
-global_xmin_spik <- min(plot_data_spik$climate_mm, na.rm = TRUE)
-global_xmax_spik <- max(plot_data_spik$climate_mm, na.rm = TRUE)
-
-zero_dashes_spik <- expand.grid(
-  species = levels(plot_data_spik$species),
-  herb = c(0, 1)
-) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_spik, global_xmax_spik)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
-
-
-Cairo::CairoTIFF(
-  file.path(FIG_DIR, "Spikelet_diff.tiff"),
-  width = 7, height = 5.5, units = "in", dpi = 600
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/Spikelet_diff.pdf",
+  width=10, height=6
 )
 ggplot(plot_data_spik) +
   geom_line(
@@ -1437,18 +1364,14 @@ ggplot(plot_data_spik) +
     data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, y=mean), color="black", linewidth=0.5
   ) +
+  geom_hline(
+    data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
+    aes(yintercept=0), color="black", linetype="dashed", linewidth=0.3
+  ) +
   geom_ribbon(
     data=subset(plot_data_spik, panel=="Δ (S+ - S-)"),
     aes(x=climate_mm, ymin=lower_90, ymax=upper_90),
     fill="#D9BFD6", alpha=0.5
-  ) +
-  geom_segment(
-    data = zero_dashes_spik,
-    aes(x = x, xend = xend, y = y, yend = yend),
-    linewidth = 0.55,
-    color = "black",
-    lineend = "butt",
-    inherit.aes = FALSE
   ) +
   ggh4x::facet_nested(
     panel ~ species + herb, scales="free_y", space="fixed",
@@ -1459,16 +1382,16 @@ ggplot(plot_data_spik) +
   ggh4x::facetted_pos_scales(y=list(
     panel=="Δ (S+ - S-)" & species=="italic('Elymus virginicus')" ~
       scale_y_continuous(minor_breaks=NULL,
-                         limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Elymus virginicus')"],
-                                  y_limits_spik$ymax[y_limits_spik$species=="italic('Elymus virginicus')"]),
-                         breaks = scales::pretty_breaks(n = 4),
-                         expand=c(0,0)),
+        limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Elymus virginicus')"],
+                 y_limits_spik$ymax[y_limits_spik$species=="italic('Elymus virginicus')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
     panel=="Δ (S+ - S-)" & species=="italic('Poa autumnalis')" ~
       scale_y_continuous(minor_breaks=NULL,
-                         limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Poa autumnalis')"],
-                                  y_limits_spik$ymax[y_limits_spik$species=="italic('Poa autumnalis')"]),
-                         breaks = scales::pretty_breaks(n = 4),
-                         expand=c(0,0)),
+        limits=c(y_limits_spik$ymin[y_limits_spik$species=="italic('Poa autumnalis')"],
+                 y_limits_spik$ymax[y_limits_spik$species=="italic('Poa autumnalis')"]),
+        breaks = scales::pretty_breaks(n = 4),
+        expand=c(0,0)),
     panel=="Spikelets" & species=="italic('Elymus virginicus')" ~
       scale_y_continuous(limits=c(0,50), expand=c(0,0)),
     panel=="Spikelets" & species=="italic('Poa autumnalis')" ~
@@ -1476,33 +1399,31 @@ ggplot(plot_data_spik) +
   )) +
   labs(x="Precipitation (mm)",
        y = expression(paste("Number of spikelets per inflorescence / ", Delta, " spikelets (",
-                            italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
+                             italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
        color="Symbiont", fill="Symbiont") +
   scale_color_manual(values=ENDO_COLORS, labels=ENDO_LABELS) +
   scale_fill_manual(values=ENDO_COLORS,  labels=ENDO_LABELS) +
   vr_theme() +
   theme(
-    panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.27),
-    axis.line         = element_line(color = "black", linewidth = 0.13),
-    axis.title        = element_markdown(size = 11),
-    axis.title.y      = element_text(size = 11),
-    axis.text         = element_text(size = 6),
-    axis.ticks.x      = element_line(color = "black", linewidth = 0.27),
-    axis.ticks.y      = element_line(color = "black", linewidth = 0.27),
+    panel.border      = element_rect(color = "black", fill = NA, linewidth = 0.33),
+    axis.line         = element_line(color = "black", linewidth = 0.17),
+    axis.title        = element_markdown(size = 13),
+    axis.title.y      = element_text(size = 13),
+    axis.text         = element_text(size = 10),
+    axis.ticks.x      = element_line(color = "black", linewidth = 0.33),
+    axis.ticks.y      = element_line(color = "black", linewidth = 0.33),
     legend.title      = element_text(size = 10),
     legend.text       = element_markdown(size = 10),
     panel.spacing.y   = unit(0.2, "cm"),
     text              = element_text(family = "Arial"),
-    strip.text.x      = element_text(size = 12, color = "black"),
-    strip.text.y      = element_text(size = 11, color = "black"),
-    strip.background  = element_rect(color = "black", fill = "grey90", linewidth = 0.27),
-    legend.position   = c(0.12, 0.88),
-    #legend.direction  = "horizontal",
-    legend.justification = "center"
+    strip.text.x      = element_text(size = 17, color = "black"),
+    strip.text.y      = element_text(size = 13, color = "black"),
+    strip.background  = element_rect(color = "black", fill = "grey80", linewidth = 0.33),
+    legend.position   = c(0.1, 0.88)
   )+
   geom_text(data = panel_labels_spik,
             aes(x = 490, y = 47, label = label),
-            fontface = "plain", size = 4, hjust = 0, inherit.aes = FALSE)
+            fontface = "plain", size = 5.8, hjust = 0, inherit.aes = FALSE)   # was size = 3.5
 dev.off()
 
 # ── Delta spikelet summary ────────────────────────────────────────────────────
@@ -1647,38 +1568,11 @@ panel_labels <- delta_long_all %>%
   arrange(trait, species_label) %>%
   mutate(label = paste0("(", letters[1:n()], ")"))
 
-make_dashes <- function(xmin, xmax, y = 0.5, n = 14, dash_prop = 0.70) {
-  step <- (xmax - xmin) / n
-  tibble(
-    x    = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y    = y,
-    yend = y
-  )
-}
-
-global_xmin <- min(delta_long_all$clim_mm, na.rm = TRUE)
-global_xmax <- max(delta_long_all$clim_mm, na.rm = TRUE)
-
-reference_dashes <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0.5
-)
-
-
 p_lower <- delta_long_all %>%
   filter(metric == "Pr (Δ > 0)") %>%
   ggplot(aes(x=clim_mm, y=value, color=herb, group=herb)) +
   geom_line(linewidth=0.6) +
-  geom_segment(
-    data = reference_dashes,
-    aes(x = x, xend = xend, y = y, yend = yend),
-    linewidth = 0.35,
-    color = "black",
-    lineend = "butt",
-    inherit.aes = FALSE
-  ) +
+  geom_hline(yintercept=0.5, linetype="dashed", color="grey50") +
   facet_grid(
     trait ~ species_label, scales="free_x",
     labeller=labeller(species_label=label_parsed, trait=label_value)
@@ -1699,9 +1593,9 @@ p_lower <- delta_long_all %>%
   theme(
     panel.border     = element_rect(color="black", fill=NA, linewidth=0.2),
     axis.line        = element_line(color="black", linewidth=0.1),
-    legend.position  = c(0.18, 0.76),
-    legend.title     = element_text(size=8),
-    legend.text      = element_text(size=8),
+    legend.position  = c(0.22, 0.76),
+    legend.title     = element_text(size=6),
+    legend.text      = element_text(size=6),
     legend.spacing.y = unit(0.05, "cm"),
     legend.key.height = unit(0.3, "cm"),
     panel.spacing.y  = unit(0.2, "cm"),
@@ -1712,122 +1606,12 @@ p_lower <- delta_long_all %>%
     text             = element_text(family="Arial"),
     strip.text.x     = element_text(size=12, color="black"),
     strip.text.y     = element_text(size=10, color="black"),
-    strip.background = element_rect(color="black", fill="grey90", linewidth=0.2)
+    strip.background = element_rect(color="black", fill="grey80", linewidth=0.2)
   )
 
-Cairo::CairoTIFF(
-  file.path(FIG_DIR, "All_traits_diff_stat_lower.tiff"),
-  width = 7, height = 6, units = "in", dpi = 600
+Cairo::CairoPDF(
+  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/All_traits_diff_stat_lower.pdf",
+  width=7, height=6
 )
 print(p_lower)
-dev.off()
-
-# Make sure only the two species are retained
-delta_long_spik <- delta_long_spik %>%
-  filter(species %in% c("Agrostis hyemalis", "Elymus virginicus")) %>%
-  mutate(
-    species_label = case_when(
-      species == "Agrostis hyemalis" ~ "italic('Agrostis hyemalis')",
-      species == "Elymus virginicus" ~ "italic('Elymus virginicus')"
-    )
-  )
-
-# Create dashed reference line
-make_dashes <- function(xmin, xmax, y, n = 14, dash_prop = 0.70) {
-  step <- (xmax - xmin) / n
-  
-  tibble(
-    x    = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y    = y,
-    yend = y
-  )
-}
-
-global_xmin <- min(delta_long_spik$clim_mm, na.rm = TRUE)
-global_xmax <- max(delta_long_spik$clim_mm, na.rm = TRUE)
-
-# Dashes at 0 for Median Δ panel
-reference_dashes_zero <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0
-) %>%
-  mutate(metric = "Median Δ (S+ − S−)")
-
-# Dashes at 0.5 for Pr(Δ > 0) panel
-reference_dashes_half <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0.5
-) %>%
-  mutate(metric = "Pr (Δ > 0)")
-
-
-Cairo::CairoTIFF(
-  file.path(FIG_DIR, "Spike_diff_stat.tiff"),
-  width = 6, height = 5, units = "in", dpi = 600
-)
-
-ggplot(
-  delta_long_spik %>%
-    filter(!is.na(species_label)),
-  aes(x = clim_mm, y = value, color = herb, group = herb)
-) +
-  
-  geom_line(linewidth = 0.5) +
-  
-  # Reference line: Median Δ = 0
-  geom_segment(
-    data = reference_dashes_zero,
-    aes(
-      x = x, xend = xend,
-      y = y, yend = y
-    ),
-    inherit.aes = FALSE,
-    color = "black",
-    linewidth = 0.3
-  ) +
-  
-  # Reference line: Pr(Δ > 0) = 0.5
-  geom_segment(
-    data = reference_dashes_half,
-    aes(
-      x = x, xend = xend,
-      y = y, yend = y
-    ),
-    inherit.aes = FALSE,
-    color = "black",
-    linewidth = 0.3
-  ) +
-  
-  facet_grid(
-    metric ~ species_label,
-    scales = "free_y",
-    labeller = labeller(
-      species_label = label_parsed,
-      metric = label_value
-    )
-  ) +
-  
-  scale_color_manual(
-    values = c(
-      "Herbivory access" = "#E69F00",
-      "Herbivory exclusion" = "#009E73"
-    )
-  ) +
-  
-  labs(
-    x = "Precipitation (mm)",
-    y = NULL,
-    color = "Herbivore exclusion"
-  ) +
-  
-  vr_theme() +
-  
-  theme(
-    legend.position = "bottom",
-    panel.spacing.y = unit(0.02, "cm")
-  )
-
 dev.off()

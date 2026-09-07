@@ -1,6 +1,6 @@
 library(ggplot2)
 library(patchwork)
-
+library(ggtext)   
 # ── Palette (colorblind-safe, Ecology Letters compatible) ──────────────────────
 COL_HERB <- "#E69F00"
 COL_EXCL <- "#009E73"
@@ -26,7 +26,8 @@ theme_el <- function(show_legend = FALSE) {
       ),
 
       # Axes
-      axis.title       = element_text(size = 12, colour = "#1A1A1A"),
+      axis.title.y = element_markdown(size = 12, colour = "#1A1A1A"),
+      axis.title.x = element_text(size = 12, colour = "#1A1A1A"),
       axis.text        = element_text(size = 9,    colour = "#3C3C3C"),
       axis.ticks       = element_line(colour = "#3C3C3C", linewidth = 0.4),
       axis.ticks.length = unit(3, "pt"),
@@ -102,8 +103,8 @@ make_panel <- function(title,
 
     labs(
       title = title,
-      x     = if (show_x) "Precipitation" else NULL,
-      y     = if (show_y) "Symbiont effect (S+ \u2212 S-)" else NULL
+      x = if (show_x) "Precipitation" else NULL,
+      y = if (show_y) "Symbiont effect (*S*<sup>+</sup> \u2212 *S*<sup>\u2212</sup>)" else NULL
     ) +
 
     theme_el(show_legend = show_legend)

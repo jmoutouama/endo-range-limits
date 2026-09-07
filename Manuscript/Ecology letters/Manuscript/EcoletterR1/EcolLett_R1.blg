@@ -7,45 +7,45 @@ Repeated entry---line 1027 of file References.bib
  : @article{davitt2011understanding
  :                                 ,
 I'm skipping whatever remains of this entry
-You've used 77 entries,
+You've used 76 entries,
             1935 wiz_defined-function locations,
-            929 strings with 19168 characters,
-and the built_in function-call counts, 33353 in all, are:
-= -- 3258
-> -- 1575
-< -- 35
-+ -- 560
-- -- 544
-* -- 3085
-:= -- 5825
-add.period$ -- 230
-call.type$ -- 77
-change.case$ -- 650
-chr.to.int$ -- 75
-cite$ -- 77
-duplicate$ -- 1085
-empty$ -- 2192
-format.name$ -- 651
-if$ -- 6357
+            923 strings with 18721 characters,
+and the built_in function-call counts, 32708 in all, are:
+= -- 3200
+> -- 1527
+< -- 36
++ -- 542
+- -- 526
+* -- 3016
+:= -- 5711
+add.period$ -- 227
+call.type$ -- 76
+change.case$ -- 636
+chr.to.int$ -- 74
+cite$ -- 76
+duplicate$ -- 1071
+empty$ -- 2158
+format.name$ -- 634
+if$ -- 6239
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 73
-newline$ -- 387
-num.names$ -- 231
-pop$ -- 498
+missing$ -- 72
+newline$ -- 382
+num.names$ -- 228
+pop$ -- 485
 preamble$ -- 1
-purify$ -- 655
+purify$ -- 641
 quote$ -- 0
-skip$ -- 828
+skip$ -- 819
 stack$ -- 0
-substring$ -- 2563
-swap$ -- 104
+substring$ -- 2514
+swap$ -- 103
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 456
+type$ -- 450
 warning$ -- 0
-while$ -- 282
+while$ -- 278
 width$ -- 0
-write$ -- 992
+write$ -- 979
 (There was 1 error message)

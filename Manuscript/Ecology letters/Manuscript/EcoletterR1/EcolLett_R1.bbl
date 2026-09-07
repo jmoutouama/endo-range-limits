@@ -377,6 +377,12 @@ Rudgers, J.~A., Miller, T.~E., Ziegler, S.~M., and Craven, K.~D. (2012).
   plant survival but increases population growth.
 \newblock {\em Ecology}, 93(3):565--574.
 
+\bibitem[Rudgers and Swafford, 2009]{rudgers2009benefits}
+Rudgers, J.~A. and Swafford, A.~L. (2009).
+\newblock Benefits of a fungal endophyte in elymus virginicus decline under
+  drought stress.
+\newblock {\em Basic and Applied Ecology}, 10(1):43--51.
+
 \bibitem[Ruiz-lazona et~al., 1996]{ruiz1996superoxide}
 Ruiz-lazona, J.~M., Azc{\'o}n, R., and Palma, J. (1996).
 \newblock Superoxide dismutase activity in arbuscular mycorrhizal lactuca
@@ -412,25 +418,10 @@ Siegel, M., Latch, G., Bush, L., Fannin, F., Rowan, D., Tapper, B., Bacon, C.,
   response.
 \newblock {\em Journal of chemical ecology}, 16(12):3301--3315.
 
-\bibitem[Soudzilovskaia et~al., 2015]{soudzilovskaia2015quantitative}
-Soudzilovskaia, N.~A., van~der Heijden, M.~G., Cornelissen, J.~H., Makarov,
-  M.~I., Onipchenko, V.~G., Maslov, M.~N., Akhmetzhanova, A.~A., and van
-  Bodegom, P.~M. (2015).
-\newblock Quantitative assessment of the differential impacts of arbuscular and
-  ectomycorrhiza on soil carbon cycling.
-\newblock {\em New Phytologist}, 208(1):280--293.
-
 \bibitem[{Stan Development Team}, 2024]{Rstan}
 {Stan Development Team} (2024).
 \newblock {RStan}: the {R} interface to {Stan}.
 \newblock R package version 2.32.6.
-
-\bibitem[Thirkell et~al., 2020]{thirkell2020carbon}
-Thirkell, T.~J., Pastok, D., and Field, K.~J. (2020).
-\newblock Carbon for nutrient exchange between arbuscular mycorrhizal fungi and
-  wheat varies according to cultivar and changes in atmospheric carbon dioxide
-  concentration.
-\newblock {\em Global change biology}, 26(3):1725--1738.
 
 \bibitem[van Der~Heijden et~al., 2015]{van2015mycorrhizal}
 van Der~Heijden, M.~G., Martin, F.~M., Selosse, M.-A., and Sanders, I.~R.

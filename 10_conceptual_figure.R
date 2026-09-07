@@ -1,22 +1,41 @@
 library(ggplot2)
 library(patchwork)
-library(ggtext)   
+library(ggtext)
+
 # ── Palette (colorblind-safe, Ecology Letters compatible) ──────────────────────
 COL_HERB <- "#E69F00"
 COL_EXCL <- "#009E73"
+
+
+# ── Custom dashed reference line ───────────────────────────────────────────────
+make_dashes <- function(xmin, xmax, y, n = 14, dash_prop = 0.70) {
+  step <- (xmax - xmin) / n
+  
+  tibble(
+    x    = xmin + (0:(n - 1)) * step,
+    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
+    y    = y,
+    yend = y
+  )
+}
+
 
 # ── Shared theme ───────────────────────────────────────────────────────────────
 theme_el <- function(show_legend = FALSE) {
   theme_classic(base_size = 11, base_family = "Helvetica") +
     theme(
+      
       # Panel
       panel.background  = element_rect(fill = "white", colour = NA),
-      panel.border      = element_rect(colour = "#3C3C3C", fill = NA,
-                                       linewidth = 0.55),
+      panel.border      = element_rect(
+        colour = "#3C3C3C",
+        fill = NA,
+        linewidth = 0.55
+      ),
       panel.grid        = element_blank(),
       axis.line         = element_blank(),
-
-      # Title – italic, not bold, lighter weight
+      
+      # Title
       plot.title = element_text(
         face   = "italic",
         size   = 10.5,
@@ -24,26 +43,42 @@ theme_el <- function(show_legend = FALSE) {
         margin = margin(b = 5),
         colour = "#1A1A1A"
       ),
-
+      
       # Axes
-      axis.title.y = element_markdown(size = 12, colour = "#1A1A1A"),
-      axis.title.x = element_text(size = 12, colour = "#1A1A1A"),
-      axis.text        = element_text(size = 9,    colour = "#3C3C3C"),
-      axis.ticks       = element_line(colour = "#3C3C3C", linewidth = 0.4),
+      axis.title.y = element_markdown(
+        size = 12,
+        colour = "#1A1A1A"
+      ),
+      axis.title.x = element_text(
+        size = 12,
+        colour = "#1A1A1A"
+      ),
+      axis.text = element_text(
+        size = 9,
+        colour = "#3C3C3C"
+      ),
+      axis.ticks = element_line(
+        colour = "#3C3C3C",
+        linewidth = 0.4
+      ),
       axis.ticks.length = unit(3, "pt"),
-
-      # Legend – bottom of full figure (controlled at plot_annotation level)
-      legend.position   = if (show_legend) c(0.70, 0.25) else "none",
+      
+      # Legend
+      legend.position = if (show_legend) c(0.70, 0.25) else "none",
       legend.background = element_blank(),
-      legend.key        = element_blank(),
-      legend.key.width  = unit(1.4, "cm"),
-      legend.text       = element_text(size = 9.5, family = "Helvetica"),
-      legend.title      = element_blank(),
-
+      legend.key = element_blank(),
+      legend.key.width = unit(1.4, "cm"),
+      legend.text = element_text(
+        size = 9.5,
+        family = "Helvetica"
+      ),
+      legend.title = element_blank(),
+      
       # Margins
       plot.margin = margin(6, 8, 4, 8)
     )
 }
+
 
 # ── Panel function ─────────────────────────────────────────────────────────────
 make_panel <- function(title,
@@ -52,89 +87,142 @@ make_panel <- function(title,
                        show_x      = FALSE,
                        show_y      = FALSE,
                        show_legend = FALSE) {
-
+  
   x <- seq(0, 1, length.out = 300)
-
+  
   df <- data.frame(
     x = rep(x, 2),
-    y = c(herb_i + herb_s * x,
-          excl_i + excl_s * x),
-    treatment = rep(c("Herbivory access", "Herbivory exclusion"), each = 300)
+    y = c(
+      herb_i + herb_s * x,
+      excl_i + excl_s * x
+    ),
+    treatment = rep(
+      c("Herbivory access", "Herbivory exclusion"),
+      each = 300
+    )
   )
-
-  df$treatment <- factor(df$treatment,
-                         levels = c("Herbivory access", "Herbivory exclusion"))
-
-  ggplot(df, aes(x = x, y = y,
-                 colour   = treatment,
-                 linetype = treatment)) +
-
-    # Zero reference line – more visible than before
-    geom_hline(yintercept = 0,
-               colour    = "#888888",
-               linewidth = 0.55,
-               linetype  = "dashed") +
-
-    # Slightly thicker lines for print legibility
-    geom_line(linewidth = 1.3) +
-
+  
+  df$treatment <- factor(
+    df$treatment,
+    levels = c(
+      "Herbivory access",
+      "Herbivory exclusion"
+    )
+  )
+  
+  # Custom dashes for zero reference line
+  reference_dashes <- make_dashes(
+    xmin = 0,
+    xmax = 1,
+    y = 0,
+    n = 14,
+    dash_prop = 0.70
+  )
+  
+  ggplot(
+    df,
+    aes(
+      x = x,
+      y = y,
+      colour = treatment,
+      linetype = treatment
+    )
+  ) +
+    
+    # ── Custom zero reference line ────────────────────────────────────────────
+    geom_segment(
+      data = reference_dashes,
+      aes(
+        x = x,
+        xend = xend,
+        y = y,
+        yend = yend
+      ),
+      inherit.aes = FALSE,
+      colour = "black",
+      linewidth = 0.55
+    ) +
+    
+    # ── Main conceptual relationships ─────────────────────────────────────────
+    geom_line(
+      linewidth = 1.3
+    ) +
+    
     scale_colour_manual(
-      values = c("Herbivory access"    = COL_HERB,
-                 "Herbivory exclusion" = COL_EXCL)
+      values = c(
+        "Herbivory access"    = COL_HERB,
+        "Herbivory exclusion" = COL_EXCL
+      )
     ) +
-
+    
     scale_linetype_manual(
-      values = c("Herbivory access"    = "solid",
-                 "Herbivory exclusion" = "solid")
+      values = c(
+        "Herbivory access"    = "solid",
+        "Herbivory exclusion" = "solid"
+      )
     ) +
-
+    
     scale_x_continuous(
       breaks = c(0, 1),
       labels = c("Dry", "Wet"),
       expand = c(0.05, 0.05)
     ) +
-
+    
     scale_y_continuous(
       breaks = 0,
       labels = "0",
       limits = c(-0.65, 0.82),
       expand = c(0.03, 0.03)
     ) +
-
+    
     labs(
       title = title,
       x = if (show_x) "Precipitation" else NULL,
-      y = if (show_y) "Symbiont effect (*S*<sup>+</sup> \u2212 *S*<sup>\u2212</sup>)" else NULL
+      y = if (show_y)
+        "Symbiont effect (*S*<sup>+</sup> − *S*<sup>−</sup>)"
+      else NULL
     ) +
-
-    theme_el(show_legend = show_legend)
+    
+    theme_el(
+      show_legend = show_legend
+    )
 }
 
+
 # ── Panels ─────────────────────────────────────────────────────────────────────
-p1 <- make_panel("Context-independent mutualism",
-                 0.58,  0.00,
-                 0.50,  0.00,
-                 show_y = TRUE)
+p1 <- make_panel(
+  "Context-independent mutualism",
+  0.58,  0.00,
+  0.50,  0.00,
+  show_y = TRUE
+)
 
-p2 <- make_panel("Herbivory-dependent",
-                 0.58,  0.00,
-                 0.10,  0.00,
-                 show_legend = TRUE)   # legend pulled to figure bottom below
+p2 <- make_panel(
+  "Herbivory-dependent",
+  0.58,  0.00,
+  0.10,  0.00,
+  show_legend = TRUE
+)
 
-p3 <- make_panel("Climate-dependent",
-                 0.55, -0.80,
-                 0.45, -0.80,
-                 show_x = TRUE, show_y = TRUE)
+p3 <- make_panel(
+  "Climate-dependent",
+  0.55, -0.80,
+  0.45, -0.80,
+  show_x = TRUE,
+  show_y = TRUE
+)
 
-p4 <- make_panel("Herbivory \u00d7 Climate-dependent",
-                 0.60, -1.00,
-                -0.03, -0.10,
-                 show_x = TRUE)
+p4 <- make_panel(
+  "Herbivory × Climate-dependent",
+  0.60, -1.00,
+  -0.03, -0.10,
+  show_x = TRUE
+)
+
 
 # ── Combine ────────────────────────────────────────────────────────────────────
-# Extract legend from p2 and place it at the bottom of the combined figure
 final <- (p1 | p2) / (p3 | p4) +
-
+  
   plot_annotation(
     tag_levels = "a",
     tag_prefix = "(",
@@ -149,15 +237,17 @@ final <- (p1 | p2) / (p3 | p4) +
       plot.tag.position = c(0.01, 0.99)
     )
   ) &
+  
+  theme(
+    plot.margin = margin(6, 10, 4, 10)
+  )
 
-  # Apply consistent spacing across all panels
-  theme(plot.margin = margin(6, 10, 4, 10))
 
 # ── Save ───────────────────────────────────────────────────────────────────────
-# Update path to your local directory
 out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/conceptual_figure.pdf"
 
-# ── Save PDF for LaTeX ────────────────────────────────────────────────────────
+
+# ── Save PDF for LaTeX ─────────────────────────────────────────────────────────
 ggsave(
   out_path,
   plot   = final,
@@ -166,7 +256,8 @@ ggsave(
   device = cairo_pdf
 )
 
-# ── Save high-resolution TIFF for journal production ──────────────────────────
+
+# ── Save high-resolution TIFF for journal production ───────────────────────────
 tiff_path <- sub("\\.pdf$", ".tiff", out_path)
 
 Cairo::CairoTIFF(
@@ -180,6 +271,7 @@ Cairo::CairoTIFF(
 print(final)
 dev.off()
 
+
 # ── Save PNG for quick preview ────────────────────────────────────────────────
 ggsave(
   sub("\\.pdf$", ".png", out_path),
@@ -188,4 +280,3 @@ ggsave(
   height = 6.0,
   dpi    = 300
 )
-

@@ -3,49 +3,49 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: EcolLett_R1.aux
 The style file: apalike.bst
 Database file #1: References.bib
-Repeated entry---line 1027 of file References.bib
+Repeated entry---line 1038 of file References.bib
  : @article{davitt2011understanding
  :                                 ,
 I'm skipping whatever remains of this entry
-You've used 76 entries,
+You've used 78 entries,
             1935 wiz_defined-function locations,
-            923 strings with 18721 characters,
-and the built_in function-call counts, 32708 in all, are:
-= -- 3200
-> -- 1527
-< -- 36
-+ -- 542
-- -- 526
-* -- 3016
-:= -- 5711
-add.period$ -- 227
-call.type$ -- 76
-change.case$ -- 636
-chr.to.int$ -- 74
-cite$ -- 76
-duplicate$ -- 1071
-empty$ -- 2158
-format.name$ -- 634
-if$ -- 6239
+            934 strings with 19457 characters,
+and the built_in function-call counts, 33822 in all, are:
+= -- 3298
+> -- 1608
+< -- 35
++ -- 572
+- -- 556
+* -- 3135
+:= -- 5911
+add.period$ -- 233
+call.type$ -- 78
+change.case$ -- 661
+chr.to.int$ -- 76
+cite$ -- 78
+duplicate$ -- 1099
+empty$ -- 2218
+format.name$ -- 664
+if$ -- 6443
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 72
-newline$ -- 382
-num.names$ -- 228
-pop$ -- 485
+missing$ -- 74
+newline$ -- 392
+num.names$ -- 234
+pop$ -- 507
 preamble$ -- 1
-purify$ -- 641
+purify$ -- 666
 quote$ -- 0
-skip$ -- 819
+skip$ -- 838
 stack$ -- 0
-substring$ -- 2514
-swap$ -- 103
+substring$ -- 2581
+swap$ -- 105
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 450
+type$ -- 462
 warning$ -- 0
-while$ -- 278
+while$ -- 285
 width$ -- 0
-write$ -- 979
+write$ -- 1005
 (There was 1 error message)

@@ -122,6 +122,13 @@ Davitt, A.~J., Chen, C., and Rudgers, J.~A. (2011).
   symbiont transmission.
 \newblock {\em Environmental and Experimental Botany}, 71(2):137--145.
 
+\bibitem[de~Souza et~al., 2023]{de2023importance}
+de~Souza, M.~R., Caruso, C., Ruiz-Jones, L., Drury, C., Gates, R.~D., and
+  Toonen, R.~J. (2023).
+\newblock Importance of depth and temperature variability as drivers of coral
+  symbiont composition despite a mass bleaching event.
+\newblock {\em Scientific Reports}, 13(1):8957.
+
 \bibitem[Decunta et~al., 2021]{decunta2021systematic}
 Decunta, F.~A., P{\'e}rez, L.~I., Malinowski, D.~P., Molina-Montenegro, M.~A.,
   and Gundel, P.~E. (2021).
@@ -235,12 +242,6 @@ Hart, E.~M. and Bell, K. (2015).
 Hoang, K.~L., Salguero-G{\'o}mez, R., Pike, V.~L., and King, K.~C. (2024).
 \newblock The impacts of host association and perturbation on symbiont fitness.
 \newblock {\em Symbiosis}, 92(3):439--451.
-
-\bibitem[Hoeksema and Bruna, 2000]{hoeksema2000pursuing}
-Hoeksema, J.~D. and Bruna, E.~M. (2000).
-\newblock Pursuing the big questions about interspecific mutualism: a review of
-  theoretical approaches.
-\newblock {\em Oecologia}, 125:321--330.
 
 \bibitem[Hoeksema and Bruna, 2015]{hoeksema2015context}
 Hoeksema, J.~D. and Bruna, E.~M. (2015).
@@ -418,10 +419,25 @@ Siegel, M., Latch, G., Bush, L., Fannin, F., Rowan, D., Tapper, B., Bacon, C.,
   response.
 \newblock {\em Journal of chemical ecology}, 16(12):3301--3315.
 
+\bibitem[Soudzilovskaia et~al., 2015]{soudzilovskaia2015quantitative}
+Soudzilovskaia, N.~A., van~der Heijden, M.~G., Cornelissen, J.~H., Makarov,
+  M.~I., Onipchenko, V.~G., Maslov, M.~N., Akhmetzhanova, A.~A., and van
+  Bodegom, P.~M. (2015).
+\newblock Quantitative assessment of the differential impacts of arbuscular and
+  ectomycorrhiza on soil carbon cycling.
+\newblock {\em New Phytologist}, 208(1):280--293.
+
 \bibitem[{Stan Development Team}, 2024]{Rstan}
 {Stan Development Team} (2024).
 \newblock {RStan}: the {R} interface to {Stan}.
 \newblock R package version 2.32.6.
+
+\bibitem[Thirkell et~al., 2020]{thirkell2020carbon}
+Thirkell, T.~J., Pastok, D., and Field, K.~J. (2020).
+\newblock Carbon for nutrient exchange between arbuscular mycorrhizal fungi and
+  wheat varies according to cultivar and changes in atmospheric carbon dioxide
+  concentration.
+\newblock {\em Global change biology}, 26(3):1725--1738.
 
 \bibitem[van Der~Heijden et~al., 2015]{van2015mycorrhizal}
 van Der~Heijden, M.~G., Martin, F.~M., Selosse, M.-A., and Sanders, I.~R.

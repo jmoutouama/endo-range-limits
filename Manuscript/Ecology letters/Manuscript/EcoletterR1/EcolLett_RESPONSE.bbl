@@ -1,5 +1,16 @@
 \begin{thebibliography}{}
 
+\bibitem[Afkhami and Rudgers, 2009]{afkhami2009endophyte}
+Afkhami, M.~E. and Rudgers, J.~A. (2009).
+\newblock Endophyte-mediated resistance to herbivores depends on herbivore
+  identity in the wild grass festuca subverticillata.
+\newblock {\em Environmental Entomology}, 38(4):1086--1095.
+
+\bibitem[David et~al., 2018]{david2018microbial}
+David, A.~S., Thapa-Magar, K.~B., and Afkhami, M.~E. (2018).
+\newblock Microbial mitigation--exacerbation continuum: a novel framework for
+  microbiome effects on hosts in the face of stress.
+
 \bibitem[Davitt et~al., 2011]{davitt2011understanding}
 Davitt, A.~J., Chen, C., and Rudgers, J.~A. (2011).
 \newblock Understanding context-dependency in plant--microbe symbiosis: the
@@ -15,11 +26,37 @@ Gundel, P.~E., Sun, P., Charlton, N.~D., Young, C.~A., Miller, T.~E., and
   autumnalis.
 \newblock {\em Annals of Botany}, 125(6):981--991.
 
+\bibitem[Kawai and Tokeshi, 2007]{kawai2007testing}
+Kawai, T. and Tokeshi, M. (2007).
+\newblock Testing the facilitation--competition paradigm under the
+  stress-gradient hypothesis: decoupling multiple stress factors.
+\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
+  274(1624):2503.
+
+\bibitem[Le~Roux and McGeoch, 2010]{le2010interaction}
+Le~Roux, P.~C. and McGeoch, M.~A. (2010).
+\newblock Interaction intensity and importance along two stress gradients:
+  adding shape to the stress-gradient hypothesis.
+\newblock {\em Oecologia}, 162(3):733--745.
+
+\bibitem[Michalet, 2007]{michalet2007highlighting}
+Michalet, R. (2007).
+\newblock Highlighting the multiple drivers of change in interactions along
+  stress gradients.
+\newblock {\em New Phytologist}, pages 3--6.
+
 \bibitem[Rudgers and Swafford, 2009]{rudgers2009benefits}
 Rudgers, J.~A. and Swafford, A.~L. (2009).
 \newblock Benefits of a fungal endophyte in elymus virginicus decline under
   drought stress.
 \newblock {\em Basic and Applied Ecology}, 10(1):43--51.
+
+\bibitem[Semmartin et~al., 2015]{semmartin2015broad}
+Semmartin, M., Omacini, M., Gundel, P.~E., and Hern{\'a}ndez-Agramonte, I.~M.
+  (2015).
+\newblock Broad-scale variation of fungal-endophyte incidence in temperate
+  grasses.
+\newblock {\em Journal of Ecology}, 103(1):184--190.
 
 \bibitem[Yule et~al., 2013]{yule2013costs}
 Yule, K.~M., Miller, T.~E., and Rudgers, J.~A. (2013).

@@ -77,12 +77,12 @@ cat("Full data:", nrow(demography_climate_full), "rows,",
 cat("Sensitivity data (excl. KER/SON):", nrow(demography_climate_sens), "rows,",
     n_distinct(demography_climate_sens$Site), "sites\n")
 
-sim_pars <- list(
-  warmup  = 1000,
-  iter    = 3000,
-  control = list(adapt_delta = 0.99, max_treedepth = 15),
-  chains  = 3
-)
+# sim_pars <- list(
+#   warmup  = 1000,
+#   iter    = 3000,
+#   control = list(adapt_delta = 0.99, max_treedepth = 15),
+#   chains  = 3
+# )
 
 stan_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan"
 out_dir  <- "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output"
@@ -520,7 +520,6 @@ sensitivity_table <- make_summary_table(delta_all) %>%
 #   file.path(out_dir, "sensitivity_KER_SON_delta_comparison.csv"),
 #   row.names = FALSE
 # )
-message("Saved: sensitivity_KER_SON_delta_comparison.csv")
 
 # Also export a LaTeX-ready version for the manuscript supplement, mirroring
 # the xtable blocks used for the primary Delta tables in 05_Plot_vital_rate.R
@@ -591,6 +590,7 @@ make_sensitivity_plot <- function(trait_name, y_label, spp_labels) {
     geom_line(linewidth = 0.8) +
     facet_grid(
       herb_lab ~ species_lab,
+      scales = "free_y",
       labeller = labeller(species_lab = as_labeller(spp_labeller, label_parsed))
     ) +
     scale_color_manual(values = MODEL_COLORS, name = NULL) +
@@ -656,8 +656,12 @@ Cairo::CairoPDF(
 )
 print(FigS_sensitivity_combined)
 dev.off()
-message("Saved: FigS_sensitivity_KER_SON_combined.pdf")
 
-message("Sensitivity analysis complete. See sensitivity_KER_SON_delta_comparison.csv, ",
-        "TableS_sensitivity_KER_SON.tex, and FigS_sensitivity_KER_SON_*.pdf ",
-        "for the reviewer response / manuscript supplement.")
+Cairo::CairoTIFF(
+  file.path(out_dir, "FigS_sensitivity_KER_SON_combined.tiff"),
+  width = 14, height = 11,
+  units = "in",
+  dpi = 600
+)
+print(FigS_sensitivity_combined)
+dev.off()

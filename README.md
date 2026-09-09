@@ -30,6 +30,7 @@ endo-range-limits/
 │   ├── 08_endo_soil_analysis.R   # Greenhouse experiment: soil-origin × symbiont effects on biomass and inflorescence
 │   ├── 09_Plot_effect_size.R     # Caterpillar plots of all fixed-effect posterior coefficients (supplement)
 │   └── 10_conceptual_figure.R    # Conceptual figure: four alternative hypotheses (Fig. 1)
+│   └── 11_Sensitivity_KER_SON    # Sensitivity analysis
 ├── Stan/
 │   ├── survival_l.stan                # Bernoulli-logit survival, linear precipitation + full interactions (selected; Eq. 1)
 │   ├── survival.stan                  # Bernoulli-logit survival, quadratic precipitation + full interactions

@@ -1,8 +1,8 @@
 # Project: Endo range limits
 # Purpose: Caterpillar plots of ALL fixed-effect model coefficients (logit/log
 #          scale) for survival, growth, inflorescence, and spikelet models.
-#          One plot per vital rate, each exported as its own PDF, plus a
-#          combined 2×2 supplement figure.
+#          One plot per vital rate, each exported as its own PDF + TIFF,
+#          plus a combined 2×2 supplement figure (also PDF + TIFF).
 #
 #   Filled circle ● = strong posterior support (> 90 % of mass on one side of 0)
 #   Open   circle ○ = uncertain (CI straddles zero)
@@ -20,10 +20,15 @@
 #   Spikelet      : spikelet_l.stan        – NegBin, log scale (ELVI & POAU only)
 #
 # Shared linear predictor (Eq. 1):
-#   eta = b0 + bclim*clim + bendo*endo + bherb*herb
-#           + bendoclim*(endo*clim)  + bherbclim*(herb*clim)
-#           + bendoherb*(endo*herb)  + bendoherbclim*(endo*herb*clim)
+#   eta = b0 + bclim*clim + bendo*symbiont + bherb*herb
+#           + bendoclim*(symbiont*clim)  + bherbclim*(herb*clim)
+#           + bendoherb*(symbiont*herb)  + bendoherbclim*(symbiont*herb*clim)
 # + random effects: site-year, plot, source population (non-centered).
+#
+# NOTE: internal object/coefficient names (e.g. bendo, endoclim, posterior
+# list elements) are kept as-is because they must match the fitted .stan /
+# .rds objects exactly. Only display text (axis labels, titles) uses
+# "Symbiont" per reviewer request.
 #
 # Fitted stanfit objects loaded from Dropbox — fully self-contained.
 
@@ -76,12 +81,12 @@ all_coef_names <- c(
 coef_labels_ordered <- c(
   "Intercept",
   "Climate",
-  "Endophyte",
+  "Symbiont",
   "Herbivory",
-  "Endophyte \u00d7 Climate",
+  "Symbiont \u00d7 Climate",
   "Herbivory \u00d7 Climate",
-  "Endophyte \u00d7 Herbivory",
-  "Endophyte \u00d7 Herbivory \u00d7 Climate"
+  "Symbiont \u00d7 Herbivory",
+  "Symbiont \u00d7 Herbivory \u00d7 Climate"
 )
 
 coef_meta <- tibble(
@@ -392,33 +397,63 @@ Fig_spik_int <- make_intercept_plot("Spikelet",      "Coefficient (log scale)")
 # ══════════════════════════════════════════════════════════════════════════════
 # 9. EXPORT
 # ══════════════════════════════════════════════════════════════════════════════
-out_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure"
+out_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/Figure"
 
-# Helper: attach shared legend then write PDF
-export_with_legend <- function(plot_obj, filename, width = 8, height = 6.5) {
+# Helper: write a finished (already-assembled) plot to both PDF (vector,
+# for typesetting/editing) and TIFF (raster, 600 dpi — matches your other
+# figure scripts).
+# `filename_base` should have NO extension — both are appended here.
+write_figure <- function(plot_final, filename_base, width = 8, height = 6.5,
+                          dpi = 600) {
+  # PDF — grDevices::cairo_pdf() is R's own built-in Cairo-based PDF device.
+  # It is NOT the same code path as Cairo::CairoPDF(), whose PDF/vector
+  # surface fails to initialize on this machine ("Failed to create Cairo
+  # backend!"); cairo_pdf() uses the system fontconfig directly, so
+  # "Arial" resolves correctly here too.
+  grDevices::cairo_pdf(
+    file.path(out_dir, paste0(filename_base, ".pdf")),
+    width = width, height = height
+  )
+  print(plot_final)
+  dev.off()
+
+  # TIFF — Cairo::CairoTIFF() is confirmed working on this machine.
+  # Match the known-good call signature exactly (width, height, units, dpi
+  # only) — adding a `compression` argument previously produced a
+  # corrupt, near-empty file.
+  Cairo::CairoTIFF(
+    file.path(out_dir, paste0(filename_base, ".tiff")),
+    width = width, height = height, units = "in", dpi = dpi
+  )
+  print(plot_final)
+  dev.off()
+
+  message("Saved: ", filename_base, ".pdf and ", filename_base, ".tiff")
+}
+
+# Helper: attach shared legend then write PDF + TIFF
+export_with_legend <- function(plot_obj, filename_base, width = 8, height = 6.5,
+                                dpi = 300) {
   p_with_legend <- ggarrange(
     plot_obj,
     ggpubr::as_ggplot(shared_legend),
     ncol    = 1,
     heights = c(1, 0.12)
   )
-  Cairo::CairoPDF(file.path(out_dir, filename), width = width, height = height)
-  print(p_with_legend)
-  dev.off()
-  message("Saved: ", filename)
+  write_figure(p_with_legend, filename_base, width = width, height = height, dpi = dpi)
 }
 
-# ── Individual PDFs — coefficients ────────────────────────────────────────────
-export_with_legend(Fig_surv, "FigS_surv_coef_caterpillar.pdf",  width = 8, height = 6.5)
-export_with_legend(Fig_grow, "FigS_grow_coef_caterpillar.pdf",  width = 8, height = 6.5)
-export_with_legend(Fig_inf,  "FigS_inf_coef_caterpillar.pdf",   width = 8, height = 6.5)
-export_with_legend(Fig_spik, "FigS_spik_coef_caterpillar.pdf",  width = 6, height = 6.5)
+# ── Individual figures — coefficients (PDF + TIFF) ───────────────────────────
+export_with_legend(Fig_surv, "FigS_surv_coef_caterpillar",  width = 8, height = 6.5)
+export_with_legend(Fig_grow, "FigS_grow_coef_caterpillar",  width = 8, height = 6.5)
+export_with_legend(Fig_inf,  "FigS_inf_coef_caterpillar",   width = 8, height = 6.5)
+export_with_legend(Fig_spik, "FigS_spik_coef_caterpillar",  width = 6, height = 6.5)
 
-# ── Individual PDFs — intercept only ─────────────────────────────────────────
-export_with_legend(Fig_surv_int, "FigS_surv_int_caterpillar.pdf",  width = 8, height = 3)
-export_with_legend(Fig_grow_int, "FigS_grow_int_caterpillar.pdf",  width = 8, height = 3)
-export_with_legend(Fig_inf_int,  "FigS_inf_int_caterpillar.pdf",   width = 8, height = 3)
-export_with_legend(Fig_spik_int, "FigS_spik_int_caterpillar.pdf",  width = 6, height = 3)
+# ── Individual figures — intercept only (PDF + TIFF) ─────────────────────────
+export_with_legend(Fig_surv_int, "FigS_surv_int_caterpillar",  width = 8, height = 3)
+export_with_legend(Fig_grow_int, "FigS_grow_int_caterpillar",  width = 8, height = 3)
+export_with_legend(Fig_inf_int,  "FigS_inf_int_caterpillar",   width = 8, height = 3)
+export_with_legend(Fig_spik_int, "FigS_spik_int_caterpillar",  width = 6, height = 3)
 
 # ── Combined 2×2 — coefficients ───────────────────────────────────────────────
 coef_body <- ggarrange(
@@ -433,13 +468,8 @@ FigS_coef_combined <- ggarrange(
   ggpubr::as_ggplot(shared_legend),
   ncol = 1, heights = c(1, 0.07)
 )
-Cairo::CairoPDF(
-  file.path(out_dir, "FigS_coef_caterpillar_combined.pdf"),
-  width = 14, height = 11
-)
-print(FigS_coef_combined)
-dev.off()
-message("Saved: FigS_coef_caterpillar_combined.pdf")
+write_figure(FigS_coef_combined, "FigS_coef_caterpillar_combined",
+             width = 14, height = 11)
 
 # ── Combined 1×4 — intercept only ─────────────────────────────────────────────
 int_body <- ggarrange(
@@ -454,13 +484,8 @@ FigS_int_combined <- ggarrange(
   ggpubr::as_ggplot(shared_legend),
   ncol = 1, heights = c(1, 0.15)
 )
-Cairo::CairoPDF(
-  file.path(out_dir, "FigS_int_caterpillar_combined.pdf"),
-  width = 14, height = 6
-)
-print(FigS_int_combined)
-dev.off()
-message("Saved: FigS_int_caterpillar_combined.pdf")
+write_figure(FigS_int_combined, "FigS_int_caterpillar_combined",
+             width = 14, height = 6)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 10. EXPORT PLOTTED VALUES AS CSV

@@ -121,10 +121,10 @@
 %-------------------------------------------------------------------------
 \title{\Large Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses}
 \author[1, 2]{Jacob K. Moutouama\,\orcidlink{0000-0003-1599-1671} \thanks{Corresponding author: jmoutouama@gmail.com}}
-\author[3]{Josh C. Fowler}
-\author[4]{Akiem Gough}
+\author[3]{Joshua C. Fowler}
+\author[4]{Akiem M. Gough}
 \author[4]{Julia Martin}
-\author[4]{Chris Oxley}
+\author[4]{Christopher C Oxley}
 \author[4]{Karl Schrader}
 \author[4]{Karis Williams}
 \author[4]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
@@ -168,7 +168,9 @@ All analysis scripts (Stan and R) are available at \url{https://github.com/jmout
 \bigskip
 \noindent\textbf{Acknowledgments}
 This research was supported by National Science Foundation Division of Environmental Biology award 2208857. We gratefully acknowledge the individuals and institutions who hosted our geographically-distributed experiment, including the University of Louisiana, Sam Houston State University, Texas A\&M University, and University of Texas at Austin. 
-JKM was supported by start-up research funds GR036071 from the University of British Columbia and by NSERC grants GR038661 and GR038746. Three anonymous reviewers provided constructive feedback on an earlier version of this paper.
+JKM was supported by start-up research funds GR036071 from the University of British Columbia and by NSERC grants GR038661 and GR038746. 
+JCF was supported by an NSF Postdoctoral Fellowship in Biology (DBI 2410282).
+Three anonymous reviewers provided constructive feedback on an earlier version of this paper.
 
 
 \bigskip
@@ -318,7 +320,8 @@ To assess how abiotic and biotic stress modify the demographic effects of endoph
 All models shared the same hierarchical structure for their expected values and were applied to survival, growth, and fertility \revise{\linelabel{vital}(inflorescence count and, for two species, spikelet count per inflorescence)}.
 Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, inflorescence count with a negative binomial hurdle model, and spikelet count with a negative binomial distribution. 
 For inflorescence count, we compared hurdle and zero-inflated negative binomial mixture models. 
-\revise{\linelabel{inflorescence}Predictive performance was nearly identical between models based on leave-one-out cross-validation ($\Delta$ELPD = 0.2, SE = 3.1). We retained the hurdle model because it explicitly distinguishes whether a plant produced any inflorescences and, conditional on flowering, how many inflorescences it produced.}
+\revise{\linelabel{inflorescence}Predictive performance was nearly identical between models based on leave-one-out cross-validation ($\Delta$ELPD = 0.2, SE = 3.1). We retained the hurdle model because it explicitly distinguishes whether a plant produced any inflorescences and, conditional on flowering, how many inflorescences it produced.
+The hurdle model included a Bernoulli component for flowering probability and a zero-truncated negative binomial component for inflorescence count conditional on flowering, with both components using the same linear predictor specified in Eq.~\ref{eq:full_model}}
 
 All models included species-specific fixed effects for symbiosis ($S^+$ or \revise{\linelabel{Sminus7}$S^-$}), site and year-specific precipitation (cumulative rainfall [mm] over 12 months preceding the census), and herbivory (herbivore access/exclusion), including all two- and three-way interactions. 
 We considered models with linear and quadratic forms for the influence of precipitation, to account for the possibility of non-monotonic responses. 
@@ -423,9 +426,7 @@ We therefore repeated all analyses excluding these sites to assess whether their
 Excluding KER and SON produced qualitatively similar patterns of symbiont effects across climate and herbivory treatments (Fig.~\ref{fig:sensitivity_KER_SON}, Table~\ref{tab:sensitivity_KER_SON}), indicating that our conclusions were not driven by the replanted sites.}
 
  \subsection*{Greenhouse experiment: soil legacy effects do not mediate endophyte responses}
-In the greenhouse experiment with \textit{A. hyemalis} growing on soils from each experimental site, fitness components responded strongly to soil-origin precipitation even under uniform conditions: plants grown in soils from wetter sites produced greater aboveground biomass and more inflorescences than those from drier-origin soils (Figs.~\ref{fig:biomass_inflo}a--d), confirming that soil properties co-vary with the field aridity gradient.
-However, the symbiont $\times$ soil-origin precipitation interaction was negligible for both aboveground biomass (median~$= 0.01$, 95\% CI: $-0.39$--$0.43$, $P(>0) = 0.52$) and inflorescence count (median~$= 0.19$, 95\% CI: $-0.39$--$0.72$, $P(>0) = 0.76$; Fig.~\ref{fig:biomass_inflo}e). 
-The absence of this interaction when plants are decoupled from their soil's source climate suggests that the symbiont $\times$ precipitation pattern observed in the field reflects a climate-mediated effect rather than a consequence of co-varying edaphic conditions.
+In the greenhouse experiment with \textit{A. hyemalis} growing on soils from each experimental site, fitness components responded strongly to soil origin even under uniform conditions: plants grown in soils from wetter sites produced greater aboveground biomass and more inflorescences than those from drier-origin soils (Figs.~\ref{fig:biomass_inflo}a--d), confirming that soil properties co-vary with the field precipitation gradient. However, the estimated symbiont effects on both aboveground biomass and inflorescence production showed little systematic variation with soil-origin precipitation (Fig.~\ref{sup:greenhouse_coef}). Thus, although soil origin affected plant performance, it did not explain the variation in symbiont effects associated with precipitation in the field.
 
 \section*{Discussion}
 Drawing on three years of field experiments and Bayesian analysis of host demography, we evaluated how biotic and abiotic stressors jointly influence the demographic effects of vertically transmitted \textit{Epichloë} endophytes on three cool-season perennial grasses across a natural climatic gradient. We predicted that endophytes would enhance host fitness under aridity and/or herbivore pressure (Fig.~\ref{fig:prediction}), in line with stress amelioration and defense scenarios.
@@ -468,7 +469,8 @@ Thus, the effects of endophytes on herbivory may depend on both the defensive ch
 
 The greenhouse experiment suggests that the symbiont--climate interaction observed in the field is more closely linked to the direct physiological effects of water availability on the host than to soil properties that co-vary with aridity. 
 Although soil origin affected plant performance under common watering conditions, the negligible symbiont $\times$ soil-origin precipitation interactions for biomass and inflorescence production indicate that this soil gradient did not reproduce the climate dependence of symbiont effects observed in the field \citep{van2013plant}. 
-\revise{\linelabel{soilclimatecaveat}Thus, soil properties can influence host performance, but are unlikely to be the primary driver of climatic variation in symbiont benefits. Instead, direct effects of water availability on host carbon balance, growth, and resource allocation may influence the strength of the association. Nevertheless, the greenhouse experiment does not exclude contributions from specific soil properties that were not independently manipulated.}
+\revise{\linelabel{soilclimatecaveat}Thus, soil properties can influence host performance, but are unlikely to be the primary driver of climatic variation in symbiont benefits. Instead, direct effects of water availability on host carbon balance, growth, and resource allocation may influence the strength of the association. %Nevertheless, the greenhouse experiment does not exclude contributions from specific soil properties that were not independently manipulated.
+}
 
 
 
@@ -536,7 +538,6 @@ Horizontal dashed line denotes $\Delta = 0$.
 Panels are arranged by species and herbivory treatment (herbivore access and exclusion).}
 \label{fig:growth}
 \end{figure}
-
 \clearpage
 
 %\captionsetup[figure]{list=no}
@@ -567,8 +568,10 @@ Probabilities of positive endophyte effects on survival, growth, and inflorescen
 \captionsetup[figure]{list=no}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth]{Fig_Greenhouse_Combined.pdf}
-\caption{Greenhouse experiment testing whether soil-origin precipitation modifies symbiont effects on host performance in \textit{Agrostis hyemalis}. Top row: posterior predictions for aboveground biomass (a) and total inflorescence production (b) across the 30-year mean annual precipitation of the soil-origin site (mm yr$^{-1}$), for symbiont-present ($S^+$) and symbiont-absent ($S^-$) plants; points are observed values, lines are posterior medians, and shaded ribbons are 95\% credible intervals. Middle row: posterior contrast between symbiont treatments ($\Delta$ = $S^+ - S^-$) for biomass (c) and inflorescences (d). (e) Posterior coefficient estimates (median $\pm$ 90\% and 95\% credible intervals) for symbiont presence, precipitation, and their interaction, faceted by response (biomass, top facet; inflorescences, bottom facet). Precipitation increased performance, whereas the Symbiont $\times$ Precipitation interaction was weak.}
+\includegraphics[width=0.9\textwidth]{Fig_Greenhouse_Combined.pdf}
+\caption{Greenhouse experiment testing whether soil-origin precipitation modifies symbiont effects on host performance in \textit{Agrostis hyemalis}. Upper panels: posterior predictions for aboveground biomass (a) and total inflorescence production (b) across the 30-year mean annual precipitation of the soil-origin site (mm yr$^{-1}$), for symbiont-present ($S^+$) and symbiont-absent ($S^-$) plants; points are observed values, lines are posterior medians, and shaded ribbons are 95\% credible intervals. Biomass was modelled on the log scale and is shown on a logarithmic axis. Lower panels: posterior contrast between symbiont treatments ($\Delta = S^+ - S^-$) for the response shown above; the dashed line marks no difference between treatments. 
+%Precipitation increased performance, whereas the Symbiont $\times$ Precipitation interaction was weak (Fig.~\ref{fig:greenhouse_coef}).
+}
 \label{fig:biomass_inflo}
 \end{figure}
 \clearpage
@@ -859,7 +862,6 @@ The experiment crossed two seed source populations (LPEF and SJC), seven soil-or
 \caption{Posterior estimates (median and 90\% credible intervals) of symbiont and herbivore exclusion effects on the proportion of damaged tillers for three host grass species, from a binomial model with site, year, and plot as random effects. Negative values indicate reduced herbivore damage, whereas positive values indicate increased damage. Points and intervals are colored by species: \textit{Agrostis hyemalis} (green), \textit{Elymus virginicus} (orange), and \textit{Poa autumnalis} (purple). Dashed vertical lines indicate no effect.}
 \label{sup:herbivory}
 \end{figure}
-
 \clearpage
 
 
@@ -871,8 +873,7 @@ The experiment crossed two seed source populations (LPEF and SJC), seven soil-or
 \end{figure}
 \clearpage
 
-
-\begin{figure}[H]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=1\textwidth]{FigS_coef_caterpillar_combined.pdf}
     \caption{
@@ -885,7 +886,7 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \end{figure}
 \clearpage
 
-\begin{figure}[H]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=1\textwidth]{Inflorescence_diff_v.pdf}
     \caption{Predicted inflorescence production (upper panels) and symbiont effect ($\Delta$ = $S^+ - S^-$; lower panels) across the precipitation
@@ -899,7 +900,7 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \end{figure}
 \clearpage
 
-\begin{figure}[H]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=1\textwidth]{Spikelet_diff.pdf}
     \caption{Predicted spikelet production (upper panels) and symbiont effect ($\Delta$ = $S^+ - S^-$; lower panels) across the precipitation
@@ -914,7 +915,7 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \end{figure}
 \clearpage
 
-\begin{figure}[H]
+\begin{figure}[htp]
     \centering
     \includegraphics[width=1\linewidth]{Spikelet_diff_stat.pdf}
     \caption{Median $\Delta$ ($S^+ - S^-$) and posterior probability $P(\Delta > 0)$ for spikelet production across precipitation quantiles for each species and herbivory treatment.
@@ -924,6 +925,13 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
     \label{sup:spike_delta}
 \end{figure}
 \clearpage
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{Fig_Greenhouse_Coefficients.pdf}
+\caption{Posterior coefficient estimates for the greenhouse experiment (median, with thick and thin bars showing 90\% and 95\% credible intervals) for symbiont presence, soil-origin precipitation (standardized), and their interaction, for aboveground biomass (top) and total inflorescences (bottom). Filled points indicate estimates with posterior probability $> 0.9$ of being above or below zero; the dashed line marks zero.}
+\label{sup:greenhouse_coef}
+\end{figure}
 
 
 \end{document}

@@ -1,7 +1,7 @@
 # Purpose: Plot vital rate models (survival, growth, flowering and spikelet) as
 #          function of climate or distance from niche center.
 # Authors: Jacob Moutouama
-# Date last modified (2026-09-06):
+# Date last modified (2026-09-22):
 
 rm(list = ls())
 
@@ -80,6 +80,7 @@ vr_theme <- function() {
       legend.title      = element_text(size = 8),
       legend.text       = element_markdown(size = 10),
       panel.spacing.y   = unit(0.2, "cm"),
+      panel.spacing.x   = unit(0.4, "cm"),
       text              = element_text(family = "Arial"),
       strip.text.x      = element_text(size = 10, color = "black"),
       strip.text.y      = element_text(size = 10, color = "black"),
@@ -94,6 +95,67 @@ climate_scaled     <- readRDS(url("https://www.dropbox.com/scl/fi/irecsnoh3xrq6g
 
 ppt_mean <- mean(climate_scaled$ppt_log)
 ppt_sd   <- sd(climate_scaled$ppt_log)
+
+# ── Shared precipitation (x) axis for ALL figures ─────────────────────────────
+# Every vital-rate model uses clim = standardized log(precipitation), so the
+# back-transform to mm is exp(clim * ppt_sd + ppt_mean).
+# Set USE_LOG_X to TRUE to draw precipitation on a log10 axis in every figure
+# (the scale the models were fit on); FALSE draws it on a linear mm axis.
+USE_LOG_X <- FALSE
+
+# One common range for every panel of every figure, padded so the jittered
+# observed points (+/- 20 mm) are never cut off.
+X_LIMITS <- range(exp(demography_climate$ppt_scaled * ppt_sd + ppt_mean), na.rm = TRUE) +
+  c(-25, 25)
+
+# Axis breaks: pretty round numbers, but drop any break within 8% of either
+# panel edge so the last label of one column can't collide with the first
+# label of the next column.
+x_breaks <- function(lims) {
+  b    <- scales::breaks_pretty(n = 5)(lims)
+  fwd  <- if (USE_LOG_X) log10 else identity
+  lo   <- fwd(lims[1]); hi <- fwd(lims[2]); pad <- 0.08 * (hi - lo)
+  b[fwd(b) > lo + pad & fwd(b) < hi - pad]
+}
+
+shared_x <- scale_x_continuous(
+  trans  = if (USE_LOG_X) "log10" else "identity",
+  limits = X_LIMITS,
+  breaks = x_breaks,
+  # big.mark = "" -> "1000", not "1 000" (scales' default thousands separator)
+  labels = scales::label_number(accuracy = 1, big.mark = ""),
+  expand = expansion(mult = 0.02),
+  oob    = scales::oob_keep
+)
+
+# Evenly spaced dash segments for reference lines (0 or 0.5), spanning X_LIMITS.
+# Spacing is computed on the axis scale, so dashes stay even on a log axis too.
+make_dashes <- function(y = 0, n = 16, dash_prop = 0.65, lims = X_LIMITS) {
+  fwd  <- if (USE_LOG_X) log10 else identity
+  back <- if (USE_LOG_X) function(v) 10^v else identity
+  a    <- fwd(lims[1]); b <- fwd(lims[2])
+  step <- (b - a) / n
+  start <- a + (0:(n - 1)) * step
+  tibble(
+    x    = back(start),
+    xend = back(start + step * dash_prop),
+    y    = y,
+    yend = y
+  )
+}
+
+# Panel letters anchored to the top-left corner of each panel, independent of
+# the data range or y limits. On a log10 axis -Inf becomes NaN and is dropped,
+# so x = 0 is used instead (log10(0) = -Inf, i.e. the left edge).
+panel_tag <- function(labels_df, size = 4) {
+  labels_df$x <- if (USE_LOG_X) 0 else -Inf
+  geom_text(
+    data = labels_df,
+    aes(x = x, y = Inf, label = label),
+    hjust = -0.3, vjust = 1.3, size = size,
+    fontface = "plain", inherit.aes = FALSE
+  )
+}
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SURVIVAL
@@ -258,31 +320,11 @@ panel_labels_surv <- data.frame(
 # Get n_obs range for caption
 range(observed_data_survival$n_obs)
 
-# ── Create visible dash segments for the zero line ───────────────────────────
-make_dashes <- function(xmin, xmax, n = 16, dash_prop = 0.65) {
-  step <- (xmax - xmin) / n
-
-  tibble(
-    x    = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y    = 0,
-    yend = 0
-  )
-}
-
-global_xmin <- min(plot_data_survival$climate_mm, na.rm = TRUE)
-global_xmax <- max(plot_data_survival$climate_mm, na.rm = TRUE)
-
+# ── Zero-line dashes for the Δ panels ────────────────────────────────────────
 zero_dashes <- plot_data_survival %>%
   filter(panel == "Δ (S+ - S-)") %>%
   distinct(species, herb, panel) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin, global_xmax)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
+  tidyr::crossing(make_dashes(y = 0))
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "PrSurvival_diff.tiff"),
@@ -292,7 +334,7 @@ Cairo::CairoTIFF(
   dpi = 600
 )
 
-ggplot(plot_data_survival) +
+p_surv <- ggplot(plot_data_survival) +
   # ── Predicted survival ──
   geom_line(
     data = subset(plot_data_survival, panel == "Pr (survival)"),
@@ -340,7 +382,7 @@ ggplot(plot_data_survival) +
   # ── Facets ──
   ggh4x::facet_nested(
     species + panel ~ herb,
-    scales = "free", space = "fixed",
+    scales = "free_y", space = "fixed",
     labeller = labeller(
       species = label_parsed,
       herb    = c("0" = "Herbivory access", "1" = "Herbivory exclusion"),
@@ -348,11 +390,6 @@ ggplot(plot_data_survival) +
     )
   ) +
   ggh4x::facetted_pos_scales(
-    x = list(
-      panel == "Δ (S+ - S-)" ~ scale_x_continuous(
-        expand = c(0, 0)
-      )
-    ),
     y = list(
       panel == "Δ (S+ - S-)" ~ scale_y_continuous(
         limits = c(-0.3, 0.35),
@@ -369,6 +406,7 @@ ggplot(plot_data_survival) +
       )
     )
   ) +
+  shared_x +
   labs(
     x = "Precipitation (mm)",
     y = expression(paste("Survival probability / ", Delta, " survival (",
@@ -383,16 +421,9 @@ ggplot(plot_data_survival) +
     legend.direction = "horizontal",
     legend.justification = "center",
     axis.title.y = element_text(size = 8)
-  )+
-  geom_text(
-    data = panel_labels_surv,
-    aes(x = -Inf, y = Inf, label = label),
-    fontface = "plain",
-    size = 4,
-    hjust = -0.3,
-    vjust = 1.3,
-    inherit.aes = FALSE
-  )
+  ) +
+  panel_tag(panel_labels_surv)
+print(p_surv)
 dev.off()
 
 # ── Delta survival summary (used downstream) ──────────────────────────────────
@@ -659,33 +690,23 @@ panel_labels_grow <- data.frame(
   species = rep(species_levels_3, each=2),
   herb    = rep(c(0,1), times=3),
   label   = c("(a)","(b)","(c)","(d)","(e)","(f)"),
-  panel   = "Growth",
-  ymax    = c(1, 1, 1.25, 1.25, 2.2, 2.2)
+  panel   = "Growth"
 )
 
 # Get n_obs range for caption
 range(observed_data_grow$n_obs)
 
 # ── Zero-line dashes (same style as survival, for harmony across figures) ─────
-global_xmin_grow <- min(plot_data_grow$climate_mm, na.rm = TRUE)
-global_xmax_grow <- max(plot_data_grow$climate_mm, na.rm = TRUE)
-
 zero_dashes_grow <- plot_data_grow %>%
   filter(panel == "Δ (S+ - S-)") %>%
   distinct(species, herb, panel) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_grow, global_xmax_grow)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
+  tidyr::crossing(make_dashes(y = 0))
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "Growth_diff.tiff"),
   width = 7, height = 8, units = "in", dpi = 600
 )
-ggplot(plot_data_grow) +
+p_grow <- ggplot(plot_data_grow) +
   geom_line(
     data = subset(plot_data_grow, panel == "Growth"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
@@ -727,7 +748,7 @@ ggplot(plot_data_grow) +
   # ── Facets ──
   ggh4x::facet_nested(
     species + panel ~ herb,
-    scales = "free",
+    scales = "free_y", space = "fixed",
     labeller = labeller(
       species = label_parsed,
       herb    = c("0" = "Herbivory access", "1" = "Herbivory exclusion"),
@@ -768,10 +789,12 @@ ggplot(plot_data_grow) +
         scale_y_continuous(limits = c(-2.8, 2.2), expand = c(0, 0))
     )
   ) +
+  # ── Shared x-axis (linear or log10, set once by USE_LOG_X at the top) ──
+  shared_x +
   labs(
     x = "Precipitation (mm)",
     y = expression(paste("Log size ratio / ", Delta, " growth (",
-                          italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
+                         italic(S)^{"+"} - italic(S)^{"\u2212"}, ")")),
     color = "Symbiont", fill = "Symbiont"
   ) +
   scale_color_manual(values = ENDO_COLORS, labels = ENDO_LABELS) +
@@ -796,11 +819,8 @@ ggplot(plot_data_grow) +
     legend.direction  = "horizontal",
     legend.justification = "center"
   ) +
-  geom_text(
-    data = panel_labels_grow,
-    aes(x = 490, y = ymax * 0.70, label = label),
-    hjust = 0, size = 4.7, inherit.aes = FALSE
-  )   # was size = 3.5
+  panel_tag(panel_labels_grow, size = 4.7)
+print(p_grow)
 dev.off()
 
 # ── Delta growth summary ───────────────────────────────────────────────────────
@@ -1065,30 +1085,20 @@ panel_labels_inf <- data.frame(
   species = rep(species_levels_3, each=2),
   herb    = rep(c(0,1), times=3),
   label   = c("(a)","(b)","(c)","(d)","(e)","(f)"),
-  panel   = "Inflorescences",
-  ymax    = rep(c(20, 7, 65), each=2)
+  panel   = "Inflorescences"
 )
 
 # ── Zero-line dashes (same style as survival, for harmony across figures) ─────
-global_xmin_inf <- min(plot_data_inf$climate_mm, na.rm = TRUE)
-global_xmax_inf <- max(plot_data_inf$climate_mm, na.rm = TRUE)
-
 zero_dashes_inf <- plot_data_inf %>%
   filter(panel == "Δ (S+ - S-)") %>%
   distinct(species, herb, panel) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_inf, global_xmax_inf)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
+  tidyr::crossing(make_dashes(y = 0))
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "Inflorescence_diff_v.tiff"),
   width = 6, height = 7, units = "in", dpi = 600
 )
-ggplot(plot_data_inf) +
+p_inf <- ggplot(plot_data_inf) +
   geom_line(
     data = subset(plot_data_inf, panel == "Inflorescences"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
@@ -1168,6 +1178,7 @@ ggplot(plot_data_inf) +
         scale_y_continuous(limits = c(0, 65))
     )
   ) +
+  shared_x +
   labs(
     x = "Precipitation (mm)",
     y = expression(paste("Number of inflorescences / ", Delta, " inflorescences (",
@@ -1183,11 +1194,8 @@ ggplot(plot_data_inf) +
     legend.justification = "center",
     axis.title.y = element_text(size = 10)
   ) +
-  geom_text(
-    data = panel_labels_inf,
-    aes(x = 490, y = ymax * 0.8, label = label),
-    hjust = 0, size = 3.5, inherit.aes = FALSE
-  )
+  panel_tag(panel_labels_inf, size = 3.5)
+print(p_inf)
 dev.off()
 
 # ── Delta inflorescence summary ───────────────────────────────────────────────
@@ -1388,11 +1396,16 @@ plot_data_spik <- pred_spik_long %>%
   summarise(mean=mean(Prediction), lower_90=quantile(Prediction,0.05),
             upper_90=quantile(Prediction,0.95), .groups="drop")
 
-delta_spik <- plot_data_spik %>%
-  pivot_wider(names_from=endo, values_from=c(mean, lower_90, upper_90)) %>%
-  mutate(mean=mean_1-mean_0, lower_90=lower_90_1-upper_90_0,
-         upper_90=upper_90_1-lower_90_0, panel="Δ (S+ - S-)") %>%
-  dplyr::select(species, clim, herb, mean, lower_90, upper_90, panel)
+# Δ computed per posterior draw, then summarised (same method as the other
+# vital rates). Subtracting the S- and S+ interval bounds from each other, as
+# before, gives an interval that is too wide and not a true 90% interval.
+delta_spik <- pred_spik_long %>%
+  group_by(species, herb, clim, Posterior_Sample) %>%
+  summarise(diff = mean(Prediction[endo==1]) - mean(Prediction[endo==0]), .groups="drop") %>%
+  group_by(species, herb, clim) %>%
+  summarise(lower_90=quantile(diff,0.05), upper_90=quantile(diff,0.95),
+            mean=mean(diff), .groups="drop") %>%
+  mutate(panel="Δ (S+ - S-)")
 
 plot_data_spik <- plot_data_spik %>% mutate(panel="Spikelets") %>% bind_rows(delta_spik)
 
@@ -1447,36 +1460,18 @@ panel_labels_spik <- data.frame(
 )
 
 # ── Zero-line segments ────────────────────────────────────────────────────────
-make_dashes <- function(xmin, xmax, n = 8, dash_prop = 0.45) {
-  step <- (xmax - xmin) / n
-  tibble(
-    x = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y = 0,
-    yend = 0
-  )
-}
-
-global_xmin_spik <- min(plot_data_spik$climate_mm, na.rm = TRUE)
-global_xmax_spik <- max(plot_data_spik$climate_mm, na.rm = TRUE)
-
-zero_dashes_spik <- expand.grid(
-  species = levels(plot_data_spik$species),
-  herb = c(0, 1)
+zero_dashes_spik <- tidyr::expand_grid(
+  species = factor(levels(plot_data_spik$species), levels = levels(plot_data_spik$species)),
+  herb    = c(0, 1),
+  panel   = "Δ (S+ - S-)"
 ) %>%
-  mutate(
-    dashes = purrr::map(
-      seq_len(n()),
-      ~ make_dashes(global_xmin_spik, global_xmax_spik)
-    )
-  ) %>%
-  tidyr::unnest(dashes)
+  tidyr::crossing(make_dashes(y = 0, n = 8, dash_prop = 0.45))
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "Spikelet_diff.tiff"),
   width = 7, height = 5.5, units = "in", dpi = 600
 )
-ggplot(plot_data_spik) +
+p_spik <- ggplot(plot_data_spik) +
   geom_line(
     data = subset(plot_data_spik, panel == "Spikelets"),
     aes(x = climate_mm, y = mean, color = factor(endo), group = endo),
@@ -1548,6 +1543,7 @@ ggplot(plot_data_spik) +
         scale_y_continuous(limits = c(0, 60), expand = c(0, 0))
     )
   ) +
+  shared_x +
   labs(
     x = "Precipitation (mm)",
     y = expression(paste("Number of spikelets per inflorescence / ", Delta, " spikelets (",
@@ -1576,11 +1572,8 @@ ggplot(plot_data_spik) +
     #legend.direction  = "horizontal",
     legend.justification = "center"
   ) +
-  geom_text(
-    data = panel_labels_spik,
-    aes(x = 490, y = 47, label = label),
-    fontface = "plain", size = 4, hjust = 0, inherit.aes = FALSE
-  )
+  panel_tag(panel_labels_spik)
+print(p_spik)
 dev.off()
 
 # ── Delta spikelet summary ────────────────────────────────────────────────────
@@ -1617,8 +1610,9 @@ delta_spik_summary <- delta_spik_species_range %>%
   summarise(median_delta=median(delta), lower_90=quantile(delta,0.05),
             upper_90=quantile(delta,0.95), prob_delta_gt0=mean(delta>0), .groups="drop") %>%
   mutate(
-    species = factor(species, levels=1:3,
-                     labels=c("Agrostis hyemalis","Elymus virginicus","Poa autumnalis")),
+    # Spikelet model has only 2 species: 1 = ELVI, 2 = POAU
+    species = factor(species, levels=1:2,
+                     labels=c("Elymus virginicus","Poa autumnalis")),
     herb    = factor(herb, levels=c(0,1),
                      labels=c("Herbivory access","Herbivory exclusion")),
     clim_mm = exp(clim * ppt_sd + ppt_mean)
@@ -1725,24 +1719,7 @@ panel_labels <- delta_long_all %>%
   arrange(trait, species_label) %>%
   mutate(label = paste0("(", letters[1:n()], ")"))
 
-make_dashes <- function(xmin, xmax, y = 0.5, n = 14, dash_prop = 0.70) {
-  step <- (xmax - xmin) / n
-  tibble(
-    x    = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y    = y,
-    yend = y
-  )
-}
-
-global_xmin <- min(delta_long_all$clim_mm, na.rm = TRUE)
-global_xmax <- max(delta_long_all$clim_mm, na.rm = TRUE)
-
-reference_dashes <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0.5
-)
+reference_dashes <- make_dashes(y = 0.5, n = 14, dash_prop = 0.70)
 
 p_lower <- delta_long_all %>%
   filter(metric == "Pr (Δ > 0)") %>%
@@ -1757,22 +1734,15 @@ p_lower <- delta_long_all %>%
     inherit.aes = FALSE
   ) +
   facet_grid(
-    trait ~ species_label, scales="free_x",
+    trait ~ species_label,
     labeller=labeller(species_label=label_parsed, trait=label_value)
   ) +
   scale_color_manual(values=c("Herbivory access"="#E69F00",
                                "Herbivory exclusion"="#009E73")) +
+  shared_x +
   labs(x="Precipitation (mm)", y="P(Δ > 0)", color="Herbivore treatment") +
   theme_classic(base_size=10) +
-  geom_text(
-    data = panel_labels,
-    aes(x = -Inf, y = Inf, label = label),
-    inherit.aes = FALSE,
-    hjust = -0.2,
-    vjust = 1.2,
-    size = 4,
-    fontface = "plain"
-  )+
+  panel_tag(panel_labels) +
   theme(
     panel.border     = element_rect(color="black", fill=NA, linewidth=0.2),
     axis.line        = element_line(color="black", linewidth=0.1),
@@ -1782,6 +1752,7 @@ p_lower <- delta_long_all %>%
     legend.spacing.y = unit(0.05, "cm"),
     legend.key.height = unit(0.3, "cm"),
     panel.spacing.y  = unit(0.2, "cm"),
+    panel.spacing.x  = unit(0.4, "cm"),
     axis.title       = element_text(size=10),
     axis.text        = element_text(size=6),
     axis.ticks.x     = element_line(color="black", linewidth=0.2),
@@ -1799,53 +1770,25 @@ Cairo::CairoTIFF(
 print(p_lower)
 dev.off()
 
-# Make sure only the two species are retained
+# Spikelet model species: Elymus virginicus and Poa autumnalis
 delta_long_spik <- delta_long_spik %>%
-  filter(species %in% c("Agrostis hyemalis", "Elymus virginicus")) %>%
+  filter(species %in% c("Elymus virginicus", "Poa autumnalis")) %>%
   mutate(
     species_label = case_when(
-      species == "Agrostis hyemalis" ~ "italic('Agrostis hyemalis')",
-      species == "Elymus virginicus" ~ "italic('Elymus virginicus')"
+      species == "Elymus virginicus" ~ "italic('Elymus virginicus')",
+      species == "Poa autumnalis"    ~ "italic('Poa autumnalis')"
     )
   )
 
 
-# ── Create dashed reference lines ─────────────────────────────────────────────
-
-make_dashes <- function(xmin, xmax, y, n = 14, dash_prop = 0.70) {
-  step <- (xmax - xmin) / n
-  tibble(
-    x    = xmin + (0:(n - 1)) * step,
-    xend = xmin + (0:(n - 1)) * step + step * dash_prop,
-    y    = y,
-    yend = y
-  )
-}
-
-
-global_xmin <- min(delta_long_spik$clim_mm, na.rm = TRUE)
-global_xmax <- max(delta_long_spik$clim_mm, na.rm = TRUE)
-
+# ── Dashed reference lines ────────────────────────────────────────────────────
 # Dashes at 0 for Median Δ panel
-reference_dashes_zero <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0
-) %>%
-  mutate(
-    metric = "Median Δ (S+ − S−)"
-  )
-
+reference_dashes_zero <- make_dashes(y = 0, n = 14, dash_prop = 0.70) %>%
+  mutate(metric = "Median Δ (S+ − S−)")
 
 # Dashes at 0.5 for Pr(Δ > 0) panel
-reference_dashes_half <- make_dashes(
-  global_xmin,
-  global_xmax,
-  y = 0.5
-) %>%
-  mutate(
-    metric = "Pr (Δ > 0)"
-  )
+reference_dashes_half <- make_dashes(y = 0.5, n = 14, dash_prop = 0.70) %>%
+  mutate(metric = "Pr (Δ > 0)")
 
 
 # ── Panel labels (a)–(d) ──────────────────────────────────────────────────────
@@ -1862,7 +1805,7 @@ panel_labels_spike <- delta_long_spik %>%
 # ── Parsed facet labels ───────────────────────────────────────────────────────
 # IMPORTANT: These names must exactly match the values in `metric`.
 
-PANEL_LABELS <- c(
+STAT_PANEL_LABELS <- c(
   "Median Δ (S+ − S−)" = 
     "Delta~(italic(S)^{\"+\"} - italic(S)^{\"\u2212\"})",
   
@@ -1884,7 +1827,7 @@ Cairo::CairoTIFF(
 
 # ── Plot ──────────────────────────────────────────────────────────────────────
 
-ggplot(
+p_spik_stat <- ggplot(
   delta_long_spik %>%
     filter(!is.na(species_label)),
   aes(
@@ -1935,7 +1878,7 @@ ggplot(
     labeller = labeller(
       species_label = label_parsed,
       metric = as_labeller(
-        PANEL_LABELS,
+        STAT_PANEL_LABELS,
         label_parsed
       )
     )
@@ -1949,6 +1892,8 @@ ggplot(
     )
   ) +
   
+  shared_x +
+
   # ── Axis labels ─────────────────────────────────────────────────────────────
   labs(
     x = "Precipitation (mm)",
@@ -1960,19 +1905,7 @@ ggplot(
   vr_theme() +
   
   # ── Panel labels (a)–(d) ────────────────────────────────────────────────────
-  geom_text(
-    data = panel_labels_spike,
-    aes(
-      x = -Inf,
-      y = Inf,
-      label = label
-    ),
-    inherit.aes = FALSE,
-    hjust = -0.2,
-    vjust = 1.2,
-    size = 4,
-    fontface = "plain"
-  ) +
+  panel_tag(panel_labels_spike) +
   
   # ── Legend ──────────────────────────────────────────────────────────────────
   theme(
@@ -1980,5 +1913,5 @@ ggplot(
     legend.justification = "center"
   )
 
-
+print(p_spik_stat)
 dev.off()

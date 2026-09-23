@@ -1,48 +1,46 @@
-This is BibTeX, Version 0.99e
+This is BibTeX, Version 0.99d (TeX Live 2025)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: EcolLett_R1.aux
-Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
-Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: References.bib
-You've used 77 entries,
+You've used 78 entries,
             1935 wiz_defined-function locations,
-            928 strings with 19172 characters,
-and the built_in function-call counts, 33340 in all, are:
-= -- 3256
-> -- 1575
+            936 strings with 19497 characters,
+and the built_in function-call counts, 34031 in all, are:
+= -- 3317
+> -- 1618
 < -- 35
-+ -- 560
-- -- 544
-* -- 3086
-:= -- 5823
-add.period$ -- 230
-call.type$ -- 77
-change.case$ -- 650
-chr.to.int$ -- 75
-cite$ -- 77
-duplicate$ -- 1085
-empty$ -- 2191
-format.name$ -- 651
-if$ -- 6354
++ -- 576
+- -- 560
+* -- 3161
+:= -- 5940
+add.period$ -- 234
+call.type$ -- 78
+change.case$ -- 663
+chr.to.int$ -- 76
+cite$ -- 78
+duplicate$ -- 1103
+empty$ -- 2236
+format.name$ -- 668
+if$ -- 6489
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 73
-newline$ -- 387
-num.names$ -- 231
-pop$ -- 498
+missing$ -- 75
+newline$ -- 393
+num.names$ -- 234
+pop$ -- 508
 preamble$ -- 1
-purify$ -- 655
+purify$ -- 668
 quote$ -- 0
-skip$ -- 828
+skip$ -- 840
 stack$ -- 0
-substring$ -- 2557
-swap$ -- 104
+substring$ -- 2611
+swap$ -- 106
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 456
+type$ -- 462
 warning$ -- 0
-while$ -- 282
+while$ -- 286
 width$ -- 0
-write$ -- 992
+write$ -- 1008

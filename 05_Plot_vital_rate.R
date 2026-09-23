@@ -631,6 +631,7 @@ climate_range_per_species_grow <- lapply(1:3, function(sp) {
   seq(min(sp_clim), max(sp_clim), length.out = 30)
 })
 
+
 predictions <- do.call(rbind, lapply(1:3, function(sp) {
   expand.grid(clim=climate_range_per_species_grow[[sp]],
               endo=c(0,1), herb=c(0,1), species=sp)

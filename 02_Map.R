@@ -580,6 +580,223 @@ legend(
 
 dev.off()
 
+
+# Maps (Figure 1) ----
+
+FIG_DIR <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/EcoletterR1"
+
+Cairo::CairoTIFF(
+  file.path(FIG_DIR, "clim_map1.tiff"),
+  width = 9,
+  height = 10.5,
+  units = "in",
+  dpi = 600
+)
+
+# Define layout as a 3x2 grid
+layout_matrix <- matrix(c(1,2,
+                          3,4,
+                          5,6), nrow=3, ncol=2, byrow=TRUE)
+
+layout(layout_matrix, heights=c(1,1,0.9))  # adjust heights if you want barplot bigger
+
+# Set default margins
+par(mar=c(3,0,4,1), oma=c(0,2,1,0))
+
+### Panel A
+plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
+plot(study_area, add=TRUE)
+plot(aghy, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_aghy, add=TRUE, pch=3, col="black", cex=2)
+plot(source_aghy, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Agrostis hyemalis"), side=3, adj=0.5, cex=1.2, line=0.2)
+mtext("(a)", side=3, adj=0, cex=1.25, line=0.2)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
+### Panel B
+plot(crop_ppt_annual, xlab="Longitude", ylab="", col=col_precip_rev, cex.lab=1.2)
+plot(study_area, add=TRUE)
+plot(elvi, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_elvi, add=TRUE, pch=3, col="black", cex=2)
+plot(source_elvi, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Elymus virginicus"), side=3, adj=0.5, cex=1.2, line=0.2)
+mtext("(b)", side=3, adj=0, cex=1.25, line=0.2)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
+### Panel C
+par(mar=c(0,3,3.75,1))
+plot(crop_ppt_annual, xlab="Longitude", ylab="Latitude", col=col_precip_rev, cex.lab=1.2)
+plot(study_area, add=TRUE)
+plot(poau, add=TRUE, pch=23, col="grey50", bg="grey", cex=0.55)
+plot(garden_poau, add=TRUE, pch=3, col="black", cex=2)
+plot(source_poau, add=TRUE, pch=21, col="black", bg="red", cex=1)
+mtext(~italic("Poa autumnalis"), side=3, adj=0.5, cex=1.2, line=0.7)
+mtext("(c)", side=3, adj=0, cex=1.25, line=0.3)
+mtext("ppt (mm)", side=3, adj=1.21, cex=0.6, line=-1.2)
+map.scale(
+  x = -95,       # longitude position of scale bar
+  y = 28,        # latitude position of scale bar
+  relwidth = 0.2,  # relative width of the scale bar
+  metric = TRUE,   # use metric units (km)
+  cex = 0.8 ,      # size of text
+  ratio = FALSE   # removes the 1:16 ratio label
+)
+legend(
+  -105, 28,
+  legend = c("GBIF occurrence", "Experimental site", "Source"),
+  pch    = c(23, 3, 21),
+  pt.bg  = c("grey", NA, "red"),
+  col    = c("grey50", "black", "black"),
+  pt.cex = c(0.55, 2, 1),
+  bty    = "n",
+  cex    = 0.9
+)
+
+### Panel D (barplot per site per year)
+### Panel D (barplot per site per year)
+par(mar=c(6,4,4,1))
+
+# Convert prism_summary to a wide matrix: rows = sites, columns = years
+prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+unique(prism_summary_census$census_year)
+# Example: create ppt_matrix for one species, e.g., AGHY
+ppt_matrix <- prism_summary_census %>%
+  dplyr::group_by(site, census_year) %>%
+  dplyr::summarise(cum_ppt = mean(cum_ppt), .groups = "drop") %>%  # average duplicates
+  tidyr::pivot_wider(
+    id_cols = site,
+    names_from = census_year,
+    values_from = cum_ppt
+  ) %>%
+  column_to_rownames("site") %>%
+  as.matrix()
+
+# Reorder sites west → east
+ppt_matrix <- ppt_matrix[ordered_sites, ]
+
+# Colors for years
+#year_colors <- c("2023" = "lightgreen", "2024" = "salmon", "2025" = "goldenrod")
+year_colors <- c( "2024" = "salmon",       # pink-orange
+                  "2025" = "lightgreen")  # blue
+
+
+# Create barplot
+bp <- barplot(
+  t(ppt_matrix),              # transpose so bars are grouped by site
+  beside = TRUE,              # grouped bars
+  col = year_colors[colnames(ppt_matrix)],
+  names.arg = rownames(ppt_matrix),
+  ylim = c(0, max(ppt_matrix, na.rm=TRUE) * 1.1),
+  las = 2,
+  cex.lab = 1.2,
+  cex.names = 0.75,
+  xlab = "Sites",
+  ylab = "Annual Precipitation (mm)"
+)
+
+mtext("(d)", side=3, adj=-0.06, cex=1.25, line=0.5)
+box()
+
+# Add legend
+legend(
+  "topleft",
+  legend = colnames(ppt_matrix),
+  fill = year_colors[colnames(ppt_matrix)],
+  bty = "n",
+  cex = 1
+)
+
+### Panel E
+#par(mar=c(0, 0, 0, 0)) 
+par(mar=c(4,2,2,1))  
+#plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.5), axes=FALSE, xlab="", ylab="", main="", asp=1)
+plot(0, 0, type="n", xlim=c(0,3.6), ylim=c(0,1.8), axes=FALSE, xlab="", ylab="", main="", asp=1)
+
+#mtext("(e)", side=3, adj=0.07, cex=1.25, line=-1.75)
+mtext("(e)", side = 3, adj = -0.01, cex = 1.25, line = 0.55)
+
+# fenced
+#rect(0.1, 0.1, 1.6, 1.6, border="black", lwd=2)
+rect(0.1, 0.2, 1.6, 1.5, border="black", lwd=2)
+plants1_x <- rep(seq(0.375, 1.125, length.out=4), times=4)[-1]
+plants1_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+# points(plants1_x+0.1, plants1_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+set.seed(13)
+n1 <- length(plants1_x)
+signs1 <- sample(rep(c("+", "−"), each = n1/2))
+text(plants1_x + 0.1, plants1_y + 0.1, labels = signs1, cex = 1.1, font = 2)
+
+mtext("Herbivory exclusion", side=3, at=0.85, line=-4, cex=1)
+
+# unfenced
+# rect(1.9, 0.1, 3.4, 1.6, border=NA)
+# segments(1.9,0.1,3.4,0.1, col="black", lwd=2)
+# segments(1.9,1.6,3.4,1.6, col="black", lwd=2)
+rect(1.9, 0.2, 3.4, 1.5, border=NA)
+segments(1.9,0.2,3.4,0.2, col="black", lwd=2)
+segments(1.9,1.5,3.4,1.5, col="black", lwd=2)
+plants2_x <- rep(seq(2.375, 3.125, length.out=4), times=4)[-1]
+plants2_y <- rep(seq(0.375, 1.125, length.out=4), each=4)[-1]
+# points(plants2_x-2+1.9, plants2_y+0.1, pch=22, col="black", cex=0.75,bg = "black")
+set.seed(13)
+n2 <- length(plants2_x)
+signs2 <- sample(rep(c("+", "−"), each = n2/2))
+text(plants2_x - 2 + 1.9, plants2_y + 0.1, labels = signs2, cex = 1.1, font = 2)
+
+mtext("Herbivory access", side=3, at=2.65, line=-4, cex=1)
+
+### Panel F
+# par(mar=c(4,2,2,1))  # same for both E and F
+par(mar=c(4,6,2,1))
+mtext("(f)", side = 3, adj = 1.1, cex = 1.25, line = 0.5)
+
+bp <- barplot(
+  height = mean_matrix,
+  beside = TRUE,
+  names.arg = ordered_sites,
+  col = c("#E69F00","#009E73"),  # use herbivory colors
+  ylim = c(0, max(mean_matrix + se_matrix, na.rm = TRUE) * 1.25),
+  xlab = "Sites",
+  ylab = "Proportion of damaged plants",
+  las = 2,
+  cex.lab = 1.2,
+  cex.names = 0.75
+)
+
+# Add error bars
+arrows(
+  x0 = bp,
+  y0 = mean_matrix - se_matrix,
+  x1 = bp,
+  y1 = mean_matrix + se_matrix,
+  angle = 90, code = 3, length = 0.07
+)
+box()
+# Add clear legend
+legend(
+  "topright",
+  legend = c("Herbivory access", "Herbivory exclusion"),
+  fill = c("#E69F00","#009E73"),
+  bty = "n",
+  cex = 1.2
+)
+
+dev.off()
+
 ## Herbivory for 2024 and 2025
 # Define herbivory levels and colors
 herb_levels <- c(1,0)  # 1 = Fenced, 0 = Unfenced

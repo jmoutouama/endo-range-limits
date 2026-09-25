@@ -220,7 +220,7 @@ herb_model<-stan_model("stan/herbivory.stan")
 
 ##save/read stan model
 # write_rds(herb_fit,"stan/herbivory.rds")
-# herb_fit<-read_rds("stan/herbivory.rds")
+herb_fit<-read_rds("https://www.dropbox.com/scl/fi/s5ferd5ha1hjrinvory2f/herbivory.rds?rlkey=vel87d2imoxriu74q3fzuioos&dl=1")
 
 ##a few trace plots...
 mcmc_trace(herb_fit,pars=c("beta0[1]","beta0[2]","beta0[3]"))
@@ -381,4 +381,27 @@ desc_stats %>%
   group_by(Species, Endo) %>%
   summarise(mean_damage = mean(HerbProp, na.rm=TRUE),
             median_damage = median(HerbProp, na.rm=TRUE))
+
+library(dplyr)
+library(tidyr)
+
+herb_endo_pct <- beta_draws %>%
+  ungroup() %>%
+  dplyr::select(.draw, species_name, parameter, estimate) %>%
+  pivot_wider(names_from = parameter, values_from = estimate) %>%
+  mutate(
+    Sminus = plogis(Intercept),                         # S-, herbivore access
+    Splus  = plogis(Intercept + `Symbiont effect`),     # S+, herbivore access
+    OR     = exp(`Symbiont effect`)                     # odds ratio S+ vs S-
+  ) %>%
+  group_by(species_name) %>%
+  summarise(
+    Sminus_pct   = 100 * median(Sminus),
+    Splus_pct    = 100 * median(Splus),
+    odds_ratio   = median(OR),
+    pr_less_dmg  = mean(`Symbiont effect` < 0),   # Pr(S+ has less damage)
+    pr_more_dmg  = mean(`Symbiont effect` > 0)    # Pr(S+ has more damage)
+  )
+
+herb_endo_pct
 

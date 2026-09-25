@@ -9,6 +9,42 @@
  \usepackage{xr}
  \externaldocument[ms-]{EcolLett_R1}
 
+% Fallback line numbers taken from the current compiled EcolLett_R1.tex.
+% If EcolLett_R1.aux is found, xr uses the live values and these are ignored;
+% if it is not found (e.g. Overleaf without a latexmkrc), these prevent `??'.
+% Recompile EcolLett_R1.tex first whenever its text changes.
+\makeatletter
+\newcommand{\msfallback}[3]{\@ifundefined{r@ms-#1}{\global\@namedef{r@ms-#1}{{#2}{#3}}}{}}
+\AtBeginDocument{\msfallback{Sminus1}{134}{6}}
+\AtBeginDocument{\msfallback{Sminus2}{137}{6}}
+\AtBeginDocument{\msfallback{Sminus3}{149}{6}}
+\AtBeginDocument{\msfallback{Sminus4}{154}{7}}
+\AtBeginDocument{\msfallback{Sminus5}{179}{7}}
+\AtBeginDocument{\msfallback{Sminus7}{218}{8}}
+\AtBeginDocument{\msfallback{alkaloid}{405}{14}}
+\AtBeginDocument{\msfallback{beach}{140}{6}}
+\AtBeginDocument{\msfallback{endocost}{102}{5}}
+\AtBeginDocument{\msfallback{genotypedef}{144}{6}}
+\AtBeginDocument{\msfallback{herbivoryresults}{278}{10}}
+\AtBeginDocument{\msfallback{hostbenefits}{120}{6}}
+\AtBeginDocument{\msfallback{inflorescence}{212}{8}}
+\AtBeginDocument{\msfallback{nbind}{168}{7}}
+\AtBeginDocument{\msfallback{ppcsoil}{268}{10}}
+\AtBeginDocument{\msfallback{range-expansion}{418}{15}}
+\AtBeginDocument{\msfallback{replanting}{183}{7}}
+\AtBeginDocument{\msfallback{replantingresults}{328}{12}}
+\AtBeginDocument{\msfallback{sghdiscussion}{348}{13}}
+\AtBeginDocument{\msfallback{sghnuance}{44}{3}}
+\AtBeginDocument{\msfallback{spikeletmethod}{195}{8}}
+\AtBeginDocument{\msfallback{spikeletresults}{313}{12}}
+\AtBeginDocument{\msfallback{stroma}{125}{6}}
+\AtBeginDocument{\msfallback{symbiont-retention}{377}{13}}
+\AtBeginDocument{\msfallback{taxofix}{119}{5}}
+\AtBeginDocument{\msfallback{transmission}{375}{13}}
+\AtBeginDocument{\msfallback{vital}{209}{8}}
+\AtBeginDocument{\msfallback{whereas1}{198}{8}}
+\makeatother
+
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage[usenames,dvipsnames]{xcolor}
@@ -113,24 +149,25 @@ We have added this sensitivity analysis, including the full results (Table~S6) a
 \begin{minipage}{\linewidth}
 \centering
 \includegraphics[width=1\linewidth]{FigS_sensitivity_KER_SON_combined.pdf}\\[0.3em]
-{Figure S6: Posterior median (line) and 90\% credible interval (shading) of endophyte effects ($\Delta$ = $S^+ - S^-$) for the full dataset (gray) and for the dataset excluding KER and SON (orange), by vital rate, species, and herbivory treatment.}
+{Figure S7: Posterior median (line) and 90\% credible interval (shading) of endophyte effects ($\Delta$ = $S^+ - S^-$) for the full dataset (gray) and for the dataset excluding KER and SON (orange), by vital rate, species, and herbivory treatment.}
 \end{minipage}
 
 \comment{190--193: How were the spikelets for \textit{A. hyemalis} estimated? Table S9 has model results for \textit{A. hyemalis} but not \textit{P. autumnalis}.}
 \response{Spikelet counts were not recorded for \textit{A. hyemalis} because its inflorescences contain numerous very small spikelets that are difficult to count reliably in the field. We have clarified in the revised Methods (line \ref{ms-spikeletmethod}) that spikelets were instead counted directly on up to three inflorescences from reproducing individuals of \textit{P. autumnalis} and \textit{E. virginicus}, while reproduction data in \textit{A. hyemalis} were limited to inflorescence counts. We also corrected the supplementary table accordingly; the relevant table is now Table S10 and reports spikelet model results for \textit{P. autumnalis} and \textit{E. virginicus} only.}
 
-\comment{220: It may be helpful for clarity to replace ``endo'' with ``symb'' in the model since the test mostly describes the treatment as S+ vs.\ S-.}
-\response{We thank Reviewer 1 for pointing out this inconsistency. We have revised the text so that the vital rates are named consistently throughout the manuscript (survival, growth, inflorescence production, and spikelet production), matching the naming used in Fig.~S5. To make the connection between vital rates and model parameters fully explicit, we have also added the complete statistical model to the Methods (line \ref{ms-modeq}), which shows how each vital rate enters the demographic model and defines the associated parameters.}
+\comment{220: It may be helpful for clarity to replace ``endo'' with ``symb'' in the model since the test mostly describes the treatment as $S^+$ vs.\ $S^-$.}
+\response{We thank Reviewer 1 for pointing out this inconsistency. We have replaced ``endo'' with ``symb'' in the model to consistently represent the $S^+$ versus $S^-$ treatment throughout the analysis.}
 
-\comment{276: There appears to be a typo here since \textit{A. hyemalis} appears to experience more herbivore damage by percentage when S+.}
-\response{We thank Reviewer 1 for catching this error. The values for \textit{A. hyemalis} were inadvertently misinterpreted in the original text. We have revised the sentence in the manuscript (line \ref{ms-herbivoryefficacity}) to report the overall realized effect of the herbivory treatment: plants in herbivore-access plots experienced 24\% tiller damage on average, compared with 14\% in herbivore-exclusion plots, and revised the interpretation accordingly.}
 
+\comment{276: There appears to be a typo here since \textit{A. hyemalis} appears to experience more herbivore damage by percentage when $S^+$.}
+\response{We thank Reviewer 1 for catching this error. The raw percentages for \textit{A. hyemalis} were reported in an inconsistent order, which made it appear that 
+$S^+$ plants experienced more herbivore damage. We now report model-based predictions from our binomial model of tiller damage (Fig.~S6) for all three species, consistently as $S^+$ vs.\ $S^-$. These show that endophyte symbiosis reduced damage in \textit{P. autumnalis} and, more weakly, in \textit{A. hyemalis}, but increased damage in \textit{E. virginicus} (line \ref{ms-herbivoryresults}).}
 
 \comment{310: Cite the figure or table with the spikelet results.}
 \response{We thank Reviewer 1 for catching this omission. We have added a citation to Table~S10, which reports the spikelet production model results for \textit{P. autumnalis} and \textit{E. virginicus}, at this point in the text (line \ref{ms-spikeletresults}).}
 
 \comment{Figure 1. It is hard to read the y-axis S+ versus S-. Would it be possible to not make them superscript or increase the size?}
-\response{We thank Reviewer 1 for this helpful suggestion. We have revised Figure 1 to improve the readability of the $S+$ and $S-$ labels by increasing their size and presenting them as regular text rather than superscript.}
+\response{We thank Reviewer 1 for this helpful suggestion. We have revised Figure 1 to improve the readability of the $S^+$ and $S^-$ labels by increasing their size and presenting them as regular text rather than superscript.}
 
 \section{Response to Reviewer 2}
 \vspace{-2em}
@@ -162,36 +199,36 @@ Finally, we have revised the Discussion to explicitly interpret our results in l
 \comment{Line 136 and throughout: I think it looks better to use a proper minus sign (or n-dash) instead of a hyphen for designations such as S--. (Also, does this journal use n-dash for ranges?)}
 \response{We thank the reviewer for pointing this out. We have replaced the hyphen with a proper minus sign throughout the manuscript for designations such as $S^-$. We have also followed the journal's typographical convention of using an en dash for numerical ranges (lines \ref{ms-Sminus1}, \ref{ms-Sminus2}, \ref{ms-Sminus3}, \ref{ms-Sminus4}, \ref{ms-Sminus5},  \ref{ms-Sminus7}).}
 
-\comment{Line 137: Should "five days'' be "5 d''?}
-\response{Thank you for the suggestion. We have retained “five days” rather than “5 d,” as the journal guidelines do not require the abbreviation “d” for days, and we follow the convention of spelling out numbers below 10 in the text.}
+\comment{Line 137: Should ``five days'' be ``5 d''?}
+\response{Thank you for the suggestion. We have retained ``five days'' rather than ``5 d,'' as the journal guidelines do not require the abbreviation ``d'' for days, and we follow the convention of spelling out numbers below 10 in the text.}
 
-\comment{Line 138: Never spell out "minutes''. The standard unit is "min''.}
-\response{Thank you for the suggestion. We have changed  “minutes” with "min" as suggested.}
+\comment{Line 138: Never spell out ``minutes''. The standard unit is ``min''.}
+\response{Thank you for the suggestion. We have changed  ``minutes'' with ``min'' as suggested.}
 
 \comment{Line 142: Give the actual concentration of sodium hypochlorite. Also, the surface sterilization procedure was undoubtedly more involved than stated, so either a full description or reference to it in the literature is needed here.}
-\response{We thank Reviewer 3 for pointing this out. We have revised the Methods to specify that seeds were surface-sterilized using a 10\% bleach solution and to provide additional details of the sterilization procedure (line \ref{ms-beach}).}
+\response{We thank Reviewer 3 for pointing this out. We have revised the Methods to specify that seeds were surface-sterilized using a 10\% bleach solution \citep{Sahu2022sterilization} (line \ref{ms-beach}).}
 
 
 \comment{Line 143: More detail needed here also: what temperature? What light regime?}
 \response{Our greenhouses maintain a range of 65-85F under ambient light and humidity. We have added these details to the manuscript (line \ref{ms-beach}).}
 
 \comment{Lines 147--150 (and Table S1): I have a hard time interpreting this and relating it to the experiment as described in the section following. Several questions: What is the operational definition of genotype in this study? How was that diversity established and maintained? What is the relevance of the numbers of genotypes reported here and in Table S1? It seems that, from the information in Lines 174-181 that only a fraction of that genotype diversity was actually utilized in the experiments.}
-\response{We thank the reviewer for pointing out this lack of clarity. We have revised the Methods to define “genotype” operationally as an individual derived from a single seed and its vegetatively propagated descendants, such that clones derived from the same genotype represent identical genetic backgrounds for both host and symbiont (line \ref{ms-genotypedef}). We now clarify that these source genotypes were maintained through vegetative propagation and refer readers to Table S1 for the number of source genotypes and clonal replicates represented in each source population. The relevance of these numbers is so that readers understand that the total replication of the experiment involves genetically identical clones, but to varying degrees for different species and populations. To make this point clearer, we have clarified how these vegetatively propagated plants relate to the plants included in the experiment (line \ref{ms-genotypedef}). 
+\response{We thank the reviewer for pointing out this lack of clarity. We have revised the Methods to define ``genotype'' operationally as an individual derived from a single seed and its vegetatively propagated descendants, such that clones derived from the same genotype represent identical genetic backgrounds for both host and symbiont (line \ref{ms-genotypedef}). We now clarify that these source genotypes were maintained through vegetative propagation and refer readers to Table S1 for the number of source genotypes and clonal replicates represented in each source population. The relevance of these numbers is so that readers understand that the total replication of the experiment involves genetically identical clones, but to varying degrees for different species and populations. To make this point clearer, we have clarified how these vegetatively propagated plants relate to the plants included in the experiment (line \ref{ms-genotypedef}). 
 %These changes should make the role of genotype and the information presented in Table S1 clearer.
 }
 
-\comment{Lines 176--177 "Each plot was planted with 15 individuals, a mix of S+ and S- plants'': How many of each (S+ vs S--)?}
+\comment{Lines 176--177 ``Each plot was planted with 15 individuals, a mix of $S^+$ and $S^-$ plants'': How many of each ($S^+$ vs $S^-$)?}
 \response{Thank you for pointing this out. We have clarified the numbers of $S^+$ and $S^-$ plants corresponding to each starting endophyte frequency (line \ref{ms-nbind}).}
 
-\comment{Line 189: Should "on up to three'' be "on up of three''?}
-\response{Thank you for the suggestion. We have rephrased this as "on a maximum of three'' to clarify that spikelets were counted on no more than three inflorescences per reproducing individual (line \ref{ms-spikeletmethod}).}
+\comment{Line 189: Should ``on up to three'' be ``on up of three''?}
+\response{Thank you for the suggestion. We have rephrased this as ``on a maximum of three'' to clarify that spikelets were counted on no more than three inflorescences per reproducing individual (line \ref{ms-spikeletmethod}).}
 
 
 \comment{Lines 192-193: I'm not sure of the reason for this sentence. I would think it sufficient to state that \textit{A. hyemalis} spikelets were too numerous and small to count (maybe a rephrasing of the previous sentence).}
 \response{We thank the reviewer for the suggestion. We have removed this sentence to reduce redundancy and clarified in the preceding sentence that \textit{A. hyemalis} spikelets were too numerous and small to count (line \ref{ms-spikeletmethod}).}
 
-\comment{Line 193: Change "while'' to "whereas''. "While'' implies simultaneous occurrence. I suggest you check usage of ``while'' throughout the paper. Often a better word in context is although, but, whereas, etc.}
-\response{Thank you for the suggestion. We have changed “while” to “whereas” here to make the contrast between species more explicit (line \ref{ms-whereas1}).}
+\comment{Line 193: Change ``while'' to ``whereas''. ``While'' implies simultaneous occurrence. I suggest you check usage of ``while'' throughout the paper. Often a better word in context is although, but, whereas, etc.}
+\response{Thank you for the suggestion. We have changed ``while'' to ``whereas'' here to make the contrast between species more explicit (line \ref{ms-whereas1}).}
 
 \comment{Statistical modeling section: I think it might help the reader if the name the vital rates and explicitly connect each to the parameters. In Fig S5 the vital rates are named Survival, Growth, Inflorescence and Spikelet. But line 204 lists ``survival, growth, and fertility.'' Some clarification is needed here.}
 \response{Thank you for pointing this out. We have clarified the terminology by specifying that fertility was quantified as inflorescence and spikelet production (line \ref{ms-vital}).}
@@ -199,18 +236,17 @@ Finally, we have revised the Discussion to explicitly interpret our results in l
 \comment{Line 210: Actually, I don't know what the distinction is ``between flowering occurrence and inflorescence production''. Can this be explained?}
 \response{We agree that this distinction was not sufficiently clear. We have clarified that the hurdle model distinguishes between whether a plant produced any inflorescences and, conditional on producing any inflorescences, how many it produced (line \ref{ms-inflorescence}).}
 
-\comment{Lines 275-276, "S+ hosts experienced less herbivore damage than S- hosts in \textit{A. hyemalis} (19\% vs.\ 15\%) and \textit{P. autumnalis} (13\% vs.\ 18\%)'': The orders of the numbers given aren't consistent, and would cause me to think that there is more damage on S+ for \textit{A. hyemalis}, but less on S+ for \textit{P. autumnalis}.}
-\response{We thank Reviewer 3 for catching this error. The values for \textit{A. hyemalis} were inadvertently misinterpreted in the text. We have corrected the sentence in the revised manuscript (line \ref{ms-herbivoryefficacity}) to accurately report that $S^+$ hosts experienced 19\% herbivore damage compared with 15\% for $S^-$ hosts, and revised the interpretation accordingly.}
+\comment{Lines 275-276, ``$S^+$ hosts experienced less herbivore damage than $S^-$ hosts in \textit{A. hyemalis} (19\% vs.\ 15\%) and \textit{P. autumnalis} (13\% vs.\ 18\%)'': The orders of the numbers given aren't consistent, and would cause me to think that there is more damage on S+ for \textit{A. hyemalis}, but less on S+ for \textit{P. autumnalis}.}
+\response{We thank Reviewer 3 for pointing out this inconsistency. We agree that the order of the values was confusing, and we have corrected it. All values are now model-based predictions from our tiller damage model (Fig.~S6), with each pair explicitly labelled as $S^+$ vs.\ $S^-$ (line \ref{ms-herbivoryresults}).}
 
-
-\comment{Lines 344-345, "These results contradict predictions\ldots'': Is the contradiction with respect to the abiotic stresses only, or is the herbivore effect also in contradiction of the hypothesis? The context (previous sentence) seems to imply the latter, but I doubt that's what's meant.}
+\comment{Lines 344-345, ``These results contradict predictions\ldots'': Is the contradiction with respect to the abiotic stresses only, or is the herbivore effect also in contradiction of the hypothesis? The context (previous sentence) seems to imply the latter, but I doubt that's what's meant.}
 \response{We thank the reviewer for identifying this ambiguity. We agree that our original wording could be interpreted as suggesting that the herbivory results also contradicted the SGH. This was not our intent. Our departure from the classic SGH prediction concerns the abiotic stress gradient, where endophyte benefits declined rather than increased with increasing aridity. In contrast, herbivory effects were inconsistent across species and fitness components, although the strongest effects were in the predicted direction. We have revised the text to make this distinction explicit and to clarify that our results provide mixed evidence for the predicted effects of herbivory (line \ref{ms-sghdiscussion}).
 }
 
 \comment{Lines 385-388: It should also be noted that the endophytes typically associated with these grasses may differ strongly in which and how much anti-herbivore alkaloids they have. For example, high levels of the potent anti-insect loline alkaloids (plus low levels of peramine) have been documented in \textit{Poa autumnalis}, whereas \textit{Elymus virginicus} has been found to have chanoclavine (activity unknown) and peramine (a feeding deterrent, not as potent as lolines), and different chemotypes are reported for different \textit{E. amarillans} isolates from \textit{A. hyemalis}. See the cited alkaloid literature, but note that especially for sexual \textit{Epichloe} species such as in \textit{E. virginicus} and \textit{A. hyemalis}, there is likely to be considerable variation. In \textit{Poa autumnalis} (Siegel et al.\ 1990), which has an asexual endophyte, one might expect a consistent alkaloid profile compared to what has been published, but there is no guarantee.}
 \response{We thank the reviewer for this important point. We agree that differences among the endophytes in the identity and abundance of anti-herbivore alkaloids could contribute to the species-specific herbivory responses we observed. We have revised the Discussion to acknowledge this possibility and added the relevant literature on alkaloid profiles in the endophytes associated with \textit{P. autumnalis}, \textit{E. virginicus}, and \textit{A. hyemalis}. Because we did not characterize endophyte strains or quantify alkaloid profiles in this study, we now present variation in endophyte chemistry as a potential explanation rather than attributing the observed responses to specific alkaloids. We also retain host condition as a potential explanation for the increased herbivory observed in endophyte-symbiotic \textit{E. virginicus}, but have revised the text to make clear that these mechanisms are not mutually exclusive (line \ref{ms-alkaloid}).}
 
-\comment{Line 403: I didn't see where this was tested. It seems that the underlying assumption was that the S+ plants retained the endophyte throughout the experiment. Were there any data taken on endophyte presence later, such as at the end of the study?}
+\comment{Line 403: I didn't see where this was tested. It seems that the underlying assumption was that the $S^+$ plants retained the endophyte throughout the experiment. Were there any data taken on endophyte presence later, such as at the end of the study?}
 \response{We thank the reviewer for pointing out this important limitation. We agree that our study did not directly test whether hosts retained their endophytes throughout the experiment, as we did not re-assess endophyte presence at the end of the study. We have therefore revised the Discussion to frame host control over symbiont retention as a potential mechanism rather than a conclusion supported by our data, and we now explicitly acknowledge that we cannot determine whether variation in symbiont retention contributed to the demographic patterns we observed (line \ref{ms-symbiont-retention}).
 }
 
@@ -221,7 +257,7 @@ Finally, we have revised the Discussion to explicitly interpret our results in l
 \response{We thank the reviewer for this helpful suggestion. We revised the color palettes across all figures to increase saturation and contrast between treatments and improve visual distinction. We also adopted a consistent cool-toned, colorblind-accessible palette throughout the figures and checked the revised figures for readability under common forms of color-vision deficiency.}
 
 \comment{Fig.\ S2 and S3: I think the bar colors and orders, viz herbivore access vs exclusion, are switched between these two figures. That's confusing. (Also try to match color usage in Figs.\ 1, 5, and S10).}
-\response{We have corrected the color/order inconsistency between Figs.\ S2 and S3 and matched color usage across Figs.\ 1, 5, and S10.}
+\response{We have corrected the color/order inconsistency between Figs.\ S2 and S3 (now S4 and S5) and matched color usage across Figs.\ 1, 5, and S10.}
 
 \comment{Figs.\ S5 and S6: What are the axes?}
 \response{We thank the reviewer for noting the need for clearer axis labels. We have revised the posterior predictive check figure to explicitly identify the response variable on the x-axis for each vital rate (survival status, growth, inflorescence count, and spikelet count) and to label the y-axis as probability density, which represents the density of the observed and posterior predictive distributions. We also added panel labels (A--D) to facilitate reference to individual vital rates.}

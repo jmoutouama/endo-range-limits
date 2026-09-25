@@ -31,10 +31,7 @@ library(xtable)
 library(ggtext)
 
 # ── Register fonts with Cairo ──────────────────────────────────────────────────
-# Without this, Cairo::CairoPDF() falls back to a substitute font whose metrics
-# don't match "Arial" — this breaks vertical offset for plotmath superscripts
-# (e.g. italic(S)^{"+"}), causing them to collapse to baseline in the saved PDF
-# even though they render correctly in RStudio's on-screen graphics device.
+
 Cairo::CairoFonts(
   regular    = "Arial:style=Regular",
   bold       = "Arial:style=Bold",
@@ -108,7 +105,7 @@ ppt_sd   <- sd(climate_scaled$ppt_log)
 #                    log(precipitation), so growth (identity link) is drawn as a
 #                    straight line. Caption: "Precipitation (mm) on a log scale".
 # USE_LOG_X = FALSE: ordinary mm axis; growth appears as a gentle curve.
-USE_LOG_X <- TRUE
+USE_LOG_X <- FALSE
 
 # Same range for every panel of every figure (data span ~525–2472 mm).
 X_LIMITS <- c(450, 2550)
@@ -440,7 +437,7 @@ p_surv <- ggplot(plot_data_survival) +
   scale_fill_manual(values  = ENDO_COLORS, labels = ENDO_LABELS) +
   vr_theme() +
   theme(
-    legend.position = c(0.19, 0.461),
+    legend.position = c(0.27, 0.37),
     legend.direction = "horizontal",
     legend.justification = "center",
     axis.title.y = element_text(size = 8)

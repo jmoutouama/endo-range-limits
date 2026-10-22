@@ -1,0 +1,126 @@
+% ======================================================= %
+% Template source: Andrea Ballatore / Eduard Szöcs template,
+% Second-round response (minor revision)
+% ======================================================= %
+\documentclass[12pt]{article}
+
+% Folder layout assumed:
+%   EcoletterR2/
+%   ├── Main_Manuscript/EcolLett_R2.tex   (+ EcolLett_R2.aux, References.bib)
+%   ├── Supplementary_LaTeX/EcolLett_R2_SI.tex
+%   └── Response_Letter/EcolLett_RESPONSE_R2.tex   (this file)
+% \ref{ms-...} labels read line numbers from the main manuscript's .aux.
+% Recompile EcolLett_R2.tex first whenever its text changes.
+\usepackage{xr}
+\externaldocument[ms-]{../Main_Manuscript/EcolLett_R2}
+
+% No fallback line numbers: the R1 values no longer match the R2
+% manuscript. Any label not yet defined in EcolLett_R2 will show as `??'.
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{color}
+\definecolor{mygray}{gray}{0.6}
+\usepackage[utf8]{inputenc}
+\usepackage[onehalfspacing]{setspace}
+\usepackage[
+	round,	% round parentheses
+	colon,	% separate multiple citations with colons
+	authoryear,% author-year citations
+	sort,	% order multiple citations into the sequence in which they appear
+]{natbib}
+\usepackage[%disable
+	]{todonotes}
+
+\usepackage{anysize}
+\marginsize{2.5cm}{2.5cm}{1.5cm}{2.5cm}
+
+% macros
+\newcounter{cN}
+\setcounter{cN}{0}
+
+\newcommand{\comment}[1]{
+	\vspace{2em}
+	\refstepcounter{cN} % increment counter
+	\noindent \hangindent=0em \textbf{\textcolor{Maroon}{\uline{Comment \thecN}:~}}\emph{``#1''}
+	}
+
+\newcommand{\response}[1]{
+	\\[0.25em]
+	\hangindent=2.3em \textbf{\textcolor{NavyBlue}{\uline{Response}:~}}#1
+	}
+
+\newcommand{\revise}[1]{{\color{Mahogany}{#1}}}
+\newcommand{\tom}[2]{{\color{red}{#1}}\footnote{\textit{\color{red}{#2}}}}
+
+\providecommand{\uline}[1]{\underline{#1}}
+\definecolor{darkred}{rgb}{1,.6,.6}
+\setcounter{secnumdepth}{-1}
+
+\begin{document}
+\vspace*{-2em}
+\begin{center}
+{\LARGE\bfseries Manuscript 7613110 -- Response to reviewers (second revision)}
+\end{center}
+\vspace{1em}
+% ======================================================= %
+\noindent Dear Dr.\ Mori,
+
+Thank you for the opportunity to submit a minor revision of our manuscript, ``Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses,'' to \emph{Ecology Letters}. We are grateful to the reviewers for their positive assessment of the previous revision and for their remaining suggestions. Our main changes in this revision are:
+\begin{enumerate}
+	\item {We added text to the Discussion that explicitly compares our results with the endophyte-associated range enlargement reported for \emph{Bromus laevipes} by \citet{afkhami2014mutualist}, and we speculate on why the outcomes differ, as requested by Reviewer 1.}
+	\item {We rewrote the Discussion paragraph on symbiont retention to reflect evidence that \emph{Epichloë} transmission is imperfect at multiple stages and that endophyte loss can increase under reduced precipitation \citep{afkhami2008symbiosis,david2019testing}, and we discuss how such loss could affect the interpretation of our results (Reviewer 2).}
+	\item {We spelled out genus names at the start of sentences and added the spacing between plants within plots to the Methods (Reviewers 1 \& 2).}
+\end{enumerate}
+
+We reproduce the reviewers' comments below with our point-by-point responses. All changes are denoted in the manuscript with \revise{Mahogany font}.
+
+\vspace{2em}
+\hfill On behalf of my coauthors and myself,
+
+\hfill Jacob Moutouama
+\newpage
+
+% ======================================================= %
+\section{Response to Reviewer 1}
+\vspace{-2em}
+
+\comment{Aside from one comment (which is merely a suggestion), I feel that all of my comments have been addressed in this version. I have only a couple of minor points, one of style, the other of substance.}
+\response{We thank Reviewer 1 for the careful second reading of our manuscript and are glad that the previous revision addressed their comments. We respond to the two remaining points below.}
+
+\comment{Style: I noted in some of the new (red-highlighted) text instances in which sentences started with abbreviated genera (A. for Agrostis, P. for Poa). In my understanding of typical standards, one shouldn't start a sentence with an punctuated abbreviation, and therefore genus names should be spelled out in full if they are the first word of a sentence.}
+\response{We thank the reviewer for noting this. We have checked the entire manuscript and now spell out genus names in full whenever they begin a sentence (lines \ref{ms-spab1}--\ref{ms-spab4} and \ref{ms-spab5}).}
+
+\comment{Substance: One of my comments (comment 34) asked for speculation about published instances of host-range expansion attributable to Epichloë symbiosis. The response document addresses this acceptably, in my opinion, but I don't see any of that in the text. The response mentions line 434, but that location or more generally that paragraph doesn't explicitly address it. To clarify, I am thinking for example of the finding in: Afkhami ME, McIntyre PJ, Strauss SY (2014) Mutualist-mediated effects on species' range limits across large geographic scales. Ecology Letters 17: 1265--1273. doi 10.1111/ele.12332.}
+\response{We thank the reviewer for pointing out this omission and apologize that the speculation described in our previous response did not appear in the manuscript. We have now revised the final paragraph of the Discussion to explicitly compare our results with those of \citet{afkhami2014mutualist}. We speculate that the contrasting outcomes may depend on whether endophyte benefits offset the environmental constraints limiting host performance near range margins. We also note that the demographic responses we measured may not translate directly into changes in population growth or geographic range, neither of which we estimated (line \ref{ms-range-expansion}). The revised text reads:
+
+\begin{quote}
+``In \emph{Bromus laevipes}, another grass host of \emph{Epichloë}, endophytes reduced drought stress and were associated with an approximately 20\% larger geographic range \citep{afkhami2014mutualist}. In contrast, endophyte-associated hosts in our study showed stronger declines in demographic performance with increasing aridity, suggesting that endophytes may not always buffer hosts against abiotic stress. These demographic responses, however, may not necessarily translate into changes in population growth or geographic range, neither of which we directly estimated. This contrast suggests that endophyte benefits may depend on whether they offset the environmental constraints limiting host performance.''
+\end{quote}
+}
+
+% ======================================================= %
+\section{Response to Reviewer 2}
+\vspace{-2em}
+
+\comment{The authors have addressed the majority of my concerns. Below are my remaining concerns.}
+\response{We thank Reviewer 2 for their continued engagement with our manuscript. We address the remaining concerns below.}
+
+\comment{Lines 177--179: Please include the distance between plants here. I was left wondering if it was possible to measure individual growth or if the plants had begun to grow into each other making it difficult to differentiate between individuals.}
+\response{We thank the reviewer for this question. Plants were spaced \tom{XX cm}{Fill in actual spacing.} apart within each plot, and we have added this information to the Methods (line \ref{ms-spacing}). \tom{Individuals remained distinguishable throughout the study because [e.g., planting positions were mapped and marked, and each plant's tillers were traced to its base at every census].}{Confirm or replace with what was actually done in the field.} We have added this clarification to the Methods.}
+
+\comment{Line 389--403: The assertions made in this paragraph around the retention of endophytes are not supported by the literature. As I brought up in my last review, there is a lot of evidence of imperfect transmission between tillers in a single plant and single generation. For example, from the abstract of Afkhami and Rudgers (2008) ``Endophytes were lost at all possible stages: within adult plants, from adult tillers to seeds, and from seeds to seedlings.'' Furthermore, David et al.\ (2019) found that endophytes were lost more frequently from plants under experimentally reduced precipitation. This paragraph should be written to reflect the results of past studies.}
+\response{We thank the reviewer for pressing this point, and we agree that the previous version of this paragraph still overstated the stability of the symbiosis. We have rewritten the paragraph to state that \emph{Epichloë} transmission is imperfect at multiple stages \citep{afkhami2008symbiosis} and that endophyte loss can increase under reduced precipitation \citep{david2019testing}. We removed statements implying that hosts cannot lose their endophytes. We now discuss how drought-associated symbiont loss could combine with the aridity-dependent costs we observed to reduce endophyte prevalence at the dry end of precipitation gradients. We also note that, because we did not re-assess endophyte status at the end of the experiment, we cannot rule out symbiont loss during the study. Such loss would make $S^+$ plants more similar to $S^-$ plants and would therefore be expected to dilute, rather than generate, the differences we observed (lines \ref{ms-transmission}--\ref{ms-symbiont-retention}). The revised text reads:
+
+\begin{quote}
+``Although \emph{Epichloë} endophytes are tightly integrated with their hosts, vertical transmission is often imperfect, and endophytes can be lost within adult plants, from adult tillers to seeds, and from seeds to seedlings \citep{afkhami2008symbiosis}. Endophyte loss can also increase under environmental stress; for example, \emph{Epichloë} was lost more frequently from plants under experimentally reduced precipitation \citep{david2019testing}. If the costs of symbiosis increase under dry conditions, as our results suggest, and transmission failure is also more frequent under drought, these processes could jointly reduce endophyte prevalence toward the dry end of precipitation gradients. Because we did not re-assess endophyte status at the end of our experiment, we cannot determine whether symbiont loss occurred during the study. However, loss of endophytes from $S^+$ plants would make them more similar to $S^-$ plants and would therefore be expected to dilute rather than generate the differences in demographic responses we observed. Direct measurements of endophyte retention across environmental gradients are needed to determine how transmission dynamics contribute to the climate dependence of this symbiosis.''
+\end{quote}
+}
+
+\newpage
+\bibliographystyle{apalike}
+\bibliography{../Main_Manuscript/References}
+% ======================================================= %
+\end{document}
+% ======================================================= %

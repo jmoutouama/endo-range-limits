@@ -150,16 +150,13 @@
 % \bigskip 
 %45 character limit on running head
 \noindent\textbf{Running Title:} Stress and Grass-Endophyte Symbioses\\
-\noindent\textbf{Keywords:} demography, mutualism, plant-fungi interactions, range limits, stress gradient hypothesis, symbiosis\\
+\noindent\textbf{Keywords:} demography, mutualism, plant--fungi interactions, range limits, stress gradient hypothesis, symbiosis\\
 \bigskip 
 \noindent\textbf{Article Type:} Letter
 
 \bigskip 
 \noindent\textbf{Data accessibility statement:} 
-Upon acceptance, all data and computer scripts supporting the results will be archived in a Zenodo package. 
-During peer review, all data files required to reproduce the analyses, including annual census data, are temporarily hosted via Dropbox and available at 
-\url{https://www.dropbox.com/scl/fo/fgxng2mcemjyv41bihul9/AGiZs5mPRGcCZURpGyvhjCE?rlkey=7mgdyrus3ga44yj3ygfncfmkd&dl=1}. 
-All analysis scripts (Stan and R) are available at \url{https://github.com/jmoutouama/endo-range-limits}.
+All data and analysis scripts supporting the results are archived on Zenodo ([DOI link]).
 
 \bigskip 
 \noindent\textbf{Conflict of interest statement:} None.
@@ -174,7 +171,7 @@ Three anonymous reviewers provided constructive feedback on an earlier version o
 
 \bigskip
 \noindent\textbf{Authorship statement:} J.K.M. contributed to research conception, data collection, data analysis, and led manuscript drafting and revision.
-J.C.F., J.M., A.M.G., C.C.O., K.S., and K.W. contributed to data collection and manuscript revisions. T.E.X.M. contributed to research conception, data collection, data analysis, and manuscript revisions.
+J.C.F., J.M., A.M.G., C.C.O., K.M.S., and K.W. contributed to data collection and manuscript revisions. T.E.X.M. contributed to research conception, data collection, data analysis, and manuscript revisions.
 
 
 \bigskip
@@ -198,11 +195,11 @@ Together, these results challenge the expectation that stress enhances symbiosis
 \newpage
 \section*{Introduction}
 Mutualistic symbioses are widespread and ecologically important, often mediating stress tolerance and defense against natural enemies for host organisms. 
-Host-symbiont interactions, like mutualisms more broadly, are strongly context-dependent, with outcomes shaped by environment \citep{hoeksema2015context, bronstein1994conditional,hoang2024impacts,rudgers2020climate}. 
+Host--symbiont interactions, like mutualisms more broadly, are strongly context-dependent, with outcomes shaped by environment \citep{hoeksema2015context, bronstein1994conditional,hoang2024impacts,rudgers2020climate}. 
 The stress-gradient hypothesis (SGH) is a classic conceptual framework for variation in interaction outcomes, predicting that the frequency of positive interactions increases under stressful conditions \citep{louthan2015and,bertness1994positive,holmgren2010strong,maestre2009refining}.
 %, but actual outcomes depend on the type and intensity of biotic and abiotic stress
 For example, microbial symbionts that are costly to maintain under benign conditions may benefit host plants under drought stress  \citep{giauque2019endophyte}. 
-Stress can take many forms, including abiotic and biotic factors, and it remains unclear how predictions of the SGH for host-symbiont interactions play out over different dimensions of environmental stress. 
+Stress can take many forms, including abiotic and biotic factors, and it remains unclear how predictions of the SGH for host--symbiont interactions play out over different dimensions of environmental stress. 
 %Variation in the nature and intensity of biotic and abiotic stress is thus a key driver of these context-dependent outcomes. 
 %As symbiotic interactions shift along stress gradients, their effects are predicted to become increasingly beneficial under biotic and abiotic stress, enhancing host resilience to stress.
 
@@ -216,7 +213,7 @@ By improving resource acquisition, modulating physiology, and enhancing stress-r
 Environmental stress can shift the balance of costs and benefits between hosts and their symbiotic microbes, and the direction and magnitude of this shift can depend on stress severity and environmental context.
 In plants, maintaining symbionts requires hosts to allocate valuable carbon and nutrients to their microbial partners; for example, mycorrhizal fungi can demand up to 20\% of a host's photosynthetically fixed carbon \citep{thirkell2020carbon,soudzilovskaia2015quantitative}.
 Under stress, this investment can outweigh benefits, reducing survival, growth, or reproduction \citep{johnson1997functioning,bronstein2001exploitation,klironomos2003variation}.
-A parallel dynamic occurs in coral bleaching, where heat stress can disrupt the coral-algal mutualism, with thermal thresholds for breakdown relatively well quantified compared with those in most other symbioses \citep{evensen2022empirically,vidal2009coral,marangon2025destabilization}. Across systems, symbiotic microbes can therefore either mitigate or exacerbate host responses to environmental stress, depending on stress severity, the type and combination of stressors, and characteristics of the interacting partners \citep{david2018microbial,michalet2007highlighting,kawai2007testing,le2010interaction}. Thus, although the classic SGH predicts that positive interactions should strengthen with increasing stress, extensions of the hypothesis recognize that positive interactions can weaken or become neutral or antagonistic under sufficiently severe stress.
+A parallel dynamic occurs in coral bleaching, where heat stress can disrupt the coral--algal mutualism, with thermal thresholds for breakdown relatively well quantified compared with those in most other symbioses \citep{evensen2022empirically,vidal2009coral,marangon2025destabilization}. Across systems, symbiotic microbes can therefore either mitigate or exacerbate host responses to environmental stress, depending on stress severity, the type and combination of stressors, and characteristics of the interacting partners \citep{david2018microbial,michalet2007highlighting,kawai2007testing,le2010interaction}. Thus, although the classic SGH predicts that positive interactions should strengthen with increasing stress, extensions of the hypothesis recognize that positive interactions can weaken or become neutral or antagonistic under sufficiently severe stress.
 However, the environmental and biological conditions under which the balance shifts from beneficial to neutral or detrimental remain poorly understood. Identifying these conditions is essential for predicting when stress will strengthen mutualistic outcomes and when it will instead impose demographic costs on hosts.
 
 Despite growing interest in symbiosis and host demography under environmental stress, few studies have tested how abiotic and biotic stressors synergistically shape the costs and benefits of symbiosis to host organisms.
@@ -258,7 +255,7 @@ Our study focused on three cool-season perennial grass species native to woodlan
 \revise{\linelabel{spab4}\emph{Agrostis hyemalis}} hosts the endophyte \emph{Epichloë amarillans} \citep{white1994endophyte}, \emph{Elymus virginicus} hosts \emph{Epichloë elymi} \citep{liu2023fungi}, and \emph{Poa autumnalis} hosts \emph{Epichloë} PauTG-1 or \emph{E. poae} \citep{gundel2020simulated}.
 Previous studies of these associations have generally found beneficial effects on host performance, although effects can vary among host species, vital rates, and environmental conditions \citep{yule2013costs,davitt2011understanding,gundel2020simulated,rudgers2009benefits}.
 Like other \emph{Epichloë} species, these endophytes are primarily transmitted vertically through seeds but some are additionally capable of horizontal transmission via sexual stromata on inflorescences or asexual conidia on leaf surfaces \citep{clay2002evolutionary,gundel2020simulated,leuchtmann2014nomenclatural}.
-In our study, stromata were never observed on \emph{E. virginicus} or \emph{Poa autumnalis} and were rarely observed on \emph{A. hyemalis} ($<5\%$ of individuals), suggesting a dominant role of vertical transmission.
+In our study, stromata were never observed on \emph{E. virginicus} or \emph{P. autumnalis} and were rarely observed on \emph{A. hyemalis} ($<5\%$ of individuals), suggesting a dominant role of vertical transmission.
 Herbivory in this system is primarily from deer, generalist insects (aphids, grasshoppers), and small mammalian grazers.
 
 \subsection*{Source populations and symbiont removal}
@@ -274,7 +271,7 @@ Once plants were sufficiently large, they were vegetatively propagated to genera
 We refer to each independently derived source individual (originating from a single seed) as a ``genotype'' and consider all of its vegetatively propagated descendants to belong to the same genotype, such that all clones share the same genetic background of the host and (for $S^+$) symbiont.
 The experiment included 840, 840, and 720 plants of \textit{A. hyemalis}, \textit{E. virginicus}, and \textit{P. autumnalis}, respectively, with half assigned to each endophyte status ($S^+$ and $S^-$), from three, four, and four source populations, respectively.
 The breakdown of these aggregate totals among source populations, genotypes, and clonal replicates per genotype is reported in Table~\ref{tab:source_pop}.
-Endophyte status of all plants was verified prior to field transplant using microscopy and immunoblot assays (see Supplementary Methods).
+Endophyte status of all genotypes was verified prior to field transplant using microscopy and immunoblot assays (see Supplementary Methods).
 
 
 \subsection*{Common garden experimental design and climate data}
@@ -287,7 +284,8 @@ To characterize climate at these sites during the study period (2023–2025), we
 For each site, we calculated mean temperature (\textdegree C) and cumulative precipitation (mm) over each demographic interval, from the census month in year $t$ through the census month in year $t+1$.
 
 At each of seven sites along the gradient, we established 24 plots (1.5 m $\times$ 1.5 m), eight per host species (\textit{P. autumnalis} was planted at six sites, excluding the westernmost site (SON) since it is well outside this species' natural range: Fig.~\ref{fig:site}c).
-Each plot was planted with 15 individuals, with 12, 9, 6, or 3 $S^+$ plants and the remainder $S^-$, corresponding to initial endophyte frequencies of 80\%, 60\%, 40\%, or 20\% $S^+$, respectively. \revise{\linelabel{spacing}Plants were arranged in an evenly spaced 4 $\times$ 4 grid, approximately 37.5~cm apart.}
+Each plot was planted with 15 individuals, with 12, 9, 6, or 3 $S^+$ plants and the remainder $S^-$, corresponding to initial endophyte frequencies of 80\%, 60\%, 40\%, or 20\% $S^+$, respectively.
+ \revise{\linelabel{spacing}Plants were arranged in an evenly spaced 4 $\times$ 4 grid, approximately 37.5~cm apart, with the 16th grid position left unplanted.}
 This variation in initial endophyte prevalence was intended to track change in prevalence from different starting conditions and is not further considered here.
 Within each site, each plot was randomly assigned to either herbivore access or herbivore exclusion (Fig.~\ref{fig:site}e).
 The herbivory treatment targeted both vertebrate and invertebrate herbivores: exclusion plots had deer fencing on four sides and were sprayed with Sevin insecticide (active ingredient zeta-cypermethrin) 2--3 times per growing season following the manufacturer's protocol; herbivore access plots were unsprayed and fenced on two sides to control for any fence effect.
@@ -301,7 +299,7 @@ Because demographic responses were calculated between consecutive censuses, obse
 
 
 \subsection*{Demographic data collection}
-We collected demographic data, including survival, growth, and reproduction, during the flowering season of each species: \emph{Agrostis hyemalis} and \emph{Poa autumnalis} were censused in May, and \emph{Elymus virginicus} was censused in June of 2023, 2024, and 2025.
+We collected demographic data, including survival, growth, and reproduction, during the flowering season of each species in 2023, 2024, and 2025: \emph{Agrostis hyemalis} and \emph{Poa autumnalis} were censused in May, and \emph{Elymus virginicus} in June.
 For each individual, survival was recorded as alive or dead and, for surviving plants, size was measured as the number of tillers.
 For surviving plants, growth was quantified as the log ratio of tiller count between consecutive censuses (i.e., $\log(\text{tiller}_{t+1}/\text{tiller}_{t})$).
 We recorded the number of inflorescences per plant for all species and, for reproducing individuals of \emph{Poa autumnalis} and \emph{Elymus virginicus}, counted spikelets on a maximum of three inflorescences per plant. Spikelet counts were not recorded for \emph{Agrostis hyemalis} because its inflorescences contain numerous, very small spikelets that are difficult to count reliably in the field.
@@ -317,10 +315,11 @@ We also binned plants as damaged/undamaged based on the presence/absence of any 
 To assess how abiotic and biotic stress modify the demographic effects of endophyte symbiosis, we fit generalized linear mixed models for each vital rate response in a hierarchical Bayesian statistical framework. %first developed two candidate models for each vital rate: one quadratic and one monotonic.
 All models shared the same hierarchical structure for their expected values and were applied to survival, growth, and fertility (inflorescence count and, for two species, spikelet count per inflorescence).
 Survival was modeled with a Bernoulli distribution, growth with a Gaussian distribution, inflorescence count with a negative binomial hurdle model, and spikelet count with a negative binomial distribution. 
-Hurdle and zero-inflated negative binomial models had nearly identical predictive performance ($\Delta$ELPD = 0.2, SE = 3.1). We retained the hurdle model because it distinguishes whether a plant flowered and, if so, how many inflorescences it produced. Its two components, a Bernoulli model for flowering and a zero-truncated negative binomial model for inflorescence count, both used the linear predictor in Eq.~\ref{eq:full_model}.
+Hurdle and zero-inflated negative binomial models had nearly identical predictive performance ($\Delta$ELPD = 0.2, SE = 3.1).
+We retained the hurdle model because it distinguishes whether a plant flowered and, if so, how many inflorescences it produced. Its two components, a Bernoulli model for flowering and a zero-truncated negative binomial model for inflorescence count, both used the linear predictor in Eq.~\ref{eq:full_model}.
 
 All models included species-specific fixed effects for symbiosis ($S^+$ or $S^-$), site- and year-specific precipitation, and herbivory (herbivore access/exclusion), as well as all two- and three-way interactions among them.
-Quadratic effects of precipitation provided minimal improvement over linear effects (LOOCV; Table~\ref{tab:model_comparison}), so we used the linear model, in which the expected value for observation $i$ ($\mu_{i}$) was:
+Quadratic effects of precipitation did not improve predictive performance over linear effects (LOOCV; Table~\ref{tab:model_comparison}), so we used the linear model, in which the expected value for observation $i$ ($\mu_{i}$) was:
 %Each observation $i$ corresponds to a plant in a given year; individuals can appear in multiple years. 
 %For simplicity, we omit the full subscript notation for species, plot, population, and site-year, which is explicitly included in the Stan model. 
 \begin{equation}\label{eq:full_model}
@@ -329,7 +328,7 @@ Quadratic effects of precipitation provided minimal improvement over linear effe
 &\quad + \beta_{EP}[Sp_i]\, * symb_i * precip_i 
        %+ \beta_{symb \times P^2}[Sp_i]\, symb_i P_i^2 
        + \beta_{HP}[Sp_i]\, * herb_i * precip_i \\
-&\quad + \beta_{HE}[Sp_i]\, * herb_i * symb_i + \beta_{HEP}[Sp_i]\, symb_i * herb_i * precip_i \\
+&\quad + \beta_{HE}[Sp_i]\, * herb_i * symb_i + \beta_{HEP}[Sp_i]\, *symb_i * herb_i * precip_i \\
 &\quad  + \phi_{\text{site}[i],Sp_i} 
        + \omega_{\text{source}[i]} 
        + \rho_{\text{plot}[i]}
@@ -349,7 +348,7 @@ Posterior predictive checks confirmed adequate model fit (Fig.~\ref{sup:ppc_vita
 
 We used posterior probability distributions of the parameter estimates to visualize predictions for how effects of symbiosis varied across abiotic and biotic contexts.
 For each herbivory treatment (Access or Exclusion), we computed posterior predictions for the vital rates of $S^+$ and $S^-$ hosts across the precipitation gradient (Eq.~\ref{eq:full_model}).
-From these predictions, we calculated the difference for each posterior sample ($\Delta = \mu^{+} - \mu^{-}$) to estimate median effects and 90\% credible intervals.
+From these predictions, we calculated the difference for each posterior sample ($\Delta = \mu^{+} - \mu^{-}$) to estimate mean effects and 90\% credible intervals.
 We then computed the posterior probability that $\Delta > 0$, which quantifies the probability that endophytes enhance performance, given the model and data.
 For instance, a high posterior probability (e.g., Pr$(\Delta>0) >0.9$) indicates strong evidence of an endophyte benefit, whereas a low posterior probability (e.g., Pr$(\Delta>0) <0.1$) indicates strong evidence of an endophyte cost.
 Intermediate probabilities (approximately 0.7--0.9 or 0.1--0.3) indicate moderate evidence for positive or negative effects, respectively, whereas probabilities near 0.5 indicate no evidence for a directional effect.
@@ -374,28 +373,28 @@ Posterior predictive checks showed good agreement between the observed data and 
 %}
 As intended, realized precipitation and herbivory treatments tracked the abiotic and biotic gradients targeted by our design. 
 Realized precipitation at the seven experimental sites corresponded well to 30-year climate normals, with wetter eastern sites and drier western sites (Fig.~\ref{fig:site}d). 
-Herbivore access also increased realized herbivory: plants in herbivore-access plots experienced 24\% tiller damage on average, compared to 14\% in herbivore-exclusion plots (Fig.~\ref{sup:herb}; Fig.~\ref{sup:herbsp}; Fig.~\ref{sup:herbivory}).
+Herbivore access also increased realized herbivory: plants in herbivore-access plots experienced 24\% tiller damage on average, compared to 14\% in herbivore-exclusion plots (Fig.~\ref{fig:site}f; Fig.~\ref{sup:herb}; Fig.~\ref{sup:herbsp}; Fig.~\ref{sup:herbivory}).
 Endophyte symbiosis reduced the predicted proportion of damaged tillers in \textit{P. autumnalis} ($S^+$: 13.5\% vs.\ $S^-$: 17.1\%) and, more weakly, in \textit{A. hyemalis} ($S^+$: 12.8\% vs.\ $S^-$: 14.2\%), whereas it increased damage in \textit{E. virginicus} ($S^+$: 62.8\% vs.\ $S^-$: 59.4\%; Fig.~\ref{sup:herbivory}).
 
 \subsection*{Endophyte effects on host fitness components across abiotic and biotic stress gradients}
-Annual survival was greater overall and more positively responsive to precipitation for the longer-lived hosts \textit{E. virginicus} and \textit{P. autumnalis} compared to the shorter-lived \textit{A. hyemalis} (Fig.~\ref{fig:Surv}).
+Annual survival was greater overall and more positively responsive to precipitation for the longer-lived hosts \textit{E. virginicus} and \textit{P. autumnalis} compared to the shorter-lived \textit{A. hyemalis} (Fig.~\ref{fig:Surv}; Fig.~\ref{sup:coef_caterpillar}).
 Endophyte effects on survival depended most strongly on precipitation in \textit{E. virginicus}. 
-Under herbivore exclusion, effects of endophytes on survival shifted from strongly negative under dry conditions ($\Delta = -0.13$, $\mathrm{Pr}(\Delta > 0) = 0.02$) to positive under wetter conditions ($\Delta = 0.12$, $\mathrm{Pr}(\Delta > 0) = 0.97$). 
+Under herbivore exclusion, effects of endophytes on survival shifted from strongly negative under dry conditions ($\Delta = -0.13$, $\mathrm{Pr}(\Delta > 0) = 0.02$) to positive under wetter conditions ($\Delta = 0.12$, $\mathrm{Pr}(\Delta > 0) = 0.97$; Table~\ref{tab:delta_summary_surv_quantiles}). 
 Under herbivore access the same directional shift occurred but with weaker magnitude ($\Delta = -0.06$ to $0.10$, $\mathrm{Pr}(\Delta > 0) = 0.10$--$0.89$). 
 A similar but weaker directional shift occurred in \textit{A. hyemalis} under both herbivory treatments.
 For the host \textit{P. autumnalis}, survival was strongly responsive to climate variation but there was no evidence that symbionts modified the response to climate stress, and there was little difference between herbivory treatments (Fig.~\ref{fig:allstat}, Fig.~\ref{fig:Surv}).
 
-For growth, endophyte benefits increased with precipitation in \textit{A. hyemalis} and \textit{E. virginicus} under herbivore access, with strong positive effects of symbiosis under the wettest conditions (\textit{A. hyemalis}: $\Delta = 0.49$, $\mathrm{Pr}(\Delta > 0) = 0.99$; \textit{E. virginicus}: $\Delta = 0.32$, $\mathrm{Pr}(\Delta > 0) = 0.97$; Fig.~\ref{fig:growth}). 
+For growth, endophyte benefits increased with precipitation in \textit{A. hyemalis} and \textit{E. virginicus} under herbivore access, with strong positive effects of symbiosis under the wettest conditions (\textit{A. hyemalis}: $\Delta = 0.49$, $\mathrm{Pr}(\Delta > 0) = 0.99$; \textit{E. virginicus}: $\Delta = 0.32$, $\mathrm{Pr}(\Delta > 0) = 0.97$; Fig.~\ref{fig:growth}; Table~\ref{tab:delta_summary_grow}). 
 Under herbivore exclusion, \textit{A. hyemalis} showed a similar positive trend but with weaker support ($\Delta = 0.29$, $\mathrm{Pr}(\Delta > 0) = 0.90$), while \textit{E. virginicus} showed little variation across the gradient ($\Delta = 0.09$--$0.10$, $\mathrm{Pr}(\Delta > 0) = 0.60$--$0.75$). 
 For both \textit{A. hyemalis} and \textit{E. virginicus}, endophyte effects on growth were most beneficial under wetter abiotic conditions and herbivore access (Fig.~\ref{fig:growth}a--d). 
 As for survival, \textit{P. autumnalis} growth rates declined strongly under drier conditions but endophyte effects were weak and highly uncertain (Fig.~\ref{fig:allstat}). 
-Under herbivore exclusion, endophyte effects on \textit{P. autumnalis} growth shifted from weakly positive to negative with increasing precipitation ($\Delta = -0.22$, $\mathrm{Pr}(\Delta > 0) = 0.13$), the only species / vital rate pair that was even directionally consistent with drought-protective benefits of symbiosis.
+Under herbivore exclusion, endophyte effects on \textit{P. autumnalis} growth shifted from weakly positive to negative with increasing precipitation ($\Delta = -0.22$, $\mathrm{Pr}(\Delta > 0) = 0.13$), the only species–vital rate combination that was even directionally consistent with drought-protective benefits of symbiosis.
 
-For inflorescence production, endophyte effects were strongly positive in \textit{P. autumnalis} and increased with precipitation under both herbivory treatments (Fig.~\ref{sup:inflo}). 
+For inflorescence production, endophyte effects were strongly positive in \textit{P. autumnalis} and increased with precipitation under both herbivory treatments (Fig.~\ref{sup:inflo}; Table~\ref{tab:delta_summary_flow}). 
 Under herbivore access, effects ranged from weak under drier conditions ($\Delta = 0.02$, $\mathrm{Pr}(\Delta > 0) = 0.68$) to strongly positive under wetter conditions ($\Delta = 2.91$, $\mathrm{Pr}(\Delta > 0) = 0.99$). 
 Under herbivore exclusion, benefits were consistently strong across the gradient ($\Delta = 0.19$--$4.97$, $\mathrm{Pr}(\Delta > 0) = 0.97$--$1$). 
 In contrast, endophyte effects on inflorescence production were weaker and highly uncertain across the gradient in the hosts \textit{A. hyemalis} and \textit{E. virginicus} under both herbivory treatments (Fig.~\ref{sup:inflo}; Fig.~\ref{fig:allstat}). 
-Spikelet production in \textit{E. virginicus} and \textit{P. autumnalis} was climate-sensitive; endophyte effects on spikelets increased with precipitation under herbivore exclusion but were weak under herbivore access (Fig.~\ref{sup:spikelet}; Table~\ref{tab:delta_summary_spike}).
+Spikelet production in \textit{E. virginicus} and \textit{P. autumnalis} was climate-sensitive; endophyte effects on spikelets increased with precipitation under herbivore exclusion but were weak under herbivore access (Fig.~\ref{sup:spikelet}; Fig.~\ref{sup:spike_delta}; Table~\ref{tab:delta_summary_spike}).
 
 
 %, endophyte effects were generally weak under herbivore access in both \textit{A. hyemalis} ($\Delta = -2.33$ to $0.74$, $\mathrm{Pr}(\Delta > 0) = 0.23$--$0.62$) and \textit{E. virginicus} ($\Delta = -0.76$ to $0.84$, $\mathrm{Pr}(\Delta > 0) = 0.35$--$0.67$). 
@@ -414,7 +413,7 @@ We therefore repeated all analyses excluding these sites to assess whether their
 Excluding KER and SON produced qualitatively similar patterns of symbiont effects across climate and herbivory treatments (Fig.~\ref{fig:sensitivity_KER_SON}, Table~\ref{tab:sensitivity_KER_SON}), indicating that our conclusions were not driven by the replanted sites.
 
  \subsection*{Greenhouse experiment: soil legacy effects do not mediate endophyte responses}
-In the greenhouse experiment with \textit{A. hyemalis} growing on soils from each experimental site, fitness components responded strongly to soil origin even under uniform conditions: plants grown in soils from wetter sites produced greater aboveground biomass and more inflorescences than those from drier-origin soils (Figs.~\ref{fig:biomass_inflo}a--b), confirming that soil properties co-vary with the field precipitation gradient. However, the estimated symbiont effects on both aboveground biomass and inflorescence production showed little systematic variation with soil-origin precipitation (Fig.~\ref{sup:greenhouse_coef}). Thus, although soil origin affected plant performance, it did not explain the variation in symbiont effects associated with precipitation in the field.
+In the greenhouse experiment with \textit{A. hyemalis} growing on soils from each experimental site, fitness components responded strongly to soil origin even under uniform conditions: plants grown in soils from wetter sites produced greater aboveground biomass and more inflorescences than those from drier-origin soils (Figs.~\ref{fig:biomass_inflo}a--b), confirming that soil properties co-vary with the field precipitation gradient. However, the estimated symbiont effects on both aboveground biomass and inflorescence production showed little systematic variation with soil-origin precipitation (Fig.~\ref{sup:greenhouse_coef}; Table~\ref{tab:posterior_soil}). Thus, although soil origin affected plant performance, it did not explain the variation in symbiont effects associated with precipitation in the field.
 
 \section*{Discussion}
 Drawing on three years of field experiments and Bayesian analysis of host demography, we evaluated how biotic and abiotic stressors jointly influence the demographic effects of vertically transmitted \textit{Epichloë} endophytes on three cool-season perennial grasses across a natural climatic gradient. We predicted that endophytes would enhance host fitness under aridity and/or herbivore pressure (Fig.~\ref{fig:prediction}), in line with stress amelioration and defense scenarios.
@@ -428,7 +427,7 @@ This pattern is consistent with extensions of the SGH in which positive interact
 The physiological mechanisms underlying the decline in endophyte benefits with increasing aridity are unclear, but several non-exclusive processes may contribute.
 Reduced water availability may limit the host's capacity to benefit from the symbiosis through constrained nutrient uptake, reduced carbon gain, or drought-induced hormonal shifts that impair endophyte function or alter the cost--benefit balance of the interaction \citep{ahlholm2002vertically, bronstein2001exploitation, faeth2002endophytic, bastias2024epichloe, cui2022abscisic}.
 This interpretation aligns with the microbial mitigation--exacerbation continuum \citep{david2018microbial}, which predicts that symbionts can shift from beneficial to costly as environmental stress exceeds the host's capacity to sustain the interaction. 
-Our results are also anticipated by empirical patterns along precipitation gradients in other grass--\textit{Epichloë} systems \citep{rudgers2009benefits}, and by a systematic review noting that positive endophyte effects on drought tolerance are inconsistent across species and understudied for fitness measures such as fecundity and survival \citep{decunta2021systematic}.
+Our results are also consistent with empirical patterns along precipitation gradients in other grass--\textit{Epichloë} systems \citep{rudgers2009benefits}, and by a systematic review noting that positive endophyte effects on drought tolerance are inconsistent across species and understudied for fitness measures such as fecundity and survival \citep{decunta2021systematic}.
 
 \revise{\linelabel{ms-loss}Endophyte loss under drought may also contribute to the decline in endophyte benefits with increasing aridity.}
 \revise{Endophyte infections are not always maintained throughout the host life cycle, and environmental conditions can influence their persistence \citep{afkhami2008symbiosis,david2019testing}.}
@@ -466,7 +465,7 @@ Future work should distinguish climate-driven changes in endophyte persistence f
 \centering
 \includegraphics[width=1\textwidth]{conceptual_figure.pdf}
 \caption{
-Competing hypotheses for how plant–symbiont interactions vary along a precipitation gradient under contrasting herbivory regimes. Positive values for the demographic contrast of $S^+ - S^-$ indicate beneficial effects, and negative values indicate costly effects of symbionts. (a) Context-independent mutualism, where symbiont effects remain constant across environmental conditions and herbivory treatments. (b) Herbivory-dependent interactions, where the effect of symbionts differs in magnitude between herbivory access and exclusion but is insensitive to climate. (c) Climate-dependent interactions, where symbiont effects shift systematically along the precipitation gradient, independent of herbivory. (d) Combined herbivory- and climate-dependent interactions, where both environmental context and biotic pressure jointly shape symbiont effects, resulting in non-parallel and potentially decoupled response trajectories. Together, these scenarios illustrate alternative hypotheses for how symbiotic interaction outcomes may vary across abiotic and biotic stress gradients.
+Competing hypotheses for how plant–symbiont interactions vary along a precipitation gradient under contrasting herbivory regimes. Positive values for the demographic contrast of $S^+ - S^-$ indicate beneficial effects, and negative values indicate costly effects of symbionts. (a) Context-independent mutualism, where symbiont effects remain constant across environmental conditions and herbivory treatments. (b) Herbivory-dependent interactions, where the effect of symbionts differs in magnitude between herbivore access and exclusion but is insensitive to climate. (c) Climate-dependent interactions, where symbiont effects shift systematically along the precipitation gradient, independent of herbivory. (d) Combined herbivory- and climate-dependent interactions, where both environmental context and biotic pressure jointly shape symbiont effects, resulting in non-parallel and potentially decoupled response trajectories. Together, these scenarios illustrate alternative hypotheses for how symbiotic interaction outcomes may vary across abiotic and biotic stress gradients.
 }
 \label{fig:prediction}
 \end{figure}
@@ -476,13 +475,13 @@ Competing hypotheses for how plant–symbiont interactions vary along a precipit
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\textwidth]{clim_map1.pdf}
-\caption{Geography of common garden sites along a natural aridity gradient from Texas to Louisiana, USA for (A) \emph{Agrostis hyemalis}, (B) \emph{Elymus virginicus}, and (C) \emph{Poa autumnalis}. 
-Climate data in A--C are based on 30-year normals for average annual precipitation (1996--2025) from PRISM \citep{PRISM2024}, illustrating the precipitation gradient across experimental sites (scale bar in mm). 
+\caption{Geography of common garden sites along a natural aridity gradient from Texas to Louisiana, USA for (a) \emph{Agrostis hyemalis}, (b) \emph{Elymus virginicus}, and (c) \emph{Poa autumnalis}. 
+Climate data in a--c are based on 30-year normals for average annual precipitation (1996--2025) from PRISM \citep{PRISM2024}, illustrating the precipitation gradient across experimental sites (scale bar in mm). 
 Red dots indicate source population locations; grey dots represent GBIF occurrence records within the study area \citep{gbif2025_aghy,gbif2025_elvi,gbif2025_poau}. 
-(D) Cumulative precipitation over the demographic intervals ending in 2024 and 2025 at each experimental site (ordered west to east), averaged across species; derived from PRISM climate data.
-(E) Schematic illustration of herbivore exclusion and herbivore access plots; `+' denotes symbiont-positive and `-' denotes symbiont-negative individuals. 
+(d) Cumulative precipitation over the demographic intervals ending in 2024 and 2025 at each experimental site (ordered west to east), averaged across species; derived from PRISM climate data.
+(e) Schematic illustration of herbivore exclusion and herbivore access plots; `+' denotes symbiont-positive and `-' denotes symbiont-negative individuals. 
 Equal numbers are shown for illustration, although symbiont frequencies varied among experimental plots. 
-(F) Proportion of damaged plants in herbivore exclusion and herbivore access plots across experimental sites (mean $\pm$ SE). 
+(f) Proportion of damaged plants in herbivore exclusion and herbivore access plots across experimental sites (mean $\pm$ SE). 
 Species-specific breakdowns are provided in Supplementary Figs.~\ref{sup:herb} and~\ref{sup:herbsp}.}
 \label{fig:site}
 \end{figure}
@@ -545,9 +544,7 @@ Probabilities of positive endophyte effects on survival, growth, and inflorescen
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{Fig_Greenhouse_Combined.pdf}
-\caption{Greenhouse experiment testing whether soil-origin precipitation modifies symbiont effects on host performance in \textit{Agrostis hyemalis}. Upper panels: posterior predictions for aboveground biomass (a) and total inflorescence production (b) across the 30-year mean annual precipitation of the soil-origin site (mm yr$^{-1}$), for symbiont-present ($S^+$) and symbiont-absent ($S^-$) plants; points are observed values, lines are posterior medians, and shaded ribbons are 95\% credible intervals. Biomass was modelled on the log scale and is shown on a logarithmic axis. Lower panels: posterior contrast between symbiont treatments ($\Delta = S^+ - S^-$) for the response shown above; the dashed line marks no difference between treatments. 
-%Precipitation increased performance, whereas the Symbiont $\times$ Precipitation interaction was weak (Fig.~\ref{fig:greenhouse_coef}).
-}
+\caption{Greenhouse experiment testing whether soil-origin precipitation modifies symbiont effects on host performance in \textit{Agrostis hyemalis}. Upper panels: posterior predictions for aboveground biomass (a) and total inflorescence production (b) across the 30-year mean annual precipitation of the soil-origin site (mm yr$^{-1}$), for symbiont-present ($S^+$) and symbiont-absent ($S^-$) plants; points are observed values, lines are posterior medians, and shaded ribbons are 95\% credible intervals. Biomass was modeled on the log scale and is shown on a logarithmic axis. Lower panels: posterior contrast between symbiont treatments ($\Delta = S^+ - S^-$) for the response shown above; the dashed line marks no difference between treatments.}
 \label{fig:biomass_inflo}
 \end{figure}
 \clearpage

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 OCT 2026 14:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 OCT 2026 14:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -912,7 +912,8 @@ Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/xr-hyper.sty
 Package: xr-hyper 2024-11-05 v7.01l eXternal References (DPC)
 )
-Package xr Info: IMPORTING LABELS FROM EcolLett_R2.aux on input line 76.
+Package xr Info: IMPORTING LABELS FROM ../Main_Manuscript/EcolLett_R2.aux on in
+put line 76.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
@@ -1028,7 +1029,14 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count364
 \l__pdf_internal_box=\box87
 )
-No file EcolLett_R2_SI.aux.
+(./EcolLett_R2_SI.aux
+
+Package natbib Warning: Citation `fowler2025increasing' multiply defined.
+
+
+Package natbib Warning: Citation `Rstan' multiply defined.
+
+)
 \openout1 = `EcolLett_R2_SI.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 145.
@@ -1049,7 +1057,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 145.
 LaTeX Font Info:    ... okay on input line 145.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 145.
 LaTeX Font Info:    ... okay on input line 145.
-(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count365
 \scratchdimen=\dimen341
@@ -1119,6 +1127,7 @@ Package gensymb Info: Using \upOmega for \ohm on input line 145.
 Package gensymb Warning: Not defining \micro.
 
 Package hyperref Info: Link coloring OFF on input line 145.
+(./EcolLett_R2_SI.out) (./EcolLett_R2_SI.out)
 \@outlinefile=\write4
 \openout4 = `EcolLett_R2_SI.out'.
 
@@ -1146,6 +1155,7 @@ Package microtype Info: Tracking enabled.
 Package microtype Info: Using tracking set `all'.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
+
 (/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-ppl.cfg
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
@@ -1208,19 +1218,6 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-Package natbib Warning: Citation `jackson1988rapid' on page 1 undefined on inpu
-t line 180.
-
-
-Package natbib Warning: Citation `koh2006rapid' on page 1 undefined on input li
-ne 182.
-
-
-LaTeX Warning: Reference `tab:heat_treatment' on page 1 undefined on input line
- 188.
-
-
-
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
@@ -1232,16 +1229,7 @@ LaTeX Font Info:    Trying to load font information for TS1+pplx on input line
 File: ts1pplx.fd 2004/09/06 font definitions for TS1/pplx.
 )
 
-LaTeX Warning: Reference `tab:soil_pop' on page 2 undefined on input line 211.
-
-
-
 [2]
-
-LaTeX Warning: Reference `sup:ppc_models_soil' on page 3 undefined on input lin
-e 243.
-
-
 
 [3] (./source_table.tex
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
@@ -1263,13 +1251,13 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 
 ]
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 267.
+(Font)              scaled to size 10.42007pt on input line 262.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 267.
+(Font)              scaled to size 7.91925pt on input line 262.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 267.
+(Font)              scaled to size 10.42007pt on input line 262.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 267.
+(Font)              scaled to size 7.91925pt on input line 262.
  (./treatment_table.tex)
 
 [5
@@ -1287,12 +1275,7 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 
 [8
 
-] (./TableS_sensitivity_KER_SON_longtable.tex
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table S6 on input line 96.
-
-[9
+] (./TableS_sensitivity_KER_SON_longtable.tex [9
 
 
 ] [10] [11]
@@ -1317,10 +1300,10 @@ Package longtable Warning: Column widths have changed
 ] (./posterior_soil.tex)
 
 [17]
-<temp_census_years.pdf, id=112, 578.16pt x 289.08pt>
+<temp_census_years.pdf, id=151, 578.16pt x 289.08pt>
 File: temp_census_years.pdf Graphic file (type pdf)
 <use temp_census_years.pdf>
-Package pdftex.def Info: temp_census_years.pdf  used on input line 386.
+Package pdftex.def Info: temp_census_years.pdf  used on input line 381.
 (pdftex.def)             Requested size: 375.80544pt x 187.89977pt.
 
 
@@ -1328,30 +1311,30 @@ Package pdftex.def Info: temp_census_years.pdf  used on input line 386.
 
 
  <./temp_census_years.pdf>]
-<PPC.png, id=124, 505.89pt x 433.62pt>
+<PPC.png, id=162, 505.89pt x 433.62pt>
 File: PPC.png Graphic file (type png)
 <use PPC.png>
-Package pdftex.def Info: PPC.png  used on input line 395.
+Package pdftex.def Info: PPC.png  used on input line 390.
 (pdftex.def)             Requested size: 469.75502pt x 402.65372pt.
 
 
 [19
 
  <./PPC.png>]
-<PPC_models_soilendo.pdf, id=133, 482.80376pt x 284.06125pt>
+<PPC_models_soilendo.pdf, id=171, 482.80376pt x 284.06125pt>
 File: PPC_models_soilendo.pdf Graphic file (type pdf)
 <use PPC_models_soilendo.pdf>
-Package pdftex.def Info: PPC_models_soilendo.pdf  used on input line 405.
+Package pdftex.def Info: PPC_models_soilendo.pdf  used on input line 400.
 (pdftex.def)             Requested size: 469.75502pt x 276.39293pt.
 
 
 [20
 
  <./PPC_models_soilendo.pdf>]
-<prop_damage_barplot_24_25.pdf, id=160, 578.16pt x 289.08pt>
+<prop_damage_barplot_24_25.pdf, id=196, 578.16pt x 289.08pt>
 File: prop_damage_barplot_24_25.pdf Graphic file (type pdf)
 <use prop_damage_barplot_24_25.pdf>
-Package pdftex.def Info: prop_damage_barplot_24_25.pdf  used on input line 417.
+Package pdftex.def Info: prop_damage_barplot_24_25.pdf  used on input line 412.
 
 (pdftex.def)             Requested size: 469.75502pt x 234.8769pt.
 
@@ -1359,10 +1342,10 @@ Package pdftex.def Info: prop_damage_barplot_24_25.pdf  used on input line 417.
 [21
 
  <./prop_damage_barplot_24_25.pdf>]
-<prop_damage_species_years.pdf, id=172, 867.24pt x 578.16pt>
+<prop_damage_species_years.pdf, id=208, 867.24pt x 578.16pt>
 File: prop_damage_species_years.pdf Graphic file (type pdf)
 <use prop_damage_species_years.pdf>
-Package pdftex.def Info: prop_damage_species_years.pdf  used on input line 428.
+Package pdftex.def Info: prop_damage_species_years.pdf  used on input line 423.
 
 (pdftex.def)             Requested size: 469.75502pt x 313.17216pt.
 
@@ -1370,54 +1353,54 @@ Package pdftex.def Info: prop_damage_species_years.pdf  used on input line 428.
 [22
 
  <./prop_damage_species_years.pdf>]
-<herb_endo_effect.pdf, id=184, 578.16pt x 361.35pt>
+<herb_endo_effect.pdf, id=220, 578.16pt x 361.35pt>
 File: herb_endo_effect.pdf Graphic file (type pdf)
 <use herb_endo_effect.pdf>
-Package pdftex.def Info: herb_endo_effect.pdf  used on input line 442.
+Package pdftex.def Info: herb_endo_effect.pdf  used on input line 437.
 (pdftex.def)             Requested size: 469.75502pt x 293.59616pt.
 
 
 [23
 
  <./herb_endo_effect.pdf>]
-<FigS_sensitivity_KER_SON_combined.pdf, id=204, 1011.78pt x 794.97pt>
+<FigS_sensitivity_KER_SON_combined.pdf, id=240, 1011.78pt x 794.97pt>
 File: FigS_sensitivity_KER_SON_combined.pdf Graphic file (type pdf)
 <use FigS_sensitivity_KER_SON_combined.pdf>
 Package pdftex.def Info: FigS_sensitivity_KER_SON_combined.pdf  used on input l
-ine 451.
+ine 446.
 (pdftex.def)             Requested size: 469.75502pt x 369.09924pt.
 
 
 [24
 
  <./FigS_sensitivity_KER_SON_combined.pdf>]
-<FigS_coef_caterpillar_combined.pdf, id=243, 1011.78pt x 794.97pt>
+<FigS_coef_caterpillar_combined.pdf, id=279, 1011.78pt x 794.97pt>
 File: FigS_coef_caterpillar_combined.pdf Graphic file (type pdf)
 <use FigS_coef_caterpillar_combined.pdf>
 Package pdftex.def Info: FigS_coef_caterpillar_combined.pdf  used on input line
- 459.
+ 454.
 (pdftex.def)             Requested size: 469.75502pt x 369.09924pt.
 
 
 [25
 
  <./FigS_coef_caterpillar_combined.pdf>]
-<Inflorescence_diff_v.pdf, id=276, 614.295pt x 794.97pt>
+<Inflorescence_diff_v.pdf, id=313, 614.295pt x 794.97pt>
 File: Inflorescence_diff_v.pdf Graphic file (type pdf)
 <use Inflorescence_diff_v.pdf>
-Package pdftex.def Info: Inflorescence_diff_v.pdf  used on input line 472.
+Package pdftex.def Info: Inflorescence_diff_v.pdf  used on input line 467.
 (pdftex.def)             Requested size: 469.75502pt x 607.9196pt.
 
 
-LaTeX Warning: Float too large for page by 27.4896pt on input line 481.
+LaTeX Warning: Float too large for page by 27.4896pt on input line 476.
 
 
 
 [26 <./Inflorescence_diff_v.pdf>]
-<Spikelet_diff.pdf, id=286, 794.97pt x 614.295pt>
+<Spikelet_diff.pdf, id=323, 794.97pt x 614.295pt>
 File: Spikelet_diff.pdf Graphic file (type pdf)
 <use Spikelet_diff.pdf>
-Package pdftex.def Info: Spikelet_diff.pdf  used on input line 486.
+Package pdftex.def Info: Spikelet_diff.pdf  used on input line 481.
 (pdftex.def)             Requested size: 469.75502pt x 363.00267pt.
 
 
@@ -1425,88 +1408,67 @@ Package pdftex.def Info: Spikelet_diff.pdf  used on input line 486.
 
 
  <./Spikelet_diff.pdf, page is rotated 90 degrees>]
-<Spikelet_diff_stat.pdf, id=297, 3613.5pt x 3011.25pt>
+<Spikelet_diff_stat.pdf, id=333, 3613.5pt x 3011.25pt>
 File: Spikelet_diff_stat.pdf Graphic file (type pdf)
 <use Spikelet_diff_stat.pdf>
-Package pdftex.def Info: Spikelet_diff_stat.pdf  used on input line 501.
+Package pdftex.def Info: Spikelet_diff_stat.pdf  used on input line 496.
 (pdftex.def)             Requested size: 469.75502pt x 391.4303pt.
 
 
 [28
 
  <./Spikelet_diff_stat.pdf>]
-<Fig_Greenhouse_Coefficients.pdf, id=307, 312.16624pt x 312.16624pt>
+<Fig_Greenhouse_Coefficients.pdf, id=343, 312.16624pt x 312.16624pt>
 File: Fig_Greenhouse_Coefficients.pdf Graphic file (type pdf)
 <use Fig_Greenhouse_Coefficients.pdf>
-Package pdftex.def Info: Fig_Greenhouse_Coefficients.pdf  used on input line 51
-2.
+Package pdftex.def Info: Fig_Greenhouse_Coefficients.pdf  used on input line 50
+7.
 (pdftex.def)             Requested size: 281.85587pt x 281.86157pt.
 
 
 [29
 
- <./Fig_Greenhouse_Coefficients.pdf>]
-No file EcolLett_R2_SI.bbl.
+ <./Fig_Greenhouse_Coefficients.pdf>] (./EcolLett_R2_SI.bbl)
 
-Package natbib Warning: There were undefined citations.
+Package natbib Warning: There were multiply defined citations.
 
 
-Package longtable Warning: Table widths have changed. Rerun LaTeX.
 
-(./EcolLett_R2_SI.aux)
+[30
+
+] (./EcolLett_R2_SI.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `EcolLett_R2_SI.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `EcolLett_R2_SI.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  1D8AA61DC4A5D9A7D371931A900054D5;1480.
+Package rerunfilecheck Info: File `EcolLett_R2_SI.out' has not changed.
+(rerunfilecheck)             Checksum: 1D8AA61DC4A5D9A7D371931A900054D5;1480.
  )
 (\end occurred inside a group at level 1)
 
 ### semi simple group (level 1) entered at line 153 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30629 strings out of 473190
- 559689 string characters out of 5715801
- 1004326 words of memory out of 5000000
- 52539 multiletter control sequences out of 15000+600000
- 664794 words of font info for 656 fonts, out of 8000000 for 9000
+ 30635 strings out of 473190
+ 560307 string characters out of 5715801
+ 1016569 words of memory out of 5000000
+ 52570 multiletter control sequences out of 15000+600000
+ 662757 words of font info for 624 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,15n,101p,1421b,890s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{cite.Rstan} has been referenced but does not exist,
- replaced by a fixed one
-
-
-pdfTeX warning (dest): name{cite.fowler2025increasing} has been referenced but 
-does not exist, replaced by a fixed one
-
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr.pfb></usr/local
-/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/20
-25/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2025/texm
-f-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on EcolLett_R2_SI.pdf (29 pages, 5623917 bytes).
+ 99i,15n,101p,1421b,891s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmr
+.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb
+></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/
+local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/t
+exlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on EcolLett_R2_SI.pdf (30 pages, 5626602 bytes).
 PDF statistics:
- 376 PDF objects out of 1000 (max. 8388607)
- 272 compressed objects within 3 object streams
- 64 named destinations out of 1000 (max. 500000)
- 165961 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 419 PDF objects out of 1000 (max. 8388607)
+ 313 compressed objects within 4 object streams
+ 67 named destinations out of 1000 (max. 500000)
+ 166033 words of extra memory for PDF output out of 184870 (max. 10000000)
 

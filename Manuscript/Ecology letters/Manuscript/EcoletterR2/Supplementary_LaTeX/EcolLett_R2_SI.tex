@@ -72,7 +72,7 @@
 \usepackage{rotating}
 \usepackage{xr-hyper} % cross-references between main text and SI
 \usepackage{hyperref}
-\externaldocument{EcolLett_R2}
+\externaldocument{../Main_Manuscript/EcolLett_R2}
 \usepackage{makecell} % 
 \usepackage{longtable}
 \usepackage{pdflscape}
@@ -127,7 +127,7 @@
 \author[4]{Akiem M. Gough}
 \author[4]{Julia Martin}
 \author[4]{Christopher C. Oxley}
-\author[4]{Karl Schrader}
+\author[4]{Karl M. Schrader}
 \author[4]{Karis Williams}
 \author[4]{Tom E.X. Miller\,\orcidlink{0000-0003-3208-6067}}
 \affil[1]{Department of Botany, University of British Columbia, Vancouver, BC, Canada}
@@ -147,7 +147,7 @@
 \begin{center}
 {\Large\textbf{Supporting Information}}\\[1em]
 {\large Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses}\\[1em]
-Jacob K. Moutouama, Joshua C. Fowler, Akiem M. Gough, Julia Martin, Christopher C. Oxley, Karl Schrader, Karis Williams, and Tom E.X. Miller
+Jacob K. Moutouama, Joshua C. Fowler, Akiem M. Gough, Julia Martin, Christopher C. Oxley, Karl M. Schrader, Karis Williams, and Tom E.X. Miller
 \end{center}
 \linenumbers
 \spacing{1.25}
@@ -177,7 +177,7 @@ Jacob K. Moutouama, Joshua C. Fowler, Akiem M. Gough, Julia Martin, Christopher 
 \subsection {Supporting Methods}
 \subsubsection {Endophyte status verification}
 To assess the efficacy of heat treatment and to confirm endophyte status before transfer to the field experiment, we verified symbiont status ($S^+$ or $S^-$) of plants from control and heat lineages using three methods. 
-First, peels of the inner leaf sheaths were stained with aniline blue lactic acid and viewed under a compound microscope at 200x–400x to identify \emph{Epichloë} hyphae \citep{jackson1988rapid}. 
+First, peels of the inner leaf sheaths were stained with aniline blue lactic acid and viewed under a compound microscope at 200$\times$--400$\times$ to identify \emph{Epichloë} hyphae \citep{jackson1988rapid}. 
 Second, we used microscopy to assess the presence or absence of \emph{Epichloë} in seeds that were soaked in NaOH, then squashed and stained similarly to the leaf tissue, to determine the endophyte status of the maternal plant \citep{fowler2025increasing}. 
 Third, we used an immunoblot assay (Phytoscreen field tiller endophyte detection kit, Agrinostics Ltd. Co., Watkinsville, Georgia, USA) that targets proteins of \emph{Epichloë} spp. to visually indicate presence or absence \citep{koh2006rapid}. 
 In total, we tested 1,481 plants for endophyte status. 
@@ -197,7 +197,7 @@ For the SFAEF population of \emph{P. autumnalis}, on the other hand, control and
 
 To examine whether edaphic factors mediate plant performance across the precipitation gradient, we conducted a greenhouse experiment
 manipulating soil origin and endophyte status.
-Soils were collected during summer 2024 from the seven field sites used in the range‐limits experiment.
+Soils were collected during summer 2024 from the seven field sites used in the common garden experiment.
 These sites span the precipitation gradient from the wettest site to the driest site. 
 After collection, soils were stored in a cold room at 3.3°C until the start of the experiment. 
 Soils were not sterilized and therefore soil origin treatment reflects both the physical properties of the soil as well as the microbial communities that may vary across soil types.
@@ -213,34 +213,29 @@ Realised sample sizes varied across treatment combinations due to mortality and 
 \subsubsection {Data collection}
 
 Plants were monitored regularly for survival and reproductive development. 
-Reproductive output was quantified as inflorescence number and spikelet production. 
+Reproductive output was quantified as inflorescence number.
 During the flowering season, plants were checked at least twice per week for the presence of seed-bearing inflorescences. 
-Mature inflorescences were collected as they developed to avoid repeated counts. 
-For each flowering individual, spikelets were counted on at least three inflorescences when available.
-For individuals producing many inflorescences, mean spikelet number per inflorescence was used to estimate total spikelet production.
+Mature inflorescences were collected and counted as they developed to avoid repeated counts. 
 After eight months of growth, plants were harvested to quantify aboveground biomass. 
-Plant material was dried at 60°C in a drying oven and weighed using an analytical balance. 
+Plant material was dried at 60\textdegree C in a drying oven and weighed using an analytical balance. 
 Because inflorescences were collected prior to harvest, they were dried separately and added to the total aboveground biomass.
 
 \subsubsection {Statistical analysis}
 \phantomsection
 \addcontentsline{toc}{subsubsection}{Statistical analysis}
 \label{sec:greenhouse_models}
-For each fitness component (aboveground biomass, inflorescence count, and spikelets per inflorescence), we fitted hierarchical Bayesian models mirroring the field analysis. Fixed effects included symbiont status 
-($S^+$/$S^-$), the 30-year mean annual precipitation of each soil's origin site (standardised; hereafter soil-origin MAP), and their interaction, with planting date (standardised) as a covariate. 
-Source population was included as a random effect with a non-centred parameterisation. 
-%A symbiont $\times$ soil-origin MAP interaction in the greenhouse would implicate edaphic variation as a confound of the field results, whereas its absence would support precipitation experienced directly by plants in the field as the primary driver.
-Biomass was log-transformed and modelled with a Student-t likelihood ($\nu = 3$) to provide robustness to outliers, which are common in small greenhouse experiments; count responses (inflorescence number and spikelets 
-per inflorescence) used negative binomial likelihoods to accommodate overdispersion. 
-For all models, fixed-effect coefficients received $\text{Normal}(0, 1)$ priors; the overdispersion parameter for count models was placed on the log scale with a $\text{Normal}(2, 1)$ prior (centred on $\phi \approx 7$); and the random-effect standard deviation received an $\text{Exponential}(2)$ prior.
+For each fitness component (aboveground biomass and inflorescence count), we fitted hierarchical Bayesian models mirroring the field analysis. Fixed effects included symbiont status 
+($S^+$/$S^-$), the 30-year mean annual precipitation of each soil's origin site (standardized; hereafter soil-origin MAP), and their interaction, with planting date (standardized) as a covariate. 
+Source population was included as a random effect with a non-centered parameterization. 
+Biomass was log-transformed and modeled with a Student-t likelihood ($\nu = 3$) to provide robustness to outliers, which are common in small greenhouse experiments; inflorescence count was modeled with a negative binomial likelihood to accommodate overdispersion. 
+For all models, fixed-effect coefficients received $\text{Normal}(0, 1)$ priors; the overdispersion parameter for the inflorescence model was placed on the log scale with a $\text{Normal}(2, 1)$ prior (centered on $\phi \approx 7$); and the random-effect standard deviation received an $\text{Exponential}(2)$ prior.
 
 Models were fitted in Stan \citep{Rstan} with four chains of 2,000 iterations (1,000 warmup; adapt\_delta $= 0.99$). Convergence was assessed via $\hat{R} < 1.01$ for all parameters and inspection of trace plots.
 We report posterior medians with 95\% credible intervals for three focal parameters: the symbiont main effect ($S^+$ vs.\ $S^-$ at mean soil-origin MAP), the soil-origin MAP main effect, and the symbiont $\times$ soil-origin MAP interaction. 
-To visualise how the endophyte effect varies across the soil-origin precipitation gradient, we computed the posterior contrast ($S^+ - S^-$) 
-at each point along the observed precipitation range, marginalising over planting date (set to the mean) and source population random effects. 
-These contrasts are summarised as posterior medians with 95\% credible intervals and displayed alongside the predicted responses for each symbiont 
-status. 
-Posterior predictive checks indicated adequate fit for all models (Fig.~\ref{sup:ppc_models_soil}).
+To visualize how the endophyte effect varies across the soil-origin precipitation gradient, we computed the posterior contrast ($S^+ - S^-$) 
+at each point along the observed precipitation range, marginalizing over planting date (set to the mean) and source population random effects. 
+These contrasts are summarized as posterior medians with 95\% credible intervals and displayed alongside the predicted responses for each symbiont status. 
+Posterior predictive checks indicated adequate fit for both models (Fig.~\ref{sup:ppc_models_soil}).
 \clearpage
 
 
@@ -271,19 +266,19 @@ Posterior predictive checks indicated adequate fit for all models (Fig.~\ref{sup
 \clearpage
 
 \begin{table}[ht]
-\caption{Common garden sites used for reciprocal transplant and environmental manipulation studies.}
+\caption{Common garden sites used in the field experiment, ordered from west to east.}
 \label{tab:exp_sites}
 \begin{tabular}{llrr}
 \hline
 Site & Code & Latitude & Longitude \\
 \hline
-University of Louisiana Ecology Center           & LAF & 30.304773 & -92.012401 \\
-Center for Biological Field Studies              & HUN & 30.742815 & -95.476881 \\
-TAMU Ecology and Natural Resource Teaching Area  & COL & 30.569302 & -96.366324 \\
-UT Stengl Lost Pines Field Station               & BAS & 30.092343 & -97.172442 \\
+TAMU Sonora Station                              & SON & 30.273467 & -100.561463 \\
 Private property, Kerrville, TX                  & KER & 30.028437 & -99.142888 \\
 Brackenridge Field Laboratory                    & BFL & 30.284866 & -97.780675 \\
-TAMU Sonora Station                              & SON & 30.273467 & -100.561463 \\
+UT Stengl Lost Pines Field Station               & BAS & 30.092343 & -97.172442 \\
+TAMU Ecology and Natural Resource Teaching Area  & COL & 30.569302 & -96.366324 \\
+Center for Biological Field Studies              & HUN & 30.742815 & -95.476881 \\
+University of Louisiana Ecology Center           & LAF & 30.304773 & -92.012401 \\
 \hline
 \end{tabular}
 \end{table}
@@ -291,8 +286,8 @@ TAMU Sonora Station                              & SON & 30.273467 & -100.561463
 
 \begin{table}[ht]
 \centering
-\caption{Comparison of candidate models (quadratic vs.\ linear) for each vital rate based on leave-one-out cross-validation (LOO-CV).
-$\Delta$ELPD is relative to the best model.}
+\caption{Comparison of candidate models (quadratic vs.\ linear) for each vital rate based on leave-one-out cross-validation (LOOCV).
+$\Delta$ELPD is the difference in expected log pointwise predictive density relative to the best model.}
 \label{tab:model_comparison}
 \begin{tabular}{llrr}
 \hline
@@ -440,7 +435,7 @@ The experiment crossed two seed source populations (LPEF and SJC), seven soil-or
 \begin{figure}[ht]
 \centering
 \includegraphics[width=1\linewidth]{herb_endo_effect.pdf}
-\caption{Posterior estimates (median and 90\% credible intervals) of symbiont and herbivore exclusion effects on the proportion of damaged tillers for three host grass species, from a binomial model with site, year, and plot as random effects. Negative values indicate reduced herbivore damage, whereas positive values indicate increased damage. \revise{Back-transformed to predicted proportions of damaged tillers in herbivore-access plots, symbiosis reduced damage in \textit{P. autumnalis} ($S^+$: 13.5\% vs.\ $S^-$: 17.1\%) and, more weakly, in \textit{A. hyemalis} ($S^+$: 12.8\% vs.\ $S^-$: 14.2\%), and increased damage in \textit{E. virginicus} ($S^+$: 62.8\% vs.\ $S^-$: 59.4\%).} Points and intervals are colored by species: \textit{Agrostis hyemalis} (green), \textit{Elymus virginicus} (orange), and \textit{Poa autumnalis} (purple). Dashed vertical lines indicate no effect.}
+\caption{Posterior estimates (median and 90\% credible intervals) of symbiont and herbivore exclusion effects on the proportion of damaged tillers for three host grass species, from a binomial model with site, year, and plot as random effects. Negative values indicate reduced herbivore damage, whereas positive values indicate increased damage. Back-transformed to predicted proportions of damaged tillers in herbivore-access plots, symbiosis reduced damage in \textit{P. autumnalis} ($S^+$: 13.5\% vs.\ $S^-$: 17.1\%) and, more weakly, in \textit{A. hyemalis} ($S^+$: 12.8\% vs.\ $S^-$: 14.2\%), and increased damage in \textit{E. virginicus} ($S^+$: 62.8\% vs.\ $S^-$: 59.4\%). Points and intervals are colored by species: \textit{Agrostis hyemalis} (green), \textit{Elymus virginicus} (orange), and \textit{Poa autumnalis} (purple). Dashed vertical lines indicate no effect.}
 \label{sup:herbivory}
 \end{figure}
 \clearpage
@@ -513,7 +508,6 @@ Coefficients are shown on the model link scale: logit for survival, linear size 
 \caption{Posterior coefficient estimates for the greenhouse experiment (median, with thick and thin bars showing 90\% and 95\% credible intervals) for symbiont presence, soil-origin precipitation (standardized), and their interaction, for aboveground biomass (top) and total inflorescences (bottom). Filled points indicate estimates with posterior probability $> 0.9$ of being above or below zero; the dashed line marks zero.}
 \label{sup:greenhouse_coef}
 \end{figure}
-
 
 
 \clearpage

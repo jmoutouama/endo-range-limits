@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 OCT 2026 15:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  22 OCT 2026 18:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1295,44 +1295,44 @@ Package microtype Info: Loading generic protrusion settings for font family
 [21])
 
 [22]
-<conceptual_figure.pdf, id=453, 578.16pt x 433.62pt>
+<conceptual_figure.pdf, id=456, 578.16pt x 433.62pt>
 File: conceptual_figure.pdf Graphic file (type pdf)
 <use conceptual_figure.pdf>
-Package pdftex.def Info: conceptual_figure.pdf  used on input line 471.
+Package pdftex.def Info: conceptual_figure.pdf  used on input line 467.
 (pdftex.def)             Requested size: 469.75502pt x 352.31538pt.
 
 
 [23
 
  <./conceptual_figure.pdf>]
-<clim_map1.pdf, id=479, 650.43pt x 758.835pt>
+<clim_map1.pdf, id=482, 650.43pt x 758.835pt>
 File: clim_map1.pdf Graphic file (type pdf)
 <use clim_map1.pdf>
-Package pdftex.def Info: clim_map1.pdf  used on input line 482.
+Package pdftex.def Info: clim_map1.pdf  used on input line 478.
 (pdftex.def)             Requested size: 432.17375pt x 504.21368pt.
 
 
 [24 <./clim_map1.pdf>]
-<PrSurvival_diff.pdf, id=515, 614.295pt x 794.97pt>
+<PrSurvival_diff.pdf, id=518, 614.295pt x 794.97pt>
 File: PrSurvival_diff.pdf Graphic file (type pdf)
 <use PrSurvival_diff.pdf>
-Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 498.
+Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 494.
 (pdftex.def)             Requested size: 469.75502pt x 553.52454pt.
 
 
 [25 <./PrSurvival_diff.pdf>]
-<Growth_diff.pdf, id=527, 614.295pt x 794.97pt>
+<Growth_diff.pdf, id=530, 614.295pt x 794.97pt>
 File: Growth_diff.pdf Graphic file (type pdf)
 <use Growth_diff.pdf>
-Package pdftex.def Info: Growth_diff.pdf  used on input line 512.
+Package pdftex.def Info: Growth_diff.pdf  used on input line 508.
 (pdftex.def)             Requested size: 469.75502pt x 536.11803pt.
 
 
 [26 <./Growth_diff.pdf>]
-<All_traits_diff_stat_lower.pdf, id=538, 794.97pt x 614.295pt>
+<All_traits_diff_stat_lower.pdf, id=541, 794.97pt x 614.295pt>
 File: All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use All_traits_diff_stat_lower.pdf>
-Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 540
+Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 536
 .
 (pdftex.def)             Requested size: 469.75502pt x 363.00267pt.
 
@@ -1343,10 +1343,10 @@ Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 540
 
 
  <./All_traits_diff_stat_lower.pdf, page is rotated 90 degrees>]
-<Fig_Greenhouse_Combined.pdf, id=547, 454.69875pt x 284.06125pt>
+<Fig_Greenhouse_Combined.pdf, id=550, 454.69875pt x 284.06125pt>
 File: Fig_Greenhouse_Combined.pdf Graphic file (type pdf)
 <use Fig_Greenhouse_Combined.pdf>
-Package pdftex.def Info: Fig_Greenhouse_Combined.pdf  used on input line 551.
+Package pdftex.def Info: Fig_Greenhouse_Combined.pdf  used on input line 547.
 (pdftex.def)             Requested size: 422.77664pt x 264.1222pt.
 
 
@@ -1365,11 +1365,11 @@ Package rerunfilecheck Info: File `EcolLett_R2.out' has not changed.
 ### semi simple group (level 1) entered at line 187 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30939 strings out of 473190
- 565809 string characters out of 5715801
- 985187 words of memory out of 5000000
- 52680 multiletter control sequences out of 15000+600000
- 677464 words of font info for 758 fonts, out of 8000000 for 9000
+ 30943 strings out of 473190
+ 565892 string characters out of 5715801
+ 985258 words of memory out of 5000000
+ 52685 multiletter control sequences out of 15000+600000
+ 677362 words of font info for 757 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,10n,101p,1417b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1382,10 +1382,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on EcolLett_R2.pdf (28 pages, 4100819 bytes).
+Output written on EcolLett_R2.pdf (28 pages, 4100897 bytes).
 PDF statistics:
- 669 PDF objects out of 1000 (max. 8388607)
- 564 compressed objects within 6 object streams
- 114 named destinations out of 1000 (max. 500000)
+ 673 PDF objects out of 1000 (max. 8388607)
+ 568 compressed objects within 6 object streams
+ 115 named destinations out of 1000 (max. 500000)
  182839 words of extra memory for PDF output out of 184870 (max. 10000000)
 

@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: EcolLett_R2.aux
 The style file: apalike.bst
 Database file #1: References.bib
-You've used 74 entries,
+You've used 75 entries,
             1935 wiz_defined-function locations,
-            917 strings with 18713 characters,
-and the built_in function-call counts, 31931 in all, are:
-= -- 3112
-> -- 1501
+            922 strings with 18985 characters,
+and the built_in function-call counts, 32471 in all, are:
+= -- 3163
+> -- 1534
 < -- 31
-+ -- 532
-- -- 518
-* -- 2968
-:= -- 5584
-add.period$ -- 222
-call.type$ -- 74
-change.case$ -- 623
-chr.to.int$ -- 72
-cite$ -- 74
-duplicate$ -- 1038
-empty$ -- 2112
-format.name$ -- 616
-if$ -- 6082
++ -- 544
+- -- 530
+* -- 3023
+:= -- 5678
+add.period$ -- 225
+call.type$ -- 75
+change.case$ -- 634
+chr.to.int$ -- 73
+cite$ -- 75
+duplicate$ -- 1052
+empty$ -- 2144
+format.name$ -- 629
+if$ -- 6183
 int.to.chr$ -- 3
 int.to.str$ -- 0
-missing$ -- 71
-newline$ -- 373
-num.names$ -- 222
-pop$ -- 477
+missing$ -- 72
+newline$ -- 378
+num.names$ -- 225
+pop$ -- 486
 preamble$ -- 1
-purify$ -- 628
+purify$ -- 639
 quote$ -- 0
-skip$ -- 784
+skip$ -- 794
 stack$ -- 0
-substring$ -- 2454
-swap$ -- 93
+substring$ -- 2497
+swap$ -- 94
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 438
+type$ -- 444
 warning$ -- 0
-while$ -- 269
+while$ -- 273
 width$ -- 0
-write$ -- 956
+write$ -- 969

@@ -1,7 +1,7 @@
 library(ggplot2)
 library(patchwork)
 library(ggtext)
-
+library(tibble)
 # ── Palette (colorblind-safe, Ecology Letters compatible) ──────────────────────
 COL_HERB <- "#E69F00"
 COL_EXCL <- "#009E73"
@@ -244,7 +244,7 @@ final <- (p1 | p2) / (p3 | p4) +
 
 
 # ── Save ───────────────────────────────────────────────────────────────────────
-out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/conceptual_figure.pdf"
+out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/Figure/conceptual_figure.pdf"
 
 
 # ── Save PDF for LaTeX ─────────────────────────────────────────────────────────

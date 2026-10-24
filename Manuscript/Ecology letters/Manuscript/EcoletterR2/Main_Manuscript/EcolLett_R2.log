@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  23 OCT 2026 15:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  24 OCT 2026 10:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1296,7 +1296,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 [21])
 
 [22]
-<conceptual_figure.pdf, id=466, 578.16pt x 433.62pt>
+<conceptual_figure.pdf, id=464, 578.16pt x 433.62pt>
 File: conceptual_figure.pdf Graphic file (type pdf)
 <use conceptual_figure.pdf>
 Package pdftex.def Info: conceptual_figure.pdf  used on input line 466.
@@ -1306,7 +1306,7 @@ Package pdftex.def Info: conceptual_figure.pdf  used on input line 466.
 [23
 
  <./conceptual_figure.pdf>]
-<clim_map1.pdf, id=492, 650.43pt x 758.835pt>
+<clim_map1.pdf, id=490, 650.43pt x 758.835pt>
 File: clim_map1.pdf Graphic file (type pdf)
 <use clim_map1.pdf>
 Package pdftex.def Info: clim_map1.pdf  used on input line 477.
@@ -1314,7 +1314,7 @@ Package pdftex.def Info: clim_map1.pdf  used on input line 477.
 
 
 [24 <./clim_map1.pdf>]
-<PrSurvival_diff.pdf, id=528, 614.295pt x 794.97pt>
+<PrSurvival_diff.pdf, id=526, 614.295pt x 794.97pt>
 File: PrSurvival_diff.pdf Graphic file (type pdf)
 <use PrSurvival_diff.pdf>
 Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 493.
@@ -1322,7 +1322,7 @@ Package pdftex.def Info: PrSurvival_diff.pdf  used on input line 493.
 
 
 [25 <./PrSurvival_diff.pdf>]
-<Growth_diff.pdf, id=540, 614.295pt x 794.97pt>
+<Growth_diff.pdf, id=538, 614.295pt x 794.97pt>
 File: Growth_diff.pdf Graphic file (type pdf)
 <use Growth_diff.pdf>
 Package pdftex.def Info: Growth_diff.pdf  used on input line 507.
@@ -1330,7 +1330,7 @@ Package pdftex.def Info: Growth_diff.pdf  used on input line 507.
 
 
 [26 <./Growth_diff.pdf>]
-<All_traits_diff_stat_lower.pdf, id=551, 794.97pt x 614.295pt>
+<All_traits_diff_stat_lower.pdf, id=549, 794.97pt x 614.295pt>
 File: All_traits_diff_stat_lower.pdf Graphic file (type pdf)
 <use All_traits_diff_stat_lower.pdf>
 Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 535
@@ -1344,7 +1344,7 @@ Package pdftex.def Info: All_traits_diff_stat_lower.pdf  used on input line 535
 
 
  <./All_traits_diff_stat_lower.pdf, page is rotated 90 degrees>]
-<Fig_Greenhouse_Combined.pdf, id=560, 454.69875pt x 284.06125pt>
+<Fig_Greenhouse_Combined.pdf, id=558, 454.69875pt x 284.06125pt>
 File: Fig_Greenhouse_Combined.pdf Graphic file (type pdf)
 <use Fig_Greenhouse_Combined.pdf>
 Package pdftex.def Info: Fig_Greenhouse_Combined.pdf  used on input line 546.
@@ -1370,11 +1370,11 @@ Package rerunfilecheck Info: File `EcolLett_R2.out' has not changed.
 ### semi simple group (level 1) entered at line 184 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 30925 strings out of 473190
- 565693 string characters out of 5715801
+ 30920 strings out of 473190
+ 565639 string characters out of 5715801
  985425 words of memory out of 5000000
  52687 multiletter control sequences out of 15000+600000
- 676154 words of font info for 741 fonts, out of 8000000 for 9000
+ 675885 words of font info for 737 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,10n,101p,1417b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts
@@ -1387,10 +1387,10 @@ pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/mathpazo/fplmri.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/l
 ocal/texlive/2025/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on EcolLett_R2.pdf (28 pages, 4094449 bytes).
+Output written on EcolLett_R2.pdf (28 pages, 4094334 bytes).
 PDF statistics:
- 683 PDF objects out of 1000 (max. 8388607)
- 578 compressed objects within 6 object streams
+ 681 PDF objects out of 1000 (max. 8388607)
+ 576 compressed objects within 6 object streams
  115 named destinations out of 1000 (max. 500000)
  182839 words of extra memory for PDF output out of 184870 (max. 10000000)
 

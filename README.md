@@ -1,6 +1,6 @@
 # Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
 
-**Moutouama, J.K., Fowler, J.C., Gough, A., Martin, J., Oxley, C., Schrader, K., Williams, K., & Miller, T.E.X.**
+**Moutouama, J.K., Fowler, J.C., Gough, A.M., Martin, J., Oxley, C.C., Schrader, K.M., Williams, K., & Miller, T.E.X.**
 
 *Ecology Letters*
 

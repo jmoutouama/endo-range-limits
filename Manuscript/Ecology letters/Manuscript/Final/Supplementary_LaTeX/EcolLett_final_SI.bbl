@@ -1,0 +1,27 @@
+\begin{thebibliography}{}
+
+\bibitem[Fowler et~al., 2025]{fowler2025increasing}
+Fowler, J.~C., Moutouama, J., and Miller, T.~E. (2025).
+\newblock Increasing prevalence of plant-fungal symbiosis across two centuries
+  of environmental change.
+\newblock {\em Global Change Biology}, 31(11):e70577.
+
+\bibitem[Jackson and Johnson-Cicalese, 1988]{jackson1988rapid}
+Jackson, D. and Johnson-Cicalese, J. (1988).
+\newblock A rapid staining method for detection of endophytic fungi in turf and
+  forage grasses.
+\newblock {\em Phytopathology}, 78:237--239.
+
+\bibitem[Koh et~al., 2006]{koh2006rapid}
+Koh, S., Vicari, M., Ball, J., Rakocevic, T., Zaheer, S., Hik, D., and Bazely,
+  D. (2006).
+\newblock Rapid detection of fungal endophytes in grasses for large-scale
+  studies.
+\newblock {\em Functional Ecology}, pages 736--742.
+
+\bibitem[{Stan Development Team}, 2024]{Rstan}
+{Stan Development Team} (2024).
+\newblock {RStan}: the {R} interface to {Stan}.
+\newblock R package version 2.32.6.
+
+\end{thebibliography}

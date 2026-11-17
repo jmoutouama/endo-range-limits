@@ -1,20 +1,17 @@
-# Project: Endo range limits
-# Purpose: Sensitivity analysis for reviewer — refit the full Bayesian models
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose: Sensitivity analysis — refit the full Bayesian models
 #          (survival, growth, inflorescence, spikelet) EXCLUDING sites KER and
 #          SON, then compare Delta (S+ - S-), the endophyte x precipitation
 #          interaction, Pr(Delta>0), and 90% CrIs against the full-data models.
-#
 #          Primary analysis is NOT changed. This is purely a supplementary
 #          check: "are the results robust to excluding KER and SON?"
-#
-# Mirrors data prep / model specs from 03_Model_building.R and the
-# compute_delta_* link functions from 05_Plot_vital_rate.R exactly, so the
-# comparison is apples-to-apples.
-#
-# Authors: Jacob Moutouama
-# Date last modified (2026-08-18):
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2026-11-17
+
+
 
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
 # ── Packages ────────────────────────────────────────────────────────────────
 library(rstan)
@@ -55,15 +52,11 @@ sens_theme <- theme_bw(base_size = 11) +
 # ══════════════════════════════════════════════════════════════════════════
 # Same object produced/saved at the end of the data-wrangling section of
 # 03_Model_building.R
-demography_climate_full <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"
-))
+demography_climate_full <- readRDS(data_path("demography_climate.rds"))
 
 # Precipitation back-transform constants (ppt_scaled = (log(cum_ppt) - mean)/sd)
 # — needed to plot Delta on the natural mm axis, as in 05_Plot_vital_rate.R
-climate_scaled_ref <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/irecsnoh3xrq6g8d5cysa/climate_site_scaled.rds?rlkey=63r7ugrtkuo5ncmqfoywbidps&dl=1"
-))
+climate_scaled_ref <- readRDS(data_path("climate_site_scaled.rds"))
 ppt_mean <- mean(climate_scaled_ref$ppt_log)
 ppt_sd   <- sd(climate_scaled_ref$ppt_log)
 ppt_mm   <- function(ppt_scaled_val) exp(ppt_scaled_val * ppt_sd + ppt_mean)
@@ -84,8 +77,8 @@ cat("Sensitivity data (excl. KER/SON):", nrow(demography_climate_sens), "rows,",
 #   chains  = 3
 # )
 
-stan_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan"
-out_dir  <- "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output"
+stan_dir <- STAN_DIR
+out_dir  <- FIG_DIR     # figures/tables; refitted sensitivity models go to MODEL_DIR
 
 # ══════════════════════════════════════════════════════════════════════════
 # 2. BUILD STAN DATA LISTS (sensitivity data) — same recipe as 03, applied
@@ -286,15 +279,15 @@ demography_spik_ppt_sens <- list(
 # )
 
 # Save the fits so you don't have to refit if the session dies
-# saveRDS(fit_surv_sens, file.path(out_dir, "fit_surv_sens_noKERSON.rds"))
-# saveRDS(fit_grow_sens, file.path(out_dir, "fit_grow_sens_noKERSON.rds"))
-# saveRDS(fit_inf_sens,  file.path(out_dir, "fit_inf_sens_noKERSON.rds"))
-# saveRDS(fit_spik_sens, file.path(out_dir, "fit_spik_sens_noKERSON.rds"))
+# saveRDS(fit_surv_sens, file.path(MODEL_DIR, "fit_surv_sens_noKERSON.rds"))
+# saveRDS(fit_grow_sens, file.path(MODEL_DIR, "fit_grow_sens_noKERSON.rds"))
+# saveRDS(fit_inf_sens,  file.path(MODEL_DIR, "fit_inf_sens_noKERSON.rds"))
+# saveRDS(fit_spik_sens, file.path(MODEL_DIR, "fit_spik_sens_noKERSON.rds"))
 
-fit_surv_sens <- readRDS(url("https://www.dropbox.com/scl/fi/nu2azmsok9mztqqdjjj99/fit_surv_sens_noKERSON.rds?rlkey=xbmxiz0j7woo71fv954jybz2u&dl=1"))
-fit_grow_sens <- readRDS(url("https://www.dropbox.com/scl/fi/e0verxpbqgq0l4ovb5a63/fit_grow_sens_noKERSON.rds?rlkey=0to4b7zkpsog6svnq86kdc4ds&dl=1"))
-fit_inf_sens  <- readRDS(url("https://www.dropbox.com/scl/fi/oufjkibr5uk2x1y43ppzh/fit_inf_sens_noKERSON.rds?rlkey=yjrve44p1saofezvgsn29w46x&dl=1"))
-fit_spik_sens <- readRDS(url("https://www.dropbox.com/scl/fi/16lhmj4t0x8ku5ut35nx8/fit_spik_sens_noKERSON.rds?rlkey=51x4r2rm9ya28wr328xy8c2by&dl=1"))
+fit_surv_sens <- readRDS(data_path("fit_surv_sens_noKERSON.rds"))
+fit_grow_sens <- readRDS(data_path("fit_grow_sens_noKERSON.rds"))
+fit_inf_sens  <- readRDS(data_path("fit_inf_sens_noKERSON.rds"))
+fit_spik_sens <- readRDS(data_path("fit_spik_sens_noKERSON.rds"))
 
 # ══════════════════════════════════════════════════════════════════════════
 # 4. CONVERGENCE DIAGNOSTICS
@@ -425,11 +418,11 @@ posterior_grow_sens <- rstan::extract(fit_grow_sens)
 posterior_inf_sens  <- rstan::extract(fit_inf_sens)
 posterior_spik_sens <- rstan::extract(fit_spik_sens)
 
-# ── Posteriors: FULL-data fits (primary analysis, loaded from Dropbox) ─────
-fit_surv_full <- readRDS(url("https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"))
-fit_grow_full <- readRDS(url("https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"))
-fit_inf_full  <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
-fit_spik_full <- readRDS(url("https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"))
+# ── Posteriors: FULL-data fits (primary analysis, loaded from Zenodo) ─────
+fit_surv_full <- readRDS(data_path("fit_surv_abio_bio_endo_linear.rds"))
+fit_grow_full <- readRDS(data_path("fit_grow_abio_bio_endo_linear.rds"))
+fit_inf_full  <- readRDS(data_path("fit_inf_abio_bio_endo_linear.rds"))
+fit_spik_full <- readRDS(data_path("fit_spik_abio_bio_endo_linear.rds"))
 
 posterior_surv_full <- rstan::extract(fit_surv_full)
 posterior_grow_full <- rstan::extract(fit_grow_full)

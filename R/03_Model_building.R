@@ -1,7 +1,9 @@
-# Model building to compare linear vs quadratic effects and identify drivers of grass-endophyte symbiosis outcomes
-# Authors: Jacob Moutouama
-# Date last modified (Y-M-D):
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose: Model building to compare linear vs quadratic effects and identify drivers of grass-endophyte symbiosis outcomes
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2024-08-03
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 # load packages
 # remove.packages(c("StanHeaders", "rstan"))
 # install.packages("rstan", repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
@@ -49,12 +51,12 @@ quote_bare <- function(...) {
 set.seed(13)
 # Demographic data -----
 # Merge the demographic census
-datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1", stringsAsFactors = F)
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1", stringsAsFactors = F)
-dat24_ini <- read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1", stringsAsFactors = F)
-dat25<-read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1", stringsAsFactors = F)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
+datini <- read.csv(data_path("Initialdata.csv"), stringsAsFactors = F)
+dat23 <- read.csv(data_path("census2023.csv"), stringsAsFactors = F)
+dat24 <- read.csv(data_path("census2024.csv"), stringsAsFactors = F)
+dat24_ini <- read.csv(data_path("data_ini_2024.csv"), stringsAsFactors = F)
+dat25<-read.csv(data_path("census_2025.csv"), stringsAsFactors = F)
+datherbivory <- read.csv(data_path("herbivory.csv"), stringsAsFactors = F)
 # Helper function to clean Tag_ID
 clean_tag <- function(df) {
   df %>%
@@ -73,7 +75,7 @@ dat24 <-clean_tag(dat24)
 dat25<-clean_tag(dat25)
 dat24_ini<-clean_tag(dat24_ini)
 # Climatic data ----
-climate_site <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+climate_site <- readRDS(data_path("climate_census_years.rds"))
 # head(climate_site)
 climate_site_scaled <- climate_site %>%
   mutate(
@@ -82,7 +84,7 @@ climate_site_scaled <- climate_site %>%
     # Standardize across all rows: mean = 0, SD = 1
     ppt_scaled = (ppt_log - mean(ppt_log, na.rm = TRUE)) / sd(ppt_log, na.rm = TRUE)
   )
-#saveRDS(climate_site_scaled,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_site_scaled.rds")
+saveRDS(climate_site_scaled, file.path(DATA_DIR, "climate_site_scaled.rds"))
 
 # 2023 reproductive metrics
 # 2023 reproductive metrics
@@ -386,7 +388,7 @@ correlation <- cor(demo_plot$ppt_scaled,
 #        subtitle = paste("r =", round(correlation, 3))) +
 #   theme_classic()
 
-# saveRDS(demography_climate,"/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/demography_climate.rds")
+saveRDS(demography_climate, file.path(DATA_DIR, "demography_climate.rds"))
 
 ## check for TagIDs  duplicated within years
 # demography_climate %>%
@@ -407,12 +409,26 @@ demography_climate %>%
 # summary(demography_climate)
 
 ## Running the stan model
-# sim_pars <- list(
-#   warmup = 1000,
-#   iter = 3000,
-#   control = list(adapt_delta = 0.99, max_treedepth = 15),
-#   chains = 3
-# )
+sim_pars <- list(
+  warmup = 1000,
+  iter = 3000,
+  control = list(adapt_delta = 0.99, max_treedepth = 15),
+  chains = 3
+)
+
+## Refit or load? ---------------------------------------------------------------
+## REFIT <- FALSE (default): load the archived fitted objects (Data/Zenodo/Dropbox).
+## REFIT <- TRUE : refit every model from the .stan files (several hours per model);
+##                 fits are saved to Output/ and picked up by scripts 04-11.
+if (!exists("REFIT")) REFIT <- FALSE
+get_fit <- function(name, stan_file, data) {
+  if (!REFIT) return(readRDS(data_path(paste0(name, ".rds"))))
+  fit <- stan(file = file.path(STAN_DIR, stan_file), data = data,
+              warmup = sim_pars$warmup, iter = sim_pars$iter,
+              chains = sim_pars$chains, control = sim_pars$control, seed = 13)
+  saveRDS(fit, file.path(MODEL_DIR, paste0(name, ".rds")))
+  fit
+}
 
 # Survival----
 ## Read and format survival data to build the model
@@ -460,7 +476,7 @@ demography_surv_ppt <- list(
   N          = nrow(demography_climate_surv)
 )
 # fit_surv_abio_bio_endo_linear <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_l.stan",
+#   file = file.path(STAN_DIR, "survival_l.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -471,6 +487,7 @@ demography_surv_ppt <- list(
 
 
 #check_hmc_diagnostics(fit_surv_abio_bio_endo_linear)
+fit_surv_abio_bio_endo_linear <- get_fit("fit_surv_abio_bio_endo_linear", "survival_l.stan", demography_surv_ppt)
 posterior_surv_abio_bio_endo_linear <- as.array(fit_surv_abio_bio_endo_linear) # Converts to an array
 # Fit object: fit_surv_abio_bio_endo_linear
 #summary(fit_surv_abio_bio_endo_linear)$summary[,c("n_eff","Rhat")]
@@ -488,7 +505,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo_linear,
 ) + theme_bw()
 
 # fit_surv_abio_bio_endo <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival.stan",
+#   file = file.path(STAN_DIR, "survival.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -499,6 +516,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo_linear,
 
 #rstan::check_hmc_diagnostics(fit_surv_abio_bio_endo)
 #summary(fit_surv_abio_bio_endo)$summary[, c("Rhat", "n_eff")]
+fit_surv_abio_bio_endo <- get_fit("fit_surv_abio_bio_endo", "survival.stan", demography_surv_ppt)
 posterior_surv_abio_bio_endo <- as.array(fit_surv_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
                       pars = quote_bare(
@@ -515,7 +533,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
 ) + theme_bw()
 
 # fit_surv_abio_bio_endo_linear_wi <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_main.stan",
+#   file = file.path(STAN_DIR, "survival_main.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -526,7 +544,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
 
 
 # fit_surv_endo_clim <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_clim.stan",
+#   file = file.path(STAN_DIR, "survival_endo_clim.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -536,7 +554,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
 # )
 
 # fit_surv_endo_herb <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_endo_herb.stan",
+#   file = file.path(STAN_DIR, "survival_endo_herb.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -546,7 +564,7 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
 # )
 
 # fit_surv_no3way <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/survival_no3way.stan",
+#   file = file.path(STAN_DIR, "survival_no3way.stan"),
 #   data = demography_surv_ppt,
 #   warmup = sim_pars$warmup,
 #   control = sim_pars$control,
@@ -556,13 +574,13 @@ bayesplot::mcmc_trace(posterior_surv_abio_bio_endo,
 # )
 
 ## Save RDS file for further use
-# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
-# saveRDS(fit_surv_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo.rds')
-# saveRDS(fit_surv_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear.rds')
-# saveRDS(fit_surv_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_abio_bio_endo_linear_wi.rds')
-# saveRDS(fit_surv_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_clim.rds')
-# saveRDS(fit_surv_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_endo_herb.rds')
-# saveRDS(fit_surv_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_surv_no3way.rds')
+# saveRDS(fit_surv_abio_bio_endo_linear, file.path(MODEL_DIR, "fit_surv_abio_bio_endo_linear.rds"))
+# saveRDS(fit_surv_abio_bio_endo, file.path(MODEL_DIR, "fit_surv_abio_bio_endo.rds"))
+# saveRDS(fit_surv_abio_bio_endo_linear, file.path(MODEL_DIR, "fit_surv_abio_bio_endo_linear.rds"))
+# saveRDS(fit_surv_abio_bio_endo_linear_wi, file.path(MODEL_DIR, "fit_surv_abio_bio_endo_linear_wi.rds"))
+# saveRDS(fit_surv_endo_clim, file.path(MODEL_DIR, "fit_surv_endo_clim.rds"))
+# saveRDS(fit_surv_endo_herb, file.path(MODEL_DIR, "fit_surv_endo_herb.rds"))
+# saveRDS(fit_surv_no3way, file.path(MODEL_DIR, "fit_surv_no3way.rds"))
 
 # Growth----
 ## Read and format survival data to build the model
@@ -611,7 +629,7 @@ demography_grow_ppt <- list(
 )
 
 # fit_grow_abio_bio_endo_linear <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_l.stan",
+#   file = file.path(STAN_DIR, "growth_l.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -619,6 +637,7 @@ demography_grow_ppt <- list(
 #   control = sim_pars$control,
 #   seed = 13)
 
+fit_grow_abio_bio_endo_linear <- get_fit("fit_grow_abio_bio_endo_linear", "growth_l.stan", demography_grow_ppt)
 posterior_grow_abio_bio_endo_linear <- as.array(fit_grow_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
                       pars = quote_bare(
@@ -634,7 +653,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
 ) + theme_bw()
 
 # fit_grow_abio_bio_endo <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth.stan",
+#   file = file.path(STAN_DIR, "growth.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -642,6 +661,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo_linear,
 #   control = sim_pars$control,
 #   seed = 13)
 
+fit_grow_abio_bio_endo <- get_fit("fit_grow_abio_bio_endo", "growth.stan", demography_grow_ppt)
 posterior_grow_abio_bio_endo <- as.array(fit_grow_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
                       pars = quote_bare(
@@ -658,7 +678,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 
 # summary(fit_grow_ppt)$summary[, c("Rhat", "n_eff")]
 # fit_grow_abio_bio_endo_linear_wi <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_main.stan",
+#   file = file.path(STAN_DIR, "growth_main.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -668,7 +688,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 
 
 # fit_grow_endo_clim <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_clim.stan",
+#   file = file.path(STAN_DIR, "growth_endo_clim.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -677,7 +697,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_grow_endo_herb <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_endo_herb.stan",
+#   file = file.path(STAN_DIR, "growth_endo_herb.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -686,7 +706,7 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_grow_no3way <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/growth_no3way.stan",
+#   file = file.path(STAN_DIR, "growth_no3way.stan"),
 #   data = demography_grow_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -695,12 +715,12 @@ bayesplot::mcmc_trace(posterior_grow_abio_bio_endo,
 #   seed = 13)
 
 ## Save RDS file for further use
-# saveRDS(fit_grow_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo.rds')
-# saveRDS(fit_grow_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear.rds')
-# saveRDS(fit_grow_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_abio_bio_endo_linear_wi.rds')
-# saveRDS(fit_grow_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_clim.rds')
-# saveRDS(fit_grow_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_endo_herb.rds')
-# saveRDS(fit_grow_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_grow_no3way.rds')
+# saveRDS(fit_grow_abio_bio_endo, file.path(MODEL_DIR, "fit_grow_abio_bio_endo.rds"))
+# saveRDS(fit_grow_abio_bio_endo_linear, file.path(MODEL_DIR, "fit_grow_abio_bio_endo_linear.rds"))
+# saveRDS(fit_grow_abio_bio_endo_linear_wi, file.path(MODEL_DIR, "fit_grow_abio_bio_endo_linear_wi.rds"))
+# saveRDS(fit_grow_endo_clim, file.path(MODEL_DIR, "fit_grow_endo_clim.rds"))
+# saveRDS(fit_grow_endo_herb, file.path(MODEL_DIR, "fit_grow_endo_herb.rds"))
+# saveRDS(fit_grow_no3way, file.path(MODEL_DIR, "fit_grow_no3way.rds"))
 
 # Inflorescence----
 demography_climate %>%
@@ -748,7 +768,7 @@ demography_inf_ppt <- list(
 )
 
 # fit_inf_abio_bio_endo_linear <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_l.stan",
+#   file = file.path(STAN_DIR, "inflorescence_l.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -756,6 +776,8 @@ demography_inf_ppt <- list(
 #   control = sim_pars$control,
 #   seed = 13)
 
+fit_inf_abio_bio_endo_linear <- get_fit("fit_inf_abio_bio_endo_linear", "inflorescence_l.stan", demography_inf_ppt)
+fit_inf_abio_bio_endo_hurdle_linear <- get_fit("fit_inf_abio_bio_endo_hurdle_linear", "inflorescence_hurdle_l.stan", demography_inf_ppt)
 posterior_inf_abio_bio_endo_linear <- as.array(fit_inf_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
                       pars = quote_bare(
@@ -772,7 +794,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
 
 # 
 # fit_inf_abio_bio_endo_hurdle_linear <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_hurdle_l.stan",
+#   file = file.path(STAN_DIR, "inflorescence_hurdle_l.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -782,7 +804,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
 # 
 # 
 # fit_inf_abio_bio_endo_linear_wi <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_main.stan",
+#   file = file.path(STAN_DIR, "inflorescence_main.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -791,7 +813,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
 #   seed = 13)
 # 
 # fit_inf_abio_bio_endo <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence.stan",
+#   file = file.path(STAN_DIR, "inflorescence.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -800,6 +822,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo_linear,
 #   seed = 13)
 
 #summary(fit_flow_ppt)$summary[, c("Rhat", "n_eff")]
+fit_inf_abio_bio_endo <- get_fit("fit_inf_abio_bio_endo", "inflorescence.stan", demography_inf_ppt)
 posterior_inf_abio_bio_endo <- as.array(fit_inf_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
                       pars = quote_bare(
@@ -815,7 +838,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
 ) + theme_bw()
 
 # fit_inf_endo_clim <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_clim.stan",
+#   file = file.path(STAN_DIR, "inflorescence_endo_clim.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -824,7 +847,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_inf_endo_herb <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_endo_herb.stan",
+#   file = file.path(STAN_DIR, "inflorescence_endo_herb.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -833,7 +856,7 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_inf_endo_no3way <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/inflorescence_no3way.stan",
+#   file = file.path(STAN_DIR, "inflorescence_no3way.stan"),
 #   data = demography_inf_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -842,13 +865,13 @@ bayesplot::mcmc_trace(posterior_inf_abio_bio_endo,
 #   seed = 13)
 
 ## Save RDS file for further use
-# saveRDS(fit_inf_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear.rds')
-# saveRDS(fit_inf_abio_bio_endo_hurdle_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_hurdle_linear.rds')
-# saveRDS(fit_inf_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo_linear_wi.rds')
-# saveRDS(fit_inf_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_abio_bio_endo.rds')
-# saveRDS(fit_inf_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_clim.rds')
-# saveRDS(fit_inf_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_herb.rds')
-# saveRDS(fit_inf_endo_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_inf_endo_no3way.rds')
+# saveRDS(fit_inf_abio_bio_endo_linear, file.path(MODEL_DIR, "fit_inf_abio_bio_endo_linear.rds"))
+# saveRDS(fit_inf_abio_bio_endo_hurdle_linear, file.path(MODEL_DIR, "fit_inf_abio_bio_endo_hurdle_linear.rds"))
+# saveRDS(fit_inf_abio_bio_endo_linear_wi, file.path(MODEL_DIR, "fit_inf_abio_bio_endo_linear_wi.rds"))
+# saveRDS(fit_inf_abio_bio_endo, file.path(MODEL_DIR, "fit_inf_abio_bio_endo.rds"))
+# saveRDS(fit_inf_endo_clim, file.path(MODEL_DIR, "fit_inf_endo_clim.rds"))
+# saveRDS(fit_inf_endo_herb, file.path(MODEL_DIR, "fit_inf_endo_herb.rds"))
+# saveRDS(fit_inf_endo_no3way, file.path(MODEL_DIR, "fit_inf_endo_no3way.rds"))
 
 
 # Spikelet----
@@ -898,7 +921,7 @@ demography_spik_ppt <- list(
 )
 
 # fit_spik_abio_bio_endo_linear <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_l.stan",
+#   file = file.path(STAN_DIR, "spikelet_l.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -906,6 +929,7 @@ demography_spik_ppt <- list(
 #   control =sim_pars$control,
 #   seed = 13)
 
+fit_spik_abio_bio_endo_linear <- get_fit("fit_spik_abio_bio_endo_linear", "spikelet_l.stan", demography_spik_ppt)
 posterior_spik_abio_bio_endo_linear <- as.array(fit_spik_abio_bio_endo_linear) # Converts to an array
 bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
                       pars = quote_bare(
@@ -921,7 +945,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
 ) + theme_bw()
 
 # fit_spik_abio_bio_endo <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet.stan",
+#   file = file.path(STAN_DIR, "spikelet.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -930,6 +954,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo_linear,
 #   seed = 13)
 
 # summary(fit_spik_ppt)$summary[, c("Rhat", "n_eff")]
+fit_spik_abio_bio_endo <- get_fit("fit_spik_abio_bio_endo", "spikelet.stan", demography_spik_ppt)
 posterior_spik_abio_bio_endo <- as.array(fit_spik_abio_bio_endo) # Converts to an array
 bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
                       pars = quote_bare(
@@ -946,7 +971,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 
 
 # fit_spik_abio_bio_endo_linear_wi <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_main.stan",
+#   file = file.path(STAN_DIR, "spikelet_main.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -956,7 +981,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 # 
 # 
 # fit_spik_endo_clim <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_clim.stan",
+#   file = file.path(STAN_DIR, "spikelet_endo_clim.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -965,7 +990,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_spik_endo_herb <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_endo_herb.stan",
+#   file = file.path(STAN_DIR, "spikelet_endo_herb.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -974,7 +999,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 #   seed = 13)
 # 
 # fit_spik_no3way <- stan(
-#   file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/spikelet_no3way.stan",
+#   file = file.path(STAN_DIR, "spikelet_no3way.stan"),
 #   data = demography_spik_ppt,
 #   warmup = sim_pars$warmup,
 #   iter = sim_pars$iter,
@@ -982,13 +1007,7 @@ bayesplot::mcmc_trace(posterior_spik_abio_bio_endo,
 #   control =sim_pars$control,
 #   seed = 13)
 
-## Save RDS file for further use
-saveRDS(fit_spik_abio_bio_endo_linear, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear.rds')
-saveRDS(fit_spik_abio_bio_endo_linear_wi, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo_linear_wi.rds')
-saveRDS(fit_spik_abio_bio_endo, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_abio_bio_endo.rds')
-saveRDS(fit_spik_endo_clim, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_clim.rds')
-saveRDS(fit_spik_endo_herb, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_endo_herb.rds')
-saveRDS(fit_spik_no3way, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_spik_no3way.rds')
+## (fitted objects are saved automatically by get_fit() when REFIT <- TRUE)
 
 # Posterior predictive check----
 # Quadratic models
@@ -1037,7 +1056,7 @@ simulate_ppc <- function(pred_matrix, phi = NULL, zi = NULL,
 }
 bayesplot::color_scheme_set("blue")
 ## Survival Model full model----
-fit_surv_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/vu750s78j6zjnmbohp8a0/fit_surv_abio_bio_endo.rds?rlkey=52n3g1naikyqzj0ix57ve6e23&dl=1"))
+fit_surv_abio_bio_endo <- readRDS(data_path("fit_surv_abio_bio_endo.rds"))
 post_surv <- rstan::extract(fit_surv_abio_bio_endo)
 pred_surv <- post_surv$predS
 y_surv <- demography_surv_ppt$y
@@ -1045,7 +1064,7 @@ y_rep_surv <- simulate_ppc(pred_surv, family = "bernoulli")
 p_surv <- ppc_dens_overlay(y_surv, y_rep_surv) + ggtitle("Survival")
 
 ## Growth Model full model----
-fit_grow_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/wdxva2182fcd2i6jzsjcr/fit_grow_abio_bio_endo.rds?rlkey=v79tfa2br3l0sd6mblas8rto2&dl=1"))
+fit_grow_abio_bio_endo <- readRDS(data_path("fit_grow_abio_bio_endo.rds"))
 post_grow <- rstan::extract(fit_grow_abio_bio_endo)
 pred_grow <- post_grow$predG
 sigma_grow <- post_grow$sigma
@@ -1054,7 +1073,7 @@ y_rep_grow <- simulate_ppc(pred_grow, phi = sigma_grow, family = "normal")
 p_grow <- ppc_dens_overlay(y_grow, y_rep_grow) + ggtitle("Growth")
 
 ## Inflorescence Model full model ----
-fit_inf_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/857ar8r838n5wauqo3dtz/fit_inf_abio_bio_endo.rds?rlkey=2mot44dp52xlxj19bov5jndly&dl=1"))
+fit_inf_abio_bio_endo <- readRDS(data_path("fit_inf_abio_bio_endo.rds"))
 post_inf <- rstan::extract(fit_inf_abio_bio_endo)
 pred_inf <- post_inf$predF      # linear predictor
 phi_inf <- post_inf$phi         # dispersion
@@ -1064,7 +1083,7 @@ y_rep_inf <- simulate_ppc(pred_inf, phi = phi_inf, zi = zi_inf, family = "zinb")
 p_inf <- ppc_dens_overlay(y_inf, y_rep_inf) + ggtitle("Inflorescence")+xlim(0, 75)
 
 ## Spikelet Model full model ----
-fit_spik_abio_bio_endo <- readRDS(url("https://www.dropbox.com/scl/fi/a6o21wspoofthisda1aye/fit_spik_abio_bio_endo.rds?rlkey=sxsxzzfjjqopqnh5km3s92xpa&dl=1"))
+fit_spik_abio_bio_endo <- readRDS(data_path("fit_spik_abio_bio_endo.rds"))
 post_spik <- rstan::extract(fit_spik_abio_bio_endo)
 pred_spik <- post_spik$predF
 #zi_spik <- post_spik$zi           # scalar zero-inflation
@@ -1083,11 +1102,11 @@ combined_plot <- (p_surv | p_grow) / (p_inf | p_spik) +
 print(combined_plot)
 
 # Save to PDF
-ggsave(filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/combined_ppc_plots_quadratic.pdf", plot = combined_plot, width = 7, height = 6)
+ggsave(filename = file.path(MODEL_DIR, "combined_ppc_plots_quadratic.pdf"), plot = combined_plot, width = 7, height = 6)
 
 # Monotonic models
 ## Survival Model linear ----
-fit_surv_linear <- readRDS(url("https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"))
+fit_surv_linear <- readRDS(data_path("fit_surv_abio_bio_endo_linear.rds"))
 post_surv_linear <- rstan::extract(fit_surv_linear)
 pred_surv_linear <- post_surv_linear$predS
 y_surv_linear <- demography_surv_ppt$y
@@ -1099,7 +1118,7 @@ p_surv_linear <- ppc_dens_overlay(y_surv_linear, y_rep_surv_linear) +
     y = "Density"
   )
 ## Growth Model linear ----
-fit_grow_linear <- readRDS(url("https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"))
+fit_grow_linear <- readRDS(data_path("fit_grow_abio_bio_endo_linear.rds"))
 post_grow_linear <- rstan::extract(fit_grow_linear)
 pred_grow_linear <- post_grow_linear$predG
 sigma_grow_linear <- post_grow_linear$sigma
@@ -1112,7 +1131,7 @@ p_grow_linear <- ppc_dens_overlay(y_grow_linear, y_rep_grow_linear) +
     y = "Density"
   )
 # ## Inflorescence Model linear ----
-fit_inf_linear <- readRDS(url("https://www.dropbox.com/scl/fi/5lfkgq6d5a2vzx5h2t9yr/fit_inf_abio_bio_endo_linear.rds?rlkey=pfqvm7sg8un5c14slypn1aqa9&dl=1"))
+fit_inf_linear <- readRDS(data_path("fit_inf_abio_bio_endo_linear.rds"))
 post_inf_linear <- rstan::extract(fit_inf_linear)
 pred_inf_linear <- post_inf_linear$predF
 zi_inf_linear <- post_inf_linear$zi           # scalar zero-inflation
@@ -1131,7 +1150,7 @@ p_inf_linear <- ppc_dens_overlay(
   )
 
 ## Spikelet Model linear ----
-fit_spik_linear <- readRDS(url("https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"))
+fit_spik_linear <- readRDS(data_path("fit_spik_abio_bio_endo_linear.rds"))
 post_spik_linear <- rstan::extract(fit_spik_linear)
 pred_spik_linear <- post_spik_linear$predF
 zi_spik_linear <- post_spik_linear$zi           # scalar zero-inflation
@@ -1169,7 +1188,7 @@ print(combined_plot_linear)
 
 ## Save to PDF linear ----
 ggsave(
-  filename = "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/combined_ppc_plots_linear.pdf",
+  filename = file.path(MODEL_DIR, "combined_ppc_plots_linear.pdf"),
   plot = combined_plot_linear,
   width = 7,
   height = 6
@@ -1227,24 +1246,18 @@ demography_herb_stan <- list(
 )
 # mean(demography_climate_herb$y_herb == 0)
 
-fit_her_endo_year <- stan(
-  file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/stan/herbivory_endo_siteyear.stan",
-  data = demography_herb_stan,
-  warmup = sim_pars$warmup,
-  iter = sim_pars$iter,
-  chains = sim_pars$chains,
-  control = sim_pars$control,
-  seed = 13)
+## Alternative (site-year random effect) herbivory model: not archived, so only run on request.
+if (REFIT) {
+  fit_her_endo_year <- get_fit("fit_her_endo_year", "herbivory_endo_siteyear.stan", demography_herb_stan)
 
-posterior_herb_endo <- as.array(fit_her_endo_year) # Convert Stan fit to array
-# Trace plots for key fixed effects
-mcmc_trace(posterior_herb_endo,
-           pars = c(
-             "b0[1]", "b0[2]", "b0[3]",       # species intercepts
-             "bendo[1]", "bendo[2]", "bendo[3]", # Endo effect per species
-             "bclim[1]", "bclim[2]", "bclim[3]"  # Climate effect per species
-           )) + 
-  theme_bw()
-
-saveRDS(fit_her_endo_year, '/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/fit_her_endo_year.rds')
+  posterior_herb_endo <- as.array(fit_her_endo_year) # Convert Stan fit to array
+  # Trace plots for key fixed effects
+  mcmc_trace(posterior_herb_endo,
+             pars = c(
+               "b0[1]", "b0[2]", "b0[3]",       # species intercepts
+               "bendo[1]", "bendo[2]", "bendo[3]", # Endo effect per species
+               "bclim[1]", "bclim[2]", "bclim[3]"  # Climate effect per species
+             )) +
+    theme_bw()
+}
 

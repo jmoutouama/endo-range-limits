@@ -1,17 +1,6 @@
-# Project: Endo range limits
-# Purpose: Caterpillar plots of ALL fixed-effect model coefficients (logit/log
-#          scale) for survival, growth, inflorescence, and spikelet models.
-#          One plot per vital rate, each exported as its own PDF + TIFF,
-#          plus a combined 2×2 supplement figure (also PDF + TIFF).
-#
-#   Filled circle ● = strong posterior support (> 90 % of mass on one side of 0)
-#   Open   circle ○ = uncertain (CI straddles zero)
-#   Colour           = term type (Intercept / Main / Two-way / Three-way)
-#   Thick bar        = 90 % credible interval
-#   Thin whisker     = 95 % credible interval
-#
-# Authors: Jacob Moutouama
-# Date last modified (Y-M-D):
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose: Caterpillar plots of all fixed-effect model coefficients
+# Date last modified (Y-M-D): 2026-11-17
 #
 # Stan models (companion .stan files):
 #   Survival      : survival_l.stan        – Bernoulli-logit, logit scale
@@ -24,15 +13,10 @@
 #           + bendoclim*(symbiont*clim)  + bherbclim*(herb*clim)
 #           + bendoherb*(symbiont*herb)  + bendoherbclim*(symbiont*herb*clim)
 # + random effects: site-year, plot, source population (non-centered).
-#
-# NOTE: internal object/coefficient names (e.g. bendo, endoclim, posterior
-# list elements) are kept as-is because they must match the fitted .stan /
-# .rds objects exactly. Only display text (axis labels, titles) uses
-# "Symbiont" per reviewer request.
-#
-# Fitted stanfit objects loaded from Dropbox — fully self-contained.
+
 
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
 # ── Packages ──────────────────────────────────────────────────────────────────
 library(rstan)
@@ -48,24 +32,16 @@ library(Cairo)
 # ══════════════════════════════════════════════════════════════════════════════
 # 1. LOAD FITTED STAN OBJECTS & EXTRACT POSTERIORS
 # ══════════════════════════════════════════════════════════════════════════════
-fit_surv_ppt <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"
-))
+fit_surv_ppt <- readRDS(data_path("fit_surv_abio_bio_endo_linear.rds"))
 posterior_samples_survival <- rstan::extract(fit_surv_ppt)
 
-fit_grow_ppt <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"
-))
+fit_grow_ppt <- readRDS(data_path("fit_grow_abio_bio_endo_linear.rds"))
 posterior_samples_grow <- rstan::extract(fit_grow_ppt)
 
-fit_inf_ppt <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/v5kcirie79uae1dex6l1a/fit_inf_abio_bio_endo_hurdle_linear.rds?rlkey=pxp0pdptn95j5ubkjs819ou3x&dl=1"
-))
+fit_inf_ppt <- readRDS(data_path("fit_inf_abio_bio_endo_hurdle_linear.rds"))
 posterior_samples_inf <- rstan::extract(fit_inf_ppt)
 
-fit_spik_ppt <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"
-))
+fit_spik_ppt <- readRDS(data_path("fit_spik_abio_bio_endo_linear.rds"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -397,19 +373,14 @@ Fig_spik_int <- make_intercept_plot("Spikelet",      "Coefficient (log scale)")
 # ══════════════════════════════════════════════════════════════════════════════
 # 9. EXPORT
 # ══════════════════════════════════════════════════════════════════════════════
-out_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/Figure"
+out_dir <- FIG_DIR
 
 # Helper: write a finished (already-assembled) plot to both PDF (vector,
 # for typesetting/editing) and TIFF (raster, 600 dpi — matches your other
 # figure scripts).
-# `filename_base` should have NO extension — both are appended here.
+
 write_figure <- function(plot_final, filename_base, width = 8, height = 6.5,
                           dpi = 600) {
-  # PDF — grDevices::cairo_pdf() is R's own built-in Cairo-based PDF device.
-  # It is NOT the same code path as Cairo::CairoPDF(), whose PDF/vector
-  # surface fails to initialize on this machine ("Failed to create Cairo
-  # backend!"); cairo_pdf() uses the system fontconfig directly, so
-  # "Arial" resolves correctly here too.
   grDevices::cairo_pdf(
     file.path(out_dir, paste0(filename_base, ".pdf")),
     width = width, height = height
@@ -417,10 +388,6 @@ write_figure <- function(plot_final, filename_base, width = 8, height = 6.5,
   print(plot_final)
   dev.off()
 
-  # TIFF — Cairo::CairoTIFF() is confirmed working on this machine.
-  # Match the known-good call signature exactly (width, height, units, dpi
-  # only) — adding a `compression` argument previously produced a
-  # corrupt, near-empty file.
   Cairo::CairoTIFF(
     file.path(out_dir, paste0(filename_base, ".tiff")),
     width = width, height = height, units = "in", dpi = dpi

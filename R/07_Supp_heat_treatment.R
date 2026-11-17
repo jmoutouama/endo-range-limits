@@ -1,20 +1,22 @@
-## Purpose: quantify effectiveness of heat treatment for endophyte removal
-## Author: Tom Miller
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose:  Quantify effectiveness of heat treatment for endophyte removal
+# Authors: Tom E.X. Miller
+# Date last modified (Y-M-D): 2026-11-17
+
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
 library(tidyverse)
 library(magrittr)
 library(readxl)
 library(xtable)
-#setwd("C:/Users/tm9/Dropbox/github/endo-range-limits")
-setwd("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits")
 
 ##read in original plant data (we should include these as csv's in the repo)
-datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1", stringsAsFactors = F)
+datini <- read.csv(data_path("Initialdata.csv"), stringsAsFactors = F)
 ##combine SHS and HUNT pops
 datini %<>% mutate(Population = recode_factor(Population, SHS = "HUNT"))
 
 ##read in greenhouse inventory (all the plants we reared -- those in the experiment and many others)
-greenhouse<-read_excel("Data/2022-23_Greenhouse_Inventory.xlsx",sheet="Range Limit Greenhouse")
+greenhouse<-read_excel(data_path("2022-23_Greenhouse_Inventory.xlsx"),sheet="Range Limit Greenhouse")
 str(greenhouse)
 #why is real_endo a character vector?
 unique(greenhouse$real_endo) ##because the excel function populates with "NA"
@@ -24,7 +26,7 @@ greenhouse %<>% mutate(POPULATION = recode_factor(POPULATION, SHS = "HUNT"))
 # source populations ------------------------------------------------------
 
 ##read in source info
-sources<-read.csv("Data/endo_range_limits_experiment- Source Population.csv")
+sources<-read.csv(data_path("endo_range_limits_experiment- Source Population.csv"))
 ## drop SHS since it's a duplicate row with HUNT
 sources %<>% filter(Population!="SHS")
 ## customize notes for ms table
@@ -100,7 +102,7 @@ supp_table_sources<-left_join(sources %>% filter(Population!="WB"),#no WB in the
 ## format latex table
 tab<-xtable(supp_table_sources,digits = c(0,0,0,6,6,0,0,0,2))
 align(tab)<-"lllrrp{0.2\\textwidth}p{2cm}p{2cm}p{2cm}" ## wrap notes
-print(tab,file = "Manuscript/source_table.tex",include.rownames=F,
+print(tab,file = file.path(TABLE_DIR, "source_table.tex"),include.rownames=F,
   sanitize.text.function=identity,floating=F)
 
 
@@ -193,8 +195,8 @@ treatment_table<-endo_scores %>%
   dplyr::select(Species,Population,Treatment,N,`\\%E+`)%>% 
   mutate(Species = paste0("\\textit{", Species, "}"))
 
-print(xtable(treatment_table),file = "Manuscript/treatment_table.tex",include.rownames=F,
-      sanitize.text.function=identity,floating = FALSE,)
+print(xtable(treatment_table),file = file.path(TABLE_DIR, "treatment_table.tex"),include.rownames=F,
+      sanitize.text.function=identity,floating = FALSE)
 
 ##what was the mean E+ prevalence in controls?
 treatment_table %>% filter(Treatment=="Control") %>% summarise(mean(`\\%E+`))

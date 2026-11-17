@@ -1,39 +1,38 @@
-## This script reads in range limits census data and analyzes herbivory
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose:  This script reads in range limits census data and analyzes herbivory
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2026-11-17
 
 # remove all objects and clear workspace
 rm(list = ls(all=TRUE))
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
-##tom's local wd
-#setwd("C:/Users/tm9/Dropbox/github/endo-range-limits")
-setwd("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits")
 
 ##load packages
 library(tidyverse)
-library(googlesheets4)
 library(rstan)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
-library(googledrive)
 library(readxl)
 library(bayesplot)
 library(tidybayes)
 library(posterior)
 library(magrittr)
 
-##read in endo range limits database from google drive
+##read in endo range limits database (Excel workbook archived with the data;
+##place it in Data/ or let data_path() fetch it). No Google account needed.
 ##read in data as text so that nothing gets coerced
-file_id<-"11m_-0KYtLtp5J0EqGWZ8RzNM-JfsDB3B"
-drive_download(as_id(file_id), path = "Data/endo_range_limits_experiment.xlsx", overwrite = TRUE)
+xlsx_path <- data_path("endo_range_limits_experiment.xlsx")
 ##plot-level treatment assignments
-plots<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="Initial Plot Data", col_types = "text")
+plots<-read_excel(xlsx_path,sheet="Initial Plot Data", col_types = "text")
 ##initial plant data (including source and endo status)
-init23<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="Initial Plant Data", col_types = "text")
+init23<-read_excel(xlsx_path,sheet="Initial Plant Data", col_types = "text")
 ##2024 replant
-init24<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="2024 Re-plant inital data", col_types = "text")
+init24<-read_excel(xlsx_path,sheet="2024 Re-plant inital data", col_types = "text")
 ##2023-25 census
-census23<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="2023 Data Census", col_types = "text")
-census24<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="2024 Data Census", col_types = "text")
-census25<-read_excel("Data/endo_range_limits_experiment.xlsx",sheet="2025 Data Census", col_types = "text")
+census23<-read_excel(xlsx_path,sheet="2023 Data Census", col_types = "text")
+census24<-read_excel(xlsx_path,sheet="2024 Data Census", col_types = "text")
+census25<-read_excel(xlsx_path,sheet="2025 Data Census", col_types = "text")
 
 
 # data prep ---------------------------------------------------------------
@@ -132,11 +131,11 @@ bind_rows(dat23 %>%
 ) %>% 
   mutate(Site=factor(Site,levels=c("SON","KER","BFL","BAS","COL","HUN","LAF")))->herb_dat_tidy
 
-#write.csv(herb_dat_tidy,"Data/herbivory_tidy_data.csv")
+write.csv(herb_dat_tidy, file.path(DATA_DIR, "herbivory_tidy_data.csv"), row.names = FALSE)
 
 
 # analysis ----------------------------------------------------------------
-herb_dat_tidy<-read.csv("Data/herbivory_tidy_data.csv")
+herb_dat_tidy<-read.csv(file.path(DATA_DIR, "herbivory_tidy_data.csv"))
 
 #quick visual of proportion of damaged tillers by endo
 herb_dat_tidy %>% 
@@ -209,7 +208,7 @@ stan_dat<-list(n=nrow(herb_dat),
                plot=herb_dat$plot_int)
 
 ##compile model
-herb_model<-stan_model("stan/herbivory.stan")
+herb_model<-stan_model(file.path(STAN_DIR, "herbivory.stan"))
 
 ##sample model
 # herb_fit<-sampling(herb_model,data=stan_dat,chains=3,iter=5000,
@@ -219,8 +218,8 @@ herb_model<-stan_model("stan/herbivory.stan")
 #                           "y_rep"),include=T)
 
 ##save/read stan model
-# write_rds(herb_fit,"stan/herbivory.rds")
-herb_fit<-read_rds("https://www.dropbox.com/scl/fi/s5ferd5ha1hjrinvory2f/herbivory.rds?rlkey=vel87d2imoxriu74q3fzuioos&dl=1")
+# write_rds(herb_fit, file.path(MODEL_DIR, "herbivory.rds"))
+herb_fit<-read_rds(data_path("herbivory.rds"))
 
 ##a few trace plots...
 mcmc_trace(herb_fit,pars=c("beta0[1]","beta0[2]","beta0[3]"))
@@ -317,7 +316,7 @@ herbendo <- ggplot(
   )
 
 ggsave(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_effect.pdf",
+  file.path(FIG_DIR, "herb_endo_effect.pdf"),
   plot = herbendo,
   width = 8,
   height = 5,
@@ -325,7 +324,7 @@ ggsave(
 )
 
 ggsave(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/herb_endo_effect.tiff",
+  file.path(FIG_DIR, "herb_endo_effect.tiff"),
   plot = herbendo,
   width = 8,
   height = 5,
@@ -361,7 +360,7 @@ ggplot(site_summary,
     panel.grid.minor = element_blank()
   )
 
-# Descriptive stats for manuscript text (Tom's request)
+# Descriptive stats for manuscript text
 desc_stats <- herb_dat_tidy %>%
   mutate(
     TillerHerb = ifelse(TillerHerb > Tiller, Tiller, TillerHerb),

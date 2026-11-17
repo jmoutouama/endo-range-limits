@@ -1,10 +1,11 @@
-# Project: 
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
 # Purpose: Maps of Common garden experiment for Agrostis hyemalis, Elymus virginicus and Poa autumnalis across a climatic gradient. 
-# Authors: Jacob Moutouama
-# Date last modified (Y-M-D): 
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2024-08-03
 
 # remove all objects and clear workspace
 rm(list = ls(all=TRUE))
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 # load packages
 library(sp)
 library(raster)
@@ -23,23 +24,23 @@ library(reshape2)
 # Climatic data----
 ## Data from PRISM---- 
 # making a folder to store prism data
-prism_set_dl_dir("/Users/jacobmoutouama/Documents/prism")
+prism_set_dl_dir(PRISM_DIR)   # PRISM archive downloaded by 01_Climate_prism.R
 prism_archive_ls()
 
 # Common garden, natural  and source populations locations ---- 
-read.csv("https://www.dropbox.com/scl/fi/si346imz380lpdgo9yekr/Study_site.csv?rlkey=yiue42npkzzu9w8dggjr4fent&dl=1", stringsAsFactors = F) %>% 
+read.csv(data_path("Study_site.csv"), stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>%
   unique() %>% 
   arrange(latitude)->garden ## common garden populations
 
-read.csv("https://www.dropbox.com/scl/fi/a6cycehor6k6jp7xvbw3c/source_pop.csv?rlkey=chftk4ym5rsc7edjug90ie6o7&dl=1", stringsAsFactors = F) %>% 
+read.csv(data_path("source_pop.csv"), stringsAsFactors = F) %>% 
   # dplyr::select(latitude,longitude) %>% 
   unique() %>% 
   arrange(latitude)->source ## source populations
 
 # Agrostis hyemalis-----
 #aghy_occ_raw <- gbif(genus="Agrostis",species="hyemalis",download=TRUE) 
-aghy_occ_raw<-readRDS(url("https://www.dropbox.com/scl/fi/ijl1i7964qxzcxvm7blz8/aghy_occ_raw.rds?rlkey=msbs3xzkjc719uld8yw7hb6cj&dl=1"))
+aghy_occ_raw<-readRDS(data_path("aghy_occ_raw.rds"))
 head(aghy_occ_raw) 
 aghy_occ_raw %>% 
   filter(!is.na(lat) & !is.na(lon) & basisOfRecord=="HUMAN_OBSERVATION")->aghy_occ
@@ -69,7 +70,7 @@ aghy<-rbind(aghy1,aghy2,aghy3)
 # Elymus virginicus----
 #dir.create("/Users/jm200/Library/CloudStorage/Dropbox/Miller Lab/github/ELVI-endophyte-density/Data/occurence")
 #elvi_occ_raw <- gbif(genus="Elymus",species="virginicus",download=TRUE) 
-elvi_occ_raw<-readRDS(url("https://www.dropbox.com/scl/fi/0ssa5gepxyz28b7ykw1x8/elvi_occ_raw.rds?rlkey=4dx0q4lw2112droh73hmh7xte&dl=1"))
+elvi_occ_raw<-readRDS(data_path("elvi_occ_raw.rds"))
 #head(elvi_occ_raw) 
 elvi_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
@@ -97,7 +98,7 @@ elvi<-rbind(elvi1,elvi2,elvi3)
 
 # Poa autumnalis ---
 #poa_occ_raw <- gbif(genus="Poa",species="autumnalis",download=TRUE) 
-poa_occ_raw<-readRDS(url("https://www.dropbox.com/scl/fi/oip7ndyf0d99rqxcqxb0q/poa_occ_raw.rds?rlkey=920uql1gd4gahnh8utw9fz96l&dl=1"))
+poa_occ_raw<-readRDS(data_path("poa_occ_raw.rds"))
 #head(poa_occ_raw) 
 poa_occ_raw %>% 
   dplyr::select(country,lon, lat,year)%>% 
@@ -150,7 +151,7 @@ west_edge <- dat_all_species %>%
 west_edge
 
 # Save as RDS
-#saveRDS(west_edge, file = "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds")
+saveRDS(west_edge, file = file.path(DATA_DIR, "max_longitudes.rds"))   # read by 01_Climate_prism.R
 
 # Georeferencing the occurences -----
 garden %>% 
@@ -197,9 +198,9 @@ crs(source_elvi) <- CRS1
 crs(source_poau) <- CRS1
 
 # Climatic data----
-prism_summary <- readRDS(url("https://www.dropbox.com/scl/fi/x231nlm6rtm96uqffsv03/prism_means.rds?rlkey=w29usaquhd1u1w3u7guf1rgbp&dl=1"))
+# (prism_means.rds was loaded here but is not used by any code below; removed from the pipeline)
 # Study area shapefile ----
-study_area<-terra::vect("/Users/jacobmoutouama/Dropbox/Miller Lab/github/POAR-Forecasting/data/USA_vector_polygon/States_shapefile.shp")
+study_area<-terra::vect(file.path(DATA_DIR, "USA_vector_polygon", "States_shapefile.shp"))   # US states polygons (archived with the data)
 study_area <- study_area[(study_area$State_Name %in% c("TEXAS","LOUISIANA")), ]
 #plot(study_area)
 # Clip the climatic rasters
@@ -231,8 +232,8 @@ clean_tag <- function(df) {
 }
 
 ## Load census data
-datini <- read.csv("https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1")
-dat23 <- read.csv("https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1")
+datini <- read.csv(data_path("Initialdata.csv"))
+dat23 <- read.csv(data_path("census2023.csv"))
 
 # Ensure Tag_ID is numeric in both tables
 datini <-clean_tag(datini)
@@ -240,8 +241,8 @@ dat23 <-clean_tag(dat23)
 
 datini23 <- right_join(x = datini, y = dat23, by = "Tag_ID")
 
-dat24 <- read.csv("https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1")
-dat24ini<-read.csv("https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1")
+dat24 <- read.csv(data_path("census2024.csv"))
+dat24ini<-read.csv(data_path("data_ini_2024.csv"))
 dat24 <- clean_tag(dat24)
 dat24ini <-clean_tag(dat24ini)
 
@@ -279,7 +280,7 @@ dat24_sp_site_tag <- dat24 %>%
 #   filter(Tag_ID_num >= 75 & Tag_ID_num <= 85)
 #dat24_sp_site_tag %>% filter(Tag_ID %in% missing_tags$Tag_ID)
 
-dat25 <- read.csv("https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1")
+dat25 <- read.csv(data_path("census_2025.csv"))
 # Ensure Tag_ID is character and trim whitespace
 dat25 <- clean_tag(dat25)
 
@@ -297,7 +298,7 @@ dat25_plot <- dat25 %>%
 
 # Check duplicates
 dat25_plot %>% count(Tag_ID) %>% filter(n > 1)
-datherbivory <- read.csv("https://www.dropbox.com/scl/fi/2gnlfozxpd2u9gprzp9oi/herbivory.csv?rlkey=sz2cloqxtbc6ou29j97l3t10f&dl=1", stringsAsFactors = F)
+datherbivory <- read.csv(data_path("herbivory.csv"), stringsAsFactors = F)
 
 ## Merge the demographic data with the herbivory data
 dat23_herb <- left_join(x = datini23, y = datherbivory, by = c("Site", "Plot", "Species")) # Merge the demographic data with the herbivory data
@@ -373,7 +374,7 @@ se_matrix <- sapply(ordered_sites, function(s){
 # names(mean_ppt_west_east) <- garden_sites_ppt_west_east$site
 
 # Maps (Figure 1) ----
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/clim_map1.pdf",
+pdf(file.path(FIG_DIR, "clim_map1.pdf"),
     width=9, height=10.5)
 
 # Define layout as a 3x2 grid
@@ -454,7 +455,7 @@ legend(
 par(mar=c(6,4,4,1))
 
 # Convert prism_summary to a wide matrix: rows = sites, columns = years
-prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+prism_summary_census <- readRDS(data_path("climate_census_years.rds"))
 unique(prism_summary_census$census_year)
 # Example: create ppt_matrix for one species, e.g., AGHY
 ppt_matrix <- prism_summary_census %>%
@@ -583,7 +584,6 @@ dev.off()
 
 # Maps (Figure 1) ----
 
-FIG_DIR <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/EcoletterR1"
 
 Cairo::CairoTIFF(
   file.path(FIG_DIR, "clim_map1.tiff"),
@@ -671,7 +671,7 @@ legend(
 par(mar=c(6,4,4,1))
 
 # Convert prism_summary to a wide matrix: rows = sites, columns = years
-prism_summary_census <- readRDS(url("https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"))
+prism_summary_census <- readRDS(data_path("climate_census_years.rds"))
 unique(prism_summary_census$census_year)
 # Example: create ppt_matrix for one species, e.g., AGHY
 ppt_matrix <- prism_summary_census %>%
@@ -855,7 +855,7 @@ mean_matrix_25 <- make_matrix(summary_25)
 se_matrix_25 <- make_se_matrix(summary_25)
 
 # Export combined plot
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_barplot_24_25.pdf",
+pdf(file.path(FIG_DIR, "prop_damage_barplot_24_25.pdf"),
     width = 8, height = 4)
 
 par(mfrow=c(1,2), mar=c(5,4,3,1))  # side-by-side panels
@@ -977,7 +977,7 @@ make_matrices <- function(summary_df, species){
 }
 
 # PDF output
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/prop_damage_species_years.pdf",
+pdf(file.path(FIG_DIR, "prop_damage_species_years.pdf"),
     width = 12, height = 8)
 
 # Layout: rows = species, cols = years
@@ -1024,9 +1024,7 @@ for(species in species_list){
 dev.off()
 
 # Load climate census data
-prism_summary_census <- readRDS(url(
-  "https://www.dropbox.com/scl/fi/fj6aqhej58k9fjt9v02ap/climate_census_years.rds?rlkey=28dsn6b9o3x06wd1c2ehs5ama&dl=1"
-))
+prism_summary_census <- readRDS(data_path("climate_census_years.rds"))
 
 # Ensure site is a factor with desired west-to-east order
 ordered_sites <- rev(c("LAF", "HUN", "COL", "BAS", "BFL", "KER", "SON"))
@@ -1049,7 +1047,7 @@ num_years <- nrow(temp_matrix)
 if(length(cols) < num_years) cols <- rainbow(num_years)
 
 # Export temperature-only barplot
-pdf("/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Figure/temp_census_years.pdf",
+pdf(file.path(FIG_DIR, "temp_census_years.pdf"),
     width = 8, height = 4)
 
 par(mar=c(5,6,3,2), cex.lab=1.5, cex.axis=1.3)
@@ -1106,7 +1104,7 @@ colnames(elvi_ppt)[1:3] <- c("Longitude", "Latitude", "Precipitation")
 colnames(poau_ppt)[1:3] <- c("Longitude", "Latitude", "Precipitation")
 
 # Export to CSV
-write.csv(aghy_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Agrostis_hyemalis_precipitation.csv", row.names = FALSE)
-write.csv(elvi_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Elymus_virginicus_precipitation.csv", row.names = FALSE)
-write.csv(poau_ppt, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/Poa_autumnalis_precipitation.csv", row.names = FALSE)
+write.csv(aghy_ppt, file.path(DATA_DIR, "Agrostis_hyemalis_precipitation.csv"), row.names = FALSE)
+write.csv(elvi_ppt, file.path(DATA_DIR, "Elymus_virginicus_precipitation.csv"), row.names = FALSE)
+write.csv(poau_ppt, file.path(DATA_DIR, "Poa_autumnalis_precipitation.csv"), row.names = FALSE)
 

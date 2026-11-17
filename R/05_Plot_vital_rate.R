@@ -1,9 +1,10 @@
-# Purpose: Plot vital rate models (survival, growth, flowering and spikelet) as
-#          function of climate or distance from niche center.
-# Authors: Jacob Moutouama
-# Date last modified (2026-09-22): shared log-precipitation x axis for all figures
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose: Plot vital rate models (survival, growth, flowering and spikelet) as function of climate or distance from niche center.
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2026-11-17
 
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
 # ── Packages ──────────────────────────────────────────────────────────────────
 library(rstan)
@@ -39,11 +40,9 @@ Cairo::CairoFonts(
   bolditalic = "Arial:style=Bold Italic"
 )
 
-# ── Shared output path for manuscript figures ──────────────────────────────────
-# Set this once here; every figure below is saved into it via file.path(FIG_DIR, ...)
-# so you never have to retype the full path again.
-FIG_DIR <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/EcoletterR1"
-if (!dir.exists(FIG_DIR)) dir.create(FIG_DIR, recursive = TRUE)
+# ── Output path for figures ────────────────────────────────────────────────────
+# FIG_DIR (= <repo>/Figure) is defined in R/config.R; every figure below is saved
+# into it via file.path(FIG_DIR, ...).
 
 set.seed(13)
 # ── Shared color scheme (use consistently across ALL figures) ─────────────────
@@ -87,9 +86,9 @@ vr_theme <- function() {
 }
 
 # ── Data ──────────────────────────────────────────────────────────────────────
-demography_climate <- readRDS(url("https://www.dropbox.com/scl/fi/b7s8xk3131vpubcqq0413/demography_climate.rds?rlkey=ak5b5dl6t18fhiehv3mgapyfk&dl=1"))
-climate_max        <- readRDS(url("https://www.dropbox.com/scl/fi/h8m15t64sxkkghgsnsypp/prism_edge_yr_means.rds?rlkey=ljjf16kqvvoe15qmhrqh8qfah&dl=1"))
-climate_scaled     <- readRDS(url("https://www.dropbox.com/scl/fi/irecsnoh3xrq6g8d5cysa/climate_site_scaled.rds?rlkey=63r7ugrtkuo5ncmqfoywbidps&dl=1"))
+demography_climate <- readRDS(data_path("demography_climate.rds"))
+climate_max        <- readRDS(data_path("prism_edge_yr_means.rds"))
+climate_scaled     <- readRDS(data_path("climate_site_scaled.rds"))
 
 ppt_mean <- mean(climate_scaled$ppt_log)
 ppt_sd   <- sd(climate_scaled$ppt_log)
@@ -210,7 +209,7 @@ demography_surv_ppt <- list(
   N          = nrow(demography_climate_surv)
 )
 
-fit_surv_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/mh5es9xqo4t608h12zg4q/fit_surv_abio_bio_endo_linear.rds?rlkey=akzrlhtqbrx3sut9h58aidp0v&dl=1"))
+fit_surv_ppt <- readRDS(data_path("fit_surv_abio_bio_endo_linear.rds"))
 
 # Species-specific prediction ranges
 climate_range_per_species_surv <- lapply(1:3, function(sp) {
@@ -621,7 +620,7 @@ demography_grow_ppt <- list(
   N          = nrow(demography_climate_grow)
 )
 
-fit_grow_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/mu3gpry42ad7fkfbtlvne/fit_grow_abio_bio_endo_linear.rds?rlkey=pz8uiqevdm5ogy7qvm369qyvb&dl=1"))
+fit_grow_ppt <- readRDS(data_path("fit_grow_abio_bio_endo_linear.rds"))
 
 climate_range_per_species_grow <- lapply(1:3, function(sp) {
   sp_clim <- demography_grow_ppt$clim[demography_grow_ppt$Spp == sp]
@@ -1017,7 +1016,7 @@ demography_inf_ppt <- list(
   N          = nrow(demography_climate_inf)
 )
 
-fit_inf_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/v5kcirie79uae1dex6l1a/fit_inf_abio_bio_endo_hurdle_linear.rds?rlkey=pxp0pdptn95j5ubkjs819ou3x&dl=1"))
+fit_inf_ppt <- readRDS(data_path("fit_inf_abio_bio_endo_hurdle_linear.rds"))
 
 climate_range_per_species_inf <- lapply(1:3, function(sp) {
   sp_clim <- demography_inf_ppt$clim[demography_inf_ppt$Spp == sp]
@@ -1396,7 +1395,7 @@ demography_spik_ppt <- list(
   N          = nrow(demography_climate_spik)
 )
 
-fit_spik_ppt <- readRDS(url("https://www.dropbox.com/scl/fi/7ivmicuigz1pahg4vxa7q/fit_spik_abio_bio_endo_linear.rds?rlkey=8h3js8dnaue95ojom8evrkmkl&dl=1"))
+fit_spik_ppt <- readRDS(data_path("fit_spik_abio_bio_endo_linear.rds"))
 posterior_samples_spik <- rstan::extract(fit_spik_ppt)
 
 climate_range_per_species_spik <- lapply(1:2, function(sp) {

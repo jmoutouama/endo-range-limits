@@ -1,10 +1,11 @@
-## Project: Effects of grass–endophyte symbiosis and herbivory on population demography across climatic and geographic gradients
+## Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
 ## Purpose: Create variables that most accurately reflect the climate across study area.
-## Authors: Jacob Moutouama
-## Date last modified: 2024-08-03
+## Authors: Jacob K. Moutouama
+## Date last modified (Y-M-D): 2026-11-17
 
 ## Clear workspace and load packages
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 library(tidyverse)
 library(prism)
 library(raster)
@@ -16,12 +17,24 @@ library(lubridate)
 
 
 ## Load PRISM climate data
-prism_set_dl_dir("/Users/jacobmoutouama/Documents/prism")
+prism_set_dl_dir(PRISM_DIR)   # default: Data/prism (override with env var PRISM_DIR)
+
+## Download the PRISM monthly rasters this script needs (skipped if already present).
+## What is needed: monthly precipitation ("ppt") and mean temperature ("tmean"),
+## 800 m resolution, 1995-2025, all 12 months (~744 rasters; several GB, can take hours).
+## PRISM throttles repeated downloads; if it stops part-way just re-run this block.
+if (!exists("DOWNLOAD_PRISM")) DOWNLOAD_PRISM <- TRUE
+if (DOWNLOAD_PRISM) {
+  for (v in c("ppt", "tmean")) {
+    get_prism_monthlys(type = v, years = 1995:2025, mon = 1:12,
+                       resolution = "800m", keepZip = FALSE)
+  }
+}
 prism_rasters <- prism_archive_ls() %>% pd_stack()
 
 ## Load and format garden site data
 garden_sites_raw <- read.csv(
-  "https://www.dropbox.com/scl/fi/si346imz380lpdgo9yekr/Study_site.csv?rlkey=yiue42npkzzu9w8dggjr4fent&dl=1",
+  data_path("Study_site.csv"),
   stringsAsFactors = FALSE
 ) %>% arrange(latitude)
 
@@ -72,11 +85,11 @@ clean_tag <- function(df) {
 
 ##  Load census data
 census_initial_plantings <- read.csv(
-  "https://www.dropbox.com/scl/fi/b93bvocqltadc36xirak2/Initialdata.csv?rlkey=8hd3z4th35lqvtfvam83kb972&dl=1"
+  data_path("Initialdata.csv")
 ) %>% clean_tag()
 
 census_2023_raw <- read.csv(
-  "https://www.dropbox.com/scl/fi/fkwm0dan6nx2eaeyxjrjw/census2023.csv?rlkey=hy9209t53j9n7vxhta7axl5jk&dl=1"
+  data_path("census2023.csv")
 ) %>% clean_tag()
 
 # Fix D_LE4_1 stale planting date — correct to actual 2023 census date for LAF Plot 4
@@ -96,11 +109,11 @@ census_2023_unique <- census_2023_metadata %>%
 
 
 census_2024_raw <- read.csv(
-  "https://www.dropbox.com/scl/fi/52c1hzv97cml698kb74tq/census2024.csv?rlkey=pqiz8g0jgnhxen08j2450w7a8&dl=1"
+  data_path("census2024.csv")
 ) %>% clean_tag()
 
 census_2024_initial <- read.csv(
-  "https://www.dropbox.com/scl/fi/zncghunh1p9ull9j1jhkp/data_ini_2024.csv?rlkey=fkhbp3sdvb65va0gg4rwp4ra4&dl=1"
+  data_path("data_ini_2024.csv")
 ) %>% clean_tag() %>%
   mutate(date_24 = mdy(date_24))
 
@@ -132,7 +145,7 @@ census_2024_full <- census_2024_raw %>%
                    "Site_ini","Species_ini","Plot_ini")))
 
 census_2025_raw <- read.csv(
-  "https://www.dropbox.com/scl/fi/oeqdgik07lyzxbkeiwpfp/census_2025.csv?rlkey=0midqalrvaaqu6i8v4h2z1vpw&dl=1"
+  data_path("census_2025.csv")
 ) %>% clean_tag()
 
 census_2025_with_metadata <- census_2025_raw %>%
@@ -283,11 +296,11 @@ climate_census_year_summary <- bind_rows(
 #   ) %>%
 #   print(n = Inf)
 
-saveRDS(climate_census_year_summary, "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/climate_census_years.rds")
+saveRDS(climate_census_year_summary, file.path(DATA_DIR, "climate_census_years.rds"))
 
 ##  Easternmost edge climate
 species_edge_coords <- readRDS(
-  "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/max_longitudes.rds"
+  file.path(DATA_DIR, "max_longitudes.rds")
 )
 
 species_edge_coords_sp <- species_edge_coords
@@ -318,4 +331,4 @@ climate_species_edge_annual_means <- climate_species_edge_long %>%
   summarise(mean_annual_ppt = mean(annual_ppt, na.rm = TRUE), .groups = "drop")
 
 saveRDS(climate_species_edge_annual_means,
-        "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Data/prism_edge_yr_means.rds")
+        file.path(DATA_DIR, "prism_edge_yr_means.rds"))

@@ -1,3 +1,9 @@
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose: Conceptual Figures
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2026-11-17
+
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 library(ggplot2)
 library(patchwork)
 library(ggtext)
@@ -244,7 +250,7 @@ final <- (p1 | p2) / (p3 | p4) +
 
 
 # ── Save ───────────────────────────────────────────────────────────────────────
-out_path <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/Figure/conceptual_figure.pdf"
+out_path <- file.path(FIG_DIR, "conceptual_figure.pdf")
 
 
 # ── Save PDF for LaTeX ─────────────────────────────────────────────────────────

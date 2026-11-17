@@ -1,9 +1,10 @@
-# =============================================================================
-# DOES SOIL INTERACT WITH SYMBIONT STATUS TO INFLUENCE DEMOGRAPHY?
-# Full Bayesian Analysis via rstan
-# Author: Jacob Moutouama
-# =============================================================================
+# Project: Aridity and herbivory shape demographic benefits of fungal endophytes in cool-season grasses
+# Purpose:  DOES SOIL INTERACT WITH SYMBIONT STATUS TO INFLUENCE DEMOGRAPHY?
+# Authors: Jacob K. Moutouama
+# Date last modified (Y-M-D): 2026-11-17
+
 rm(list = ls())
+source(here::here("R", "config.R"))   # shared paths + data_path() helper
 
 # ── Packages ──────────────────────────────────────────────────────────────────
 library(tidyverse)
@@ -49,8 +50,8 @@ vr_theme <- function() {
 }
 
 # ── Output directories ────────────────────────────────────────────────────────
-output_dir <- "/Users/jacobmoutouama/Dropbox/Miller Lab/range limits model output/"
-fig_dir    <- "/Users/jacobmoutouama/Dropbox/Miller Lab/github/endo-range-limits/Manuscript/Ecology letters/Manuscript/EcoletterR1"
+output_dir <- TABLE_DIR   # summary tables (CSV)
+fig_dir    <- FIG_DIR
 
 save_fig <- function(p, filename, width_mm = 200, height_mm = 110) {
   ggsave(file.path(fig_dir, filename), plot = p,
@@ -93,7 +94,7 @@ decode_n_inflo <- function(x) {
 
 # ── Load & clean ──────────────────────────────────────────────────────────────
 soils <- read.csv(
-  "https://www.dropbox.com/scl/fi/tujihmutv87jufadtvbwj/reproduction_and_biomass-endo-soil.csv?rlkey=pa04j3jfae5cldlbc880w3xr3&dl=1",
+  data_path("reproduction_and_biomass-endo-soil.csv"),
   stringsAsFactors = FALSE,
   check.names      = FALSE
 ) %>%
@@ -160,21 +161,21 @@ site_precip_map <- c("1" = "KER", "2" = "BAS", "3" = "SON", "4" = "BFL",
                      "5" = "LAF", "6" = "COL", "7" = "HUN")
 
 Aghy_ppt <- read.csv(
-  "https://www.dropbox.com/scl/fi/bst61ph31v0ewz6dyn79k/Agrostis_hyemalis_precipitation.csv?rlkey=xp1hq45eu7h8u6wnuznb9zlh0&dl=1",
+  data_path("Agrostis_hyemalis_precipitation.csv"),
   stringsAsFactors = FALSE
 ) %>%
   mutate(Site = site_precip_map[as.character(Precipitation)]) %>%
   dplyr::select(Site, precip_mean = mean)
 
 poa_ppt <- read.csv(
-  "https://www.dropbox.com/scl/fi/f6kkq559n795a3pgbdvsi/Poa_autumnalis_precipitation.csv?rlkey=adf5hwslj7uo74ui8c663y9hq&dl=1",
+  data_path("Poa_autumnalis_precipitation.csv"),
   stringsAsFactors = FALSE
 ) %>%
   mutate(Site = site_precip_map[as.character(Precipitation)]) %>%
   dplyr::select(Site, precip_mean = mean)
 
 elvi_ppt <- read.csv(
-  "https://www.dropbox.com/scl/fi/71ospl61twndy42ffz21m/Elymus_virginicus_precipitation.csv?rlkey=qihct3x5kcit7584sp78evcdy&dl=1",
+  data_path("Elymus_virginicus_precipitation.csv"),
   stringsAsFactors = FALSE
 ) %>%
   mutate(Site = site_precip_map[as.character(Precipitation)]) %>%
@@ -269,7 +270,6 @@ print(p_precip_raw)
 # =============================================================================
 
 # ── 2.1  Design matrices ──────────────────────────────────────────────────────
-# KEY CHANGE: Site factor replaced by precip_std as a continuous fixed covariate.
 # This matches the field analysis structure (Symbiont × Precip) and allows
 # direct comparison between greenhouse and field results.
 # The null expectation for greenhouse data is that the Symbiont × precip_std
@@ -330,8 +330,6 @@ sd_avgspi  <- make_stan_data(
 # normal, while still being approximately normal for the bulk of the data.
 # With only ~100–150 observations per model, a single outlier can
 # substantially inflate sigma under a Gaussian; df = 3 guards against this.
-# (A reviewer asking about this can be referred to Gelman et al. 2013,
-# Bayesian Data Analysis, Ch. 17, on robust regression.)
 stan_gaussian_code <- "
 data {
   int<lower=1> N;
@@ -557,14 +555,6 @@ print(ppc_panel)
 # =============================================================================
 
 # ── 3.1  Extract posterior fitted means across precipitation gradient ─────────
-# FIX: Added ref_df argument. The back-transformation from precip_std to
-# precip_mean (mm/yr) now uses mean/SD from the FULL aghysoils dataset (ref_df)
-# rather than the filtered Stan dataset (d_used). This ensures that the
-# prediction line's x-range matches the observed points exactly.
-#
-# Previously, using d_used for the back-transformation shifted/compressed the
-# line because rows excluded by the Stan filter (those with NA in calc_total_spik
-# or age_std) often include the most extreme precipitation values — causing the
 # line to appear truncated relative to the raw observations.
 extract_posterior_precip <- function(fit, sd_obj, link = "identity",
                                      n_grid = 50, ref_df = NULL) {
